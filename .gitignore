@@ -3,5 +3,6 @@ WoADialer/AppPackages
 WoADialer/bin
 WoADialer/obj
 **/*.pfx
+/WoADialer/BundleArtifacts
 /WoADialerHelper2/bin/Debug
 /WoADialerHelper2/obj/Debug
