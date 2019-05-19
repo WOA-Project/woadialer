@@ -9,7 +9,10 @@ using Windows.ApplicationModel.Calls;
 using Windows.ApplicationModel.Core;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
+using Windows.UI;
+using Windows.UI.Core;
 using Windows.UI.Popups;
+using Windows.UI.ViewManagement;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Controls.Primitives;
@@ -42,7 +45,7 @@ namespace WoADialer
         private string currentDisplayName;
         private string currentOperatorName;
         //For multi line devices, each line has a specific theme color. This holds that information
-        private Color currentDisplayColor;
+        private Windows.UI.Color currentDisplayColor;
         private string currentVoicemailNumber;
         private int currentVoicemailCount;
         private bool doesPhoneCallExist;
@@ -50,6 +53,15 @@ namespace WoADialer
         public MainPage()
         {
             this.InitializeComponent();
+
+            CoreApplication.GetCurrentView().TitleBar.ExtendViewIntoTitleBar = false;
+            ApplicationViewTitleBar titleBar = ApplicationView.GetForCurrentView().TitleBar;
+            titleBar.ButtonBackgroundColor = Colors.Transparent;
+            titleBar.ButtonInactiveBackgroundColor = Colors.Transparent;
+
+            if (PhoneCallManager.IsCallActive) callStateIndicatorText.Text = "Status: Call Active";
+            else if (PhoneCallManager.IsCallIncoming) callStateIndicatorText.Text = "Status: Call Incoming";
+            else callStateIndicatorText.Text = "Status: Phone Idle";
 
             this.MonitorCallState();
 
@@ -87,11 +99,16 @@ namespace WoADialer
 
         private void MonitorCallState()
         {
-            PhoneCallManager.CallStateChanged += (o, args) =>
+            PhoneCallManager.CallStateChanged += async (o, args) =>
             {
-                if (PhoneCallManager.IsCallActive) callStateIndicatorText.Text = "Call Active";
-                else if (PhoneCallManager.IsCallIncoming) callStateIndicatorText.Text = "Call Incoming";
-                else callStateIndicatorText.Text = "Phone Idle";
+                await CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, async () =>
+                     {
+                         if (PhoneCallManager.IsCallActive) callStateIndicatorText.Text = "Status: Call Active";
+                         else if (PhoneCallManager.IsCallIncoming) callStateIndicatorText.Text = "Status: Call Incoming";
+                         else callStateIndicatorText.Text = "Status: Phone Idle";
+                     }
+                );
+
                 doesPhoneCallExist = PhoneCallManager.IsCallActive || PhoneCallManager.IsCallIncoming;
                 if (ActivePhoneCallStateChanged != null)
                 {
@@ -146,25 +163,18 @@ namespace WoADialer
             PhoneLine line = currentPhoneLine;
             PhoneLineCellularDetails cellularDetails = line.CellularDetails;
 
-            //Update SIM slot index
             currentSIMSlotIndex = cellularDetails.SimSlotIndex;
 
-            //Update display name
             currentDisplayName = line.DisplayName;
 
-            //Update display Color
             //currentDisplayColor = line.DisplayColor;
 
-            //Update voicemail number
             currentVoicemailNumber = line.Voicemail.Number;
 
-            //Update voicemail count
             currentVoicemailCount = line.Voicemail.MessageCount;
 
-            //Set default operator name
             currentOperatorName = "N/A";
 
-            //Update sim state
             PhoneSimState simState = cellularDetails.SimState;
             switch (simState)
             {
@@ -197,7 +207,6 @@ namespace WoADialer
                     break;
             }
 
-            //Update network state
             PhoneNetworkState networkState = line.NetworkState;
             switch (line.NetworkState)
             {
@@ -239,7 +248,6 @@ namespace WoADialer
                     break;
             }
 
-            //Cell info update complete. Fire event
             if (CellInfoUpdateCompleted != null)
             {
                 CellInfoUpdateCompleted();
@@ -266,9 +274,6 @@ namespace WoADialer
             }
         }
 
-        /// <summary>
-        /// Gets the current phone line.
-        /// </summary>
         public PhoneLine CurrentPhoneLine
         {
             get
@@ -277,9 +282,6 @@ namespace WoADialer
             }
         }
 
-        /// <summary>
-        /// Gets the current phone line's SIM slot index.
-        /// </summary>
         public int CurrentSIMSlotIndex
         {
             get
@@ -288,9 +290,6 @@ namespace WoADialer
             }
         }
 
-        /// <summary>
-        /// Gets the current phone line's SIM state.
-        /// </summary>
         public string CurrentSIMState
         {
             get
@@ -303,9 +302,6 @@ namespace WoADialer
             }
         }
 
-        /// <summary>
-        /// Gets the current phone line's network state.
-        /// </summary>
         public string CurrentNetworkState
         {
             get
@@ -318,9 +314,6 @@ namespace WoADialer
             }
         }
 
-        /// <summary>
-        /// Gets the current phone line's display name.
-        /// </summary>
         public string CurrentDisplayName
         {
             get
@@ -333,9 +326,6 @@ namespace WoADialer
             }
         }
 
-        /// <summary>
-        /// Gets the current phone line's operator nbame.
-        /// </summary>
         public string CurrentOperatorName
         {
             get
@@ -348,24 +338,18 @@ namespace WoADialer
             }
         }
 
-        /// <summary>
-        /// Gets the current phone line's display color.
-        /// </summary>
-        public Color CurrentDisplayColor
+        public Windows.UI.Color CurrentDisplayColor
         {
             get
             {
                 if (currentDisplayColor == null)
                 {
-                    currentDisplayColor = Color.FromArgb(0, 0, 0, 0);
+                    currentDisplayColor = Windows.UI.Color.FromArgb(0, 0, 0, 0);
                 }
                 return currentDisplayColor;
             }
         }
 
-        /// <summary>
-        /// Gets the current phone line's voicemail number.
-        /// </summary>
         public string CurrentVoicemailNumber
         {
             get
@@ -378,9 +362,6 @@ namespace WoADialer
             }
         }
 
-        /// <summary>
-        /// Gets the current phone line's voicemail count.
-        /// </summary>
         public int CurrentVoicemailCount
         {
             get
@@ -389,9 +370,6 @@ namespace WoADialer
             }
         }
 
-        /// <summary>
-        /// Gets the call active state.
-        /// </summary>
         public bool DoesPhoneCallExist
         {
             get
@@ -407,6 +385,7 @@ namespace WoADialer
                 if (numberToDialBox.Text != "")
                 {
                     currentPhoneLine.Dial(numberToDialBox.Text, "test");
+                    Frame.Navigate(typeof(MainPage));
                 }
             } catch (Exception ee)
             {
@@ -428,7 +407,7 @@ namespace WoADialer
         {
             try
             {
-                currentPhoneLine.Dial(numberToDialBox.Text, "test");
+                
             }
             catch (Exception ex)
             {
