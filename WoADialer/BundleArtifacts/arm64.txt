@@ -1,0 +1,1 @@
+MainPackage=C:\Users\ratch\source\repos\WoADialer\WoADialer\bin\ARM64\Debug\WoADialer_0.1.2.0_ARM64_Debug.msix
