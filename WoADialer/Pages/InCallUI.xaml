@@ -6,9 +6,9 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d"
-    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+    Background="{ThemeResource SystemControlAcrylicWindowBrush}">
 
-    <Grid Background="{ThemeResource SystemControlAcrylicWindowBrush}">
+    <Grid>
         <TextBlock x:Name="callerNameText" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="20, 20, 0, 0" Text="[callerName]"></TextBlock>
         <TextBlock x:Name="callerNumberText" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="20, 50, 0, 0" Text="[callerNumber]"></TextBlock>
         <TextBlock x:Name="callStatusText" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="20, 80, 0, 0" Text="[callStatus]"></TextBlock>

@@ -20,6 +20,7 @@ using Windows.UI.Xaml.Data;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
+using WoADialer.Pages;
 
 // Il modello di elemento Pagina vuota è documentato all'indirizzo https://go.microsoft.com/fwlink/?LinkId=402352&clcid=0x410
 
@@ -41,10 +42,8 @@ namespace WoADialer
         private int currentSIMSlotIndex;
         private string currentSIMState;
         private string currentNetworkState;
-        //For multi line devices, we allow uses to name their lines. This holds that information
         private string currentDisplayName;
         private string currentOperatorName;
-        //For multi line devices, each line has a specific theme color. This holds that information
         private Windows.UI.Color currentDisplayColor;
         private string currentVoicemailNumber;
         private int currentVoicemailCount;
@@ -56,14 +55,16 @@ namespace WoADialer
 
             CoreApplication.GetCurrentView().TitleBar.ExtendViewIntoTitleBar = false;
             ApplicationViewTitleBar titleBar = ApplicationView.GetForCurrentView().TitleBar;
-            titleBar.ButtonBackgroundColor = Colors.Transparent;
-            titleBar.ButtonInactiveBackgroundColor = Colors.Transparent;
+            //titleBar.ButtonBackgroundColor = Colors.Transparent;
+            //titleBar.ButtonInactiveBackgroundColor = Colors.Transparent;
 
             if (PhoneCallManager.IsCallActive) callStateIndicatorText.Text = "Status: Call Active";
             else if (PhoneCallManager.IsCallIncoming) callStateIndicatorText.Text = "Status: Call Incoming";
             else callStateIndicatorText.Text = "Status: Phone Idle";
 
             this.MonitorCallState();
+
+            
 
             start();
         }
@@ -72,19 +73,11 @@ namespace WoADialer
         {
             try
             {
-                //Get all phone lines (To detect dual SIM devices)
                 Task<Dictionary<Guid, PhoneLine>> getPhoneLinesTask = GetPhoneLinesAsync();
                 allPhoneLines = await getPhoneLinesTask;
-
-                //Get number of lines
                 noOfLines = allPhoneLines.Count;
-
-                //Get Default Phone Line
-
                 Task<PhoneLine> getDefaultLineTask = GetDefaultPhoneLineAsync();
                 currentPhoneLine = await getDefaultLineTask;
-
-                //Update cellular information based on default line
                 updateCellularInformation();
             } catch (Exception ex)
             {
@@ -106,6 +99,12 @@ namespace WoADialer
                          if (PhoneCallManager.IsCallActive) callStateIndicatorText.Text = "Status: Call Active";
                          else if (PhoneCallManager.IsCallIncoming) callStateIndicatorText.Text = "Status: Call Incoming";
                          else callStateIndicatorText.Text = "Status: Phone Idle";
+
+                         if(PhoneCallManager.IsCallActive)
+                         {
+                             
+                             Frame.Navigate(typeof(InCallUI));
+                         }
                      }
                 );
 
@@ -120,8 +119,6 @@ namespace WoADialer
         private async Task<Dictionary<Guid, PhoneLine>> GetPhoneLinesAsync()
         {
             PhoneCallStore store = await PhoneCallManager.RequestStoreAsync();
-
-            // Start the PhoneLineWatcher
             var watcher = store.RequestLineWatcher();
             var phoneLines = new List<PhoneLine>();
             var lineEnumerationCompletion = new TaskCompletionSource<bool>();
@@ -129,8 +126,6 @@ namespace WoADialer
             watcher.Stopped += (o, args) => lineEnumerationCompletion.TrySetResult(false);
             watcher.EnumerationCompleted += (o, args) => lineEnumerationCompletion.TrySetResult(true);
             watcher.Start();
-
-            // Wait for enumeration completion
             if (!await lineEnumerationCompletion.Task)
             {
                 throw new Exception("Phone Line Enumeration failed");
@@ -382,10 +377,12 @@ namespace WoADialer
         {
             try
             {
-                if (numberToDialBox.Text != "")
+                string numberToDial = numberToDialBox.Text.Replace(" ", "");
+                numberToDial = numberToDial.Replace("+", "00");
+                if (numberToDial != "")
                 {
-                    currentPhoneLine.Dial(numberToDialBox.Text, "test");
-                    Frame.Navigate(typeof(MainPage));
+                    currentPhoneLine.Dial(numberToDial, "test");
+                    Frame.Navigate(typeof(InCallUI), numberToDial);
                 }
             } catch (Exception ee)
             {
@@ -401,18 +398,6 @@ namespace WoADialer
 
             messageDialog.DefaultCommandIndex = 0;
             await messageDialog.ShowAsync();
-        }
-
-        private void CloseCallButton_Click(object sender, RoutedEventArgs e)
-        {
-            try
-            {
-                
-            }
-            catch (Exception ex)
-            {
-                handleBug(ex);
-            }
         }
 
         private void CommandInvokedHandler(IUICommand command)

@@ -11,6 +11,6 @@
     <Grid>
         <TextBox x:Name="numberToDialBox" HorizontalAlignment="Stretch" VerticalAlignment="Top" Margin="10, 10"></TextBox>
         <TextBlock x:Name="callStateIndicatorText" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10, 100, 0, 0">AAAA</TextBlock>
-        <Button x:Name="callButton" Content="Call" VerticalAlignment="Bottom" HorizontalAlignment="Stretch" Height="150" Click="CallButton_Click"></Button>
+        <Button x:Name="callButton" Content="Call" VerticalAlignment="Bottom" HorizontalAlignment="Stretch" Height="100" Click="CallButton_Click"></Button>
     </Grid>
 </Page>
