@@ -9,8 +9,34 @@
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
 
     <Grid>
-        <TextBox x:Name="numberToDialBox" HorizontalAlignment="Stretch" VerticalAlignment="Top" Margin="10, 10"></TextBox>
-        <TextBlock x:Name="callStateIndicatorText" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10, 100, 0, 0">AAAA</TextBlock>
-        <Button x:Name="callButton" Content="Call" VerticalAlignment="Bottom" HorizontalAlignment="Stretch" Height="100" Click="CallButton_Click"></Button>
+        <TextBlock x:Name="numberToDialBox" HorizontalAlignment="Stretch" VerticalAlignment="Top" Margin="10, 10, 60, 0" FontSize="30"></TextBlock>
+        <Button x:Name="deleteLastNumberButton" Background="Transparent" Click="DeleteLastNumberButton_Click" FontFamily="Segoe MDL2 Assets" Content="" VerticalAlignment="Top" HorizontalAlignment="Right" Margin="0, 10, 10, 0" Height="40" Width="40"></Button>
+        <TextBlock x:Name="callStateIndicatorText" Opacity="0.3" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10, 55, 0, 0">AAAA</TextBlock>
+        <Button x:Name="callButton" Content="Call" Style="{StaticResource ButtonRevealStyle}" Background="{ThemeResource SystemAccentColorDark1}" VerticalAlignment="Bottom" HorizontalAlignment="Stretch" Height="100" Click="CallButton_Click"></Button>
+        <Grid HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="0, 80, 0, 100">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="1*"/>
+                <RowDefinition Height="1*"/>
+                <RowDefinition Height="1*"/>
+                <RowDefinition Height="1*"/>
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="1*"/>
+                <ColumnDefinition Width="1*"/>
+                <ColumnDefinition Width="1*"/>
+            </Grid.ColumnDefinitions>
+            <Button Style="{StaticResource ButtonRevealStyle}" FontSize="20" Click="ComposeNumber" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">1</Button>
+            <Button Style="{StaticResource ButtonRevealStyle}" FontSize="20" Click="ComposeNumber" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Grid.Column="1">2</Button>
+            <Button Style="{StaticResource ButtonRevealStyle}" FontSize="20" Click="ComposeNumber" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Grid.Column="2">3</Button>
+            <Button Style="{StaticResource ButtonRevealStyle}" FontSize="20" Click="ComposeNumber" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Grid.Row="1">4</Button>
+            <Button Style="{StaticResource ButtonRevealStyle}" FontSize="20" Click="ComposeNumber" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Grid.Row="1" Grid.Column="1">5</Button>
+            <Button Style="{StaticResource ButtonRevealStyle}" FontSize="20" Click="ComposeNumber" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Grid.Row="1" Grid.Column="2">6</Button>
+            <Button Style="{StaticResource ButtonRevealStyle}" FontSize="20" Click="ComposeNumber" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Grid.Row="2">7</Button>
+            <Button Style="{StaticResource ButtonRevealStyle}" FontSize="20" Click="ComposeNumber" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Grid.Row="2" Grid.Column="1">8</Button>
+            <Button Style="{StaticResource ButtonRevealStyle}" FontSize="20" Click="ComposeNumber" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Grid.Row="2" Grid.Column="2">9</Button>
+            <Button Style="{StaticResource ButtonRevealStyle}" FontSize="20" Click="ComposeNumber" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Grid.Row="3">*</Button>
+            <Button Style="{StaticResource ButtonRevealStyle}" FontSize="20" Click="ComposeNumber" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Grid.Row="3" Grid.Column="1">0</Button>
+            <Button Style="{StaticResource ButtonRevealStyle}" FontSize="20" Click="ComposeNumber" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Grid.Row="3" Grid.Column="2">#</Button>
+        </Grid>
     </Grid>
 </Page>

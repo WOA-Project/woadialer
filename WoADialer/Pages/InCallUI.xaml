@@ -6,14 +6,14 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d"
-    Background="{ThemeResource SystemControlAcrylicWindowBrush}">
+    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
 
     <Grid>
         <TextBlock x:Name="callerNameText" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="20, 20, 0, 0" Text="[callerName]"></TextBlock>
         <TextBlock x:Name="callerNumberText" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="20, 50, 0, 0" Text="[callerNumber]"></TextBlock>
         <TextBlock x:Name="callStatusText" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="20, 80, 0, 0" Text="[callStatus]"></TextBlock>
         <TextBlock x:Name="callTimerText" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="20, 110, 0, 0" Text="[callLength]"></TextBlock>
-        <Button x:Name="speakerOutputButton" Style="{StaticResource ButtonRevealStyle}" Content="Speaker" Width="150" Height="150" VerticalAlignment="Bottom" HorizontalAlignment="Left" Margin="0, 0, 0, 150"></Button>
-        <Button x:Name="closeCallButton" Content="Close" Background="{ThemeResource SystemControlAccentAcrylicElementAccentMediumHighBrush}" HorizontalAlignment="Stretch" VerticalAlignment="Bottom" Height="150" Click="CloseCallButton_Click"></Button>
+        <Button x:Name="speakerOutputButton" Style="{StaticResource ButtonRevealStyle}" Content="Speaker" Width="100" Height="100" VerticalAlignment="Bottom" HorizontalAlignment="Left" Margin="0, 0, 0, 100"></Button>
+        <Button x:Name="closeCallButton" Content="Close" Style="{StaticResource ButtonRevealStyle}" Background="{ThemeResource SystemAccentColorDark1}" HorizontalAlignment="Stretch" VerticalAlignment="Bottom" Height="100" Click="CloseCallButton_Click"></Button>
     </Grid>
 </Page>

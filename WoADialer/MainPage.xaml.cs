@@ -22,13 +22,8 @@ using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
 using WoADialer.Pages;
 
-// Il modello di elemento Pagina vuota è documentato all'indirizzo https://go.microsoft.com/fwlink/?LinkId=402352&clcid=0x410
-
 namespace WoADialer
 {
-    /// <summary>
-    /// Pagina vuota che può essere usata autonomamente oppure per l'esplorazione all'interno di un frame.
-    /// </summary>
     public sealed partial class MainPage : Page
     {
 
@@ -55,16 +50,14 @@ namespace WoADialer
 
             CoreApplication.GetCurrentView().TitleBar.ExtendViewIntoTitleBar = false;
             ApplicationViewTitleBar titleBar = ApplicationView.GetForCurrentView().TitleBar;
-            //titleBar.ButtonBackgroundColor = Colors.Transparent;
-            //titleBar.ButtonInactiveBackgroundColor = Colors.Transparent;
+            titleBar.ButtonBackgroundColor = ((SolidColorBrush)Application.Current.Resources["ApplicationPageBackgroundThemeBrush"]).Color;
+            titleBar.ButtonInactiveBackgroundColor = ((SolidColorBrush)Application.Current.Resources["ApplicationPageBackgroundThemeBrush"]).Color;
 
             if (PhoneCallManager.IsCallActive) callStateIndicatorText.Text = "Status: Call Active";
             else if (PhoneCallManager.IsCallIncoming) callStateIndicatorText.Text = "Status: Call Incoming";
             else callStateIndicatorText.Text = "Status: Phone Idle";
 
             this.MonitorCallState();
-
-            
 
             start();
         }
@@ -73,12 +66,12 @@ namespace WoADialer
         {
             try
             {
-                Task<Dictionary<Guid, PhoneLine>> getPhoneLinesTask = GetPhoneLinesAsync();
-                allPhoneLines = await getPhoneLinesTask;
-                noOfLines = allPhoneLines.Count;
+                //Task<Dictionary<Guid, PhoneLine>> getPhoneLinesTask = GetPhoneLinesAsync();
+                //allPhoneLines = await getPhoneLinesTask;
+                //noOfLines = allPhoneLines.Count;
                 Task<PhoneLine> getDefaultLineTask = GetDefaultPhoneLineAsync();
                 currentPhoneLine = await getDefaultLineTask;
-                updateCellularInformation();
+                //updateCellularInformation();
             } catch (Exception ex)
             {
                 var messageDialog = new MessageDialog(ex.Message);
@@ -94,15 +87,14 @@ namespace WoADialer
         {
             PhoneCallManager.CallStateChanged += async (o, args) =>
             {
-                await CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, async () =>
+                await CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
                      {
                          if (PhoneCallManager.IsCallActive) callStateIndicatorText.Text = "Status: Call Active";
                          else if (PhoneCallManager.IsCallIncoming) callStateIndicatorText.Text = "Status: Call Incoming";
                          else callStateIndicatorText.Text = "Status: Phone Idle";
 
                          if(PhoneCallManager.IsCallActive)
-                         {
-                             
+                         { 
                              Frame.Navigate(typeof(InCallUI));
                          }
                      }
@@ -116,36 +108,6 @@ namespace WoADialer
             };
         }
 
-        private async Task<Dictionary<Guid, PhoneLine>> GetPhoneLinesAsync()
-        {
-            PhoneCallStore store = await PhoneCallManager.RequestStoreAsync();
-            var watcher = store.RequestLineWatcher();
-            var phoneLines = new List<PhoneLine>();
-            var lineEnumerationCompletion = new TaskCompletionSource<bool>();
-            watcher.LineAdded += async (o, args) => { var line = await PhoneLine.FromIdAsync(args.LineId); phoneLines.Add(line); };
-            watcher.Stopped += (o, args) => lineEnumerationCompletion.TrySetResult(false);
-            watcher.EnumerationCompleted += (o, args) => lineEnumerationCompletion.TrySetResult(true);
-            watcher.Start();
-            if (!await lineEnumerationCompletion.Task)
-            {
-                throw new Exception("Phone Line Enumeration failed");
-            }
-
-            watcher.Stop();
-
-            Dictionary<Guid, PhoneLine> returnedLines = new Dictionary<Guid, PhoneLine>();
-
-            foreach (PhoneLine phoneLine in phoneLines)
-            {
-                if (phoneLine != null && phoneLine.Transport == PhoneLineTransport.Cellular)
-                {
-                    returnedLines.Add(phoneLine.Id, phoneLine);
-                }
-            }
-
-            return returnedLines;
-        }
-
         private async Task<PhoneLine> GetDefaultPhoneLineAsync()
         {
             PhoneCallStore phoneCallStore = await PhoneCallManager.RequestStoreAsync();
@@ -157,19 +119,11 @@ namespace WoADialer
         {
             PhoneLine line = currentPhoneLine;
             PhoneLineCellularDetails cellularDetails = line.CellularDetails;
-
             currentSIMSlotIndex = cellularDetails.SimSlotIndex;
-
             currentDisplayName = line.DisplayName;
-
-            //currentDisplayColor = line.DisplayColor;
-
             currentVoicemailNumber = line.Voicemail.Number;
-
             currentVoicemailCount = line.Voicemail.MessageCount;
-
             currentOperatorName = "N/A";
-
             PhoneSimState simState = cellularDetails.SimState;
             switch (simState)
             {
@@ -249,119 +203,11 @@ namespace WoADialer
             }
         }
 
-        public int NoOfLines
-        {
-            get
-            {
-                return noOfLines;
-            }
-        }
-
-        public Dictionary<Guid, PhoneLine> AllPhoneLines
-        {
-            get
-            {
-                if (allPhoneLines == null)
-                {
-                    allPhoneLines = new Dictionary<Guid, PhoneLine>();
-                }
-                return allPhoneLines;
-            }
-        }
-
         public PhoneLine CurrentPhoneLine
         {
             get
             {
                 return currentPhoneLine;
-            }
-        }
-
-        public int CurrentSIMSlotIndex
-        {
-            get
-            {
-                return currentSIMSlotIndex;
-            }
-        }
-
-        public string CurrentSIMState
-        {
-            get
-            {
-                if (currentSIMState == null)
-                {
-                    currentSIMState = "Loading...";
-                }
-                return currentSIMState;
-            }
-        }
-
-        public string CurrentNetworkState
-        {
-            get
-            {
-                if (currentNetworkState == null)
-                {
-                    currentNetworkState = "Loading...";
-                }
-                return currentNetworkState;
-            }
-        }
-
-        public string CurrentDisplayName
-        {
-            get
-            {
-                if (currentDisplayName == null)
-                {
-                    currentDisplayName = "Loading...";
-                }
-                return currentDisplayName;
-            }
-        }
-
-        public string CurrentOperatorName
-        {
-            get
-            {
-                if (currentOperatorName == null)
-                {
-                    currentOperatorName = "Loading...";
-                }
-                return currentOperatorName;
-            }
-        }
-
-        public Windows.UI.Color CurrentDisplayColor
-        {
-            get
-            {
-                if (currentDisplayColor == null)
-                {
-                    currentDisplayColor = Windows.UI.Color.FromArgb(0, 0, 0, 0);
-                }
-                return currentDisplayColor;
-            }
-        }
-
-        public string CurrentVoicemailNumber
-        {
-            get
-            {
-                if (currentVoicemailNumber == null)
-                {
-                    currentVoicemailNumber = "Loading...";
-                }
-                return currentVoicemailNumber;
-            }
-        }
-
-        public int CurrentVoicemailCount
-        {
-            get
-            {
-                return currentVoicemailCount;
             }
         }
 
@@ -390,6 +236,11 @@ namespace WoADialer
             }
         }
 
+        private void ComposeNumber(object sender, RoutedEventArgs e)
+        {
+            numberToDialBox.Text += ((Button)sender).Content.ToString();
+        }
+
         public async void handleBug(Exception e)
         {
             var messageDialog = new MessageDialog(e.Message + "\n\n\n" + e.StackTrace);
@@ -403,6 +254,11 @@ namespace WoADialer
         private void CommandInvokedHandler(IUICommand command)
         {
             //CoreApplication.Exit();
+        }
+
+        private void DeleteLastNumberButton_Click(object sender, RoutedEventArgs e)
+        {
+            numberToDialBox.Text = numberToDialBox.Text.Remove(numberToDialBox.Text.Length - 1);
         }
     }
 }
