@@ -1,11 +1,7 @@
-﻿using Microsoft.Win32;
-using System;
-using System.Collections.Generic;
+﻿using System;
 using System.Diagnostics;
-using System.Linq;
 using System.ServiceProcess;
-using System.Text;
-using System.Threading.Tasks;
+using System.Threading;
 using Windows.ApplicationModel.Calls;
 
 
@@ -22,17 +18,17 @@ namespace WoADialerHelper2
             else
             {
                 Console.WriteLine("Running parameters mode...");
-                for(int i = 0; i < args.Length; i++)
-                {
-                    Console.WriteLine("Arg " + i + " = " + args[i]);
-                }
+                for(int i = 0; i < args.Length; i++) Console.WriteLine("Arg " + i + " = " + args[i]);
                 string command = args[0].Split(':')[1];
                 if(command == "closecall")
                 {
                     ServiceController controller = new ServiceController("PhoneSvc");
-                    controller.Stop();
-                    controller.WaitForStatus(ServiceControllerStatus.Stopped);
-                    controller.Start();
+                    try
+                    {
+                        controller.Stop();
+                        controller.WaitForStatus(ServiceControllerStatus.Stopped);
+                        controller.Start();
+                    } catch (Exception e) { }
                 }
             }
         }
@@ -63,7 +59,7 @@ namespace WoADialerHelper2
                 }
             };
             Console.WriteLine("Call event bound!");
-            while (true) ;
+            Thread.Sleep(Timeout.Infinite);
         }
     }
 }
