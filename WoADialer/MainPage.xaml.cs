@@ -260,7 +260,11 @@ namespace WoADialer
 
         private void DeleteLastNumberButton_Click(object sender, RoutedEventArgs e)
         {
-            numberToDialBox.Text = numberToDialBox.Text.Remove(numberToDialBox.Text.Length - 1);
+            if (numberToDialBox.Text.Length >= 1)
+            {
+                numberToDialBox.Text = numberToDialBox.Text.Remove(numberToDialBox.Text.Length - 1);
+
+            }
         }
     }
 }
