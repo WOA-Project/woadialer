@@ -5,10 +5,9 @@
     xmlns:local="using:WoADialer.Pages"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    mc:Ignorable="d"
-    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
-
-    <Grid>
+    mc:Ignorable="d">
+    
+    <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
             <RowDefinition Height="*" />
@@ -38,7 +37,7 @@
         <Grid Grid.Row="1">
             <Grid.RowDefinitions>
                 <RowDefinition Height="*" />
-                <RowDefinition Height="100" />
+                <RowDefinition Height="Auto" />
             </Grid.RowDefinitions>
 
             <Button x:Name="speakerOutputButton" 
@@ -59,7 +58,6 @@
                     Style="{StaticResource ButtonRevealStyle}" 
                     Background="{ThemeResource SystemAccentColorDark1}" 
                     HorizontalAlignment="Stretch" 
-                    VerticalAlignment="Bottom" 
                     Height="100" 
                     Click="CloseCallButton_Click">
                 <Button.Content>
