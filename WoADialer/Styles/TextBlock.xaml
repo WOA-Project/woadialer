@@ -78,4 +78,14 @@
         <!-- Added for easy editing -->
     </Style>
 
+
+
+    <!-- Custom stuff -->
+    <Style x:Key="FormIconStyle" TargetType="TextBlock" BasedOn="{StaticResource FluentBodyIconStyle}">
+        <Setter Property="TextAlignment" Value="Center" />
+        <Setter Property="HorizontalAlignment" Value="Center" />
+        <Setter Property="VerticalAlignment" Value="Center" />
+
+    </Style>
+
 </ResourceDictionary>
