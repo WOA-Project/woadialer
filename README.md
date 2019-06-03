@@ -18,7 +18,9 @@ The Console App serves as an helper for the UWP app, to access restricted win32 
 The UWP requires at least Windows 10 version 1809, build 17763, and ARM64 architecture, unless you compile the app for yourself since I only can provide ARM64 packages with VS2019.
 
 ## Building
-You might need to download NuGet packages for the helper. This is the setup I used:
+You'll need a reference to the Windows.ApplicationModel.Calls.CallsPhoneContract contract for the helper. 
+
+This is the setup I used:
 
 - VS 2019
 - For the UWP app, the min version is 1809, while the target version is 1903.
