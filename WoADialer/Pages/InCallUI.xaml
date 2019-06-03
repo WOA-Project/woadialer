@@ -5,15 +5,71 @@
     xmlns:local="using:WoADialer.Pages"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    mc:Ignorable="d"
-    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+    mc:Ignorable="d">
+    
+    <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+        <!-- Call details -->
+        <StackPanel Grid.Row="0"
+                    Padding="12,24">
+            <TextBlock x:Name="callerNameText" 
+                       Text="[callerName]"
+                       Margin="0,0,0,8"
+                       Style="{ThemeResource FluentTitleTextStyle}"/>
+            <TextBlock x:Name="callerNumberText" 
+                       Text="[callerNumber]"
+                       Margin="0,0,0,8"
+                       Style="{ThemeResource FluentSubheaderTextStyle}"/>
+            <TextBlock x:Name="callStatusText" 
+                       Text="[callStatus]"
+                       Margin="0,0,0,8"
+                       Style="{ThemeResource FluentSubbodyTextStyle}"/>
+            <TextBlock x:Name="callTimerText" 
+                       Text="[callLength]"
+                       Foreground="{ThemeResource SystemControlForegroundAccentBrush}"
+                       Style="{ThemeResource FluentBodyTextStyle}"/>
+        </StackPanel>
 
-    <Grid>
-        <TextBlock x:Name="callerNameText" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="20, 20, 0, 0" Text="[callerName]"></TextBlock>
-        <TextBlock x:Name="callerNumberText" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="20, 50, 0, 0" Text="[callerNumber]"></TextBlock>
-        <TextBlock x:Name="callStatusText" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="20, 80, 0, 0" Text="[callStatus]"></TextBlock>
-        <TextBlock x:Name="callTimerText" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="20, 110, 0, 0" Text="[callLength]"></TextBlock>
-        <Button x:Name="speakerOutputButton" Style="{StaticResource ButtonRevealStyle}" Content="Speaker" Width="100" Height="100" Visibility="Collapsed" VerticalAlignment="Bottom" HorizontalAlignment="Left" Margin="0, 0, 0, 100"></Button>
-        <Button x:Name="closeCallButton" Content="Close" Style="{StaticResource ButtonRevealStyle}" Background="{ThemeResource SystemAccentColorDark1}" HorizontalAlignment="Stretch" VerticalAlignment="Bottom" Height="100" Click="CloseCallButton_Click"></Button>
+        <!-- Call options -->
+        <Grid Grid.Row="1">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*" />
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
+
+            <Button x:Name="speakerOutputButton" 
+                    Style="{StaticResource ButtonRevealStyle}" 
+                    FontFamily="Segoe MDL2 Assets"
+                    Content="&#xE767;" 
+                    Width="100" 
+                    Height="100" 
+                    Visibility="Collapsed" 
+                    VerticalAlignment="Bottom" 
+                    HorizontalAlignment="Center"
+                    Margin="0, 0, 0, 100" />
+
+
+            <!-- Close call button -->
+            <Button x:Name="closeCallButton" 
+                    Grid.Row="1" 
+                    Style="{StaticResource ButtonRevealStyle}" 
+                    Background="{ThemeResource SystemAccentColorDark1}" 
+                    HorizontalAlignment="Stretch" 
+                    Height="100" 
+                    Click="CloseCallButton_Click">
+                <Button.Content>
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock Text="&#xE778;"
+                                   Style="{ThemeResource FluentBodyIconStyle}" />
+                        <TextBlock Text="Close"
+                                   Style="{ThemeResource FluentBodyTextStyle}"/>
+                    </StackPanel>
+                </Button.Content>
+            </Button>
+        </Grid>
+
     </Grid>
 </Page>

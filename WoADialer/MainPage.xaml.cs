@@ -111,6 +111,8 @@ namespace WoADialer
         private async Task<PhoneLine> GetDefaultPhoneLineAsync()
         {
             PhoneCallStore phoneCallStore = await PhoneCallManager.RequestStoreAsync();
+            // Added this so the user can give permissions on beforehand, and so the InCallUI will also display the info correctly the first time you dial
+            PhoneCallHistoryStore a = await PhoneCallHistoryManager.RequestStoreAsync(PhoneCallHistoryStoreAccessType.AllEntriesReadWrite);
             Guid lineId = await phoneCallStore.GetDefaultLineAsync();
             return await PhoneLine.FromIdAsync(lineId);
         }
@@ -258,7 +260,11 @@ namespace WoADialer
 
         private void DeleteLastNumberButton_Click(object sender, RoutedEventArgs e)
         {
-            numberToDialBox.Text = numberToDialBox.Text.Remove(numberToDialBox.Text.Length - 1);
+            if (numberToDialBox.Text.Length >= 1)
+            {
+                numberToDialBox.Text = numberToDialBox.Text.Remove(numberToDialBox.Text.Length - 1);
+
+            }
         }
     }
 }
