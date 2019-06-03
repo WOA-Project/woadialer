@@ -17,7 +17,8 @@ if %errorLevel% == 0 (
 )
 
 echo Copying needed files...
-echo F | xcopy %~dp0\files\WoADialerHelper.exe C:\Windows\System32\WoADialerHelper.exe /O /X /H /K /F
+mkdir C:\WoADialerHelper
+echo F | xcopy %~dp0\files\WoADialerHelper.exe C:\WoADialerHelper\WoADialerHelper.exe /O /X /H /K /F
 echo Adding registry keys...
 regedit /S %~dp0\files\regkeys.reg
 echo Installing WoADialer UWP App...

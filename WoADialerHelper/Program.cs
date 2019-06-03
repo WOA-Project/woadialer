@@ -1,11 +1,14 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Diagnostics;
+using System.Linq;
 using System.ServiceProcess;
+using System.Text;
 using System.Threading;
+using System.Threading.Tasks;
 using Windows.ApplicationModel.Calls;
 
-
-namespace WoADialerHelper2
+namespace WoADialerHelper
 {
     class Program
     {
@@ -18,9 +21,9 @@ namespace WoADialerHelper2
             else
             {
                 Console.WriteLine("Running parameters mode...");
-                for(int i = 0; i < args.Length; i++) Console.WriteLine("Arg " + i + " = " + args[i]);
+                for (int i = 0; i < args.Length; i++) Console.WriteLine("Arg " + i + " = " + args[i]);
                 string command = args[0].Split(':')[1];
-                if(command == "closecall")
+                if (command == "closecall")
                 {
                     ServiceController controller = new ServiceController("PhoneSvc");
                     try
@@ -28,7 +31,8 @@ namespace WoADialerHelper2
                         controller.Stop();
                         controller.WaitForStatus(ServiceControllerStatus.Stopped);
                         controller.Start();
-                    } catch (Exception e) { }
+                    }
+                    catch (Exception e) { }
                 }
             }
         }
@@ -45,12 +49,13 @@ namespace WoADialerHelper2
                     try
                     {
                         Process woadialer = Process.Start("WoADialer.exe");
-                        if(woadialer == null)
+                        if (woadialer == null)
                         {
                             Console.WriteLine("The process did not start or the console wasn't able to catch it.");
                             Console.WriteLine("Gotta catch 'em all!");
                         }
-                    } catch (Exception e)
+                    }
+                    catch (Exception e)
                     {
                         Console.WriteLine("Failed to launch WoADialer. Exception details:");
                         Console.WriteLine(e.StackTrace);
