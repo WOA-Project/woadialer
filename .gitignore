@@ -1,7 +1,7 @@
 .vs
 packages
 releases
-PreparedInstaller/files
+PreparedInstaller
 WoADialer/AppPackages
 WoADialer/BundleArtifacts
 WoADialer/bin
