@@ -31,3 +31,7 @@ I must have forgot things. Please forgive me and point me to the right direction
 
 ## This application
 I surely have forgot things. I surely have implemented things really badly. Things will be broken for sure. I'm a noob, so open those issues and I'll try to fix them. If you have suggestions on how to improve certain things, feel free to send me a message, do a PR, whatever you want! It's 100% accepted! I'm a student so I have little time to work on side projects, and I still have a lot to learn, so forgive me, please!
+
+## Thanks
+Thanks a lot for contributing to the project:
+- [Ikarago](https://github.com/ikarago)
