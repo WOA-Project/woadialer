@@ -1,25 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Drawing;
-using System.IO;
-using System.Linq;
-using System.Runtime.InteropServices.WindowsRuntime;
 using System.Threading.Tasks;
 using Windows.ApplicationModel.Calls;
 using Windows.ApplicationModel.Core;
-using Windows.Foundation;
-using Windows.Foundation.Collections;
-using Windows.UI;
 using Windows.UI.Core;
 using Windows.UI.Popups;
 using Windows.UI.ViewManagement;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Controls.Primitives;
-using Windows.UI.Xaml.Data;
-using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
-using Windows.UI.Xaml.Navigation;
 using WoADialer.Pages;
 
 namespace WoADialer
@@ -111,7 +100,6 @@ namespace WoADialer
         private async Task<PhoneLine> GetDefaultPhoneLineAsync()
         {
             PhoneCallStore phoneCallStore = await PhoneCallManager.RequestStoreAsync();
-            // Added this so the user can give permissions on beforehand, and so the InCallUI will also display the info correctly the first time you dial
             PhoneCallHistoryStore a = await PhoneCallHistoryManager.RequestStoreAsync(PhoneCallHistoryStoreAccessType.AllEntriesReadWrite);
             Guid lineId = await phoneCallStore.GetDefaultLineAsync();
             return await PhoneLine.FromIdAsync(lineId);
@@ -234,7 +222,7 @@ namespace WoADialer
                 }
             } catch (Exception ee)
             {
-                handleBug(ee);
+                handleException(ee);
             }
         }
 
@@ -243,7 +231,7 @@ namespace WoADialer
             numberToDialBox.Text += ((Button)sender).Content.ToString();
         }
 
-        public async void handleBug(Exception e)
+        public async void handleException(Exception e)
         {
             var messageDialog = new MessageDialog(e.Message + "\n\n\n" + e.StackTrace);
 

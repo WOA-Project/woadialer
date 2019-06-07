@@ -69,18 +69,18 @@
                 <ColumnDefinition Width="1*"/>
                 <ColumnDefinition Width="1*"/>
             </Grid.ColumnDefinitions>
-            <Button Style="{StaticResource ButtonRevealStyle}" Padding="12" FontSize="20" Click="ComposeNumber" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">1</Button>
-            <Button Style="{StaticResource ButtonRevealStyle}" Padding="12" FontSize="20" Click="ComposeNumber" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Grid.Column="1">2</Button>
-            <Button Style="{StaticResource ButtonRevealStyle}" Padding="12" FontSize="20" Click="ComposeNumber" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Grid.Column="2">3</Button>
-            <Button Style="{StaticResource ButtonRevealStyle}" Padding="12" FontSize="20" Click="ComposeNumber" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Grid.Row="1">4</Button>
-            <Button Style="{StaticResource ButtonRevealStyle}" Padding="12" FontSize="20" Click="ComposeNumber" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Grid.Row="1" Grid.Column="1">5</Button>
-            <Button Style="{StaticResource ButtonRevealStyle}" Padding="12" FontSize="20" Click="ComposeNumber" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Grid.Row="1" Grid.Column="2">6</Button>
-            <Button Style="{StaticResource ButtonRevealStyle}" Padding="12" FontSize="20" Click="ComposeNumber" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Grid.Row="2">7</Button>
-            <Button Style="{StaticResource ButtonRevealStyle}" Padding="12" FontSize="20" Click="ComposeNumber" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Grid.Row="2" Grid.Column="1">8</Button>
-            <Button Style="{StaticResource ButtonRevealStyle}" Padding="12" FontSize="20" Click="ComposeNumber" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Grid.Row="2" Grid.Column="2">9</Button>
-            <Button Style="{StaticResource ButtonRevealStyle}" Padding="12" FontSize="20" Click="ComposeNumber" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Grid.Row="3">*</Button>
-            <Button Style="{StaticResource ButtonRevealStyle}" Padding="12" FontSize="20" Click="ComposeNumber" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Grid.Row="3" Grid.Column="1">0</Button>
-            <Button Style="{StaticResource ButtonRevealStyle}" Padding="12" FontSize="20" Click="ComposeNumber" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Grid.Row="3" Grid.Column="2">#</Button>
+            <Button Style="{StaticResource ButtonRevealStyle}" Padding="14" FontSize="24" Click="ComposeNumber" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">1</Button>
+            <Button Style="{StaticResource ButtonRevealStyle}" Padding="14" FontSize="24" Click="ComposeNumber" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Grid.Column="1">2</Button>
+            <Button Style="{StaticResource ButtonRevealStyle}" Padding="14" FontSize="24" Click="ComposeNumber" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Grid.Column="2">3</Button>
+            <Button Style="{StaticResource ButtonRevealStyle}" Padding="14" FontSize="24" Click="ComposeNumber" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Grid.Row="1">4</Button>
+            <Button Style="{StaticResource ButtonRevealStyle}" Padding="14" FontSize="24" Click="ComposeNumber" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Grid.Row="1" Grid.Column="1">5</Button>
+            <Button Style="{StaticResource ButtonRevealStyle}" Padding="14" FontSize="24" Click="ComposeNumber" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Grid.Row="1" Grid.Column="2">6</Button>
+            <Button Style="{StaticResource ButtonRevealStyle}" Padding="14" FontSize="24" Click="ComposeNumber" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Grid.Row="2">7</Button>
+            <Button Style="{StaticResource ButtonRevealStyle}" Padding="14" FontSize="24" Click="ComposeNumber" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Grid.Row="2" Grid.Column="1">8</Button>
+            <Button Style="{StaticResource ButtonRevealStyle}" Padding="14" FontSize="24" Click="ComposeNumber" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Grid.Row="2" Grid.Column="2">9</Button>
+            <Button Style="{StaticResource ButtonRevealStyle}" Padding="14" FontSize="24" Click="ComposeNumber" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Grid.Row="3">*</Button>
+            <Button Style="{StaticResource ButtonRevealStyle}" Padding="14" FontSize="24" Click="ComposeNumber" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Grid.Row="3" Grid.Column="1">0</Button>
+            <Button Style="{StaticResource ButtonRevealStyle}" Padding="14" FontSize="24" Click="ComposeNumber" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Grid.Row="3" Grid.Column="2">#</Button>
         </Grid>
         
         
