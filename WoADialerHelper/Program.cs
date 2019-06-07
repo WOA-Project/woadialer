@@ -32,7 +32,7 @@ namespace WoADialerHelper
                         controller.WaitForStatus(ServiceControllerStatus.Stopped);
                         controller.Start();
                     }
-                    catch (Exception e) { }
+                    catch { }
                 }
             }
         }
@@ -42,7 +42,7 @@ namespace WoADialerHelper
             PhoneCallManager.CallStateChanged += (o, args) =>
             {
                 Console.WriteLine("Call state changed!");
-                if (PhoneCallManager.IsCallIncoming || PhoneCallManager.IsCallActive)
+                if (PhoneCallManager.IsCallActive)
                 {
                     Console.WriteLine("It's a call incoming!");
                     Console.WriteLine("Starting WoADialer...");
