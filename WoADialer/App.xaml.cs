@@ -30,6 +30,14 @@ namespace WoADialer
         protected override void OnActivated(IActivatedEventArgs args)
         {
             Frame rootFrame = Window.Current.Content as Frame;
+            if (rootFrame == null)
+            {
+                rootFrame = new Frame();
+                rootFrame.NavigationFailed += OnNavigationFailed;
+
+                Window.Current.Content = rootFrame;
+            }
+
             switch (args.Kind)
             {
                 case ActivationKind.Protocol:
@@ -40,6 +48,7 @@ namespace WoADialer
                     rootFrame.Navigate(typeof(InCallUI));
                     break;
             }
+            Window.Current.Activate();
         }
 
         protected override void OnLaunched(LaunchActivatedEventArgs e)
