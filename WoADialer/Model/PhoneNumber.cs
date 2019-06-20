@@ -13,14 +13,9 @@ namespace WoADialer.Model
 
         public static PhoneNumber Parse(string text)
         {
-            StringBuilder cleanNumber = new StringBuilder(text.Length);
-            foreach (string part in text.Split(Separators))
-            {
-                cleanNumber.Append(part.Where(x => AllowedChars.Contains(x)).ToArray());
-            }
             PhoneNumber result = new PhoneNumber
             {
-                Numbers = cleanNumber.ToString().ToList()
+                Numbers = text.Where(x => AllowedChars.Contains(x)).ToList()
             };
             return result;
         }
