@@ -131,13 +131,14 @@
     <Compile Include="MainPage.xaml.cs">
       <DependentUpon>MainPage.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Model\CallInfo.cs" />
     <Compile Include="Pages\InCallUI.xaml.cs">
       <DependentUpon>InCallUI.xaml</DependentUpon>
     </Compile>
     <Compile Include="Pages\IncomingCallUI.xaml.cs">
       <DependentUpon>IncomingCallUI.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Numbers\PhoneNumber.cs" />
+    <Compile Include="Model\PhoneNumber.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

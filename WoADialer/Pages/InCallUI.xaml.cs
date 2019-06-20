@@ -4,12 +4,14 @@ using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
+using System.Threading;
 using System.Threading.Tasks;
 using Windows.ApplicationModel.Calls;
 using Windows.ApplicationModel.Core;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
 using Windows.UI;
+using Windows.UI.Core;
 using Windows.UI.ViewManagement;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
@@ -18,37 +20,75 @@ using Windows.UI.Xaml.Data;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
+using WoADialer.Model;
 
 namespace WoADialer.Pages
 {
     public sealed partial class InCallUI : Page
     {
         private PhoneLine currentPhoneLine;
+        private Timer callLengthCounter;
+        private DateTime? callStartTime;
 
         public InCallUI()
         {
             this.InitializeComponent();
-            prepareItems();
+            Task<PhoneLine> getDefaultLineTask = GetDefaultPhoneLineAsync();
 
             CoreApplication.GetCurrentView().TitleBar.ExtendViewIntoTitleBar = true;
             ApplicationViewTitleBar titleBar = ApplicationView.GetForCurrentView().TitleBar;
             titleBar.ButtonBackgroundColor = Colors.Transparent;
             titleBar.ButtonInactiveBackgroundColor = Colors.Transparent;
 
+            PhoneCallManager.CallStateChanged += PhoneCallManager_CallStateChanged;
+
+            getDefaultLineTask.Wait(500);
+            if (getDefaultLineTask.IsCompletedSuccessfully)
+            {
+                currentPhoneLine = getDefaultLineTask.Result;
+            }
         }
 
-        private async void prepareItems()
+        private async void TimerCallback(object state)
         {
-            Task<PhoneLine> getDefaultLineTask = GetDefaultPhoneLineAsync();
-            currentPhoneLine = await getDefaultLineTask;
+            await Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () => callTimerText.Text = (DateTime.Now - callStartTime)?.ToString("mm\\:ss"));
         }
 
+        private void StartTimer()
+        {
+            callStartTime = DateTime.Now;
+            callLengthCounter = new Timer(TimerCallback, null, 0, 1000);
+        }
+
+        private void StopTimer()
+        {
+            callLengthCounter.Dispose();
+            callStartTime = null;
+        }
+
+        private void PhoneCallManager_CallStateChanged(object sender, object e)
+        {
+            if (!callStartTime.HasValue && PhoneCallManager.IsCallActive)
+            {
+                StartTimer();
+            }
+            else if (callStartTime.HasValue && !PhoneCallManager.IsCallActive)
+            {
+                StopTimer();
+            }
+        }
 
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
-            if (e.Parameter is string && !string.IsNullOrWhiteSpace((string)e.Parameter))
+            switch (e.Parameter)
             {
-                callerNumberText.Text = e.Parameter.ToString();
+                case CallInfo info:
+                    if (info.IsActive)
+                    {
+                        StartTimer();
+                    }
+                    callerNumberText.Text = info.Number.ToString("nice");
+                    break;
             }
             getHistory();
             base.OnNavigatedTo(e);

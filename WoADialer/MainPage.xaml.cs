@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Windows.ApplicationModel.Calls;
+using Windows.ApplicationModel.Contacts;
 using Windows.ApplicationModel.Core;
 using Windows.UI.Core;
 using Windows.UI.Popups;
@@ -11,7 +12,7 @@ using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
-using WoADialer.Numbers;
+using WoADialer.Model;
 using WoADialer.Pages;
 
 namespace WoADialer
@@ -231,7 +232,7 @@ namespace WoADialer
             try
             {
                 currentPhoneLine.Dial(currentNumber.ToString(), "test");
-                Frame.Navigate(typeof(InCallUI), currentNumber);
+                Frame.Navigate(typeof(InCallUI), new CallInfo() { Number = currentNumber, IsActive = PhoneCallManager.IsCallActive });
             }
             catch (Exception ee)
             {
