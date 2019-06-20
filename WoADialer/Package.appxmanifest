@@ -52,6 +52,11 @@
             <uap5:ExecutionAlias Alias="WoADialer.exe" />
           </uap5:AppExecutionAlias>
         </uap5:Extension>
+        <uap:Extension Category="windows.protocol">
+          <uap:Protocol Name="tel">
+            <uap:DisplayName>WoA Dialer</uap:DisplayName>
+          </uap:Protocol>
+        </uap:Extension>
       </Extensions>
     </Application>
   </Applications>

@@ -9,6 +9,7 @@ using Windows.UI.ViewManagement;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Media;
+using Windows.UI.Xaml.Navigation;
 using WoADialer.Pages;
 
 namespace WoADialer
@@ -51,6 +52,17 @@ namespace WoADialer
             start();
         }
 
+        protected override void OnNavigatedTo(NavigationEventArgs e)
+        {
+            base.OnNavigatedTo(e);
+            switch (e.Parameter)
+            {
+                case string number:
+                    numberToDialBox.Text = number;
+                    break;
+            }
+        }
+
         private async void start()
         {
             try
@@ -61,7 +73,8 @@ namespace WoADialer
                 Task<PhoneLine> getDefaultLineTask = GetDefaultPhoneLineAsync();
                 currentPhoneLine = await getDefaultLineTask;
                 //updateCellularInformation();
-            } catch (Exception ex)
+            }
+            catch (Exception ex)
             {
                 var messageDialog = new MessageDialog(ex.Message);
 
@@ -82,8 +95,8 @@ namespace WoADialer
                          else if (PhoneCallManager.IsCallIncoming) callStateIndicatorText.Text = "Status: Call Incoming";
                          else callStateIndicatorText.Text = "Status: Phone Idle";
 
-                         if(PhoneCallManager.IsCallActive)
-                         { 
+                         if (PhoneCallManager.IsCallActive)
+                         {
                              Frame.Navigate(typeof(InCallUI));
                          }
                      }
@@ -187,10 +200,7 @@ namespace WoADialer
                     break;
             }
 
-            if (CellInfoUpdateCompleted != null)
-            {
-                CellInfoUpdateCompleted();
-            }
+            CellInfoUpdateCompleted?.Invoke();
         }
 
         public PhoneLine CurrentPhoneLine
@@ -220,7 +230,8 @@ namespace WoADialer
                     currentPhoneLine.Dial(numberToDial, "test");
                     Frame.Navigate(typeof(InCallUI), numberToDial);
                 }
-            } catch (Exception ee)
+            }
+            catch (Exception ee)
             {
                 handleException(ee);
             }
