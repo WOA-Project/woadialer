@@ -10,6 +10,7 @@ using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
+using WoADialer.Numbers;
 using WoADialer.Pages;
 
 namespace WoADialer
@@ -33,6 +34,7 @@ namespace WoADialer
         private string currentVoicemailNumber;
         private int currentVoicemailCount;
         private bool doesPhoneCallExist;
+        private PhoneNumber currentNumber;
 
         public MainPage()
         {
@@ -58,9 +60,15 @@ namespace WoADialer
             switch (e.Parameter)
             {
                 case string number:
-                    numberToDialBox.Text = number;
+                    currentNumber = PhoneNumber.Parse(number);
+                    UpdateCurrentNumber();
                     break;
             }
+        }
+
+        private void UpdateCurrentNumber()
+        {
+            numberToDialBox.Text = currentNumber.ToString("nice");
         }
 
         private async void start()
@@ -223,7 +231,7 @@ namespace WoADialer
         {
             try
             {
-                string numberToDial = numberToDialBox.Text.Replace(" ", "");
+                string numberToDial = currentNumber.ToString();
                 numberToDial = numberToDial.Replace("+", "00");
                 if (numberToDial != "")
                 {
@@ -239,7 +247,8 @@ namespace WoADialer
 
         private void ComposeNumber(object sender, RoutedEventArgs e)
         {
-            numberToDialBox.Text += ((Button)sender).Content.ToString();
+            currentNumber.AddLastChar(((Button)sender).Content.ToString()[0]);
+            UpdateCurrentNumber();
         }
 
         public async void handleException(Exception e)
@@ -259,11 +268,8 @@ namespace WoADialer
 
         private void DeleteLastNumberButton_Click(object sender, RoutedEventArgs e)
         {
-            if (numberToDialBox.Text.Length >= 1)
-            {
-                numberToDialBox.Text = numberToDialBox.Text.Remove(numberToDialBox.Text.Length - 1);
-
-            }
+            currentNumber.RemoveLastChar();
+            UpdateCurrentNumber();
         }
     }
 }

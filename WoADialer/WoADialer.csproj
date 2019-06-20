@@ -136,6 +136,7 @@
     <Compile Include="Pages\IncomingCallUI.xaml.cs">
       <DependentUpon>IncomingCallUI.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Numbers\PhoneNumber.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
