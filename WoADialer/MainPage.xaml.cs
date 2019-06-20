@@ -8,6 +8,7 @@ using Windows.UI.Popups;
 using Windows.UI.ViewManagement;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
+using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
 using WoADialer.Numbers;
@@ -68,6 +69,7 @@ namespace WoADialer
 
         private void UpdateCurrentNumber()
         {
+            callButton.IsEnabled = !string.IsNullOrWhiteSpace(currentNumber.ToString());
             numberToDialBox.Text = currentNumber.ToString("nice");
         }
 
@@ -111,10 +113,7 @@ namespace WoADialer
                 );
 
                 doesPhoneCallExist = PhoneCallManager.IsCallActive || PhoneCallManager.IsCallIncoming;
-                if (ActivePhoneCallStateChanged != null)
-                {
-                    ActivePhoneCallStateChanged();
-                }
+                ActivePhoneCallStateChanged?.Invoke();
             };
         }
 
@@ -231,13 +230,8 @@ namespace WoADialer
         {
             try
             {
-                string numberToDial = currentNumber.ToString();
-                numberToDial = numberToDial.Replace("+", "00");
-                if (numberToDial != "")
-                {
-                    currentPhoneLine.Dial(numberToDial, "test");
-                    Frame.Navigate(typeof(InCallUI), numberToDial);
-                }
+                currentPhoneLine.Dial(currentNumber.ToString(), "test");
+                Frame.Navigate(typeof(InCallUI), currentNumber);
             }
             catch (Exception ee)
             {
@@ -269,6 +263,12 @@ namespace WoADialer
         private void DeleteLastNumberButton_Click(object sender, RoutedEventArgs e)
         {
             currentNumber.RemoveLastChar();
+            UpdateCurrentNumber();
+        }
+
+        private void Button_RightTapped(object sender, RightTappedRoutedEventArgs e)
+        {
+            currentNumber.AddLastChar('+');
             UpdateCurrentNumber();
         }
     }

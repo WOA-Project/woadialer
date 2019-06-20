@@ -79,7 +79,7 @@
             <Button Style="{StaticResource ButtonRevealStyle}" Padding="14" FontSize="24" Click="ComposeNumber" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Grid.Row="2" Grid.Column="1">8</Button>
             <Button Style="{StaticResource ButtonRevealStyle}" Padding="14" FontSize="24" Click="ComposeNumber" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Grid.Row="2" Grid.Column="2">9</Button>
             <Button Style="{StaticResource ButtonRevealStyle}" Padding="14" FontSize="24" Click="ComposeNumber" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Grid.Row="3">*</Button>
-            <Button Style="{StaticResource ButtonRevealStyle}" Padding="14" FontSize="24" Click="ComposeNumber" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Grid.Row="3" Grid.Column="1">0</Button>
+            <Button Style="{StaticResource ButtonRevealStyle}" Padding="14" FontSize="24" Click="ComposeNumber" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Grid.Row="3" Grid.Column="1" RightTapped="Button_RightTapped">0</Button>
             <Button Style="{StaticResource ButtonRevealStyle}" Padding="14" FontSize="24" Click="ComposeNumber" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Grid.Row="3" Grid.Column="2">#</Button>
         </Grid>
         
