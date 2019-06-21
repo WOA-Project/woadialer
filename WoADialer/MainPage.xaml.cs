@@ -240,12 +240,6 @@ namespace WoADialer
             }
         }
 
-        private void ComposeNumber(object sender, RoutedEventArgs e)
-        {
-            currentNumber.AddLastChar(((Button)sender).Content.ToString()[0]);
-            UpdateCurrentNumber();
-        }
-
         public async void handleException(Exception e)
         {
             var messageDialog = new MessageDialog(e.Message + "\n\n\n" + e.StackTrace);
@@ -267,9 +261,9 @@ namespace WoADialer
             UpdateCurrentNumber();
         }
 
-        private void Button_RightTapped(object sender, RightTappedRoutedEventArgs e)
+        private void NumPad_DigitTapped(object sender, char e)
         {
-            currentNumber.AddLastChar('+');
+            currentNumber.AddLastChar(e);
             UpdateCurrentNumber();
         }
     }
