@@ -5,100 +5,70 @@
     xmlns:local="using:WoADialer"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:numpad="using:WoADialer.NumPad"
     mc:Ignorable="d">
 
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
         <Grid.RowDefinitions>
-            <RowDefinition Height="*"/>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="Auto" />
-            <RowDefinition Height="Auto" />
+            <RowDefinition Height="64"/>
+            <RowDefinition Height="32"/>
+            <RowDefinition Height="1*" />
+            <RowDefinition Height="384" />
+            <RowDefinition Height="64" />
         </Grid.RowDefinitions>
-        
+
         <!-- Dialing info -->
-        <Grid Grid.Row="0"
-              Padding="12">
+        <Grid Grid.Row="0">
             <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="64" />
                 <ColumnDefinition Width="*" />
-                <ColumnDefinition Width="48" />
+                <ColumnDefinition Width="64" />
             </Grid.ColumnDefinitions>
-            <Grid.RowDefinitions>
-                <RowDefinition Height="Auto" />
-                <RowDefinition Height="Auto" />
-                <RowDefinition Height="*" />
-            </Grid.RowDefinitions>
 
             <!-- Number to dial -->
             <!-- The style for the text has been manually inputted; it's the same as FluentSubheaderTextStyle -->
-            <TextBlock x:Name="numberToDialBox" 
+            <TextBlock x:Name="numberToDialBox"
+                       TextAlignment="Center"
+                       HorizontalTextAlignment="Center"
                        Grid.Row="0"
-                       Grid.Column="0"
-                       HorizontalAlignment="Stretch" 
-                       FontSize="24"
-                       FontWeight="Bold"/>
+                       Grid.Column="1" 
+                       FontSize="40"
+                       FontWeight="Bold" HorizontalAlignment="Stretch"/>
 
             <Button x:Name="deleteLastNumberButton" 
                     Grid.Row="0"
-                    Grid.Column="1"
+                    Grid.Column="2"
                     Background="Transparent" 
                     Click="DeleteLastNumberButton_Click" 
                     FontFamily="Segoe MDL2 Assets" 
                     Content="&#xE94F;"
-                    Height="40" 
-                    Width="40" />
-            <TextBlock x:Name="callStateIndicatorText" 
+                    VerticalAlignment="Stretch" HorizontalContentAlignment="Center" HorizontalAlignment="Stretch" FontSize="24" />
+        </Grid>
+        <TextBlock x:Name="callStateIndicatorText" 
                        Grid.Row="1"
                        Grid.Column="0"
-                       Grid.ColumnSpan="2"
                        Text="AAAA"
-                       Style="{ThemeResource FluentSubbodyTextStyle}" />
+                       Margin="10, 0, 0, 0"
+                       Style="{ThemeResource FluentSubbodyTextStyle}" HorizontalAlignment="Left" Width="157"/>
+        <numpad:NumPad Grid.Row="3" DigitTapped="NumPad_DigitTapped"/>
 
-        </Grid> 
-        
 
-        <!-- Dial pad-->
-        <Grid Grid.Row="1">
-            <Grid.RowDefinitions>
-                <RowDefinition Height="1*"/>
-                <RowDefinition Height="1*"/>
-                <RowDefinition Height="1*"/>
-                <RowDefinition Height="1*"/>
-            </Grid.RowDefinitions>
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="1*"/>
-                <ColumnDefinition Width="1*"/>
-                <ColumnDefinition Width="1*"/>
-            </Grid.ColumnDefinitions>
-            <Button Style="{StaticResource ButtonRevealStyle}" Padding="14" FontSize="24" Click="ComposeNumber" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">1</Button>
-            <Button Style="{StaticResource ButtonRevealStyle}" Padding="14" FontSize="24" Click="ComposeNumber" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Grid.Column="1">2</Button>
-            <Button Style="{StaticResource ButtonRevealStyle}" Padding="14" FontSize="24" Click="ComposeNumber" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Grid.Column="2">3</Button>
-            <Button Style="{StaticResource ButtonRevealStyle}" Padding="14" FontSize="24" Click="ComposeNumber" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Grid.Row="1">4</Button>
-            <Button Style="{StaticResource ButtonRevealStyle}" Padding="14" FontSize="24" Click="ComposeNumber" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Grid.Row="1" Grid.Column="1">5</Button>
-            <Button Style="{StaticResource ButtonRevealStyle}" Padding="14" FontSize="24" Click="ComposeNumber" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Grid.Row="1" Grid.Column="2">6</Button>
-            <Button Style="{StaticResource ButtonRevealStyle}" Padding="14" FontSize="24" Click="ComposeNumber" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Grid.Row="2">7</Button>
-            <Button Style="{StaticResource ButtonRevealStyle}" Padding="14" FontSize="24" Click="ComposeNumber" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Grid.Row="2" Grid.Column="1">8</Button>
-            <Button Style="{StaticResource ButtonRevealStyle}" Padding="14" FontSize="24" Click="ComposeNumber" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Grid.Row="2" Grid.Column="2">9</Button>
-            <Button Style="{StaticResource ButtonRevealStyle}" Padding="14" FontSize="24" Click="ComposeNumber" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Grid.Row="3">*</Button>
-            <Button Style="{StaticResource ButtonRevealStyle}" Padding="14" FontSize="24" Click="ComposeNumber" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Grid.Row="3" Grid.Column="1">0</Button>
-            <Button Style="{StaticResource ButtonRevealStyle}" Padding="14" FontSize="24" Click="ComposeNumber" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Grid.Row="3" Grid.Column="2">#</Button>
-        </Grid>
-        
-        
-        
+
         <!-- Call button -->
         <Button x:Name="callButton" 
-                Grid.Row="2"
+                Grid.Row="4"
                 Style="{StaticResource ButtonRevealStyle}" 
                 Background="{ThemeResource SystemAccentColorDark1}" 
                 HorizontalAlignment="Stretch" 
                 Height="100" 
+                Padding="-15, 0, 0, 0"
                 Click="CallButton_Click">
             <Button.Content>
                 <StackPanel Orientation="Horizontal">
                     <TextBlock Text="&#xE717;"
                                Style="{ThemeResource FluentBodyIconStyle}" />
-                    <TextBlock Text="Call"
-                               Style="{ThemeResource FluentBodyTextStyle}"/>
+                    <TextBlock
+                               Style="{ThemeResource FluentBodyTextStyle}" FontFamily="Segoe UI" x:Uid="Button_Call"/>
                 </StackPanel>
             </Button.Content>
         </Button>

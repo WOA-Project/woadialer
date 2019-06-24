@@ -64,7 +64,7 @@
                     <StackPanel Orientation="Horizontal">
                         <TextBlock Text="&#xE778;"
                                    Style="{ThemeResource FluentBodyIconStyle}" />
-                        <TextBlock Text="Close"
+                        <TextBlock x:Uid="Button_EndCall"
                                    Style="{ThemeResource FluentBodyTextStyle}"/>
                     </StackPanel>
                 </Button.Content>

@@ -30,7 +30,25 @@ namespace WoADialer
         protected override void OnActivated(IActivatedEventArgs args)
         {
             Frame rootFrame = Window.Current.Content as Frame;
-            rootFrame.Navigate(typeof(InCallUI));
+            if (rootFrame == null)
+            {
+                rootFrame = new Frame();
+                rootFrame.NavigationFailed += OnNavigationFailed;
+
+                Window.Current.Content = rootFrame;
+            }
+
+            switch (args.Kind)
+            {
+                case ActivationKind.Protocol:
+                    ProtocolActivatedEventArgs eventArgs = args as ProtocolActivatedEventArgs;
+                    rootFrame.Navigate(typeof(MainPage), eventArgs.Uri.LocalPath);
+                    break;
+                default:
+                    rootFrame.Navigate(typeof(InCallUI));
+                    break;
+            }
+            Window.Current.Activate();
         }
 
         protected override void OnLaunched(LaunchActivatedEventArgs e)

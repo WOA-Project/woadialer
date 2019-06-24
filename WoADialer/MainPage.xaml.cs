@@ -2,13 +2,17 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Windows.ApplicationModel.Calls;
+using Windows.ApplicationModel.Contacts;
 using Windows.ApplicationModel.Core;
 using Windows.UI.Core;
 using Windows.UI.Popups;
 using Windows.UI.ViewManagement;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
+using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
+using Windows.UI.Xaml.Navigation;
+using WoADialer.Model;
 using WoADialer.Pages;
 
 namespace WoADialer
@@ -32,6 +36,7 @@ namespace WoADialer
         private string currentVoicemailNumber;
         private int currentVoicemailCount;
         private bool doesPhoneCallExist;
+        private PhoneNumber currentNumber;
 
         public MainPage()
         {
@@ -51,6 +56,24 @@ namespace WoADialer
             start();
         }
 
+        protected override void OnNavigatedTo(NavigationEventArgs e)
+        {
+            base.OnNavigatedTo(e);
+            switch (e.Parameter)
+            {
+                case string number:
+                    currentNumber = PhoneNumber.Parse(number);
+                    UpdateCurrentNumber();
+                    break;
+            }
+        }
+
+        private void UpdateCurrentNumber()
+        {
+            callButton.IsEnabled = !string.IsNullOrWhiteSpace(currentNumber.ToString());
+            numberToDialBox.Text = currentNumber.ToString("nice");
+        }
+
         private async void start()
         {
             try
@@ -61,7 +84,8 @@ namespace WoADialer
                 Task<PhoneLine> getDefaultLineTask = GetDefaultPhoneLineAsync();
                 currentPhoneLine = await getDefaultLineTask;
                 //updateCellularInformation();
-            } catch (Exception ex)
+            }
+            catch (Exception ex)
             {
                 var messageDialog = new MessageDialog(ex.Message);
 
@@ -82,18 +106,15 @@ namespace WoADialer
                          else if (PhoneCallManager.IsCallIncoming) callStateIndicatorText.Text = "Status: Call Incoming";
                          else callStateIndicatorText.Text = "Status: Phone Idle";
 
-                         if(PhoneCallManager.IsCallActive)
-                         { 
+                         if (PhoneCallManager.IsCallActive)
+                         {
                              Frame.Navigate(typeof(InCallUI));
                          }
                      }
                 );
 
                 doesPhoneCallExist = PhoneCallManager.IsCallActive || PhoneCallManager.IsCallIncoming;
-                if (ActivePhoneCallStateChanged != null)
-                {
-                    ActivePhoneCallStateChanged();
-                }
+                ActivePhoneCallStateChanged?.Invoke();
             };
         }
 
@@ -187,10 +208,7 @@ namespace WoADialer
                     break;
             }
 
-            if (CellInfoUpdateCompleted != null)
-            {
-                CellInfoUpdateCompleted();
-            }
+            CellInfoUpdateCompleted?.Invoke();
         }
 
         public PhoneLine CurrentPhoneLine
@@ -213,22 +231,13 @@ namespace WoADialer
         {
             try
             {
-                string numberToDial = numberToDialBox.Text.Replace(" ", "");
-                numberToDial = numberToDial.Replace("+", "00");
-                if (numberToDial != "")
-                {
-                    currentPhoneLine.Dial(numberToDial, "test");
-                    Frame.Navigate(typeof(InCallUI), numberToDial);
-                }
-            } catch (Exception ee)
+                currentPhoneLine.Dial(currentNumber.ToString(), "test");
+                Frame.Navigate(typeof(InCallUI), new CallInfo() { Number = currentNumber, IsActive = PhoneCallManager.IsCallActive });
+            }
+            catch (Exception ee)
             {
                 handleException(ee);
             }
-        }
-
-        private void ComposeNumber(object sender, RoutedEventArgs e)
-        {
-            numberToDialBox.Text += ((Button)sender).Content.ToString();
         }
 
         public async void handleException(Exception e)
@@ -248,11 +257,14 @@ namespace WoADialer
 
         private void DeleteLastNumberButton_Click(object sender, RoutedEventArgs e)
         {
-            if (numberToDialBox.Text.Length >= 1)
-            {
-                numberToDialBox.Text = numberToDialBox.Text.Remove(numberToDialBox.Text.Length - 1);
+            currentNumber.RemoveLastChar();
+            UpdateCurrentNumber();
+        }
 
-            }
+        private void NumPad_DigitTapped(object sender, char e)
+        {
+            currentNumber.AddLastChar(e);
+            UpdateCurrentNumber();
         }
     }
 }

@@ -12,7 +12,7 @@
   <Identity
     Name="1e17ea40-87af-45e2-865a-c2bd98036a67"
     Publisher="CN=ratch"
-    Version="0.1.5.0" />
+    Version="0.1.7.0" />
 
   <mp:PhoneIdentity PhoneProductId="1e17ea40-87af-45e2-865a-c2bd98036a67" PhonePublisherId="00000000-0000-0000-0000-000000000000"/>
 
@@ -52,6 +52,11 @@
             <uap5:ExecutionAlias Alias="WoADialer.exe" />
           </uap5:AppExecutionAlias>
         </uap5:Extension>
+        <uap:Extension Category="windows.protocol">
+          <uap:Protocol Name="tel">
+            <uap:DisplayName>WoA Dialer</uap:DisplayName>
+          </uap:Protocol>
+        </uap:Extension>
       </Extensions>
     </Application>
   </Applications>
