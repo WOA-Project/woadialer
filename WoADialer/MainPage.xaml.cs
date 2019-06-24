@@ -266,5 +266,15 @@ namespace WoADialer
             currentNumber.AddLastChar(e);
             UpdateCurrentNumber();
         }
+
+        private void SettingsButton_Click(object sender, RoutedEventArgs e)
+        {
+            Frame.Navigate(typeof(Settings));
+        }
+
+        private void AboutButton_Click(object sender, RoutedEventArgs e)
+        {
+            Frame.Navigate(typeof(About));
+        }
     }
 }

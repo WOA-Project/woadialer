@@ -52,7 +52,10 @@
                        Style="{ThemeResource FluentSubbodyTextStyle}" HorizontalAlignment="Left" Width="157"/>
         <numpad:NumPad Grid.Row="3" DigitTapped="NumPad_DigitTapped"/>
 
-
+        <StackPanel Grid.Row="2" Margin="0, 0, 10, 0" HorizontalAlignment="Right" VerticalAlignment="Bottom" Orientation="Horizontal">
+            <Button x:Name="settingsButton" Background="Transparent" Width="40" Height="40" FontFamily="Segoe MDL2 Assets" Content="" Click="SettingsButton_Click"></Button>
+            <Button x:Name="aboutButton" Background="Transparent" Width="40" Height="40" FontFamily="Segoe MDL2 Assets" Content="" Click="AboutButton_Click"></Button>
+        </StackPanel>
 
         <!-- Call button -->
         <Button x:Name="callButton" 
