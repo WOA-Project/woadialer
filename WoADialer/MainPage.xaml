@@ -48,6 +48,7 @@
                        Grid.Row="1"
                        Grid.Column="0"
                        Text="AAAA"
+                       Margin="10, 0, 0, 0"
                        Style="{ThemeResource FluentSubbodyTextStyle}" HorizontalAlignment="Left" Width="157"/>
         <numpad:NumPad Grid.Row="3" DigitTapped="NumPad_DigitTapped"/>
 
@@ -60,6 +61,7 @@
                 Background="{ThemeResource SystemAccentColorDark1}" 
                 HorizontalAlignment="Stretch" 
                 Height="100" 
+                Padding="-15, 0, 0, 0"
                 Click="CallButton_Click">
             <Button.Content>
                 <StackPanel Orientation="Horizontal">
