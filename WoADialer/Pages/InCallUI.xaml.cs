@@ -12,6 +12,7 @@ using Windows.Foundation;
 using Windows.Foundation.Collections;
 using Windows.UI;
 using Windows.UI.Core;
+using Windows.UI.Popups;
 using Windows.UI.ViewManagement;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
@@ -21,19 +22,24 @@ using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
 using WoADialer.Model;
+using Windows.Devices.Sensors;
+using Windows.Devices.Enumeration;
+using Internal.Windows.Calls;
 
 namespace WoADialer.Pages
 {
     public sealed partial class InCallUI : Page
     {
-        private PhoneLine currentPhoneLine;
         private Timer callLengthCounter;
         private DateTime? callStartTime;
+        private ProximitySensor _ProximitySensor;
+        private ProximitySensorDisplayOnOffController _DisplayController;
+        private PhoneCall FirstCall;
+        private bool currentSpeakerState;
 
         public InCallUI()
         {
             this.InitializeComponent();
-            Task<PhoneLine> getDefaultLineTask = GetDefaultPhoneLineAsync();
 
             CoreApplication.GetCurrentView().TitleBar.ExtendViewIntoTitleBar = true;
             ApplicationViewTitleBar titleBar = ApplicationView.GetForCurrentView().TitleBar;
@@ -41,22 +47,34 @@ namespace WoADialer.Pages
             titleBar.ButtonInactiveBackgroundColor = Colors.Transparent;
 
             PhoneCallManager.CallStateChanged += PhoneCallManager_CallStateChanged;
-
-            getDefaultLineTask.Wait(500);
-            if (getDefaultLineTask.IsCompletedSuccessfully)
-            {
-                currentPhoneLine = getDefaultLineTask.Result;
-            }
         }
 
         private async void TimerCallback(object state)
         {
-            await Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () => callTimerText.Text = (DateTime.Now - callStartTime)?.ToString("mm\\:ss"));
+            await Dispatcher.RunAsync(CoreDispatcherPriority.Normal, async () =>
+            {
+                try
+                {
+                    FirstCall?.UpdateState();
+                    var currentCalls = MainEntities.API.GetCurrentCalls();
+                    if (FirstCall == null || FirstCall.State == CallState.Disconnected && (int)FirstCall.StateReason != 4)
+                    {
+                        FirstCall = currentCalls.FirstOrDefault(x => x.State == CallState.Dialing || x.State == CallState.ActiveTalking || x.State == CallState.Disconnected && (int)x.StateReason == 4);
+                    }
+                    callTimerText.Text = (DateTime.Now - callStartTime)?.ToString("mm\\:ss") ?? "null";
+                    callStatusText.Text = $"{MainEntities.API.GetCurrentCalls().Count()} calls is active, |{(int?)FirstCall?.ID ?? -1}, {(int?)FirstCall?.ConferenceID ?? -1}| is {FirstCall?.State.ToString() ?? "unknown"}";
+                    callerNameText.Text = currentCalls.Aggregate("", (x, y) => x += y.ID + " " + y.State + " " + y.StateReason + "|");
+                }
+                catch (Exception ex)
+                {
+                    await new MessageDialog(ex.ToString()).ShowAsync();
+                }
+            });
         }
 
         private void StartTimer()
         {
-            callStartTime = DateTime.Now;
+            callStartTime = FirstCall?.StartTime.DateTime;
             callLengthCounter = new Timer(TimerCallback, null, 0, 1000);
         }
 
@@ -66,8 +84,16 @@ namespace WoADialer.Pages
             callStartTime = null;
         }
 
-        private void PhoneCallManager_CallStateChanged(object sender, object e)
+        private async void PhoneCallManager_CallStateChanged(object sender, object e)
         {
+            try
+            {
+                FirstCall = MainEntities.API.GetCurrentCalls().FirstOrDefault();
+            }
+            catch (Exception ex)
+            {
+                await Dispatcher.RunAsync(CoreDispatcherPriority.Normal, async () => await new MessageDialog(ex.ToString()).ShowAsync());
+            }
             if (!callStartTime.HasValue && PhoneCallManager.IsCallActive)
             {
                 StartTimer();
@@ -78,20 +104,26 @@ namespace WoADialer.Pages
             }
         }
 
-        protected override void OnNavigatedTo(NavigationEventArgs e)
+        protected async override void OnNavigatedTo(NavigationEventArgs e)
         {
-            switch (e.Parameter)
-            {
-                case CallInfo info:
-                    if (info.IsActive)
-                    {
-                        StartTimer();
-                    }
-                    callerNumberText.Text = info.Number.ToString("nice");
-                    break;
-            }
-            getHistory();
             base.OnNavigatedTo(e);
+            try
+            {
+                switch (e.Parameter)
+                {
+                    case MovingCallInfo info:
+                        MainEntities.DefaultLine?.Dial(info.Number.ToString(), "test");
+                        callerNumberText.Text = info.Number.ToString("nice");
+                        break;
+                }
+                Task.Delay(150).Wait();
+                FirstCall = MainEntities.API.GetCurrentCalls().FirstOrDefault();
+                getHistory();
+            }
+            catch (Exception ex)
+            {
+                await new MessageDialog(ex.ToString()).ShowAsync();
+            }
         }
 
         private async void getHistory()
@@ -119,20 +151,66 @@ namespace WoADialer.Pages
 
         private async Task<PhoneLine> GetDefaultPhoneLineAsync()
         {
-            PhoneCallStore phoneCallStore = await PhoneCallManager.RequestStoreAsync();
-            Guid lineId = await phoneCallStore.GetDefaultLineAsync();
-            return await PhoneLine.FromIdAsync(lineId);
+            try
+            {
+                PhoneCallStore phoneCallStore = await PhoneCallManager.RequestStoreAsync();
+                Guid lineId = await phoneCallStore.GetDefaultLineAsync();
+                return await PhoneLine.FromIdAsync(lineId);
+            }
+            catch
+            {
+                return null;
+            }
         }
 
 
         private async void CloseCallButton_Click(object sender, RoutedEventArgs e)
         {
+            try
+            {
+                FirstCall?.End();
+            }
+            catch (Exception ex)
+            {
+                await new MessageDialog(ex.ToString()).ShowAsync();
+            }
             //create consoleapp helper and restart data service
-            string closeCallCommand = "woadialerhelper:closecall";
-            Uri uri = new Uri(closeCallCommand);
-            var result = await Windows.System.Launcher.LaunchUriAsync(uri);
+            //string closeCallCommand = "woadialerhelper:closecall";
+            //Uri uri = new Uri(closeCallCommand);
+            //var result = await Windows.System.Launcher.LaunchUriAsync(uri);
             //go back to the previous page or close the app if the call was received
             Frame.Navigate(typeof(MainPage));
+        }
+
+        private async void Page_Loaded(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                DeviceInformationCollection sensors = await DeviceInformation.FindAllAsync(ProximitySensor.GetDeviceSelector());
+                _ProximitySensor = sensors.Count > 0 ? ProximitySensor.FromId(sensors.First().Id) : null;
+                _DisplayController = _ProximitySensor?.CreateDisplayOnOffController();
+                if (!MainEntities.Initialized)
+                {
+                    await MainEntities.Initialize();
+                }
+            }
+            catch (Exception ex)
+            {
+                await new MessageDialog(ex.ToString()).ShowAsync();
+            }
+        }
+
+        private async void Button_Click(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                currentSpeakerState = !currentSpeakerState;
+                MainEntities.API.SetSpeaker(currentSpeakerState);
+            }
+            catch (Exception ex)
+            {
+                await new MessageDialog(ex.ToString()).ShowAsync();
+            }
         }
     }
 }

@@ -4,9 +4,7 @@ releases
 PreparedInstaller
 WoADialer/AppPackages
 WoADialer/BundleArtifacts
-WoADialer/bin
-WoADialer/obj
 WoADialer/*.user
-WoADialerHelper/bin
-WoADialerHelper/obj
 **/*.pfx
+*/obj
+*/bin

@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using Windows.ApplicationModel.Calls;
+using Internal.Windows.Calls;
 using Windows.ApplicationModel.Contacts;
 using Windows.ApplicationModel.Core;
 using Windows.UI.Core;
@@ -19,23 +21,6 @@ namespace WoADialer
 {
     public sealed partial class MainPage : Page
     {
-
-        public delegate void CallingInfoDelegate();
-        public event CallingInfoDelegate CellInfoUpdateCompleted;
-        public event CallingInfoDelegate ActivePhoneCallStateChanged;
-
-        private int noOfLines;
-        private Dictionary<Guid, PhoneLine> allPhoneLines;
-        private PhoneLine currentPhoneLine;
-        private int currentSIMSlotIndex;
-        private string currentSIMState;
-        private string currentNetworkState;
-        private string currentDisplayName;
-        private string currentOperatorName;
-        private Windows.UI.Color currentDisplayColor;
-        private string currentVoicemailNumber;
-        private int currentVoicemailCount;
-        private bool doesPhoneCallExist;
         private PhoneNumber currentNumber;
 
         public MainPage()
@@ -50,10 +35,6 @@ namespace WoADialer
             if (PhoneCallManager.IsCallActive) callStateIndicatorText.Text = "Status: Call Active";
             else if (PhoneCallManager.IsCallIncoming) callStateIndicatorText.Text = "Status: Call Incoming";
             else callStateIndicatorText.Text = "Status: Phone Idle";
-
-            this.MonitorCallState();
-
-            start();
         }
 
         protected override void OnNavigatedTo(NavigationEventArgs e)
@@ -66,6 +47,13 @@ namespace WoADialer
                     UpdateCurrentNumber();
                     break;
             }
+            PhoneCallManager.CallStateChanged += UpdateState;
+        }
+
+        protected override void OnNavigatingFrom(NavigatingCancelEventArgs e)
+        {
+            base.OnNavigatingFrom(e);
+            PhoneCallManager.CallStateChanged -= UpdateState;
         }
 
         private void UpdateCurrentNumber()
@@ -74,165 +62,32 @@ namespace WoADialer
             numberToDialBox.Text = currentNumber.ToString("nice");
         }
 
-        private async void start()
+        private async void UpdateState(object sender, object args)
         {
-            try
+            await CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, async () =>
             {
-                //Task<Dictionary<Guid, PhoneLine>> getPhoneLinesTask = GetPhoneLinesAsync();
-                //allPhoneLines = await getPhoneLinesTask;
-                //noOfLines = allPhoneLines.Count;
-                Task<PhoneLine> getDefaultLineTask = GetDefaultPhoneLineAsync();
-                currentPhoneLine = await getDefaultLineTask;
-                //updateCellularInformation();
-            }
-            catch (Exception ex)
-            {
-                var messageDialog = new MessageDialog(ex.Message);
-
-                messageDialog.Commands.Add(new UICommand("Close", new UICommandInvokedHandler(this.CommandInvokedHandler)));
-
-                messageDialog.DefaultCommandIndex = 0;
-                await messageDialog.ShowAsync();
-            }
-        }
-
-        private void MonitorCallState()
-        {
-            PhoneCallManager.CallStateChanged += async (o, args) =>
-            {
-                await CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
-                     {
-                         if (PhoneCallManager.IsCallActive) callStateIndicatorText.Text = "Status: Call Active";
-                         else if (PhoneCallManager.IsCallIncoming) callStateIndicatorText.Text = "Status: Call Incoming";
-                         else callStateIndicatorText.Text = "Status: Phone Idle";
-
-                         if (PhoneCallManager.IsCallActive)
-                         {
-                             Frame.Navigate(typeof(InCallUI));
-                         }
-                     }
-                );
-
-                doesPhoneCallExist = PhoneCallManager.IsCallActive || PhoneCallManager.IsCallIncoming;
-                ActivePhoneCallStateChanged?.Invoke();
-            };
-        }
-
-        private async Task<PhoneLine> GetDefaultPhoneLineAsync()
-        {
-            PhoneCallStore phoneCallStore = await PhoneCallManager.RequestStoreAsync();
-            PhoneCallHistoryStore a = await PhoneCallHistoryManager.RequestStoreAsync(PhoneCallHistoryStoreAccessType.AllEntriesReadWrite);
-            Guid lineId = await phoneCallStore.GetDefaultLineAsync();
-            return await PhoneLine.FromIdAsync(lineId);
-        }
-
-        private void updateCellularInformation()
-        {
-            PhoneLine line = currentPhoneLine;
-            PhoneLineCellularDetails cellularDetails = line.CellularDetails;
-            currentSIMSlotIndex = cellularDetails.SimSlotIndex;
-            currentDisplayName = line.DisplayName;
-            currentVoicemailNumber = line.Voicemail.Number;
-            currentVoicemailCount = line.Voicemail.MessageCount;
-            currentOperatorName = "N/A";
-            PhoneSimState simState = cellularDetails.SimState;
-            switch (simState)
-            {
-                case PhoneSimState.Unknown:
-                    currentSIMState = "Unknown";
-                    break;
-                case PhoneSimState.PinNotRequired:
-                    currentSIMState = "Pin Not Required";
-                    break;
-                case PhoneSimState.PinUnlocked:
-                    currentSIMState = "Pin Unlocked";
-                    break;
-                case PhoneSimState.PinLocked:
-                    currentSIMState = "Pin Locked";
-                    break;
-                case PhoneSimState.PukLocked:
-                    currentSIMState = "Puk Locked";
-                    break;
-                case PhoneSimState.NotInserted:
-                    currentSIMState = "No SIM";
-                    break;
-                case PhoneSimState.Invalid:
-                    currentSIMState = "Invalid";
-                    break;
-                case PhoneSimState.Disabled:
-                    currentSIMState = "Disabled";
-                    break;
-                default:
-                    currentSIMState = "Unknown";
-                    break;
-            }
-
-            PhoneNetworkState networkState = line.NetworkState;
-            switch (line.NetworkState)
-            {
-                case PhoneNetworkState.NoSignal:
-                    if ((bool)line.LineConfiguration.ExtendedProperties["ShouldDisplayEmergencyCallState"])
+                if (PhoneCallManager.IsCallActive) callStateIndicatorText.Text = "Status: Call Active";
+                else if (PhoneCallManager.IsCallIncoming) callStateIndicatorText.Text = "Status: Call Incoming";
+                else callStateIndicatorText.Text = "Status: Phone Idle";
+                if (PhoneCallManager.IsCallActive)
+                {
+                    try
                     {
-                        currentNetworkState = "Emergency calls only";
-                        break;
+                        Frame.Navigate(typeof(InCallUI));
                     }
-                    else
+                    catch (Exception ex)
                     {
-                        currentNetworkState = "No Service";
-                        break;
+                        await new MessageDialog(ex.ToString()).ShowAsync();
                     }
-
-                case PhoneNetworkState.Deregistered:
-                    currentNetworkState = "Deregistered";
-                    break;
-                case PhoneNetworkState.Denied:
-                    currentNetworkState = "Denied";
-                    break;
-                case PhoneNetworkState.Searching:
-                    currentNetworkState = "Searching";
-                    break;
-                case PhoneNetworkState.Home:
-                    currentNetworkState = "Connected";
-                    currentOperatorName = line.NetworkName;
-                    break;
-                case PhoneNetworkState.RoamingInternational:
-                    currentNetworkState = "Roaming International";
-                    currentOperatorName = line.NetworkName;
-                    break;
-                case PhoneNetworkState.RoamingDomestic:
-                    currentNetworkState = "Roaming Domestic";
-                    currentOperatorName = line.NetworkName;
-                    break;
-                default:
-                    currentNetworkState = "Unknown";
-                    break;
-            }
-
-            CellInfoUpdateCompleted?.Invoke();
-        }
-
-        public PhoneLine CurrentPhoneLine
-        {
-            get
-            {
-                return currentPhoneLine;
-            }
-        }
-
-        public bool DoesPhoneCallExist
-        {
-            get
-            {
-                return doesPhoneCallExist;
-            }
+                }
+            });
         }
 
         private void CallButton_Click(object sender, RoutedEventArgs e)
         {
             try
             {
-                currentPhoneLine.Dial(currentNumber.ToString(), "test");
-                Frame.Navigate(typeof(InCallUI), new CallInfo() { Number = currentNumber, IsActive = PhoneCallManager.IsCallActive });
+                Frame.Navigate(typeof(InCallUI), new MovingCallInfo() { Number = currentNumber });
             }
             catch (Exception ee)
             {
@@ -275,6 +130,27 @@ namespace WoADialer
         private void AboutButton_Click(object sender, RoutedEventArgs e)
         {
             Frame.Navigate(typeof(About));
+        }
+
+        private async void Page_Loaded(object sender, RoutedEventArgs e)
+        {
+            AsyncExceptionHandler.ExceptionThrown += AsyncExceptionHandler_ExceptionThrown;
+            try
+            {
+                if (!MainEntities.Initialized)
+                {
+                    await MainEntities.Initialize();
+                }
+            }
+            catch (Exception ex)
+            {
+                await new MessageDialog($"{ex}").ShowAsync();
+            }
+        }
+
+        private async void AsyncExceptionHandler_ExceptionThrown(string arg1, Exception arg2)
+        {
+            await Dispatcher.RunAsync(CoreDispatcherPriority.Normal, async () => await new MessageDialog($"{arg1} was throw {arg2}").ShowAsync());
         }
     }
 }

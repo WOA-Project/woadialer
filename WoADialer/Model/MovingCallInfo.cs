@@ -7,7 +7,7 @@ using Windows.ApplicationModel.Contacts;
 
 namespace WoADialer.Model
 {
-    public struct CallInfo
+    public struct MovingCallInfo
     {
         public bool IsActive;
         public PhoneNumber Number;

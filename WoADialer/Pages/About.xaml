@@ -14,10 +14,7 @@
                     Text="About WoA Dialer"
                     Margin="30,10,0,0"
                     Style="{ThemeResource FluentSubheaderTextStyle}"/>
-        <StackPanel Margin="0, 60, 0, 0" Padding="30, 0, 20, 10" Spacing="15">
-            <TextBlock x:Name="aboutText" 
-                       Text="To be implemented"
-                       Style="{ThemeResource FluentBodyTextStyle}"/>
-        </StackPanel>
+        <TextBox x:Name="aboutText" 
+                       Text="To be implemented" ScrollViewer.HorizontalScrollBarVisibility="Visible" TextWrapping="Wrap" HorizontalAlignment="Left" Margin="0,47,0,10"/>
     </Grid>
 </Page>

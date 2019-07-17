@@ -3,11 +3,16 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|ARM64'">
     <DeviceId>30F105C9-681E-420b-A277-7C086EAD8A4E</DeviceId>
     <UseEmulator>false</UseEmulator>
-    <RemoteDebugMachine>PHONE-D2VNCDFHQ</RemoteDebugMachine>
+    <RemoteDebugMachine>10.8.0.2</RemoteDebugMachine>
     <AuthenticationMode>Universal</AuthenticationMode>
     <RemoteDebugEnabled>true</RemoteDebugEnabled>
     <CreateCleanLayout>false</CreateCleanLayout>
     <DeployOptionalPackages>false</DeployOptionalPackages>
+    <EnableUnmanagedDebugging>false</EnableUnmanagedDebugging>
+    <BackgroundTaskDebugEngines>
+    </BackgroundTaskDebugEngines>
+    <DeploymentType>CopyToDevice</DeploymentType>
+    <RemoveNonLayoutFiles>true</RemoveNonLayoutFiles>
   </PropertyGroup>
   <PropertyGroup>
     <UapAppxPackageBuildMode>SideloadOnly</UapAppxPackageBuildMode>
@@ -23,6 +28,9 @@
     <RemoteDebugMachine>PHONE-D2VNCDFHQ</RemoteDebugMachine>
     <AuthenticationMode>None</AuthenticationMode>
     <RemoteDebugEnabled>false</RemoteDebugEnabled>
+    <EnableUnmanagedDebugging>false</EnableUnmanagedDebugging>
+    <BackgroundTaskDebugEngines>
+    </BackgroundTaskDebugEngines>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|ARM64'">
     <DeviceId>30F105C9-681E-420b-A277-7C086EAD8A4E</DeviceId>
