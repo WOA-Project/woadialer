@@ -131,6 +131,7 @@
     <Compile Include="MainPage.xaml.cs">
       <DependentUpon>MainPage.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Model\BackgroungCallMonitor.cs" />
     <Compile Include="Model\MainEntities.cs" />
     <Compile Include="Model\MovingCallInfo.cs" />
     <Compile Include="NumPad\DigitButton.xaml.cs">

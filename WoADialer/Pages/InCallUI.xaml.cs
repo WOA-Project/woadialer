@@ -55,15 +55,10 @@ namespace WoADialer.Pages
             {
                 try
                 {
-                    FirstCall?.UpdateState();
-                    var currentCalls = MainEntities.API.GetCurrentCalls();
-                    if (FirstCall == null || FirstCall.State == CallState.Disconnected && (int)FirstCall.StateReason != 4)
-                    {
-                        FirstCall = currentCalls.FirstOrDefault(x => x.State == CallState.Dialing || x.State == CallState.ActiveTalking || x.State == CallState.Disconnected && (int)x.StateReason == 4);
-                    }
+                    callerNameText.Text = FirstCall?.Name ?? "null";
+                    callerNumberText.Text = FirstCall?.Number ?? "null";
                     callTimerText.Text = (DateTime.Now - callStartTime)?.ToString("mm\\:ss") ?? "null";
-                    callStatusText.Text = $"{MainEntities.API.GetCurrentCalls().Count()} calls is active, |{(int?)FirstCall?.ID ?? -1}, {(int?)FirstCall?.ConferenceID ?? -1}| is {FirstCall?.State.ToString() ?? "unknown"}";
-                    callerNameText.Text = currentCalls.Aggregate("", (x, y) => x += y.ID + " " + y.State + " " + y.StateReason + "|");
+                    callStatusText.Text = $"{(int?)FirstCall?.ID ?? -1}, {(int?)FirstCall?.ConferenceID ?? -1}| is {FirstCall?.State.ToString() ?? "unknown"}";
                 }
                 catch (Exception ex)
                 {
@@ -88,7 +83,7 @@ namespace WoADialer.Pages
         {
             try
             {
-                FirstCall = MainEntities.API.GetCurrentCalls().FirstOrDefault();
+                FirstCall = MainEntities.API.CurrentCalls.FirstOrDefault();
             }
             catch (Exception ex)
             {
@@ -117,7 +112,11 @@ namespace WoADialer.Pages
                         break;
                 }
                 Task.Delay(150).Wait();
-                FirstCall = MainEntities.API.GetCurrentCalls().FirstOrDefault();
+                FirstCall = MainEntities.API.CurrentCalls.FirstOrDefault(x => x.State == CallState.ActiveTalking || x.State == CallState.Dialing || x.State == CallState.OnHold);
+                if (!callStartTime.HasValue && PhoneCallManager.IsCallActive)
+                {
+                    StartTimer();
+                }
                 getHistory();
             }
             catch (Exception ex)
@@ -193,19 +192,6 @@ namespace WoADialer.Pages
                 {
                     await MainEntities.Initialize();
                 }
-            }
-            catch (Exception ex)
-            {
-                await new MessageDialog(ex.ToString()).ShowAsync();
-            }
-        }
-
-        private async void Button_Click(object sender, RoutedEventArgs e)
-        {
-            try
-            {
-                currentSpeakerState = !currentSpeakerState;
-                MainEntities.API.SetSpeaker(currentSpeakerState);
             }
             catch (Exception ex)
             {

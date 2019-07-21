@@ -19,7 +19,14 @@ namespace WoADialer.Model
         {
             API = await SystemPhoneCallManager.GetSystemPhoneCallManagerAsync();
             CallStore = await PhoneCallManager.RequestStoreAsync();
-            //DefaultLine = await PhoneLine.FromIdAsync(await CallStore.GetDefaultLineAsync());
+            try
+            {
+                DefaultLine = await PhoneLine.FromIdAsync(await CallStore.GetDefaultLineAsync());
+            }
+            catch
+            {
+
+            }
             Initialized = true;
         }
     }

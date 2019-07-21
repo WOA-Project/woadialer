@@ -134,7 +134,6 @@ namespace WoADialer
 
         private async void Page_Loaded(object sender, RoutedEventArgs e)
         {
-            AsyncExceptionHandler.ExceptionThrown += AsyncExceptionHandler_ExceptionThrown;
             try
             {
                 if (!MainEntities.Initialized)
@@ -146,11 +145,6 @@ namespace WoADialer
             {
                 await new MessageDialog($"{ex}").ShowAsync();
             }
-        }
-
-        private async void AsyncExceptionHandler_ExceptionThrown(string arg1, Exception arg2)
-        {
-            await Dispatcher.RunAsync(CoreDispatcherPriority.Normal, async () => await new MessageDialog($"{arg1} was throw {arg2}").ShowAsync());
         }
     }
 }

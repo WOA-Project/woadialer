@@ -13,7 +13,7 @@
   <Identity
     Name="1e17ea40-87af-45e2-865a-c2bd98036a67"
     Publisher="CN=ratch"
-    Version="0.1.64.0" />
+    Version="0.1.88.0" />
 
   <mp:PhoneIdentity PhoneProductId="1e17ea40-87af-45e2-865a-c2bd98036a67" PhonePublisherId="00000000-0000-0000-0000-000000000000"/>
 
@@ -34,7 +34,7 @@
   <Applications>
     <Application Id="App"
       Executable="$targetnametoken$.exe"
-      EntryPoint="WoADialer.App">
+      EntryPoint="WoADialer.App" xmlns:a="http://schemas.microsoft.com/appx/manifest/desktop/windows10/4">
       <uap:VisualElements
         DisplayName="WoADialer"
         Square150x150Logo="Assets\Square150x150Logo.png"
@@ -45,19 +45,14 @@
         <uap:SplashScreen Image="Assets\SplashScreen.png" />
       </uap:VisualElements>
       <Extensions>
-        <uap5:Extension
-          Category="windows.appExecutionAlias"
-          Executable="WoADialer.exe"
-          EntryPoint="WoADialer.App">
-          <uap5:AppExecutionAlias>
-            <uap5:ExecutionAlias Alias="WoADialer.exe" />
-          </uap5:AppExecutionAlias>
-        </uap5:Extension>
         <uap:Extension Category="windows.protocol">
           <uap:Protocol Name="tel">
             <uap:DisplayName>WoA Dialer</uap:DisplayName>
           </uap:Protocol>
         </uap:Extension>
+        <uap:Extension Category="windows.lockScreenCall"/>
+        <uap:Extension Category="windows.lockScreen"/>
+        <uap:Extension Category="windows.aboveLockScreen"/>
       </Extensions>
     </Application>
   </Applications>
