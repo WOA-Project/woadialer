@@ -128,29 +128,29 @@
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
-    <Compile Include="MainPage.xaml.cs">
+    <Compile Include="UI\Pages\MainPage.xaml.cs">
       <DependentUpon>MainPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="Model\BackgroungCallMonitor.cs" />
     <Compile Include="Model\MainEntities.cs" />
     <Compile Include="Model\MovingCallInfo.cs" />
-    <Compile Include="NumPad\DigitButton.xaml.cs">
+    <Compile Include="UI\Controls\DigitButton.xaml.cs">
       <DependentUpon>DigitButton.xaml</DependentUpon>
     </Compile>
-    <Compile Include="NumPad\NumPad.xaml.cs">
-      <DependentUpon>NumPad.xaml</DependentUpon>
+    <Compile Include="UI\Controls\DialPad.xaml.cs">
+      <DependentUpon>DialPad.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Pages\About.xaml.cs">
+    <Compile Include="UI\Pages\About.xaml.cs">
       <DependentUpon>About.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Pages\InCallUI.xaml.cs">
+    <Compile Include="UI\Pages\InCallUI.xaml.cs">
       <DependentUpon>InCallUI.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Pages\IncomingCallUI.xaml.cs">
+    <Compile Include="UI\Pages\IncomingCallUI.xaml.cs">
       <DependentUpon>IncomingCallUI.xaml</DependentUpon>
     </Compile>
     <Compile Include="Model\PhoneNumber.cs" />
-    <Compile Include="Pages\Settings.xaml.cs">
+    <Compile Include="UI\Pages\Settings.xaml.cs">
       <DependentUpon>Settings.xaml</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -175,43 +175,43 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Page Include="MainPage.xaml">
+    <Page Include="UI\Pages\MainPage.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="NumPad\DigitButton.xaml">
+    <Page Include="UI\Controls\DigitButton.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="NumPad\NumPad.xaml">
+    <Page Include="UI\Controls\DialPad.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Pages\About.xaml">
+    <Page Include="UI\Pages\About.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Pages\InCallUI.xaml">
+    <Page Include="UI\Pages\InCallUI.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Pages\IncomingCallUI.xaml">
+    <Page Include="UI\Pages\IncomingCallUI.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Pages\Settings.xaml">
+    <Page Include="UI\Pages\Settings.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Styles\TextBlock.xaml">
+    <Page Include="UI\Styles\TextBlock.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Styles\_Corners.xaml">
+    <Page Include="UI\Styles\_Corners.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Styles\_Thickness.xaml">
+    <Page Include="UI\Styles\_Thickness.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

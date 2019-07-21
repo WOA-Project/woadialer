@@ -26,7 +26,7 @@ using Windows.Devices.Sensors;
 using Windows.Devices.Enumeration;
 using Internal.Windows.Calls;
 
-namespace WoADialer.Pages
+namespace WoADialer.UI.Pages
 {
     public sealed partial class InCallUI : Page
     {

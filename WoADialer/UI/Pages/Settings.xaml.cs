@@ -13,7 +13,7 @@ using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
 
-namespace WoADialer.Pages
+namespace WoADialer.UI.Pages
 {
     public sealed partial class Settings : Page
     {
