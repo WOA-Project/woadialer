@@ -6,15 +6,17 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:controls="using:WoADialer.UI.Controls"
-    mc:Ignorable="d" Loaded="Page_Loaded">
+    mc:Ignorable="d" 
+    Loaded="Page_Loaded">
 
-    <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+    <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
+          Padding="12">
         <Grid.RowDefinitions>
             <RowDefinition Height="64"/>
             <RowDefinition Height="32"/>
             <RowDefinition Height="1*" />
             <RowDefinition Height="384" />
-            <RowDefinition Height="64" />
+            <RowDefinition Height="96" />
         </Grid.RowDefinitions>
 
         <!-- Dialing info -->
@@ -42,7 +44,12 @@
                     Click="DeleteLastNumberButton_Click" 
                     FontFamily="Segoe MDL2 Assets" 
                     Content="&#xE94F;"
-                    VerticalAlignment="Stretch" HorizontalContentAlignment="Center" HorizontalAlignment="Stretch" FontSize="24" />
+                    CornerRadius="{ThemeResource FluentButtonCorners}"
+                    Style="{ThemeResource ButtonRevealStyle}"
+                    VerticalAlignment="Stretch" 
+                    HorizontalContentAlignment="Center" 
+                    HorizontalAlignment="Stretch" 
+                    FontSize="24" />
         </Grid>
         <TextBlock x:Name="callStateIndicatorText" 
                        Grid.Row="1"
@@ -50,21 +57,38 @@
                        Text="AAAA"
                        Margin="10, 0, 0, 0"
                        Style="{ThemeResource FluentSubbodyTextStyle}" HorizontalAlignment="Left" Width="157"/>
-        <controls:DialPad Grid.Row="3" DigitTapped="NumPad_DigitTapped"/>
+        <controls:DialPad Grid.Row="3" 
+                          DigitTapped="NumPad_DigitTapped"/>
 
         <StackPanel Grid.Row="2" Margin="0, 0, 10, 0" HorizontalAlignment="Right" VerticalAlignment="Bottom" Orientation="Horizontal">
-            <Button x:Name="settingsButton" Background="Transparent" Width="40" Height="40" FontFamily="Segoe MDL2 Assets" Content="" Click="SettingsButton_Click"></Button>
-            <Button x:Name="aboutButton" Background="Transparent" Width="40" Height="40" FontFamily="Segoe MDL2 Assets" Content="&#xE946;" Click="AboutButton_Click"></Button>
+            <Button x:Name="settingsButton" 
+                    Background="Transparent" 
+                    CornerRadius="{ThemeResource FluentButtonCorners}"
+                    Style="{ThemeResource ButtonRevealStyle}"
+                    Width="40" 
+                    Height="40" 
+                    FontFamily="Segoe MDL2 Assets" 
+                    Content="&#xE115;" 
+                    Click="SettingsButton_Click" />
+            <Button x:Name="aboutButton" 
+                    Background="Transparent" 
+                    CornerRadius="{ThemeResource FluentButtonCorners}"
+                    Style="{ThemeResource ButtonRevealStyle}"
+                    Width="40" 
+                    Height="40" 
+                    FontFamily="Segoe MDL2 Assets" 
+                    Content="&#xE946;" 
+                    Click="AboutButton_Click" />
         </StackPanel>
 
         <!-- Call button -->
         <Button x:Name="callButton" 
                 Grid.Row="4"
-                Style="{StaticResource ButtonRevealStyle}" 
-                Background="{ThemeResource SystemAccentColorDark1}" 
+                Style="{ThemeResource FluentButtonAccentStyle}"
                 HorizontalAlignment="Stretch" 
-                Height="100" 
+                VerticalAlignment="Stretch"
                 Padding="-15, 0, 0, 0"
+                Margin="2,6,2,0"
                 Click="CallButton_Click">
             <Button.Content>
                 <StackPanel Orientation="Horizontal">

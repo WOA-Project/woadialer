@@ -7,7 +7,11 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d"
     d:DesignHeight="100"
-    d:DesignWidth="100">
+    d:DesignWidth="100"
+    
+    CornerRadius="2"
+    Margin="2"
+    Style="{ThemeResource ButtonRevealStyle}">
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="1*"/>
