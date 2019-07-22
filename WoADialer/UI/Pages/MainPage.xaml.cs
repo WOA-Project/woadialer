@@ -111,12 +111,14 @@ namespace WoADialer.UI.Pages
 
         private void DeleteLastNumberButton_Click(object sender, RoutedEventArgs e)
         {
+            MainEntities.VibrationDevice?.SimpleHapticsController.SendHapticFeedback(MainEntities.VibrationDevice.SimpleHapticsController.SupportedFeedback.First());
             currentNumber.RemoveLastChar();
             UpdateCurrentNumber();
         }
 
         private void NumPad_DigitTapped(object sender, char e)
         {
+            MainEntities.VibrationDevice?.SimpleHapticsController.SendHapticFeedback(MainEntities.VibrationDevice.SimpleHapticsController.SupportedFeedback.First());
             currentNumber.AddLastChar(e);
             UpdateCurrentNumber();
         }
