@@ -25,17 +25,16 @@ using WoADialer.Model;
 using Windows.Devices.Sensors;
 using Windows.Devices.Enumeration;
 using Internal.Windows.Calls;
+using WoADialer.UI.Controls;
 
 namespace WoADialer.UI.Pages
 {
     public sealed partial class InCallUI : Page
     {
-        private Timer callLengthCounter;
-        private DateTime? callStartTime;
         private ProximitySensor _ProximitySensor;
         private ProximitySensorDisplayOnOffController _DisplayController;
-        private PhoneCall FirstCall;
-        private bool currentSpeakerState;
+
+        private Call _CurrentCall;
 
         public InCallUI()
         {
@@ -46,7 +45,12 @@ namespace WoADialer.UI.Pages
             titleBar.ButtonBackgroundColor = Colors.Transparent;
             titleBar.ButtonInactiveBackgroundColor = Colors.Transparent;
 
-            PhoneCallManager.CallStateChanged += PhoneCallManager_CallStateChanged;
+            MainEntities.CallManager.CallAppeared += CallManager_CallAppeared;
+        }
+
+        private void CallManager_CallAppeared(CallManager sender, Call args)
+        {
+            throw new NotImplementedException();
         }
 
         private async void TimerCallback(object state)
@@ -55,48 +59,13 @@ namespace WoADialer.UI.Pages
             {
                 try
                 {
-                    callerNameText.Text = FirstCall?.Name ?? "null";
-                    callerNumberText.Text = FirstCall?.Number ?? "null";
-                    callTimerText.Text = (DateTime.Now - callStartTime)?.ToString("mm\\:ss") ?? "null";
-                    callStatusText.Text = $"{(int?)FirstCall?.ID ?? -1}, {(int?)FirstCall?.ConferenceID ?? -1}| is {FirstCall?.State.ToString() ?? "unknown"}";
+
                 }
                 catch (Exception ex)
                 {
                     await new MessageDialog(ex.ToString()).ShowAsync();
                 }
             });
-        }
-
-        private void StartTimer()
-        {
-            callStartTime = FirstCall?.StartTime.DateTime;
-            callLengthCounter = new Timer(TimerCallback, null, 0, 1000);
-        }
-
-        private void StopTimer()
-        {
-            callLengthCounter.Dispose();
-            callStartTime = null;
-        }
-
-        private async void PhoneCallManager_CallStateChanged(object sender, object e)
-        {
-            try
-            {
-                FirstCall = MainEntities.API.CurrentCalls.FirstOrDefault();
-            }
-            catch (Exception ex)
-            {
-                await Dispatcher.RunAsync(CoreDispatcherPriority.Normal, async () => await new MessageDialog(ex.ToString()).ShowAsync());
-            }
-            if (!callStartTime.HasValue && PhoneCallManager.IsCallActive)
-            {
-                StartTimer();
-            }
-            else if (callStartTime.HasValue && !PhoneCallManager.IsCallActive)
-            {
-                StopTimer();
-            }
         }
 
         protected async override void OnNavigatedTo(NavigationEventArgs e)
@@ -110,12 +79,6 @@ namespace WoADialer.UI.Pages
                         MainEntities.DefaultLine?.Dial(info.Number.ToString(), "test");
                         callerNumberText.Text = info.Number.ToString("nice");
                         break;
-                }
-                Task.Delay(150).Wait();
-                FirstCall = MainEntities.API.CurrentCalls.FirstOrDefault(x => x.State == CallState.ActiveTalking || x.State == CallState.Dialing || x.State == CallState.OnHold);
-                if (!callStartTime.HasValue && PhoneCallManager.IsCallActive)
-                {
-                    StartTimer();
                 }
                 getHistory();
             }
@@ -167,7 +130,7 @@ namespace WoADialer.UI.Pages
         {
             try
             {
-                FirstCall?.End();
+                _CurrentCall?.End();
             }
             catch (Exception ex)
             {

@@ -1,12 +1,13 @@
 ﻿<Page
-    x:Class="WoADialer.UI.Pages.InCallUI"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:local="using:WoADialer.UI.Pages"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:Custom="using:WoADialer.UI.Controls"
+    x:Class="WoADialer.UI.Pages.InCallUI"
     mc:Ignorable="d" Loaded="Page_Loaded">
-    
+
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
@@ -60,15 +61,14 @@
                     HorizontalAlignment="Stretch" 
                     Height="100" 
                     Click="CloseCallButton_Click">
-                <Button.Content>
-                    <StackPanel Orientation="Horizontal">
-                        <TextBlock Text="&#xE778;"
+                <StackPanel Orientation="Horizontal">
+                    <TextBlock Text="&#xE778;"
                                    Style="{ThemeResource FluentBodyIconStyle}" />
-                        <TextBlock x:Uid="Button_EndCall"
+                    <TextBlock x:Uid="Button_EndCall"
                                    Style="{ThemeResource FluentBodyTextStyle}"/>
-                    </StackPanel>
-                </Button.Content>
+                </StackPanel>
             </Button>
+            <Custom:SmallCallPresenter x:Name="JJa" Height="64" VerticalAlignment="Top"/>
         </Grid>
 
     </Grid>

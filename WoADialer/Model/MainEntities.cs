@@ -11,13 +11,13 @@ namespace WoADialer.Model
     internal static class MainEntities
     {
         public static bool Initialized { get; private set; }
-        public static SystemPhoneCallManager API { get; private set; }
+        public static CallManager CallManager { get; private set; }
         public static PhoneLine DefaultLine { get; private set; }
         public static PhoneCallStore CallStore { get; private set; }
 
         public static async Task Initialize()
         {
-            API = await SystemPhoneCallManager.GetSystemPhoneCallManagerAsync();
+            CallManager = await CallManager.GetSystemPhoneCallManagerAsync();
             CallStore = await PhoneCallManager.RequestStoreAsync();
             try
             {

@@ -128,6 +128,14 @@
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
+    <Compile Include="UI\Controls\CallStatePresenter.xaml.cs">
+      <DependentUpon>CallStatePresenter.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UI\Controls\SmallCallPresenter.xaml.cs">
+      <DependentUpon>SmallCallPresenter.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UI\Conventers\CallStateToTextString.cs" />
+    <Compile Include="UI\Conventers\CallStateToIconString.cs" />
     <Compile Include="UI\Pages\MainPage.xaml.cs">
       <DependentUpon>MainPage.xaml</DependentUpon>
     </Compile>
@@ -175,6 +183,18 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Page Include="UI\Controls\CallStatePresenter.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UI\Controls\SmallCallPresenter.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UI\Conventers\Conventers.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="UI\Pages\MainPage.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
