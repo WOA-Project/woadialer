@@ -54,7 +54,7 @@
 
         <StackPanel Grid.Row="2" Margin="0, 0, 10, 0" HorizontalAlignment="Right" VerticalAlignment="Bottom" Orientation="Horizontal">
             <Button x:Name="settingsButton" Background="Transparent" Width="40" Height="40" FontFamily="Segoe MDL2 Assets" Content="" Click="SettingsButton_Click"></Button>
-            <Button x:Name="aboutButton" Background="Transparent" Width="40" Height="40" FontFamily="Segoe MDL2 Assets" Content="" Click="AboutButton_Click"></Button>
+            <Button x:Name="aboutButton" Background="Transparent" Width="40" Height="40" FontFamily="Segoe MDL2 Assets" Content="&#xE946;" Click="AboutButton_Click"></Button>
         </StackPanel>
 
         <!-- Call button -->
