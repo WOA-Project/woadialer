@@ -1,0 +1,3 @@
+[submodule "Internal.Windows.Calls"]
+	path = Internal.Windows.Calls
+	url = https://github.com/DjArt/Internal.Windows.Calls.git

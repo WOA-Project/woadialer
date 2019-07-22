@@ -12,7 +12,7 @@
     <DefaultLanguage>en-US</DefaultLanguage>
     <TargetPlatformIdentifier>UAP</TargetPlatformIdentifier>
     <TargetPlatformVersion Condition=" '$(TargetPlatformVersion)' == '' ">10.0.18362.0</TargetPlatformVersion>
-    <TargetPlatformMinVersion>10.0.17763.0</TargetPlatformMinVersion>
+    <TargetPlatformMinVersion>10.0.18362.0</TargetPlatformMinVersion>
     <MinimumVisualStudioVersion>14</MinimumVisualStudioVersion>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{A5A43C5B-DE2A-4C0C-9213-0A381AF9435A};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
@@ -21,7 +21,7 @@
     </PackageCertificateKeyFile>
     <GenerateAppInstallerFile>False</GenerateAppInstallerFile>
     <AppxAutoIncrementPackageRevision>True</AppxAutoIncrementPackageRevision>
-    <AppxSymbolPackageEnabled>False</AppxSymbolPackageEnabled>
+    <AppxSymbolPackageEnabled>True</AppxSymbolPackageEnabled>
     <AppxBundle>Always</AppxBundle>
     <AppxBundlePlatforms>arm64</AppxBundlePlatforms>
     <AppInstallerUpdateFrequency>1</AppInstallerUpdateFrequency>
@@ -128,27 +128,37 @@
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
-    <Compile Include="MainPage.xaml.cs">
+    <Compile Include="UI\Controls\CallStatePresenter.xaml.cs">
+      <DependentUpon>CallStatePresenter.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UI\Controls\SmallCallPresenter.xaml.cs">
+      <DependentUpon>SmallCallPresenter.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UI\Conventers\CallStateToTextString.cs" />
+    <Compile Include="UI\Conventers\CallStateToIconString.cs" />
+    <Compile Include="UI\Pages\MainPage.xaml.cs">
       <DependentUpon>MainPage.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Model\CallInfo.cs" />
-    <Compile Include="NumPad\DigitButton.xaml.cs">
+    <Compile Include="Model\BackgroungCallMonitor.cs" />
+    <Compile Include="Model\MainEntities.cs" />
+    <Compile Include="Model\MovingCallInfo.cs" />
+    <Compile Include="UI\Controls\DigitButton.xaml.cs">
       <DependentUpon>DigitButton.xaml</DependentUpon>
     </Compile>
-    <Compile Include="NumPad\NumPad.xaml.cs">
-      <DependentUpon>NumPad.xaml</DependentUpon>
+    <Compile Include="UI\Controls\DialPad.xaml.cs">
+      <DependentUpon>DialPad.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Pages\About.xaml.cs">
+    <Compile Include="UI\Pages\About.xaml.cs">
       <DependentUpon>About.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Pages\InCallUI.xaml.cs">
+    <Compile Include="UI\Pages\InCallUI.xaml.cs">
       <DependentUpon>InCallUI.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Pages\IncomingCallUI.xaml.cs">
+    <Compile Include="UI\Pages\IncomingCallUI.xaml.cs">
       <DependentUpon>IncomingCallUI.xaml</DependentUpon>
     </Compile>
     <Compile Include="Model\PhoneNumber.cs" />
-    <Compile Include="Pages\Settings.xaml.cs">
+    <Compile Include="UI\Pages\Settings.xaml.cs">
       <DependentUpon>Settings.xaml</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -173,43 +183,55 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Page Include="MainPage.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="NumPad\DigitButton.xaml">
+    <Page Include="UI\Controls\CallStatePresenter.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="NumPad\NumPad.xaml">
+    <Page Include="UI\Controls\SmallCallPresenter.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Pages\About.xaml">
+    <Page Include="UI\Conventers\Conventers.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Pages\InCallUI.xaml">
+    <Page Include="UI\Pages\MainPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="UI\Controls\DigitButton.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Pages\IncomingCallUI.xaml">
+    <Page Include="UI\Controls\DialPad.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Pages\Settings.xaml">
+    <Page Include="UI\Pages\About.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Styles\TextBlock.xaml">
+    <Page Include="UI\Pages\InCallUI.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Styles\_Corners.xaml">
+    <Page Include="UI\Pages\IncomingCallUI.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Styles\_Thickness.xaml">
+    <Page Include="UI\Pages\Settings.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UI\Styles\TextBlock.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UI\Styles\_Corners.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UI\Styles\_Thickness.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -224,6 +246,12 @@
     <PRIResource Include="Strings\ru-RU\Resources.resw" />
     <PRIResource Include="Strings\it-IT\Resources.resw" />
     <None Include="WoADialer_TemporaryKey.pfx" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Internal.Windows.Calls\Internal.Windows.Calls\Internal.Windows.Calls.csproj">
+      <Project>{35e52b56-36f5-4820-8626-8547fefd7666}</Project>
+      <Name>Internal.Windows.Calls</Name>
+    </ProjectReference>
   </ItemGroup>
   <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '14.0' ">
     <VisualStudioVersion>14.0</VisualStudioVersion>

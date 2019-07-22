@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Internal.Windows.Calls;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -15,27 +16,19 @@ using Windows.UI.Xaml.Navigation;
 
 // Документацию по шаблону элемента "Пользовательский элемент управления" см. по адресу https://go.microsoft.com/fwlink/?LinkId=234236
 
-namespace WoADialer.NumPad
+namespace WoADialer.UI.Controls
 {
-    public sealed partial class DigitButton : Button
+    public sealed partial class SmallCallPresenter : UserControl
     {
-        public string Chars
+        public static readonly DependencyProperty PhoneCallProperty = DependencyProperty.RegisterAttached("PhoneCall", typeof(Call), typeof(SmallCallPresenter), new PropertyMetadata(null));
+
+        public Call PhoneCall
         {
-            get => tb_Chars.Text;
-            set => tb_Chars.Text = value;
-        }
-        public string AdditionalChars
-        {
-            get => tb_AdditionalChars.Text;
-            set => tb_AdditionalChars.Text = value;
-        }
-        public string Digit
-        {
-            get => tb_Digit.Text;
-            set => tb_Digit.Text = value;
+            get => (Call)GetValue(PhoneCallProperty);
+            set => SetValue(PhoneCallProperty, value);
         }
 
-        public DigitButton()
+        public SmallCallPresenter()
         {
             this.InitializeComponent();
         }

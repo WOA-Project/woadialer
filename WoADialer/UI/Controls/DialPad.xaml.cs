@@ -15,13 +15,13 @@ using Windows.UI.Xaml.Navigation;
 
 // Документацию по шаблону элемента "Пользовательский элемент управления" см. по адресу https://go.microsoft.com/fwlink/?LinkId=234236
 
-namespace WoADialer.NumPad
+namespace WoADialer.UI.Controls
 {
-    public sealed partial class NumPad : UserControl
+    public sealed partial class DialPad : UserControl
     {
         public event EventHandler<char> DigitTapped;
 
-        public NumPad()
+        public DialPad()
         {
             this.InitializeComponent();
         }
