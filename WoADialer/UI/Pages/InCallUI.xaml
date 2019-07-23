@@ -53,10 +53,10 @@
             <!-- Close call button -->
             <Button x:Name="closeCallButton" 
                     Grid.Row="1" 
-                    Style="{StaticResource ButtonRevealStyle}" 
-                    Background="{ThemeResource SystemAccentColorDark1}" 
+                    Style="{StaticResource FluentButtonAccentStyle}" 
                     HorizontalAlignment="Stretch" 
                     Height="100" 
+                    Margin="12"
                     Click="CloseCallButton_Click">
                 <StackPanel Orientation="Horizontal">
                     <TextBlock Text="&#xE778;"

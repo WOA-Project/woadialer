@@ -8,8 +8,6 @@ using Windows.ApplicationModel.Activation;
 using Windows.ApplicationModel.Calls;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
-using Windows.UI.Core;
-using Windows.UI.Popups;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Controls.Primitives;
@@ -17,6 +15,7 @@ using Windows.UI.Xaml.Data;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
+using WoADialer.Helpers;
 using WoADialer.UI.Pages;
 
 namespace WoADialer
@@ -27,12 +26,8 @@ namespace WoADialer
         {
             this.InitializeComponent();
             this.Suspending += OnSuspending;
-            this.DebugSettings.BindingFailed += DebugSettings_BindingFailed;
-        }
 
-        private async void DebugSettings_BindingFailed(object sender, BindingFailedEventArgs e)
-        {
-            await Window.Current.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, async () => await new MessageDialog(e.Message).ShowAsync());
+            if(SettingsManager.isFirstTimeRun()) SettingsManager.setDefaultSettings();
         }
 
         protected override void OnActivated(IActivatedEventArgs args)
