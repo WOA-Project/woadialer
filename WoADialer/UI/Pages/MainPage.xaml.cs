@@ -15,6 +15,7 @@ using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
 using WoADialer.Model;
+using WoADialer.UI.Dialogs;
 
 namespace WoADialer.UI.Pages
 {
@@ -128,9 +129,10 @@ namespace WoADialer.UI.Pages
             Frame.Navigate(typeof(Settings));
         }
 
-        private void AboutButton_Click(object sender, RoutedEventArgs e)
+        private async void AboutButton_Click(object sender, RoutedEventArgs e)
         {
-            Frame.Navigate(typeof(About));
+            AboutDialog dialog = new AboutDialog();
+            await dialog.ShowAsync();
         }
 
         private async void Page_Loaded(object sender, RoutedEventArgs e)

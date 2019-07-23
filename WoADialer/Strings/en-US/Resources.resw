@@ -117,6 +117,79 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="About_About.Text" xml:space="preserve">
+    <value>About this application</value>
+    <comment>About this application title for About</comment>
+  </data>
+  <data name="About_AcknowledgementsFlubase.Content" xml:space="preserve">
+    <value>FLUI Framework</value>
+    <comment>About - Acknowlegdements FluBase title</comment>
+  </data>
+  <data name="About_AcknowledgementsFlubase.NavigateUri" xml:space="preserve">
+    <value>https://github.com/Team-FLUI/FluiFramework</value>
+    <comment>About - Acknowlegdements FluBase Project URL</comment>
+  </data>
+  <data name="About_AcknowledgementsIntro.Text" xml:space="preserve">
+    <value>This app makes use of code from the following projects:</value>
+    <comment>About - Acknowlegdements Intro text</comment>
+  </data>
+  <data name="About_AcknowledgementsTitle.Text" xml:space="preserve">
+    <value>Acknowledgements</value>
+    <comment>About - Acknowlegdements Title</comment>
+  </data>
+  <data name="About_AcknowledgementsWct.Content" xml:space="preserve">
+    <value>Windows Community Toolkit</value>
+    <comment>About - Acknowledgements Windows Community Toolkit title</comment>
+  </data>
+  <data name="About_AcknowledgementsWct.NavigateUri" xml:space="preserve">
+    <value>https://github.com/windows-toolkit/WindowsCommunityToolkit</value>
+    <comment>About - Acknowledgements Windows Community Toolkit Project URL</comment>
+  </data>
+  <data name="About_AcknowledgementsWts.Content" xml:space="preserve">
+    <value>Windows Template Studio</value>
+    <comment>About - Acknowlegdements Windows Template Studio title</comment>
+  </data>
+  <data name="About_AcknowledgementsWts.NavigateUri" xml:space="preserve">
+    <value>https://github.com/Microsoft/WindowsTemplateStudio</value>
+    <comment>About - Acknowlegdements Windows Template Studio Project URL</comment>
+  </data>
+  <data name="About_Description.Text" xml:space="preserve">
+    <value>Created and programmed by WOA Project, 2019</value>
+    <comment>About this application description for Settings</comment>
+  </data>
+  <data name="About_GitHubLink.Content" xml:space="preserve">
+    <value>GitHub project</value>
+    <comment>GitHub project link content for About</comment>
+  </data>
+  <data name="About_GitHubLink.NavigateUri" xml:space="preserve">
+    <value>https://github.com/WOA-Project/woadialer</value>
+    <comment>Link to the GitHub project for About</comment>
+  </data>
+  <data name="About_LinksTitle.Text" xml:space="preserve">
+    <value>Links</value>
+    <comment>About - Title of the Links category</comment>
+  </data>
+  <data name="About_PrivacyTermsLink.Content" xml:space="preserve">
+    <value>Privacy Policy</value>
+    <comment>Privacy Statement link content for About</comment>
+  </data>
+  <data name="About_PrivacyTermsLink.NavigateUri" xml:space="preserve">
+    <value>https://github.com/WOA-Project/woadialer</value>
+    <comment>Privacy Statement url for About</comment>
+  </data>
+  <data name="About_Title.Text" xml:space="preserve">
+    <value>About</value>
+    <comment>Page title for AboutDialog</comment>
+  </data>
+  <data name="About_Translators.Text" xml:space="preserve">
+    <value>English by WOA Project
+*future languages*</value>
+    <comment>About - List of translators</comment>
+  </data>
+  <data name="About_TranslatorsTitle.Text" xml:space="preserve">
+    <value>Translators</value>
+    <comment>About - Translators</comment>
+  </data>
   <data name="Button_Call.Text" xml:space="preserve">
     <value>Call</value>
   </data>
