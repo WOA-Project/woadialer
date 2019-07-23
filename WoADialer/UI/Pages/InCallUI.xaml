@@ -17,17 +17,14 @@
         <StackPanel Grid.Row="0"
                     Padding="12,24">
             <TextBlock x:Name="callerNameText" 
-                       Text="[callerName]"
+                       Text="{x:Bind Path=_CurrentCall.Name, Mode=OneWay}"
                        Margin="0,0,0,8"
                        Style="{ThemeResource FluentTitleTextStyle}"/>
             <TextBlock x:Name="callerNumberText" 
-                       Text="[callerNumber]"
+                       Text="{x:Bind Path=_CurrentCall.Number, Mode=OneWay}"
                        Margin="0,0,0,8"
                        Style="{ThemeResource FluentSubheaderTextStyle}"/>
-            <TextBlock x:Name="callStatusText" 
-                       Text="[callStatus]"
-                       Margin="0,0,0,8"
-                       Style="{ThemeResource FluentSubbodyTextStyle}"/>
+            <Custom:CallStatePresenter CallState="{x:Bind Path=_CurrentCall.State, Mode=OneWay}"/>
             <TextBlock x:Name="callTimerText" 
                        Text="[callLength]"
                        Foreground="{ThemeResource SystemControlForegroundAccentBrush}"

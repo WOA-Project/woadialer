@@ -46,7 +46,6 @@ namespace WoADialer.UI.Pages
                     UpdateCurrentNumber();
                     break;
             }
-            PhoneCallManager.CallStateChanged += UpdateState;
         }
 
         protected override void OnNavigatingFrom(NavigatingCancelEventArgs e)
@@ -141,6 +140,7 @@ namespace WoADialer.UI.Pages
                 {
                     await MainEntities.Initialize();
                 }
+                PhoneCallManager.CallStateChanged += UpdateState;
             }
             catch (Exception ex)
             {
