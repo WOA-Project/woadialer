@@ -79,9 +79,9 @@
             <ComboBoxItem x:Name="formattingItalianComboOption"
                           x:Uid="Settings_NumberFormattingItalianOption"
                           Content="Italian"/>
-            <ComboBoxItem x:Name="formattingAmericanComboOption"
-                          x:Uid="Settings_NumberFormattingAmericanOption"
-                          Content="American"/>
+            <ComboBoxItem x:Name="formattingRussianComboOption"
+                          x:Uid="Settings_NumberFormattingRussianOption"
+                          Content="Russian"/>
           </ComboBox>
 
         
@@ -147,12 +147,14 @@
               Style="{ThemeResource FluentButtonStandardStyle}"
               Grid.Column="0"
               HorizontalAlignment="Stretch"
-              Content="Cancel"/>
+              Content="Cancel"
+              Command="{x:Bind CloseDialogCommand}"/>
       <Button x:Uid="Settings_SaveButton"
               Style="{ThemeResource FluentButtonAccentStyle}"
               Grid.Column="2"
               HorizontalAlignment="Stretch"
-              Content="Save"/>
+              Content="Save"
+              Command="{x:Bind CloseAndSaveDialogCommand}"/>
     </Grid>
   </Grid>
 </ContentDialog>

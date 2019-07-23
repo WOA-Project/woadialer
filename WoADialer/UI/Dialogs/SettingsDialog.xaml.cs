@@ -1,18 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Runtime.InteropServices.WindowsRuntime;
+﻿using System.Diagnostics;
 using System.Windows.Input;
-using Windows.Foundation;
-using Windows.Foundation.Collections;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Controls.Primitives;
-using Windows.UI.Xaml.Data;
-using Windows.UI.Xaml.Input;
-using Windows.UI.Xaml.Media;
-using Windows.UI.Xaml.Navigation;
 using WoADialer.Helpers;
 
 namespace WoADialer.UI.Dialogs
@@ -24,13 +13,15 @@ namespace WoADialer.UI.Dialogs
             RequestedTheme = (Window.Current.Content as FrameworkElement).RequestedTheme;
             InitializeComponent();
 
+            Debug.WriteLine(SettingsManager.getDialPadSize() + " - " + SettingsManager.getNumberFormatting());
+
             if (SettingsManager.getDialPadSize() == "Tall") tallDialPadRadio.IsChecked = true;
             else if (SettingsManager.getDialPadSize() == "Medium") mediumDialPadRadio.IsChecked = true;
             else if (SettingsManager.getDialPadSize() == "Short") shortDialPadRadio.IsChecked = true;
 
-            if (SettingsManager.getNumberFormatting() == "None") formattingNoneComboOption.IsSelected = true;
-            else if (SettingsManager.getNumberFormatting() == "Italian") formattingItalianComboOption.IsSelected = true;
-            else if (SettingsManager.getNumberFormatting() == "American") formattingAmericanComboOption.IsSelected = true;
+            if (SettingsManager.getNumberFormatting() == "None") numberFormattingCombobox.SelectedIndex = 0;
+            else if (SettingsManager.getNumberFormatting() == "Italian") numberFormattingCombobox.SelectedIndex = 1;
+            else if (SettingsManager.getNumberFormatting() == "Russian") numberFormattingCombobox.SelectedIndex = 2;
         }
 
         private ICommand _closeDialogCommand;
@@ -61,6 +52,14 @@ namespace WoADialer.UI.Dialogs
                         () =>
                         {
                             //save settings
+                            if (numberFormattingCombobox.SelectedIndex == 0) SettingsManager.setNumberFormatting("None");
+                            else if (numberFormattingCombobox.SelectedIndex == 1) SettingsManager.setNumberFormatting("Italian");
+                            else if (numberFormattingCombobox.SelectedIndex == 2) SettingsManager.setNumberFormatting("Russian");
+
+                            if (shortDialPadRadio.IsChecked == true) SettingsManager.setDialPadSize("Short");
+                            else if (mediumDialPadRadio.IsChecked == true) SettingsManager.setDialPadSize("Medium");
+                            else if (tallDialPadRadio.IsChecked == true) SettingsManager.setDialPadSize("Tall");
+
                             Hide();
                         });
                 }

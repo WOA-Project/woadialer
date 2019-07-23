@@ -16,6 +16,7 @@ using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
 using WoADialer.Model;
 using WoADialer.UI.Dialogs;
+using WoADialer.Helpers;
 
 namespace WoADialer.UI.Pages
 {
@@ -32,9 +33,7 @@ namespace WoADialer.UI.Pages
             titleBar.ButtonBackgroundColor = ((SolidColorBrush)Application.Current.Resources["ApplicationPageBackgroundThemeBrush"]).Color;
             titleBar.ButtonInactiveBackgroundColor = ((SolidColorBrush)Application.Current.Resources["ApplicationPageBackgroundThemeBrush"]).Color;
 
-            if (PhoneCallManager.IsCallActive) callStateIndicatorText.Text = "Status: Call Active";
-            else if (PhoneCallManager.IsCallIncoming) callStateIndicatorText.Text = "Status: Call Incoming";
-            else callStateIndicatorText.Text = "Status: Phone Idle";
+            UpdateState(null, null);
         }
 
         protected override void OnNavigatedTo(NavigationEventArgs e)
@@ -59,7 +58,7 @@ namespace WoADialer.UI.Pages
         private void UpdateCurrentNumber()
         {
             callButton.IsEnabled = !string.IsNullOrWhiteSpace(currentNumber.ToString());
-            numberToDialBox.Text = currentNumber.ToString("nice");
+            numberToDialBox.Text = currentNumber.ToString(SettingsManager.getNumberFormatting());
         }
 
         private async void UpdateState(object sender, object args)
@@ -112,14 +111,12 @@ namespace WoADialer.UI.Pages
 
         private void DeleteLastNumberButton_Click(object sender, RoutedEventArgs e)
         {
-            MainEntities.VibrationDevice?.SimpleHapticsController.SendHapticFeedback(MainEntities.VibrationDevice.SimpleHapticsController.SupportedFeedback.First());
             currentNumber.RemoveLastChar();
             UpdateCurrentNumber();
         }
 
         private void NumPad_DigitTapped(object sender, char e)
         {
-            MainEntities.VibrationDevice?.SimpleHapticsController.SendHapticFeedback(MainEntities.VibrationDevice.SimpleHapticsController.SupportedFeedback.First());
             currentNumber.AddLastChar(e);
             UpdateCurrentNumber();
         }

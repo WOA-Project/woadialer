@@ -53,7 +53,20 @@ namespace WoADialer.Model
                 StringBuilder result = new StringBuilder();
                 switch (format)
                 {
-                    case "nice":
+                    case "None":
+                        return ToString();
+                    case "Italian":
+                        if(Numbers.Count > 3)
+                        {
+                            result.Append(Numbers.Take(3).ToArray());
+                            result.Append(' ');
+                            result.Append(Numbers.TakeLast(Numbers.Count - 3).ToArray());
+                        } else
+                        {
+                            result.Append(Numbers.Take(Numbers.Count).ToArray());
+                        }
+                        return result.ToString();
+                    case "Russian":
                         switch (Numbers.Count)
                         {
                             case 4:
