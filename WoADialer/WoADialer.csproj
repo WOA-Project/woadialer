@@ -130,6 +130,7 @@
     </Compile>
     <Compile Include="Helpers\Observable.cs" />
     <Compile Include="Helpers\RelayCommand.cs" />
+    <Compile Include="Helpers\SettingsManager.cs" />
     <Compile Include="UI\Controls\CallStatePresenter.xaml.cs">
       <DependentUpon>CallStatePresenter.xaml</DependentUpon>
     </Compile>
@@ -140,6 +141,9 @@
     <Compile Include="UI\Conventers\CallStateToIconString.cs" />
     <Compile Include="UI\Dialogs\AboutDialog.xaml.cs">
       <DependentUpon>AboutDialog.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UI\Dialogs\SettingsDialog.xaml.cs">
+      <DependentUpon>SettingsDialog.xaml</DependentUpon>
     </Compile>
     <Compile Include="UI\Pages\MainPage.xaml.cs">
       <DependentUpon>MainPage.xaml</DependentUpon>
@@ -204,6 +208,10 @@
     <Page Include="UI\Dialogs\AboutDialog.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UI\Dialogs\SettingsDialog.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="UI\Pages\MainPage.xaml">
       <Generator>MSBuild:Compile</Generator>

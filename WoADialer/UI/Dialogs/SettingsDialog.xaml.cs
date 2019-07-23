@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
+using System.Windows.Input;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
 using Windows.UI.Xaml;
@@ -12,8 +13,7 @@ using Windows.UI.Xaml.Data;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
-
-// The Content Dialog item template is documented at https://go.microsoft.com/fwlink/?LinkId=234238
+using WoADialer.Helpers;
 
 namespace WoADialer.UI.Dialogs
 {
@@ -21,15 +21,52 @@ namespace WoADialer.UI.Dialogs
     {
         public SettingsDialog()
         {
-            this.InitializeComponent();
+            RequestedTheme = (Window.Current.Content as FrameworkElement).RequestedTheme;
+            InitializeComponent();
+
+            if (SettingsManager.getDialPadSize() == "Tall") tallDialPadRadio.IsChecked = true;
+            else if (SettingsManager.getDialPadSize() == "Medium") mediumDialPadRadio.IsChecked = true;
+            else if (SettingsManager.getDialPadSize() == "Short") shortDialPadRadio.IsChecked = true;
+
+            if (SettingsManager.getNumberFormatting() == "None") formattingNoneComboOption.IsSelected = true;
+            else if (SettingsManager.getNumberFormatting() == "Italian") formattingItalianComboOption.IsSelected = true;
+            else if (SettingsManager.getNumberFormatting() == "American") formattingAmericanComboOption.IsSelected = true;
         }
 
-        private void ContentDialog_PrimaryButtonClick(ContentDialog sender, ContentDialogButtonClickEventArgs args)
+        private ICommand _closeDialogCommand;
+        public ICommand CloseDialogCommand
         {
+            get
+            {
+                if (_closeDialogCommand == null)
+                {
+                    _closeDialogCommand = new RelayCommand(
+                        () =>
+                        {
+                            Hide();
+                        });
+                }
+                return _closeDialogCommand;
+            }
         }
 
-        private void ContentDialog_SecondaryButtonClick(ContentDialog sender, ContentDialogButtonClickEventArgs args)
+        private ICommand _closeAndSaveDialogCommand;
+        public ICommand CloseAndSaveDialogCommand
         {
+            get
+            {
+                if (_closeAndSaveDialogCommand == null)
+                {
+                    _closeAndSaveDialogCommand = new RelayCommand(
+                        () =>
+                        {
+                            //save settings
+                            Hide();
+                        });
+                }
+                return _closeAndSaveDialogCommand;
+            }
         }
+
     }
 }

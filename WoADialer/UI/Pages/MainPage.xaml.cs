@@ -124,9 +124,10 @@ namespace WoADialer.UI.Pages
             UpdateCurrentNumber();
         }
 
-        private void SettingsButton_Click(object sender, RoutedEventArgs e)
+        private async void SettingsButton_Click(object sender, RoutedEventArgs e)
         {
-            Frame.Navigate(typeof(Settings));
+            SettingsDialog dialog = new SettingsDialog();
+            await dialog.ShowAsync();
         }
 
         private async void AboutButton_Click(object sender, RoutedEventArgs e)
