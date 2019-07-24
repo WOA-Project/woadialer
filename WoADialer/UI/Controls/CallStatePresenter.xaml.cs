@@ -6,6 +6,7 @@ using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
+using Windows.UI.Core;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Controls.Primitives;
@@ -25,7 +26,7 @@ namespace WoADialer.UI.Controls
         public CallState CallState
         {
             get => (CallState)GetValue(CallStateProperty);
-            set => SetValue(CallStateProperty, value);
+            set => Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () => SetValue(CallStateProperty, value));
         }
 
         public CallStatePresenter()
