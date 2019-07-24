@@ -85,7 +85,7 @@ namespace WoADialer.UI.Pages
         {
             try
             {
-                Frame.Navigate(typeof(InCallUI), new MovingCallInfo() { Number = currentNumber });
+                MainEntities.DefaultLine?.Dial(currentNumber.ToString(), "test");
             }
             catch (Exception ee)
             {

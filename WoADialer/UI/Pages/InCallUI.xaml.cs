@@ -117,19 +117,6 @@ namespace WoADialer.UI.Pages
             }
             CurrentCall = MainEntities.CallManager.CurrentCalls.FirstOrDefault(x => x.State == CallState.Dialing || x.State == CallState.ActiveTalking || x.State == CallState.OnHold);
             MainEntities.CallManager.CurrentCallsChanged += CallManager_CurrentCallsChanged;
-            try
-            {
-                switch (e.Parameter)
-                {
-                    case MovingCallInfo info:
-                        MainEntities.DefaultLine?.Dial(info.Number.ToString(), "test");
-                        break;
-                }
-            }
-            catch (Exception ex)
-            {
-                await new MessageDialog(ex.ToString()).ShowAsync();
-            }
         }
 
         protected override void OnNavigatingFrom(NavigatingCancelEventArgs e)
