@@ -33,6 +33,8 @@ namespace WoADialer.UI.Pages
             titleBar.ButtonBackgroundColor = ((SolidColorBrush)Application.Current.Resources["ApplicationPageBackgroundThemeBrush"]).Color;
             titleBar.ButtonInactiveBackgroundColor = ((SolidColorBrush)Application.Current.Resources["ApplicationPageBackgroundThemeBrush"]).Color;
 
+            //if calls missed // callHistoryButton.Content = "&#xF739;";
+
             UpdateState(null, null);
         }
 
