@@ -8,6 +8,8 @@ using Internal.Windows.Calls;
 using Windows.Devices.Enumeration;
 using Windows.Devices.Sensors;
 using Windows.Devices.Haptics;
+using Windows.ApplicationModel.Background;
+using Windows.ApplicationModel.Calls.Background;
 
 namespace WoADialer.Model
 {
@@ -26,6 +28,7 @@ namespace WoADialer.Model
             DeviceInformationCollection devices;
             CallManager = await CallManager.GetSystemPhoneCallManagerAsync();
             CallStore = await PhoneCallManager.RequestStoreAsync();
+            Windows.ApplicationModel.Calls.Provider.PhoneCallOriginManager.ShowPhoneCallOriginSettingsUI();
             CallHistoryStore = await PhoneCallHistoryManager.RequestStoreAsync(PhoneCallHistoryStoreAccessType.AllEntriesReadWrite);
             devices = await DeviceInformation.FindAllAsync(ProximitySensor.GetDeviceSelector());
             ProximitySensor = devices.Count > 0 ? ProximitySensor.FromId(devices.First().Id) : null;
@@ -33,13 +36,40 @@ namespace WoADialer.Model
             if (accessStatus == VibrationAccessStatus.Allowed) VibrationDevice = await VibrationDevice.GetDefaultAsync();
             try
             {
-                DefaultLine = await PhoneLine.FromIdAsync(await CallStore.GetDefaultLineAsync());
+                //DefaultLine = await PhoneLine.FromIdAsync(await CallStore.GetDefaultLineAsync());
             }
             catch
             {
 
             }
             Initialized = true;
+            RegisterBackgroudTask();
+        }
+
+        public static void RegisterBackgroudTask()
+        {
+            var taskRegistered = false;
+            var exampleTaskName = "BackgroungCallMonitor";
+            BackgroundExecutionManager.RequestAccessAsync();
+            foreach (var task in BackgroundTaskRegistration.AllTasks)
+            {
+                if (task.Value.Name == exampleTaskName)
+                {
+                    task.Value.Unregister(true);
+                    //taskRegistered = true;
+                    break;
+                }
+            }
+
+            if (!taskRegistered)
+            {
+                var builder = new BackgroundTaskBuilder();
+
+                builder.Name = exampleTaskName;
+                builder.TaskEntryPoint = "WoADialer.Model.BackgroungCallMonitor";
+                builder.SetTrigger(new PhoneTrigger(PhoneTriggerType.CallHistoryChanged, false));
+                BackgroundTaskRegistration task = builder.Register();
+            }
         }
     }
 }

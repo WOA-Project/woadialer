@@ -34,6 +34,8 @@
     <EnableUnmanagedDebugging>false</EnableUnmanagedDebugging>
     <BackgroundTaskDebugEngines>
     </BackgroundTaskDebugEngines>
+    <CreateCleanLayout>false</CreateCleanLayout>
+    <DoNotLaunchApp>false</DoNotLaunchApp>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|ARM64'">
     <DeviceId>30F105C9-681E-420b-A277-7C086EAD8A4E</DeviceId>

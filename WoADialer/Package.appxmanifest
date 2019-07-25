@@ -53,9 +53,23 @@
         <uap:Extension Category="windows.lockScreenCall"/>
         <uap:Extension Category="windows.lockScreen"/>
         <uap:Extension Category="windows.aboveLockScreen"/>
+        <Extension Category="windows.backgroundTasks" EntryPoint="WoADialer.Model.BackgroungCallMonitor">
+          <BackgroundTasks>
+            <uap:Task Type="phoneCall" />
+            <Task Type="systemEvent"/>
+          </BackgroundTasks>
+        </Extension>
       </Extensions>
     </Application>
   </Applications>
+  <Extensions>
+    <Extension Category="windows.activatableClass.inProcessServer">
+      <InProcessServer>
+        <Path>WoADialer.exe</Path>
+        <ActivatableClass ActivatableClassId="WoADialer.Model.BackgroungCallMonitor" ThreadingModel="both"/>
+      </InProcessServer>
+    </Extension>
+  </Extensions>
 
   <Capabilities>
     <uap:Capability Name="phoneCall" />
