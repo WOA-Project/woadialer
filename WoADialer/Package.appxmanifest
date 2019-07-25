@@ -8,7 +8,7 @@
   xmlns:uap5="http://schemas.microsoft.com/appx/manifest/uap/windows10/5"
   xmlns:rescap="http://schemas.microsoft.com/appx/manifest/foundation/windows10/restrictedcapabilities"
   xmlns:iot="http://schemas.microsoft.com/appx/manifest/iot/windows10"
-  IgnorableNamespaces="uap mp uap2 rescap iot">
+  IgnorableNamespaces="uap mp uap2 uap5 rescap iot">
 
   <Identity
     Name="1e17ea40-87af-45e2-865a-c2bd98036a67"
