@@ -49,7 +49,7 @@
           </uap:ShowNameOnTiles>
         </uap:DefaultTile >
         <uap:SplashScreen Image="Assets\SplashScreen.png" />
-        <uap:LockScreen BadgeLogo="Assets\BadgeLogo.png"/>
+        <uap:LockScreen BadgeLogo="Assets\BadgeLogo.png" Notification="badge"/>
       </uap:VisualElements>
       <Extensions>
         <uap:Extension Category="windows.protocol">
