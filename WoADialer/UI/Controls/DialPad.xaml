@@ -22,17 +22,17 @@
             <ColumnDefinition Width="1*"/>
         </Grid.ColumnDefinitions>
         
-        <local:DigitButton x:Uid="NumPad_0" Digit="0" Padding="14" FontSize="24" Tapped="DigitButton_Tapped" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Grid.Row="3" Grid.Column="1" RightTapped="DigitButton_RightTapped"/>
-        <local:DigitButton x:Uid="NumPad_1" Digit="1" Padding="14" FontSize="24" Tapped="DigitButton_Tapped" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Grid.Row="0" Grid.Column="0"/>
-        <local:DigitButton x:Uid="NumPad_2" Digit="2" Padding="14" FontSize="24" Tapped="DigitButton_Tapped" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Grid.Row="0" Grid.Column="1"/>
-        <local:DigitButton x:Uid="NumPad_3" Digit="3" Padding="14" FontSize="24" Tapped="DigitButton_Tapped" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Grid.Row="0" Grid.Column="2"/>
-        <local:DigitButton x:Uid="NumPad_4" Digit="4" Padding="14" FontSize="24" Tapped="DigitButton_Tapped" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Grid.Row="1" Grid.Column="0"/>
-        <local:DigitButton x:Uid="NumPad_5" Digit="5" Padding="14" FontSize="24" Tapped="DigitButton_Tapped" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Grid.Row="1" Grid.Column="1"/>
-        <local:DigitButton x:Uid="NumPad_6" Digit="6" Padding="14" FontSize="24" Tapped="DigitButton_Tapped" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Grid.Row="1" Grid.Column="2"/>
-        <local:DigitButton x:Uid="NumPad_7" Digit="7" Padding="14" FontSize="24" Tapped="DigitButton_Tapped" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Grid.Row="2" Grid.Column="0"/>
-        <local:DigitButton x:Uid="NumPad_8" Digit="8" Padding="14" FontSize="24" Tapped="DigitButton_Tapped" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Grid.Row="2" Grid.Column="1"/>
-        <local:DigitButton x:Uid="NumPad_9" Digit="9" Padding="14" FontSize="24" Tapped="DigitButton_Tapped" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Grid.Row="2" Grid.Column="2"/>
-        <local:DigitButton x:Uid="NumPad_A" Digit="*" Padding="14" FontSize="24" Tapped="DigitButton_Tapped" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Grid.Row="3" Grid.Column="0"/>
-        <local:DigitButton x:Uid="NumPad_S" Digit="#" Padding="14" FontSize="24" Tapped="DigitButton_Tapped" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Grid.Row="3" Grid.Column="2"/>
+        <local:DigitButton x:Name="NumPad_0" x:Uid="NumPad_0" Digit="0" Padding="14" FontSize="24" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Grid.Row="3" Grid.Column="1"/>
+        <local:DigitButton x:Name="NumPad_1" x:Uid="NumPad_1" Digit="1" Padding="14" FontSize="24" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Grid.Row="0" Grid.Column="0"/>
+        <local:DigitButton x:Name="NumPad_2" x:Uid="NumPad_2" Digit="2" Padding="14" FontSize="24" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Grid.Row="0" Grid.Column="1"/>
+        <local:DigitButton x:Name="NumPad_3" x:Uid="NumPad_3" Digit="3" Padding="14" FontSize="24" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Grid.Row="0" Grid.Column="2"/>
+        <local:DigitButton x:Name="NumPad_4" x:Uid="NumPad_4" Digit="4" Padding="14" FontSize="24" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Grid.Row="1" Grid.Column="0"/>
+        <local:DigitButton x:Name="NumPad_5" x:Uid="NumPad_5" Digit="5" Padding="14" FontSize="24" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Grid.Row="1" Grid.Column="1"/>
+        <local:DigitButton x:Name="NumPad_6" x:Uid="NumPad_6" Digit="6" Padding="14" FontSize="24" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Grid.Row="1" Grid.Column="2"/>
+        <local:DigitButton x:Name="NumPad_7" x:Uid="NumPad_7" Digit="7" Padding="14" FontSize="24" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Grid.Row="2" Grid.Column="0"/>
+        <local:DigitButton x:Name="NumPad_8" x:Uid="NumPad_8" Digit="8" Padding="14" FontSize="24" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Grid.Row="2" Grid.Column="1"/>
+        <local:DigitButton x:Name="NumPad_9" x:Uid="NumPad_9" Digit="9" Padding="14" FontSize="24" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Grid.Row="2" Grid.Column="2"/>
+        <local:DigitButton x:Name="NumPad_A" x:Uid="NumPad_A" Digit="*" Padding="14" FontSize="24" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Grid.Row="3" Grid.Column="0"/>
+        <local:DigitButton x:Name="NumPad_S" x:Uid="NumPad_S" Digit="#" Padding="14" FontSize="24" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Grid.Row="3" Grid.Column="2"/>
         </Grid>
 </UserControl>
