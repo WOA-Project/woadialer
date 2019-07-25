@@ -19,8 +19,7 @@ namespace WoADialer.Model
         public static PhoneCallStore CallStore { get; private set; }
         public static PhoneCallHistoryStore CallHistoryStore { get; private set; }
         public static ProximitySensor ProximitySensor { get; private set; }
-        public static VibrationDevice VibrationDevice { get; private set; }
-
+        
         public static async Task Initialize()
         {
             DeviceInformationCollection devices;
@@ -29,8 +28,6 @@ namespace WoADialer.Model
             CallHistoryStore = await PhoneCallHistoryManager.RequestStoreAsync(PhoneCallHistoryStoreAccessType.AllEntriesReadWrite);
             devices = await DeviceInformation.FindAllAsync(ProximitySensor.GetDeviceSelector());
             ProximitySensor = devices.Count > 0 ? ProximitySensor.FromId(devices.First().Id) : null;
-            VibrationAccessStatus accessStatus = await VibrationDevice.RequestAccessAsync();
-            if (accessStatus == VibrationAccessStatus.Allowed) VibrationDevice = await VibrationDevice.GetDefaultAsync();
             try
             {
                 DefaultLine = await PhoneLine.FromIdAsync(await CallStore.GetDefaultLineAsync());
