@@ -57,16 +57,28 @@
                        Text="AAAA"
                        Margin="10, 0, 0, 0"
                        Style="{ThemeResource FluentSubbodyTextStyle}" HorizontalAlignment="Left" Width="157"/>
-        <controls:DialPad Grid.Row="3" 
-                          DigitTapped="NumPad_DigitTapped"/>
+
+        <StackPanel Grid.Row="2" Margin="10, 0, 0, 0" HorizontalAlignment="Left" VerticalAlignment="Bottom" Orientation="Horizontal">
+            <Button x:Name="callHistoryButton" 
+                    Background="Transparent" 
+                    CornerRadius="{ThemeResource FluentButtonCorners}"
+                    Style="{ThemeResource ButtonRevealStyle}"
+                    FontSize="24"
+                    Width="64"
+                    Height="64"
+                    FontFamily="Segoe MDL2 Assets" 
+                    Content="&#xF738;" 
+                    Click="SettingsButton_Click" />
+        </StackPanel>
 
         <StackPanel Grid.Row="2" Margin="0, 0, 10, 0" HorizontalAlignment="Right" VerticalAlignment="Bottom" Orientation="Horizontal">
             <Button x:Name="settingsButton" 
                     Background="Transparent" 
                     CornerRadius="{ThemeResource FluentButtonCorners}"
                     Style="{ThemeResource ButtonRevealStyle}"
-                    Width="40" 
-                    Height="40" 
+                    FontSize="24"
+                    Width="64"
+                    Height="64"
                     FontFamily="Segoe MDL2 Assets" 
                     Content="&#xE115;" 
                     Click="SettingsButton_Click" />
@@ -74,12 +86,16 @@
                     Background="Transparent" 
                     CornerRadius="{ThemeResource FluentButtonCorners}"
                     Style="{ThemeResource ButtonRevealStyle}"
-                    Width="40" 
-                    Height="40" 
+                    FontSize="24"
+                    Width="64"
+                    Height="64"
                     FontFamily="Segoe MDL2 Assets" 
                     Content="&#xE946;" 
                     Click="AboutButton_Click" />
         </StackPanel>
+
+        <controls:DialPad Grid.Row="3" 
+                          DigitTapped="NumPad_DigitTapped"/>
 
         <!-- Call button -->
         <Button x:Name="callButton" 
