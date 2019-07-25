@@ -84,7 +84,7 @@ namespace WoADialer.UI.Pages
                 switch (args)
                 {
                     case CallState.ActiveTalking:
-                        MainEntities.VibrationDevice?.SimpleHapticsController.SendHapticFeedback(MainEntities.VibrationDevice.SimpleHapticsController.SupportedFeedback.First());
+                        //vibrate
                         break;
                     case CallState.Disconnected:
                         CurrentCall = MainEntities.CallManager.CurrentCalls.FirstOrDefault(x => x.State == CallState.Dialing || x.State == CallState.ActiveTalking || x.State == CallState.OnHold);
