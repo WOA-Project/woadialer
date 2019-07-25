@@ -16,6 +16,7 @@ using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
 using WoADialer.Helpers;
+using WoADialer.Model;
 using WoADialer.UI.Pages;
 
 namespace WoADialer
@@ -95,27 +96,8 @@ namespace WoADialer
         protected override void OnBackgroundActivated(BackgroundActivatedEventArgs args)
         {
             base.OnBackgroundActivated(args);
-            Frame rootFrame = Window.Current.Content as Frame;
-            if (rootFrame == null)
-            {
-                rootFrame = new Frame();
-                rootFrame.NavigationFailed += OnNavigationFailed;
-
-                Window.Current.Content = rootFrame;
-            }
-
-            if (rootFrame.Content == null)
-                {
-                    if (PhoneCallManager.IsCallActive)
-                    {
-                        rootFrame.Navigate(typeof(InCallUI));
-                    }
-                    else
-                    {
-                        rootFrame.Navigate(typeof(MainPage));
-                    }
-                }
-                Window.Current.Activate();
+            BackgroungCallMonitor task = new BackgroungCallMonitor();
+            task.Run(args.TaskInstance);
         }
 
         void OnNavigationFailed(object sender, NavigationFailedEventArgs e)

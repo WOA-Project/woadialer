@@ -33,7 +33,7 @@ namespace WoADialer.Model
             ProximitySensor = devices.Count > 0 ? ProximitySensor.FromId(devices.First().Id) : null;
             try
             {
-                //DefaultLine = await PhoneLine.FromIdAsync(await CallStore.GetDefaultLineAsync());
+                DefaultLine = await PhoneLine.FromIdAsync(await CallStore.GetDefaultLineAsync());
             }
             catch
             {
@@ -47,6 +47,7 @@ namespace WoADialer.Model
         {
             var taskRegistered = false;
             var exampleTaskName = "BackgroungCallMonitor";
+            var exampleTaskName2 = "BackgroungCallMonitor2";
             BackgroundExecutionManager.RequestAccessAsync();
             foreach (var task in BackgroundTaskRegistration.AllTasks)
             {
@@ -54,7 +55,6 @@ namespace WoADialer.Model
                 {
                     task.Value.Unregister(true);
                     //taskRegistered = true;
-                    break;
                 }
             }
 
@@ -63,9 +63,14 @@ namespace WoADialer.Model
                 var builder = new BackgroundTaskBuilder();
 
                 builder.Name = exampleTaskName;
-                builder.TaskEntryPoint = "WoADialer.Model.BackgroungCallMonitor";
-                builder.SetTrigger(new PhoneTrigger(PhoneTriggerType.CallHistoryChanged, false));
+                //builder.TaskEntryPoint = "WoADialer.Model.BackgroungCallMonitor";
+                builder.SetTrigger(new PhoneTrigger(PhoneTriggerType.LineChanged, false));
                 BackgroundTaskRegistration task = builder.Register();
+                builder = new BackgroundTaskBuilder();
+
+                builder.Name = exampleTaskName2;
+                builder.SetTrigger(new SystemTrigger(SystemTriggerType.TimeZoneChange, false));
+                task = builder.Register();
             }
         }
     }

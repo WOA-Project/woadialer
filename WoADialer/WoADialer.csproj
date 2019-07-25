@@ -26,7 +26,7 @@
     <AppxBundlePlatforms>arm64</AppxBundlePlatforms>
     <AppInstallerUpdateFrequency>1</AppInstallerUpdateFrequency>
     <AppInstallerCheckForUpdateFrequency>OnApplicationRun</AppInstallerCheckForUpdateFrequency>
-    <PackageCertificateThumbprint>00A55EDFE7E4EB3D2982942CE499B7BED71E6B08</PackageCertificateThumbprint>
+    <PackageCertificateThumbprint>D6D3DD7876C96E04FB6FEC716E0918CC849C1802</PackageCertificateThumbprint>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x86'">
     <DebugSymbols>true</DebugSymbols>
@@ -128,7 +128,6 @@
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
-    <Compile Include="BackgroundTask\BackgroundTaskCallUI.cs" />
     <Compile Include="Helpers\Observable.cs" />
     <Compile Include="Helpers\RelayCommand.cs" />
     <Compile Include="Helpers\SettingsManager.cs" />
@@ -152,7 +151,7 @@
     <Compile Include="UI\Pages\MainPage.xaml.cs">
       <DependentUpon>MainPage.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Model\BackgroungCallMonitor.cs" />
+    <Compile Include="Background\BackgroungCallMonitor.cs" />
     <Compile Include="Model\MainEntities.cs" />
     <Compile Include="Model\MovingCallInfo.cs" />
     <Compile Include="UI\Controls\DigitButton.xaml.cs">
@@ -305,6 +304,9 @@
     </PackageReference>
     <PackageReference Include="Microsoft.NETCore.UniversalWindowsPlatform">
       <Version>6.2.8</Version>
+    </PackageReference>
+    <PackageReference Include="Microsoft.Toolkit.Uwp.Notifications">
+      <Version>5.1.1</Version>
     </PackageReference>
   </ItemGroup>
   <ItemGroup>
