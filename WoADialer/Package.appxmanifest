@@ -8,12 +8,13 @@
   xmlns:uap5="http://schemas.microsoft.com/appx/manifest/uap/windows10/5"
   xmlns:rescap="http://schemas.microsoft.com/appx/manifest/foundation/windows10/restrictedcapabilities"
   xmlns:iot="http://schemas.microsoft.com/appx/manifest/iot/windows10"
-  IgnorableNamespaces="uap mp uap2 uap5 rescap iot">
+  xmlns:uap3="http://schemas.microsoft.com/appx/manifest/uap/windows10/3"
+  IgnorableNamespaces="uap mp uap2 uap5 rescap iot uap3">
 
   <Identity
     Name="1e17ea40-87af-45e2-865a-c2bd98036a67"
     Publisher="CN=ratch"
-    Version="0.1.109.0" />
+    Version="0.1.111.0" />
 
   <mp:PhoneIdentity PhoneProductId="1e17ea40-87af-45e2-865a-c2bd98036a67" PhonePublisherId="00000000-0000-0000-0000-000000000000"/>
 
@@ -85,5 +86,6 @@
     <rescap:Capability Name="phoneCallSystem" />
     <uap2:Capability Name="phoneCallHistoryPublic"/>
     <uap:Capability Name="voipCall"/>
+    <uap3:Capability Name="userNotificationListener"/>
   </Capabilities>
 </Package>

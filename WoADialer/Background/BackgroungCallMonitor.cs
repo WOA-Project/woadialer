@@ -46,7 +46,7 @@ namespace WoADialer.Model
             };
             ToastContent toastContent = new ToastContent()
             {
-                Visual = toast
+                Visual = toast, Scenario = ToastScenario.IncomingCall
             };
             ToastNotification notification = new ToastNotification(toastContent.GetXml());
             ToastNotificationManager.CreateToastNotifier().Show(notification);

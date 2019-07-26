@@ -5,6 +5,7 @@ using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
 using Windows.ApplicationModel;
 using Windows.ApplicationModel.Activation;
+using Windows.ApplicationModel.Background;
 using Windows.ApplicationModel.Calls;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
@@ -15,6 +16,7 @@ using Windows.UI.Xaml.Data;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
+using WoADialer.Background;
 using WoADialer.Helpers;
 using WoADialer.Model;
 using WoADialer.UI.Pages;
@@ -96,8 +98,17 @@ namespace WoADialer
         protected override void OnBackgroundActivated(BackgroundActivatedEventArgs args)
         {
             base.OnBackgroundActivated(args);
-            BackgroungCallMonitor task = new BackgroungCallMonitor();
-            task.Run(args.TaskInstance);
+            BackgroundTaskDeferral deferral = args.TaskInstance.GetDeferral();
+            switch (args.TaskInstance.Task.Name)
+            {
+                case TaskManager.USER_NOTIFICATION_CHANGED:
+                    NotificationHelper.RemoveSystemCallNotification();
+                    break;
+                case TaskManager.LINE_STATE_CHANGED:
+
+                    break;
+            }
+            deferral.Complete();
         }
 
         void OnNavigationFailed(object sender, NavigationFailedEventArgs e)

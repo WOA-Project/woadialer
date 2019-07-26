@@ -10,6 +10,8 @@ using Windows.Devices.Sensors;
 using Windows.Devices.Haptics;
 using Windows.ApplicationModel.Background;
 using Windows.ApplicationModel.Calls.Background;
+using Windows.UI.Notifications.Management;
+using WoADialer.Background;
 
 namespace WoADialer.Model
 {
@@ -31,6 +33,9 @@ namespace WoADialer.Model
             CallHistoryStore = await PhoneCallHistoryManager.RequestStoreAsync(PhoneCallHistoryStoreAccessType.AllEntriesReadWrite);
             devices = await DeviceInformation.FindAllAsync(ProximitySensor.GetDeviceSelector());
             ProximitySensor = devices.Count > 0 ? ProximitySensor.FromId(devices.First().Id) : null;
+            UserNotificationListener listener = UserNotificationListener.Current;
+            UserNotificationListenerAccessStatus accessStatus = await listener.RequestAccessAsync();
+            await TaskManager.RegisterBackgroudTasks();
             try
             {
                 DefaultLine = await PhoneLine.FromIdAsync(await CallStore.GetDefaultLineAsync());
@@ -40,38 +45,6 @@ namespace WoADialer.Model
 
             }
             Initialized = true;
-            RegisterBackgroudTask();
-        }
-
-        public static void RegisterBackgroudTask()
-        {
-            var taskRegistered = false;
-            var exampleTaskName = "BackgroungCallMonitor";
-            var exampleTaskName2 = "BackgroungCallMonitor2";
-            BackgroundExecutionManager.RequestAccessAsync();
-            foreach (var task in BackgroundTaskRegistration.AllTasks)
-            {
-                if (task.Value.Name == exampleTaskName)
-                {
-                    task.Value.Unregister(true);
-                    //taskRegistered = true;
-                }
-            }
-
-            if (!taskRegistered)
-            {
-                var builder = new BackgroundTaskBuilder();
-
-                builder.Name = exampleTaskName;
-                //builder.TaskEntryPoint = "WoADialer.Model.BackgroungCallMonitor";
-                builder.SetTrigger(new PhoneTrigger(PhoneTriggerType.LineChanged, false));
-                BackgroundTaskRegistration task = builder.Register();
-                builder = new BackgroundTaskBuilder();
-
-                builder.Name = exampleTaskName2;
-                builder.SetTrigger(new SystemTrigger(SystemTriggerType.TimeZoneChange, false));
-                task = builder.Register();
-            }
         }
     }
 }
