@@ -136,18 +136,7 @@ namespace WoADialer.UI.Pages
 
         private async void Page_Loaded(object sender, RoutedEventArgs e)
         {
-            try
-            {
-                if (!MainEntities.Initialized)
-                {
-                    await MainEntities.Initialize();
-                }
-                PhoneCallManager.CallStateChanged += UpdateState;
-            }
-            catch (Exception ex)
-            {
-                await new MessageDialog($"{ex}").ShowAsync();
-            }
+            PhoneCallManager.CallStateChanged += UpdateState;
         }
     }
 }

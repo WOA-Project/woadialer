@@ -111,10 +111,10 @@ namespace WoADialer.UI.Pages
         protected async override void OnNavigatedTo(NavigationEventArgs e)
         {
             base.OnNavigatedTo(e);
-            if (!MainEntities.Initialized)
-            {
-                await MainEntities.Initialize();
-            }
+            //if (!MainEntities.Initialized)
+            //{
+            //    await MainEntities.Initialize();
+            //}
             CurrentCall = MainEntities.CallManager.CurrentCalls.FirstOrDefault(x => x.State == CallState.Dialing || x.State == CallState.ActiveTalking || x.State == CallState.OnHold);
             MainEntities.CallManager.CurrentCallsChanged += CallManager_CurrentCallsChanged;
         }
@@ -141,10 +141,10 @@ namespace WoADialer.UI.Pages
         {
             try
             {
-                if (!MainEntities.Initialized)
-                {
-                    await MainEntities.Initialize();
-                }
+                //if (!MainEntities.Initialized)
+                //{
+                //    await MainEntities.Initialize();
+                //}
             }
             catch (Exception ex)
             {

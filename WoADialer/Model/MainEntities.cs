@@ -12,6 +12,7 @@ using Windows.ApplicationModel.Background;
 using Windows.ApplicationModel.Calls.Background;
 using Windows.UI.Notifications.Management;
 using WoADialer.Background;
+using Windows.UI.Notifications;
 
 namespace WoADialer.Model
 {
@@ -23,28 +24,30 @@ namespace WoADialer.Model
         public static PhoneCallStore CallStore { get; private set; }
         public static PhoneCallHistoryStore CallHistoryStore { get; private set; }
         public static ProximitySensor ProximitySensor { get; private set; }
+        public static ToastNotifier ToastNotifier { get; private set; }
         
         public static async Task Initialize()
         {
-            DeviceInformationCollection devices;
-            CallManager = await CallManager.GetSystemPhoneCallManagerAsync();
-            CallStore = await PhoneCallManager.RequestStoreAsync();
-            Windows.ApplicationModel.Calls.Provider.PhoneCallOriginManager.ShowPhoneCallOriginSettingsUI();
-            CallHistoryStore = await PhoneCallHistoryManager.RequestStoreAsync(PhoneCallHistoryStoreAccessType.AllEntriesReadWrite);
-            devices = await DeviceInformation.FindAllAsync(ProximitySensor.GetDeviceSelector());
-            ProximitySensor = devices.Count > 0 ? ProximitySensor.FromId(devices.First().Id) : null;
-            UserNotificationListener listener = UserNotificationListener.Current;
-            UserNotificationListenerAccessStatus accessStatus = await listener.RequestAccessAsync();
-            await TaskManager.RegisterBackgroudTasks();
-            try
+            if (!Initialized)
             {
-                DefaultLine = await PhoneLine.FromIdAsync(await CallStore.GetDefaultLineAsync());
-            }
-            catch
-            {
+                DeviceInformationCollection devices;
+                CallManager = await CallManager.GetCallManagerAsync();
+                CallStore = await PhoneCallManager.RequestStoreAsync();
+                CallHistoryStore = await PhoneCallHistoryManager.RequestStoreAsync(PhoneCallHistoryStoreAccessType.AllEntriesReadWrite);
+                devices = await DeviceInformation.FindAllAsync(ProximitySensor.GetDeviceSelector());
+                ProximitySensor = devices.Count > 0 ? ProximitySensor.FromId(devices.First().Id) : null;
+                ToastNotifier = ToastNotificationManager.CreateToastNotifier();
+                await TaskManager.RegisterBackgroudTasks();
+                try
+                {
+                    DefaultLine = await PhoneLine.FromIdAsync(await CallStore.GetDefaultLineAsync());
+                }
+                catch
+                {
 
+                }
+                Initialized = true;
             }
-            Initialized = true;
         }
     }
 }

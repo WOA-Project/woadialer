@@ -1,14 +1,21 @@
-﻿using System;
+﻿using Internal.Windows.Calls;
+using Microsoft.QueryStringDotNET;
+using Microsoft.Toolkit.Uwp.Notifications;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
+using System.Threading;
+using System.Threading.Tasks;
 using Windows.ApplicationModel;
 using Windows.ApplicationModel.Activation;
 using Windows.ApplicationModel.Background;
 using Windows.ApplicationModel.Calls;
+using Windows.ApplicationModel.Calls.Background;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
+using Windows.UI.Notifications;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Controls.Primitives;
@@ -25,12 +32,18 @@ namespace WoADialer
 { 
     sealed partial class App : Application
     {
+        private NotificationShredder Shredder;
+        private CallWaiter Waiter;
+        private ManualResetEvent Event;
+        private Call Incoming;
+
         public App()
         {
             this.InitializeComponent();
             this.Suspending += OnSuspending;
 
-            if(SettingsManager.isFirstTimeRun()) SettingsManager.setDefaultSettings();
+            if (SettingsManager.isFirstTimeRun()) SettingsManager.setDefaultSettings();
+            MainEntities.Initialize();
         }
 
         protected override void OnActivated(IActivatedEventArgs args)
@@ -56,6 +69,23 @@ namespace WoADialer
 
                 case ActivationKind.LockScreenCall:
 
+                    break;
+                case ActivationKind.ToastNotification:
+                    var toastActivationArgs = args as ToastNotificationActivatedEventArgs;
+
+                    QueryString str = QueryString.Parse(toastActivationArgs.Argument);
+
+                    switch (str["action"])
+                    {
+                        case "answer":
+                            uint callID = uint.Parse(str["callId"]);
+                            MainEntities.CallManager.CurrentCalls.FirstOrDefault(x => x.ID == callID)?.AcceptIncomingEx();
+                            break;
+                    }
+                    if (rootFrame.BackStack.Count == 0)
+                    {
+                        rootFrame.BackStack.Add(new PageStackEntry(typeof(MainPage), null, null));
+                    }
                     break;
                 default:
                     rootFrame.Navigate(typeof(InCallUI));
@@ -95,20 +125,74 @@ namespace WoADialer
             }
         }
 
-        protected override void OnBackgroundActivated(BackgroundActivatedEventArgs args)
+        protected override async void OnBackgroundActivated(BackgroundActivatedEventArgs args)
         {
             base.OnBackgroundActivated(args);
             BackgroundTaskDeferral deferral = args.TaskInstance.GetDeferral();
             switch (args.TaskInstance.Task.Name)
             {
-                case TaskManager.USER_NOTIFICATION_CHANGED:
-                    NotificationHelper.RemoveSystemCallNotification();
+                default:
+                    deferral.Complete();
                     break;
                 case TaskManager.LINE_STATE_CHANGED:
-
+                    PhoneLineChangedTriggerDetails details = args.TaskInstance.TriggerDetails as PhoneLineChangedTriggerDetails;
+                    if (Shredder == null && Waiter == null && Incoming == null)
+                    {
+                        Event = new ManualResetEvent(false);
+                        Shredder = new NotificationShredder();
+                        Waiter = new CallWaiter();
+                        Shredder.NotificationRemoved += Shredder_NotificationRemoved;
+                        Waiter.CallAppeared += Waiter_CallAppeared;
+                        Shredder.RegisterListener();
+                        Waiter.RegisterListener();
+                        await Task.Run(() => Event.WaitOne(5000));
+                        //TaskManager.ShowToast("Registered");
+                        Event = null;
+                        Incoming = null;
+                        Waiter = null;
+                        Shredder = null;
+                        goto default;
+                    }
+                    else
+                    {
+                        //TaskManager.ShowToast("Not registered");
+                        goto default;
+                    }
                     break;
             }
-            deferral.Complete();
+        }
+
+        private void Waiter_CallAppeared(object sender, Call e)
+        {
+            Incoming = e;
+            Waiter.UnregisterListener();
+            Waiter.CallAppeared -= Waiter_CallAppeared;
+            ToastNotification notification = TaskManager.ShowCallToast(e);
+            e.StateChanged += E_StateChanged;
+            notification.Activated += Notification_Activated;
+        }
+
+        private void E_StateChanged(Call sender, CallState args)
+        {
+            sender.StateChanged -= E_StateChanged;
+            if (args == CallState.Disconnected)
+            {
+                TaskManager.ShowToast($"Missed call: {sender.Number}");
+            }
+            Event.Set();
+        }
+
+        private void Notification_Activated(ToastNotification sender, object args)
+        {
+            Incoming.StateChanged -= E_StateChanged;
+            Event.Set();
+        }
+
+        private void Shredder_NotificationRemoved(object sender, EventArgs e)
+        {
+            Shredder.UnregisterListener();
+            Shredder.NotificationRemoved -= Shredder_NotificationRemoved;
+            //TaskManager.ShowToast($"{MainEntities.CallManager.CurrentCalls.FirstOrDefault(x => x.State == CallState.Incoming)?.Number}");
         }
 
         void OnNavigationFailed(object sender, NavigationFailedEventArgs e)

@@ -5,16 +5,16 @@
   xmlns:mp="http://schemas.microsoft.com/appx/2014/phone/manifest"
   xmlns:uap="http://schemas.microsoft.com/appx/manifest/uap/windows10"
   xmlns:uap2="http://schemas.microsoft.com/appx/manifest/uap/windows10/2"
+  xmlns:uap3="http://schemas.microsoft.com/appx/manifest/uap/windows10/3"
   xmlns:uap5="http://schemas.microsoft.com/appx/manifest/uap/windows10/5"
   xmlns:rescap="http://schemas.microsoft.com/appx/manifest/foundation/windows10/restrictedcapabilities"
   xmlns:iot="http://schemas.microsoft.com/appx/manifest/iot/windows10"
-  xmlns:uap3="http://schemas.microsoft.com/appx/manifest/uap/windows10/3"
-  IgnorableNamespaces="uap mp uap2 uap5 rescap iot uap3">
+  IgnorableNamespaces="mp uap uap2 uap3 uap5 rescap iot">
 
   <Identity
     Name="1e17ea40-87af-45e2-865a-c2bd98036a67"
     Publisher="CN=ratch"
-    Version="0.1.111.0" />
+    Version="0.1.140.0" />
 
   <mp:PhoneIdentity PhoneProductId="1e17ea40-87af-45e2-865a-c2bd98036a67" PhonePublisherId="00000000-0000-0000-0000-000000000000"/>
 
@@ -61,10 +61,9 @@
         <uap:Extension Category="windows.lockScreenCall"/>
         <uap:Extension Category="windows.lockScreen"/>
         <uap:Extension Category="windows.aboveLockScreen"/>
-        <Extension Category="windows.backgroundTasks" EntryPoint="WoADialer.Model.BackgroungCallMonitor">
+        <Extension Category="windows.backgroundTasks" EntryPoint="WoADialer.App">
           <BackgroundTasks>
             <uap:Task Type="phoneCall" />
-            <Task Type="systemEvent"/>
           </BackgroundTasks>
         </Extension>
       </Extensions>
@@ -74,7 +73,7 @@
     <Extension Category="windows.activatableClass.inProcessServer">
       <InProcessServer>
         <Path>WoADialer.exe</Path>
-        <ActivatableClass ActivatableClassId="WoADialer.Model.BackgroungCallMonitor" ThreadingModel="both"/>
+        <ActivatableClass ActivatableClassId="WoADialer.App" ThreadingModel="both"/>
       </InProcessServer>
     </Extension>
   </Extensions>
