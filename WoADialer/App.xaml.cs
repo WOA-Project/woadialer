@@ -15,6 +15,7 @@ using Windows.ApplicationModel.Calls;
 using Windows.ApplicationModel.Calls.Background;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
+using Windows.UI.Core;
 using Windows.UI.Notifications;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
@@ -32,6 +33,10 @@ namespace WoADialer
 { 
     sealed partial class App : Application
     {
+        private const string TEL = "tel";
+
+        private SystemNavigationManager _NavigationManager;
+
         private NotificationShredder Shredder;
         private CallWaiter Waiter;
         private ManualResetEvent Event;
@@ -46,83 +51,111 @@ namespace WoADialer
             MainEntities.Initialize();
         }
 
-        protected override void OnActivated(IActivatedEventArgs args)
+        private Frame ConstructUI()
         {
-            Frame rootFrame = Window.Current.Content as Frame;
-            if (rootFrame == null)
+            _NavigationManager = SystemNavigationManager.GetForCurrentView();
+            _NavigationManager.BackRequested += NavigationManager_BackRequested;
+            Frame frame = Window.Current.Content as Frame;
+            if (frame == null)
             {
-                rootFrame = new Frame();
-                rootFrame.NavigationFailed += OnNavigationFailed;
-
-                Window.Current.Content = rootFrame;
+                frame = new Frame();
+                frame.NavigationFailed += Frame_NavigationFailed;
+                frame.Navigated += Frame_Navigated;
+                Window.Current.Content = frame;
             }
+            return frame;
+        }
 
+        private void Frame_NavigationFailed(object sender, NavigationFailedEventArgs e)
+        {
+            throw new Exception("Failed to load Page " + e.SourcePageType.FullName);
+        }
+
+        private void Frame_Navigated(object sender, NavigationEventArgs e)
+        {
+            Frame frame = sender as Frame;
+            _NavigationManager.AppViewBackButtonVisibility = frame.CanGoBack ? AppViewBackButtonVisibility.Visible : AppViewBackButtonVisibility.Collapsed;
+        }
+
+        private void NavigationManager_BackRequested(object sender, BackRequestedEventArgs e)
+        {
+            if (Window.Current.Content is Frame frame && frame != null)
+            {
+                if (frame.CanGoBack)
+                {
+                    frame.GoBack();
+                    e.Handled = true;
+                }
+            }
+        }
+
+        private void OnLaunchedOrActivated(IActivatedEventArgs args)
+        {
+            Frame frame;
             switch (args.Kind)
             {
-                case ActivationKind.Protocol:
-                    ProtocolActivatedEventArgs eventArgs = args as ProtocolActivatedEventArgs;
-                    rootFrame.Navigate(typeof(MainPage), eventArgs.Uri.LocalPath);
+                case ActivationKind.Launch:
+                    frame = ConstructUI();
+                    LaunchActivatedEventArgs launchActivationArgs = args as LaunchActivatedEventArgs;
+                    if (launchActivationArgs.PrelaunchActivated == false)
+                    {
+                        if (frame.Content == null)
+                        {
+                            if (PhoneCallManager.IsCallActive)
+                            {
+                                frame.Navigate(typeof(InCallUI));
+                            }
+                            else
+                            {
+                                frame.Navigate(typeof(MainPage), launchActivationArgs.Arguments);
+                            }
+                        }
+                        Window.Current.Activate();
+                    }
                     break;
-                case ActivationKind.LockScreen:
-
-                    break;
-
                 case ActivationKind.LockScreenCall:
 
                     break;
+                case ActivationKind.Protocol:
+                    frame = ConstructUI();
+                    ProtocolActivatedEventArgs protocolActivationArgs = args as ProtocolActivatedEventArgs;
+                    switch (protocolActivationArgs.Uri.Scheme)
+                    {
+                        case TEL:
+                            frame.Navigate(typeof(MainPage), protocolActivationArgs.Uri.LocalPath);
+                            break;
+                        default:
+                            throw new NotSupportedException();
+                    }
+                    Window.Current.Activate();
+                    break;
                 case ActivationKind.ToastNotification:
-                    var toastActivationArgs = args as ToastNotificationActivatedEventArgs;
-
+                    frame = ConstructUI();
+                    ToastNotificationActivatedEventArgs toastActivationArgs = args as ToastNotificationActivatedEventArgs;
                     QueryString str = QueryString.Parse(toastActivationArgs.Argument);
-
                     switch (str["action"])
                     {
                         case "answer":
                             uint callID = uint.Parse(str["callId"]);
                             MainEntities.CallManager.CurrentCalls.FirstOrDefault(x => x.ID == callID)?.AcceptIncomingEx();
+                            frame.Navigate(typeof(InCallUI), callID);
                             break;
                     }
-                    if (rootFrame.BackStack.Count == 0)
-                    {
-                        rootFrame.BackStack.Add(new PageStackEntry(typeof(MainPage), null, null));
-                    }
+                    Window.Current.Activate();
                     break;
                 default:
-                    rootFrame.Navigate(typeof(InCallUI));
-                    break;
+                    throw new NotSupportedException();
             }
-            Window.Current.Activate();
+        }
+
+        protected override void OnActivated(IActivatedEventArgs args)
+        {
+            OnLaunchedOrActivated(args);
         }
 
         protected override void OnLaunched(LaunchActivatedEventArgs e)
         {
-            Frame rootFrame = Window.Current.Content as Frame;
-            if (rootFrame == null)
-            {
-                rootFrame = new Frame();
-                rootFrame.NavigationFailed += OnNavigationFailed;
-
-                if (e.PreviousExecutionState == ApplicationExecutionState.Terminated)
-                {
-                }
-
-                Window.Current.Content = rootFrame;
-            }
-
-            if (e.PrelaunchActivated == false)
-            {
-                if (rootFrame.Content == null)
-                {
-                    if (PhoneCallManager.IsCallActive)
-                    {
-                        rootFrame.Navigate(typeof(InCallUI));
-                    } else
-                    {
-                        rootFrame.Navigate(typeof(MainPage), e.Arguments);
-                    }
-                }
-                Window.Current.Activate();
-            }
+            OnLaunchedOrActivated(e);
         }
 
         protected override async void OnBackgroundActivated(BackgroundActivatedEventArgs args)
@@ -193,11 +226,6 @@ namespace WoADialer
             Shredder.UnregisterListener();
             Shredder.NotificationRemoved -= Shredder_NotificationRemoved;
             //TaskManager.ShowToast($"{MainEntities.CallManager.CurrentCalls.FirstOrDefault(x => x.State == CallState.Incoming)?.Number}");
-        }
-
-        void OnNavigationFailed(object sender, NavigationFailedEventArgs e)
-        {
-            throw new Exception("Failed to load Page " + e.SourcePageType.FullName);
         }
 
         private void OnSuspending(object sender, SuspendingEventArgs e)
