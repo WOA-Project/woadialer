@@ -117,11 +117,47 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="About_About.Text" xml:space="preserve">
+    <value>Об этом приложении</value>
+    <comment>About this application title for About</comment>
+  </data>
+  <data name="About_AcknowledgementsIntro.Text" xml:space="preserve">
+    <value>Это приложение использует код следущих проектов:</value>
+    <comment>About - Acknowlegdements Intro text</comment>
+  </data>
+  <data name="About_Description.Text" xml:space="preserve">
+    <value>Создано WOA Project, 2019</value>
+    <comment>About this application description for Settings</comment>
+  </data>
+  <data name="About_GitHubLink.Content" xml:space="preserve">
+    <value>Проект на GitHub</value>
+    <comment>GitHub project link content for About</comment>
+  </data>
+  <data name="About_LinksTitle.Text" xml:space="preserve">
+    <value>Ссылки</value>
+    <comment>About - Title of the Links category</comment>
+  </data>
+  <data name="About_Title.Text" xml:space="preserve">
+    <value>О приложении</value>
+    <comment>Page title for AboutDialog</comment>
+  </data>
+  <data name="About_Translators.Text" xml:space="preserve">
+    <value>Русский, Английский языки предоставлены WOA Project
+*future languages*</value>
+    <comment>About - List of translators</comment>
+  </data>
+  <data name="About_TranslatorsTitle.Text" xml:space="preserve">
+    <value>Переводчики</value>
+    <comment>About - Translators</comment>
+  </data>
   <data name="Button_Call.Text" xml:space="preserve">
     <value>Набрать номер</value>
   </data>
   <data name="Button_EndCall.Text" xml:space="preserve">
     <value>Завершить вызов</value>
+  </data>
+  <data name="Notification.MissedCall.Headline" xml:space="preserve">
+    <value>Пропущеный вызов</value>
   </data>
   <data name="NumPad_0.AdditionalChars" xml:space="preserve">
     <value />

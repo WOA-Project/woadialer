@@ -182,7 +182,7 @@
     <comment>Page title for AboutDialog</comment>
   </data>
   <data name="About_Translators.Text" xml:space="preserve">
-    <value>English by WOA Project
+    <value>English, Russian by WOA Project
 *future languages*</value>
     <comment>About - List of translators</comment>
   </data>
@@ -195,6 +195,9 @@
   </data>
   <data name="Button_EndCall.Text" xml:space="preserve">
     <value>End call</value>
+  </data>
+  <data name="Notification.MissedCall.Headline" xml:space="preserve">
+    <value>Missed call</value>
   </data>
   <data name="NumPad_0.AdditionalChars" xml:space="preserve">
     <value />
