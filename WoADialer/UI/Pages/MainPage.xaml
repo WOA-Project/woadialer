@@ -6,8 +6,7 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:controls="using:WoADialer.UI.Controls"
-    mc:Ignorable="d" 
-    Loaded="Page_Loaded">
+    mc:Ignorable="d">
 
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
           Padding="12">

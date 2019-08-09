@@ -34,8 +34,6 @@ namespace WoADialer.UI.Pages
             titleBar.ButtonInactiveBackgroundColor = ((SolidColorBrush)Application.Current.Resources["ApplicationPageBackgroundThemeBrush"]).Color;
 
             //if calls missed // callHistoryButton.Content = "&#xF739;";
-
-            UpdateState(null, null);
         }
 
         protected override void OnNavigatedTo(NavigationEventArgs e)
@@ -53,7 +51,6 @@ namespace WoADialer.UI.Pages
         protected override void OnNavigatingFrom(NavigatingCancelEventArgs e)
         {
             base.OnNavigatingFrom(e);
-            PhoneCallManager.CallStateChanged -= UpdateState;
         }
 
         private void UpdateCurrentNumber()
@@ -62,32 +59,11 @@ namespace WoADialer.UI.Pages
             numberToDialBox.Text = currentNumber.ToString(SettingsManager.getNumberFormatting());
         }
 
-        private async void UpdateState(object sender, object args)
-        {
-            await CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, async () =>
-            {
-                if (PhoneCallManager.IsCallActive) callStateIndicatorText.Text = "Status: Call Active";
-                else if (PhoneCallManager.IsCallIncoming) callStateIndicatorText.Text = "Status: Call Incoming";
-                else callStateIndicatorText.Text = "Status: Phone Idle";
-                if (PhoneCallManager.IsCallActive)
-                {
-                    try
-                    {
-                        Frame.Navigate(typeof(InCallUI));
-                    }
-                    catch (Exception ex)
-                    {
-                        await new MessageDialog(ex.ToString()).ShowAsync();
-                    }
-                }
-            });
-        }
-
         private void CallButton_Click(object sender, RoutedEventArgs e)
         {
             try
             {
-                MainEntities.DefaultLine?.Dial(currentNumber.ToString(), "test");
+                //App.Current.DefaultLine?.Dial(currentNumber.ToString(), "test");
             }
             catch (Exception ee)
             {
@@ -132,11 +108,6 @@ namespace WoADialer.UI.Pages
         {
             AboutDialog dialog = new AboutDialog();
             await dialog.ShowAsync();
-        }
-
-        private async void Page_Loaded(object sender, RoutedEventArgs e)
-        {
-            PhoneCallManager.CallStateChanged += UpdateState;
         }
     }
 }

@@ -7,6 +7,7 @@
   xmlns:uap2="http://schemas.microsoft.com/appx/manifest/uap/windows10/2"
   xmlns:uap3="http://schemas.microsoft.com/appx/manifest/uap/windows10/3"
   xmlns:uap5="http://schemas.microsoft.com/appx/manifest/uap/windows10/5"
+  xmlns:uap7="http://schemas.microsoft.com/appx/manifest/uap/windows10/7"
   xmlns:rescap="http://schemas.microsoft.com/appx/manifest/foundation/windows10/restrictedcapabilities"
   xmlns:iot="http://schemas.microsoft.com/appx/manifest/iot/windows10"
   IgnorableNamespaces="mp uap uap2 uap3 uap5 rescap iot">
@@ -14,7 +15,7 @@
   <Identity
     Name="1e17ea40-87af-45e2-865a-c2bd98036a67"
     Publisher="CN=ratch"
-    Version="0.1.141.0" />
+    Version="0.1.142.0" />
 
   <mp:PhoneIdentity PhoneProductId="1e17ea40-87af-45e2-865a-c2bd98036a67" PhonePublisherId="00000000-0000-0000-0000-000000000000"/>
 
@@ -79,12 +80,14 @@
   </Extensions>
 
   <Capabilities>
-    <uap:Capability Name="phoneCall" />
     <uap:Capability Name="contacts" />
+    <uap:Capability Name="phoneCall" />
+    <uap:Capability Name="voipCall"/>
+    <uap2:Capability Name="phoneCallHistoryPublic"/>
+    <uap3:Capability Name="userNotificationListener"/>
+    <uap7:Capability Name="globalMediaControl"/>
     <rescap:Capability Name="phoneCallHistorySystem" />
     <rescap:Capability Name="phoneCallSystem" />
-    <uap2:Capability Name="phoneCallHistoryPublic"/>
-    <uap:Capability Name="voipCall"/>
-    <uap3:Capability Name="userNotificationListener"/>
+    <DeviceCapability Name="webcam"/>
   </Capabilities>
 </Package>
