@@ -23,6 +23,7 @@ namespace WoADialer.UI.Pages
     public sealed partial class MainPage : Page
     {
         private PhoneNumber currentNumber;
+        private PhoneLine _CurrentPhoneLine;
 
         public MainPage()
         {
@@ -59,11 +60,12 @@ namespace WoADialer.UI.Pages
             numberToDialBox.Text = currentNumber.ToString(SettingsManager.getNumberFormatting());
         }
 
-        private void CallButton_Click(object sender, RoutedEventArgs e)
+        private async void CallButton_Click(object sender, RoutedEventArgs e)
         {
             try
             {
-                //App.Current.DefaultLine?.Dial(currentNumber.ToString(), "test");
+                _CurrentPhoneLine = await PhoneLine.FromIdAsync(await App.Current.CallStore.GetDefaultLineAsync());
+                _CurrentPhoneLine.DialWithOptions(new PhoneDialOptions() { Number = currentNumber.ToString() });
             }
             catch (Exception ee)
             {
@@ -108,6 +110,31 @@ namespace WoADialer.UI.Pages
         {
             AboutDialog dialog = new AboutDialog();
             await dialog.ShowAsync();
+        }
+
+        private void CallHistoryButton_Click(object sender, RoutedEventArgs e)
+        {
+            Frame.Navigate(typeof(History));
+        }
+
+        private async void Page_Loaded(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                //_CurrentPhoneLine = await PhoneLine.FromIdAsync(await App.Current.CallStore.GetDefaultLineAsync());
+            }
+            catch
+            {
+
+            }
+            lv_CallHistory.Items.Clear();
+            IReadOnlyList<PhoneCallHistoryEntry> _entries = await App.Current.CallHistoryStore.GetEntryReader().ReadBatchAsync();
+            List<PhoneCallHistoryEntry> entries = _entries.ToList();
+            entries.Sort((x, y) => y.StartTime.CompareTo(x.StartTime));
+            foreach(PhoneCallHistoryEntry entry in entries)
+            {
+                lv_CallHistory.Items.Add(new TextBlock() { Text = $"{entry.StartTime}: {entry.Address.DisplayName} {entry.Address.RawAddress} {(entry.IsMissed ? "Missed" : "")}" });
+            }
         }
     }
 }

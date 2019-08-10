@@ -77,11 +77,11 @@ namespace WoADialer.UI.Pages
             }
         }
 
-        private async void CurrentCall_StateChanged(Call sender, CallState args)
+        private async void CurrentCall_StateChanged(Call sender, CallStateChangedEventArgs args)
         {
             try
             {
-                switch (args)
+                switch (args.NewState)
                 {
                     case CallState.ActiveTalking:
                         //vibrate
@@ -111,10 +111,6 @@ namespace WoADialer.UI.Pages
         protected async override void OnNavigatedTo(NavigationEventArgs e)
         {
             base.OnNavigatedTo(e);
-            //if (!MainEntities.Initialized)
-            //{
-            //    await MainEntities.Initialize();
-            //}
             CurrentCall = App.Current.CallManager.CurrentCalls.FirstOrDefault(x => x.State == CallState.Dialing || x.State == CallState.ActiveTalking || x.State == CallState.OnHold);
             App.Current.CallManager.CurrentCallsChanged += CallManager_CurrentCallsChanged;
         }
@@ -139,17 +135,7 @@ namespace WoADialer.UI.Pages
 
         private async void Page_Loaded(object sender, RoutedEventArgs e)
         {
-            try
-            {
-                //if (!MainEntities.Initialized)
-                //{
-                //    await MainEntities.Initialize();
-                //}
-            }
-            catch (Exception ex)
-            {
-                await new MessageDialog(ex.ToString()).ShowAsync();
-            }
+
         }
     }
 }

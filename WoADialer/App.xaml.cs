@@ -30,6 +30,7 @@ using Windows.UI.Xaml.Data;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
+using WoADialer.Background;
 using WoADialer.Helpers;
 using WoADialer.Model;
 using WoADialer.UI.Pages;
@@ -93,8 +94,9 @@ namespace WoADialer
 
         public static new App Current => Application.Current as App;
 
-        private ManualResetEvent CallHandler;
+        private ManualResetEvent _CallHandler;
         private bool InitInWindowThread;
+        private Task Initialisation;
 
         #region Notification system objects
         public UserNotificationListener NotificationListener { get; private set; }
@@ -106,6 +108,7 @@ namespace WoADialer
 
         #region Call system objects
         public CallManager CallManager { get; private set; }
+        public CallHandler CallHandler { get; private set; }
         public PhoneCallHistoryStore CallHistoryStore { get; private set; }
         public PhoneCallStore CallStore { get; private set; }
         #endregion
@@ -128,30 +131,14 @@ namespace WoADialer
             Suspending += OnSuspending;
             UnhandledException += OnUnhandledException;
 
-            CallHandler = new ManualResetEvent(false);
+            _CallHandler = new ManualResetEvent(false);
 
             if (SettingsManager.isFirstTimeRun()) SettingsManager.setDefaultSettings();
 
             ApplicationDataContainer roamingSettings = ApplicationData.Current.RoamingSettings;
             bool? firstRun = roamingSettings.Values["ftest"] as bool?;
 
-            if (firstRun ?? false)
-            {
-                Task t = Task.Run(InitializateSystems);
-                try
-                {
-                    t.Wait();
-                }
-                catch
-                {
-                    InitInWindowThread = true;
-                    roamingSettings.Values["ftest"] = false;
-                }
-            }
-            else
-            {
-                InitInWindowThread = true;
-            }
+            Initialisation = InitializateSystems();
         }
 
         private void OnUnhandledException(object sender, Windows.UI.Xaml.UnhandledExceptionEventArgs e)
@@ -159,18 +146,18 @@ namespace WoADialer
             e.Handled = true;
         }
 
-        private async void AccessSetup()
+        private async Task AccessSetup()
         {
             await UserNotificationListener.Current.RequestAccessAsync();
-            //await PhoneCallOriginManager.RequestSetAsActiveCallOriginAppAsync();
+            await PhoneCallOriginManager.RequestSetAsActiveCallOriginAppAsync();
         }
 
         #region Application state managment
         private async Task InitializateSystems()
         {
             await InitializateBackgroundSystem();
-            await InitializateCallSystem();
             InitializateNotificationSystem();
+            await InitializateCallSystem();
         }
 
         protected override void OnActivated(IActivatedEventArgs args)
@@ -182,31 +169,39 @@ namespace WoADialer
         {
             base.OnBackgroundActivated(args);
             BackgroundTaskDeferral deferral = args.TaskInstance.GetDeferral();
-            switch (args.TaskInstance.Task.Name)
+            try
             {
-                default:
-                    deferral.Complete();
-                    break;
-                case CALL_ORIGIN_DATA_REQUEST:
-                    //PhoneCallOriginDataRequestTriggerDetails originDataRequest = args.TaskInstance.TriggerDetails as PhoneCallOriginDataRequestTriggerDetails;
-                    //PhoneCallOrigin data = new PhoneCallOrigin();
-                    //data.Category = "Category";
-                    //data.CategoryDescription = "CategoryDescription";
-                    //data.DisplayName = "DisplayName";
-                    //data.Location = "Location";
-                    //PhoneCallOriginManager.SetCallOrigin(originDataRequest.RequestId, data);
-                    goto default;
-                case LINE_STATE_CHANGED:
-                    PhoneLineChangedTriggerDetails lineChangedDetails = args.TaskInstance.TriggerDetails as PhoneLineChangedTriggerDetails;
-                    await Task.Run(OnLateBackgroundActivation);
-                    CallHandler.WaitOne(WAIT_CALL_DURATION);
-                    CallHandler.Reset();
-                    deferral.Complete();
-                    break;
-                case TOAST_BACKGROUNG_ACTIVATED:
-                    ToastNotificationActionTriggerDetail toastDetails = args.TaskInstance.TriggerDetails as ToastNotificationActionTriggerDetail;
-                    OnToastNotificationActivated(ToastActivationType.Background, toastDetails.Argument);
-                    goto default;
+                await Initialisation;
+                switch (args.TaskInstance.Task.Name)
+                {
+                    case CALL_ORIGIN_DATA_REQUEST:
+                        //PhoneCallOriginDataRequestTriggerDetails originDataRequest = args.TaskInstance.TriggerDetails as PhoneCallOriginDataRequestTriggerDetails;
+                        //PhoneCallOrigin data = new PhoneCallOrigin();
+                        //data.Category = "Category";
+                        //data.CategoryDescription = "CategoryDescription";
+                        //data.DisplayName = "DisplayName";
+                        //data.Location = "Location";
+                        //PhoneCallOriginManager.SetCallOrigin(originDataRequest.RequestId, data);
+                        break;
+                    case LINE_STATE_CHANGED:
+                        PhoneLineChangedTriggerDetails lineChangedDetails = args.TaskInstance.TriggerDetails as PhoneLineChangedTriggerDetails;
+                        await Task.Run(OnLateBackgroundActivation);
+                        _CallHandler.WaitOne(WAIT_CALL_DURATION);
+                        _CallHandler.Reset();
+                        break;
+                    case TOAST_BACKGROUNG_ACTIVATED:
+                        ToastNotificationActionTriggerDetail toastDetails = args.TaskInstance.TriggerDetails as ToastNotificationActionTriggerDetail;
+                        OnToastNotificationActivated(ToastActivationType.Background, toastDetails.Argument);
+                        break;
+                }
+            }
+            catch
+            {
+
+            }
+            finally
+            {
+                deferral.Complete();
             }
         }
 
@@ -228,9 +223,21 @@ namespace WoADialer
             OnLaunchedOrActivated(e);
         }
 
-        private void OnLaunchedOrActivated(IActivatedEventArgs args)
+        private async void OnLaunchedOrActivated(IActivatedEventArgs args)
         {
             Frame frame;
+            try
+            {
+                await Initialisation;
+            }
+            catch
+            {
+                await Window.Current.Dispatcher.RunAsync(CoreDispatcherPriority.High, async () =>
+                {
+                    await AccessSetup();
+                    InitializateSystems();
+                });
+            }
             switch (args.Kind)
             {
                 case ActivationKind.Launch:
@@ -278,17 +285,6 @@ namespace WoADialer
                     throw new NotSupportedException();
             }
             Window.Current.Activate();
-            Window.Current.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () => PhoneCallOriginManager.RequestSetAsActiveCallOriginAppAsync());
-            if (InitInWindowThread)
-            {
-                ApplicationDataContainer roamingSettings = ApplicationData.Current.RoamingSettings;
-                roamingSettings.Values["ftest"] = true;
-                Window.Current.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
-                {
-                    AccessSetup();
-                    InitializateSystems();
-                });
-            }
         }
 
         private void OnLeavingBackground(object sender, LeavingBackgroundEventArgs e)
@@ -705,7 +701,7 @@ namespace WoADialer
             return notification;
         }
 
-        private ToastNotification CreateMissedCallToastNotification(Call call)
+        internal ToastNotification CreateMissedCallToastNotification(Call call)
         {
             ToastContent toastContent = new ToastContent()
             {
@@ -877,18 +873,20 @@ namespace WoADialer
             CallManager = await CallManager.GetCallManagerAsync();
             CallStore = await PhoneCallManager.RequestStoreAsync();
             CallHistoryStore = await PhoneCallHistoryManager.RequestStoreAsync(PhoneCallHistoryStoreAccessType.AllEntriesReadWrite);
+            CallHandler = new CallHandler();
+            CallHandler.Start();
             CallManager.CallAppeared += CallManager_CallAppeared;
         }
 
         private void CallManager_CallAppeared(CallManager sender, Call args)
         {
             RefreshCallNotification();
-            CallHandler.Set();
+            _CallHandler.Set();
         }
 
-        private void Call_StateChanged(Call sender, CallState args)
+        private void Call_StateChanged(Call sender, CallStateChangedEventArgs args)
         {
-            switch (args)
+            switch (args.NewState)
             {
                 case CallState.Disconnected:
                     RemoveIncomingOrActiveCallToastNotifications();
@@ -917,7 +915,7 @@ namespace WoADialer
             if (notification != null)
             {
                 ToastNotifier.Show(notification);
-                CallHandler.Set();
+                _CallHandler.Set();
             }
         }
         #endregion

@@ -6,7 +6,7 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:controls="using:WoADialer.UI.Controls"
-    mc:Ignorable="d">
+    mc:Ignorable="d" Loaded="Page_Loaded">
 
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
           Padding="12">
@@ -66,8 +66,7 @@
                     Width="64"
                     Height="64"
                     FontFamily="Segoe MDL2 Assets" 
-                    Content="&#xF738;" 
-                    Click="SettingsButton_Click" />
+                    Content="&#xF738;" Click="CallHistoryButton_Click"/>
         </StackPanel>
 
         <StackPanel Grid.Row="2" Margin="0, 0, 10, 0" HorizontalAlignment="Right" VerticalAlignment="Bottom" Orientation="Horizontal">
@@ -114,6 +113,7 @@
                 </StackPanel>
             </Button.Content>
         </Button>
+        <ListView Name="lv_CallHistory" Grid.Row="2"/>
 
         <!-- Space for a Commandbar for options n stuff -->
 
