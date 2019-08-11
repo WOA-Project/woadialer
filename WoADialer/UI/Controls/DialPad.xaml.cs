@@ -1,18 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Runtime.InteropServices.WindowsRuntime;
-using Windows.Foundation;
-using Windows.Foundation.Collections;
 using Windows.UI.Input;
-using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Controls.Primitives;
-using Windows.UI.Xaml.Data;
 using Windows.UI.Xaml.Input;
-using Windows.UI.Xaml.Media;
-using Windows.UI.Xaml.Navigation;
 
 namespace WoADialer.UI.Controls
 {
@@ -35,10 +24,10 @@ namespace WoADialer.UI.Controls
         {
             if (sender is DigitButton button)
             {
-                switch(button.Digit)
+                switch (button.Digit)
                 {
                     case "0":
-                        if(e.PointerDeviceType == Windows.Devices.Input.PointerDeviceType.Touch)
+                        if (e.PointerDeviceType == Windows.Devices.Input.PointerDeviceType.Touch)
                         {
                             DigitTapped?.Invoke(this, '+');
                         }
@@ -54,7 +43,7 @@ namespace WoADialer.UI.Controls
                 PointerPoint pp = e.GetCurrentPoint(button);
                 if (pp.Properties.IsRightButtonPressed == true && button.Digit == "0") DigitTapped?.Invoke(this, '+');
                 else DigitTapped?.Invoke(this, button.Digit[0]);
-            } 
+            }
         }
     }
 }

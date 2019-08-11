@@ -1,8 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 
 namespace WoADialer.Model
 {
@@ -56,12 +54,13 @@ namespace WoADialer.Model
                     case "None":
                         return ToString();
                     case "Italian":
-                        if(Numbers.Count > 3)
+                        if (Numbers.Count > 3)
                         {
                             result.Append(Numbers.Take(3).ToArray());
                             result.Append(' ');
                             result.Append(Numbers.TakeLast(Numbers.Count - 3).ToArray());
-                        } else
+                        }
+                        else
                         {
                             result.Append(Numbers.Take(Numbers.Count).ToArray());
                         }

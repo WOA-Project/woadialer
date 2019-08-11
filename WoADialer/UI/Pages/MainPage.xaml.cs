@@ -1,39 +1,30 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
-using Windows.ApplicationModel.Calls;
-using Internal.Windows.Calls;
-using Windows.ApplicationModel.Contacts;
-using Windows.ApplicationModel.Core;
-using Windows.UI.Core;
-using Windows.UI.Popups;
-using Windows.UI.ViewManagement;
+using Windows.System;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Input;
-using Windows.UI.Xaml.Media;
+using Windows.UI.Xaml.Media.Animation;
 using Windows.UI.Xaml.Navigation;
-using WoADialer.Model;
 using WoADialer.UI.Dialogs;
-using WoADialer.Helpers;
+using MUXC = Microsoft.UI.Xaml.Controls;
 
 namespace WoADialer.UI.Pages
 {
     public sealed partial class MainPage : Page
     {
-        private PhoneNumber currentNumber;
-        private PhoneLine _CurrentPhoneLine;
+        // List of ValueTuple holding the Navigation Tag and the relative Navigation Page
+        private readonly List<(string Tag, Type Page)> _pages = new List<(string Tag, Type Page)>
+        {
+            ("History", typeof(HistoryPage)),
+            ("Contacts", typeof(ContactsPage)),
+            ("Dial", typeof(DialPage))
+        };
 
         public MainPage()
         {
             this.InitializeComponent();
-
-            CoreApplication.GetCurrentView().TitleBar.ExtendViewIntoTitleBar = false;
-            ApplicationViewTitleBar titleBar = ApplicationView.GetForCurrentView().TitleBar;
-            titleBar.ButtonBackgroundColor = ((SolidColorBrush)Application.Current.Resources["ApplicationPageBackgroundThemeBrush"]).Color;
-            titleBar.ButtonInactiveBackgroundColor = ((SolidColorBrush)Application.Current.Resources["ApplicationPageBackgroundThemeBrush"]).Color;
-
             //if calls missed // callHistoryButton.Content = "&#xF739;";
         }
 
@@ -43,8 +34,7 @@ namespace WoADialer.UI.Pages
             switch (e.Parameter)
             {
                 case string number:
-                    currentNumber = PhoneNumber.Parse(number);
-                    UpdateCurrentNumber();
+                    NavView_Navigate("Dial", new EntranceNavigationTransitionInfo(), number);
                     break;
             }
         }
@@ -54,87 +44,163 @@ namespace WoADialer.UI.Pages
             base.OnNavigatingFrom(e);
         }
 
-        private void UpdateCurrentNumber()
+        private async void NavView_ItemInvoked(MUXC.NavigationView sender, MUXC.NavigationViewItemInvokedEventArgs args)
         {
-            callButton.IsEnabled = !string.IsNullOrWhiteSpace(currentNumber.ToString());
-            numberToDialBox.Text = currentNumber.ToString(SettingsManager.getNumberFormatting());
-        }
-
-        private async void CallButton_Click(object sender, RoutedEventArgs e)
-        {
-            try
+            if (args.IsSettingsInvoked == true)
             {
-                _CurrentPhoneLine = await PhoneLine.FromIdAsync(await App.Current.CallStore.GetDefaultLineAsync());
-                _CurrentPhoneLine.DialWithOptions(new PhoneDialOptions() { Number = currentNumber.ToString() });
+                SettingsDialog dialog = new SettingsDialog();
+                await dialog.ShowAsync();
             }
-            catch (Exception ee)
+            else if (args.InvokedItemContainer != null)
             {
-                handleException(ee);
+                var navItemTag = args.InvokedItemContainer.Tag.ToString();
+                NavView_Navigate(navItemTag, args.RecommendedNavigationTransitionInfo);
             }
         }
 
-        public async void handleException(Exception e)
+        private void NavView_Loaded(object sender, RoutedEventArgs e)
         {
-            var messageDialog = new MessageDialog(e.Message + "\n\n\n" + e.StackTrace);
+            // Add handler for ContentFrame navigation.
+            ContentFrame.Navigated += On_Navigated;
 
-            messageDialog.Commands.Add(new UICommand("Close", new UICommandInvokedHandler(this.CommandInvokedHandler)));
+            // NavView doesn't load any page by default, so load home page.
+            NavView.SelectedItem = NavView.MenuItems[2];
+            // If navigation occurs on SelectionChanged, this isn't needed.
+            // Because we use ItemInvoked to navigate, we need to call Navigate
+            // here to load the home page.
+            NavView_Navigate("Dial", new EntranceNavigationTransitionInfo());
 
-            messageDialog.DefaultCommandIndex = 0;
-            await messageDialog.ShowAsync();
+            // Add keyboard accelerators for backwards navigation.
+            var goBack = new KeyboardAccelerator { Key = VirtualKey.GoBack };
+            goBack.Invoked += BackInvoked;
+            this.KeyboardAccelerators.Add(goBack);
+
+            // ALT routes here
+            var altLeft = new KeyboardAccelerator
+            {
+                Key = VirtualKey.Left,
+                Modifiers = VirtualKeyModifiers.Menu
+            };
+            altLeft.Invoked += BackInvoked;
+            this.KeyboardAccelerators.Add(altLeft);
         }
 
-        private void CommandInvokedHandler(IUICommand command)
+        private async void NavView_SelectionChanged(MUXC.NavigationView sender, MUXC.NavigationViewSelectionChangedEventArgs args)
         {
-            //CoreApplication.Exit();
+            if (args.IsSettingsSelected == true)
+            {
+                SettingsDialog dialog = new SettingsDialog();
+                await dialog.ShowAsync();
+            }
+            else if (args.SelectedItemContainer != null)
+            {
+                var navItemTag = args.SelectedItemContainer.Tag.ToString();
+                NavView_Navigate(navItemTag, args.RecommendedNavigationTransitionInfo);
+            }
         }
 
-        private void DeleteLastNumberButton_Click(object sender, RoutedEventArgs e)
+        private async void NavView_Navigate(string navItemTag, NavigationTransitionInfo transitionInfo)
         {
-            currentNumber.RemoveLastChar();
-            UpdateCurrentNumber();
+            Type _page = null;
+            if (navItemTag == "settings")
+            {
+                SettingsDialog dialog = new SettingsDialog();
+                await dialog.ShowAsync();
+            }
+            else if (navItemTag == "About")
+            {
+                AboutDialog dialog = new AboutDialog();
+                await dialog.ShowAsync();
+            }
+            else
+            {
+                var item = _pages.FirstOrDefault(p => p.Tag.Equals(navItemTag));
+                _page = item.Page;
+            }
+            // Get the page type before navigation so you can prevent duplicate
+            // entries in the backstack.
+            var preNavPageType = ContentFrame.CurrentSourcePageType;
+
+            // Only navigate if the selected page isn't currently loaded.
+            if (!(_page is null) && !Type.Equals(preNavPageType, _page))
+            {
+                ContentFrame.Navigate(_page, null, transitionInfo);
+            }
         }
 
-        private void NumPad_DigitTapped(object sender, char e)
+        private async void NavView_Navigate(string navItemTag, NavigationTransitionInfo transitionInfo, object parameter)
         {
-            currentNumber.AddLastChar(e);
-            UpdateCurrentNumber();
+            Type _page = null;
+            if (navItemTag == "settings")
+            {
+                SettingsDialog dialog = new SettingsDialog();
+                await dialog.ShowAsync();
+            }
+            else if (navItemTag == "About")
+            {
+                AboutDialog dialog = new AboutDialog();
+                await dialog.ShowAsync();
+            }
+            else
+            {
+                var item = _pages.FirstOrDefault(p => p.Tag.Equals(navItemTag));
+                _page = item.Page;
+            }
+            // Get the page type before navigation so you can prevent duplicate
+            // entries in the backstack.
+            var preNavPageType = ContentFrame.CurrentSourcePageType;
+
+            // Only navigate if the selected page isn't currently loaded.
+            if (!(_page is null) && !Type.Equals(preNavPageType, _page))
+            {
+                ContentFrame.Navigate(_page, parameter, transitionInfo);
+            }
         }
 
-        private async void SettingsButton_Click(object sender, RoutedEventArgs e)
+        private void NavView_BackRequested(MUXC.NavigationView sender, MUXC.NavigationViewBackRequestedEventArgs args)
         {
-            SettingsDialog dialog = new SettingsDialog();
-            await dialog.ShowAsync();
+            On_BackRequested();
+        }
+
+        private void BackInvoked(KeyboardAccelerator sender, KeyboardAcceleratorInvokedEventArgs args)
+        {
+            On_BackRequested();
+            args.Handled = true;
+        }
+
+        private bool On_BackRequested()
+        {
+            if (!ContentFrame.CanGoBack)
+                return false;
+
+            // Don't go back if the nav pane is overlayed.
+            if (NavView.IsPaneOpen &&
+                (NavView.DisplayMode == MUXC.NavigationViewDisplayMode.Compact ||
+                 NavView.DisplayMode == MUXC.NavigationViewDisplayMode.Minimal))
+                return false;
+
+            ContentFrame.GoBack();
+            return true;
+        }
+
+        private void On_Navigated(object sender, NavigationEventArgs e)
+        {
+            NavView.IsBackEnabled = ContentFrame.CanGoBack;
+
+            if (ContentFrame.SourcePageType != null)
+            {
+                var item = _pages.FirstOrDefault(p => p.Page == e.SourcePageType);
+
+                NavView.SelectedItem = NavView.MenuItems
+                    .OfType<MUXC.NavigationViewItem>()
+                    .First(n => n.Tag.Equals(item.Tag));
+            }
         }
 
         private async void AboutButton_Click(object sender, RoutedEventArgs e)
         {
             AboutDialog dialog = new AboutDialog();
             await dialog.ShowAsync();
-        }
-
-        private void CallHistoryButton_Click(object sender, RoutedEventArgs e)
-        {
-            Frame.Navigate(typeof(History));
-        }
-
-        private async void Page_Loaded(object sender, RoutedEventArgs e)
-        {
-            try
-            {
-                //_CurrentPhoneLine = await PhoneLine.FromIdAsync(await App.Current.CallStore.GetDefaultLineAsync());
-            }
-            catch
-            {
-
-            }
-            lv_CallHistory.Items.Clear();
-            IReadOnlyList<PhoneCallHistoryEntry> _entries = await App.Current.CallHistoryStore.GetEntryReader().ReadBatchAsync();
-            List<PhoneCallHistoryEntry> entries = _entries.ToList();
-            entries.Sort((x, y) => y.StartTime.CompareTo(x.StartTime));
-            foreach(PhoneCallHistoryEntry entry in entries)
-            {
-                lv_CallHistory.Items.Add(new TextBlock() { Text = $"{entry.StartTime}: {entry.Address.DisplayName} {entry.Address.RawAddress} {(entry.IsMissed ? "Missed" : "")}" });
-            }
         }
     }
 }

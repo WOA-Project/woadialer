@@ -1,9 +1,5 @@
 ﻿using Internal.Windows.Calls;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Windows.ApplicationModel.Calls;
 
 namespace WoADialer.Background
@@ -22,7 +18,7 @@ namespace WoADialer.Background
 
         private async void Call_StateChanged(Call sender, CallStateChangedEventArgs args)
         {
-            switch(args.NewState)
+            switch (args.NewState)
             {
                 case CallState.Disconnected:
                     switch (args.OldState)
