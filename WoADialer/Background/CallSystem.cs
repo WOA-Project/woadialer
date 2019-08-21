@@ -129,7 +129,7 @@ namespace WoADialer.Background
                     }
                     break;
                 case CallState.ActiveTalking:
-                    SimpleHapticsControllerFeedback feedback = App.Current.DeviceSystem.VibrationDevice?.SimpleHapticsController.SupportedFeedback.First(x => x.Waveform == KnownSimpleHapticsControllerWaveforms.Release);
+                    SimpleHapticsControllerFeedback feedback = App.Current.DeviceSystem.VibrationDevice?.SimpleHapticsController.SupportedFeedback.First();
                     App.Current.DeviceSystem.VibrationDevice?.SimpleHapticsController.SendHapticFeedback(feedback);
                     break;
                 case CallState.Dialing:
