@@ -6,118 +6,41 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:controls="using:WoADialer.UI.Controls"
-    mc:Ignorable="d" Loaded="Page_Loaded">
+    xmlns:muxc="using:Microsoft.UI.Xaml.Controls"
+    mc:Ignorable="d" Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
 
-    <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
-          Padding="12">
-        <Grid.RowDefinitions>
-            <RowDefinition Height="64"/>
-            <RowDefinition Height="32"/>
-            <RowDefinition Height="1*" />
-            <RowDefinition Height="384" />
-            <RowDefinition Height="96" />
-        </Grid.RowDefinitions>
+    <Grid>
+        <muxc:NavigationView Margin="0,30,0,0" x:Name="NavView" PaneDisplayMode="Top" Loaded="NavView_Loaded" ItemInvoked="NavView_ItemInvoked" BackRequested="NavView_BackRequested" AlwaysShowHeader="True" Background="{ThemeResource SystemControlAcrylicWindowBrush}">
+            <muxc:NavigationView.MenuItems>
+                <muxc:NavigationViewItem Content="History" Tag="History">
+                    <muxc:NavigationViewItem.Icon>
+                        <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xE81C;"/>
+                    </muxc:NavigationViewItem.Icon>
+                </muxc:NavigationViewItem>
+                <muxc:NavigationViewItem Content="Contacts" Tag="Contacts">
+                    <muxc:NavigationViewItem.Icon>
+                        <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xE716;"/>
+                    </muxc:NavigationViewItem.Icon>
+                </muxc:NavigationViewItem>
+                <muxc:NavigationViewItem Content="Dial" Tag="Dial">
+                    <muxc:NavigationViewItem.Icon>
+                        <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xE75F;"/>
+                    </muxc:NavigationViewItem.Icon>
+                </muxc:NavigationViewItem>
+            </muxc:NavigationView.MenuItems>
+            <muxc:NavigationView.PaneFooter>
+                <AppBarButton Opacity="0.75" x:Name="AboutButton" Click="AboutButton_Click">
+                    <AppBarButton.Icon>
+                        <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xE946;"/>
+                    </AppBarButton.Icon>
+                </AppBarButton>
+            </muxc:NavigationView.PaneFooter>
 
-        <!-- Dialing info -->
-        <Grid Grid.Row="0">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="64" />
-                <ColumnDefinition Width="*" />
-                <ColumnDefinition Width="64" />
-            </Grid.ColumnDefinitions>
+            <Frame x:Name="ContentFrame" IsTabStop="True"/>
+        </muxc:NavigationView>
 
-            <!-- Number to dial -->
-            <!-- The style for the text has been manually inputted; it's the same as FluentSubheaderTextStyle -->
-            <TextBlock x:Name="numberToDialBox"
-                       TextAlignment="Center"
-                       HorizontalTextAlignment="Center"
-                       Grid.Row="0"
-                       Grid.Column="1" 
-                       FontSize="40"
-                       FontWeight="Bold" HorizontalAlignment="Stretch"/>
-
-            <Button x:Name="deleteLastNumberButton" 
-                    Grid.Row="0"
-                    Grid.Column="2"
-                    Background="Transparent" 
-                    Click="DeleteLastNumberButton_Click" 
-                    FontFamily="Segoe MDL2 Assets" 
-                    Content="&#xE94F;"
-                    CornerRadius="{ThemeResource FluentButtonCorners}"
-                    Style="{ThemeResource ButtonRevealStyle}"
-                    VerticalAlignment="Stretch" 
-                    HorizontalContentAlignment="Center" 
-                    HorizontalAlignment="Stretch" 
-                    FontSize="24" />
+        <Grid VerticalAlignment="Top" Height="30" Background="{ThemeResource SystemControlChromeMediumLowAcrylicElementMediumBrush}">
+            <controls:TitlebarControl x:Name="Titlebar"/>
         </Grid>
-        <TextBlock x:Name="callStateIndicatorText" 
-                       Grid.Row="1"
-                       Grid.Column="0"
-                       Text="AAAA"
-                       Margin="10, 0, 0, 0"
-                       Style="{ThemeResource FluentSubbodyTextStyle}" HorizontalAlignment="Left" Width="157"/>
-
-        <StackPanel Grid.Row="2" Margin="10, 0, 0, 0" HorizontalAlignment="Left" VerticalAlignment="Bottom" Orientation="Horizontal">
-            <Button x:Name="callHistoryButton" 
-                    Background="Transparent" 
-                    CornerRadius="{ThemeResource FluentButtonCorners}"
-                    Style="{ThemeResource ButtonRevealStyle}"
-                    FontSize="24"
-                    Width="64"
-                    Height="64"
-                    FontFamily="Segoe MDL2 Assets" 
-                    Content="&#xF738;" Click="CallHistoryButton_Click"/>
-        </StackPanel>
-
-        <StackPanel Grid.Row="2" Margin="0, 0, 10, 0" HorizontalAlignment="Right" VerticalAlignment="Bottom" Orientation="Horizontal">
-            <Button x:Name="settingsButton" 
-                    Background="Transparent" 
-                    CornerRadius="{ThemeResource FluentButtonCorners}"
-                    Style="{ThemeResource ButtonRevealStyle}"
-                    FontSize="24"
-                    Width="64"
-                    Height="64"
-                    FontFamily="Segoe MDL2 Assets" 
-                    Content="&#xE115;" 
-                    Click="SettingsButton_Click" />
-            <Button x:Name="aboutButton" 
-                    Background="Transparent" 
-                    CornerRadius="{ThemeResource FluentButtonCorners}"
-                    Style="{ThemeResource ButtonRevealStyle}"
-                    FontSize="24"
-                    Width="64"
-                    Height="64"
-                    FontFamily="Segoe MDL2 Assets" 
-                    Content="&#xE946;" 
-                    Click="AboutButton_Click" />
-        </StackPanel>
-
-        <controls:DialPad Grid.Row="3" 
-                          DigitTapped="NumPad_DigitTapped"/>
-
-        <!-- Call button -->
-        <Button x:Name="callButton" 
-                Grid.Row="4"
-                Style="{ThemeResource FluentButtonAccentStyle}"
-                HorizontalAlignment="Stretch" 
-                VerticalAlignment="Stretch"
-                Padding="-15, 0, 0, 0"
-                Margin="2,6,2,0"
-                Click="CallButton_Click">
-            <Button.Content>
-                <StackPanel Orientation="Horizontal">
-                    <TextBlock Text="&#xE717;"
-                               Style="{ThemeResource FluentBodyIconStyle}" />
-                    <TextBlock
-                               Style="{ThemeResource FluentBodyTextStyle}" FontFamily="Segoe UI" x:Uid="Button_Call"/>
-                </StackPanel>
-            </Button.Content>
-        </Button>
-        <ListView Name="lv_CallHistory" Grid.Row="2"/>
-
-        <!-- Space for a Commandbar for options n stuff -->
-
-
-
     </Grid>
 </Page>

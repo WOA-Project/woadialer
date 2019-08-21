@@ -146,6 +146,9 @@
     <Compile Include="UI\Controls\SmallCallPresenter.xaml.cs">
       <DependentUpon>SmallCallPresenter.xaml</DependentUpon>
     </Compile>
+    <Compile Include="UI\Controls\TitlebarControl.xaml.cs">
+      <DependentUpon>TitlebarControl.xaml</DependentUpon>
+    </Compile>
     <Compile Include="UI\Conventers\CallStateToTextString.cs" />
     <Compile Include="UI\Conventers\CallStateToIconString.cs" />
     <Compile Include="UI\Dialogs\AboutDialog.xaml.cs">
@@ -154,8 +157,14 @@
     <Compile Include="UI\Dialogs\SettingsDialog.xaml.cs">
       <DependentUpon>SettingsDialog.xaml</DependentUpon>
     </Compile>
-    <Compile Include="UI\Pages\History.xaml.cs">
-      <DependentUpon>History.xaml</DependentUpon>
+    <Compile Include="UI\Pages\ContactsPage.xaml.cs">
+      <DependentUpon>ContactsPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UI\Pages\DialPage.xaml.cs">
+      <DependentUpon>DialPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UI\Pages\HistoryPage.xaml.cs">
+      <DependentUpon>HistoryPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="UI\Pages\MainPage.xaml.cs">
       <DependentUpon>MainPage.xaml</DependentUpon>
@@ -259,6 +268,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="UI\Controls\TitlebarControl.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="UI\Conventers\Conventers.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -271,7 +284,15 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="UI\Pages\History.xaml">
+    <Page Include="UI\Pages\ContactsPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UI\Pages\DialPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UI\Pages\HistoryPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -313,6 +334,9 @@
     </PackageReference>
     <PackageReference Include="Microsoft.Toolkit.Uwp.Notifications">
       <Version>5.1.1</Version>
+    </PackageReference>
+    <PackageReference Include="Microsoft.UI.Xaml">
+      <Version>2.2.190731001-prerelease</Version>
     </PackageReference>
     <PackageReference Include="QueryString.NET">
       <Version>1.0.0</Version>
