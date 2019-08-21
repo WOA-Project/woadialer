@@ -38,7 +38,10 @@ namespace WoADialer.Background
         {
             try
             {
-                VibrationDevice = await VibrationDevice.GetDefaultAsync();
+                if (App.Current.PermissionSystem.Vibration == VibrationAccessStatus.Allowed)
+                {
+                    VibrationDevice = await VibrationDevice.GetDefaultAsync();
+                }
                 DeviceInformation proximityDevice = (await DeviceInformation.FindAllAsync(ProximitySensor.GetDeviceSelector())).FirstOrDefault();
                 if (proximityDevice != null)
                 {
