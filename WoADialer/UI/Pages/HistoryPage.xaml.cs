@@ -30,7 +30,7 @@ namespace WoADialer.UI.Pages
 
             }
             lv_CallHistory.Items.Clear();
-            IReadOnlyList<PhoneCallHistoryEntry> _entries = await App.Current.CallHistoryStore.GetEntryReader().ReadBatchAsync();
+            IReadOnlyList<PhoneCallHistoryEntry> _entries = await App.Current.CallSystem.CallHistoryStore.GetEntryReader().ReadBatchAsync();
             List<PhoneCallHistoryEntry> entries = _entries.ToList();
             entries.Sort((x, y) => y.StartTime.CompareTo(x.StartTime));
             foreach (PhoneCallHistoryEntry entry in entries)
