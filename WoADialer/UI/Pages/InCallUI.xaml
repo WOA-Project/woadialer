@@ -17,11 +17,11 @@
         <StackPanel Grid.Row="0"
                     Padding="12,24">
             <TextBlock x:Name="callerNameText" 
-                       Text="{x:Bind Path=_CurrentCall.Name, Mode=OneWay}"
+                       Text="{x:Bind Path=_CurrentCall.Contact.DisplayName, Mode=OneWay}"
                        Margin="0,0,0,8"
                        Style="{ThemeResource FluentTitleTextStyle}"/>
             <TextBlock x:Name="callerNumberText" 
-                       Text="{x:Bind Path=_CurrentCall.Number, Mode=OneWay}"
+                       Text="{x:Bind Path=_CurrentCall.Phone.Number, Mode=OneWay}"
                        Margin="0,0,0,8"
                        Style="{ThemeResource FluentSubheaderTextStyle}"/>
             <Custom:CallStatePresenter CallState="{x:Bind Path=_CurrentCall.State, Mode=OneWay}"/>

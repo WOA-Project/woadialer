@@ -72,7 +72,7 @@ namespace WoADialer.UI.Pages
                 if (_CurrentCall == null)
                 {
                     //At this point we know that we have calls, see above
-                    CurrentCall = App.Current.CallManager.CurrentCalls.FirstOrDefault(x => x.State == CallState.Dialing || x.State == CallState.ActiveTalking || x.State == CallState.OnHold);
+                    CurrentCall = App.Current.CallSystem.CallManager.CurrentCalls.FirstOrDefault(x => x.State == CallState.Dialing || x.State == CallState.ActiveTalking || x.State == CallState.OnHold);
                 }
             }
         }
@@ -87,14 +87,14 @@ namespace WoADialer.UI.Pages
                         //vibrate
                         break;
                     case CallState.Disconnected:
-                        CurrentCall = App.Current.CallManager.CurrentCalls.FirstOrDefault(x => x.State == CallState.Dialing || x.State == CallState.ActiveTalking || x.State == CallState.OnHold);
+                        CurrentCall = App.Current.CallSystem.CallManager.CurrentCalls.FirstOrDefault(x => x.State == CallState.Dialing || x.State == CallState.ActiveTalking || x.State == CallState.OnHold);
                         if (CurrentCall == null)
                         {
                             await Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () => Frame.Navigate(typeof(MainPage)));
                         }
                         break;
                     case CallState.OnHold:
-                        Call notHeld = App.Current.CallManager.CurrentCalls.FirstOrDefault(x => x.State == CallState.Dialing || x.State == CallState.ActiveTalking);
+                        Call notHeld = App.Current.CallSystem.CallManager.CurrentCalls.FirstOrDefault(x => x.State == CallState.Dialing || x.State == CallState.ActiveTalking);
                         if (notHeld != null)
                         {
                             CurrentCall = notHeld;
@@ -111,14 +111,14 @@ namespace WoADialer.UI.Pages
         protected async override void OnNavigatedTo(NavigationEventArgs e)
         {
             base.OnNavigatedTo(e);
-            CurrentCall = App.Current.CallManager.CurrentCalls.FirstOrDefault(x => x.State == CallState.Dialing || x.State == CallState.ActiveTalking || x.State == CallState.OnHold);
-            App.Current.CallManager.CurrentCallsChanged += CallManager_CurrentCallsChanged;
+            CurrentCall = App.Current.CallSystem.CallManager.CurrentCalls.FirstOrDefault(x => x.State == CallState.Dialing || x.State == CallState.ActiveTalking || x.State == CallState.OnHold);
+            App.Current.CallSystem.CallManager.CurrentCallsChanged += CallManager_CurrentCallsChanged;
         }
 
         protected override void OnNavigatingFrom(NavigatingCancelEventArgs e)
         {
             base.OnNavigatingFrom(e);
-            App.Current.CallManager.CurrentCallsChanged -= CallManager_CurrentCallsChanged;
+            App.Current.CallSystem.CallManager.CurrentCallsChanged -= CallManager_CurrentCallsChanged;
         }
 
         private async void CloseCallButton_Click(object sender, RoutedEventArgs e)

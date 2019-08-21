@@ -2,6 +2,7 @@
 <Project ToolsVersion="15.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
+    <LangVersion>preview</LangVersion>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">x86</Platform>
     <ProjectGuid>{51BB3779-D2B9-49B5-AF9D-9838E114A869}</ProjectGuid>
@@ -130,10 +131,15 @@
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Background\CallHandler.cs" />
+    <Compile Include="Background\BackgroundSystem.cs" />
+    <Compile Include="Background\CallSystem.cs" />
+    <Compile Include="Background\DeviceSystem.cs" />
+    <Compile Include="Background\NotificationSystem.cs" />
     <Compile Include="Helpers\Observable.cs" />
+    <Compile Include="Background\PermissionSystem.cs" />
     <Compile Include="Helpers\RelayCommand.cs" />
     <Compile Include="Helpers\SettingsManager.cs" />
+    <Compile Include="Helpers\ToastButtonEqualityComparer.cs" />
     <Compile Include="UI\Controls\CallStatePresenter.xaml.cs">
       <DependentUpon>CallStatePresenter.xaml</DependentUpon>
     </Compile>

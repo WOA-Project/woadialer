@@ -64,7 +64,7 @@ namespace WoADialer.UI.Pages
         {
             try
             {
-                _CurrentPhoneLine = await PhoneLine.FromIdAsync(await App.Current.CallStore.GetDefaultLineAsync());
+                _CurrentPhoneLine = await PhoneLine.FromIdAsync(await App.Current.CallSystem.CallStore.GetDefaultLineAsync());
                 _CurrentPhoneLine.DialWithOptions(new PhoneDialOptions() { Number = currentNumber.ToString() });
             }
             catch (Exception ee)
@@ -128,10 +128,10 @@ namespace WoADialer.UI.Pages
 
             }
             lv_CallHistory.Items.Clear();
-            IReadOnlyList<PhoneCallHistoryEntry> _entries = await App.Current.CallHistoryStore.GetEntryReader().ReadBatchAsync();
+            IReadOnlyList<PhoneCallHistoryEntry> _entries = await App.Current.CallSystem.CallHistoryStore.GetEntryReader().ReadBatchAsync();
             List<PhoneCallHistoryEntry> entries = _entries.ToList();
             entries.Sort((x, y) => y.StartTime.CompareTo(x.StartTime));
-            foreach(PhoneCallHistoryEntry entry in entries)
+            foreach (PhoneCallHistoryEntry entry in entries)
             {
                 lv_CallHistory.Items.Add(new TextBlock() { Text = $"{entry.StartTime}: {entry.Address.DisplayName} {entry.Address.RawAddress} {(entry.IsMissed ? "Missed" : "")}" });
             }

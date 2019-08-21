@@ -10,8 +10,7 @@
   xmlns:uap7="http://schemas.microsoft.com/appx/manifest/uap/windows10/7"
   xmlns:rescap="http://schemas.microsoft.com/appx/manifest/foundation/windows10/restrictedcapabilities"
   xmlns:iot="http://schemas.microsoft.com/appx/manifest/iot/windows10"
-  xmlns:wincap="http://schemas.microsoft.com/appx/manifest/foundation/windows10/windowscapabilities"
-  IgnorableNamespaces="mp uap uap2 uap3 uap5 rescap iot wincap">
+  IgnorableNamespaces="mp uap uap2 uap3 uap5 rescap iot">
 
   <Identity
     Name="1e17ea40-87af-45e2-865a-c2bd98036a67"
@@ -83,6 +82,8 @@
   <Capabilities>
     <rescap:Capability Name="dualSimTiles"/>
     
+    <rescap:Capability Name="appDiagnostics" />
+
     <uap:Capability Name="contacts" />
     
     <uap:Capability Name="phoneCall" />

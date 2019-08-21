@@ -19,7 +19,7 @@
         </Grid.ColumnDefinitions>
         <local:CallStatePresenter Name="csp_CallState" CallState="{x:Bind Path=PhoneCall.State, Mode=OneWay}" Grid.Row="1"/>
         <TextBlock Name="tb_LineName"/>
-        <TextBlock Name="tb_Name" Text="{x:Bind Path=PhoneCall.Name, Mode=OneWay}" Grid.Column="1" FontFamily="Segoe UI"/>
-        <TextBlock Name="tb_Number" Text="{x:Bind Path=PhoneCall.Number, Mode=OneWay}"  Grid.Row="1" Grid.Column="1" FontFamily="Segoe UI"/>
+        <TextBlock Name="tb_Name" Text="{x:Bind Path=PhoneCall.Contact.DisplayName, Mode=OneWay}" Grid.Column="1" FontFamily="Segoe UI"/>
+        <TextBlock Name="tb_Number" Text="{x:Bind Path=PhoneCall.Phone.Number, Mode=OneWay}"  Grid.Row="1" Grid.Column="1" FontFamily="Segoe UI"/>
     </Grid>
 </UserControl>
