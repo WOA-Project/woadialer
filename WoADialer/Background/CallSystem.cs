@@ -43,7 +43,7 @@ namespace WoADialer.Background
                 IsRinging = false,
                 IsSuppressed = false,
                 IsVoicemail = call.field_BF0.HasFlag(PH_CALL_INFO_field_BF0.VoicemailCall),
-                RemoteId = call.Line?.Transport switch
+                RemoteId = call.Line?.Transport + "|" + call.Line?.Transport switch
                 {
                     PhoneLineTransport.Cellular => call.Line.Id.ToString(),
                     PhoneLineTransport.VoipApp => call.OwningApplication.PackageFamilyName,
