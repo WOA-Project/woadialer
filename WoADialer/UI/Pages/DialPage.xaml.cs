@@ -7,13 +7,8 @@ using Windows.UI.Xaml.Navigation;
 using WoADialer.Helpers;
 using WoADialer.Model;
 
-// The Blank Page item template is documented at https://go.microsoft.com/fwlink/?LinkId=234238
-
 namespace WoADialer.UI.Pages
 {
-    /// <summary>
-    /// An empty page that can be used on its own or navigated to within a Frame.
-    /// </summary>
     public sealed partial class DialPage : Page
     {
         private PhoneNumber currentNumber;
@@ -22,18 +17,6 @@ namespace WoADialer.UI.Pages
         public DialPage()
         {
             this.InitializeComponent();
-        }
-
-        private void Page_Loaded(object sender, RoutedEventArgs e)
-        {
-            try
-            {
-                //_CurrentPhoneLine = await PhoneLine.FromIdAsync(await App.Current.CallStore.GetDefaultLineAsync());
-            }
-            catch
-            {
-
-            }
         }
 
         private void DeleteLastNumberButton_Click(object sender, RoutedEventArgs e)
@@ -71,7 +54,7 @@ namespace WoADialer.UI.Pages
             try
             {
                 _CurrentPhoneLine = await PhoneLine.FromIdAsync(await App.Current.CallSystem.CallStore.GetDefaultLineAsync());
-                _CurrentPhoneLine.DialWithOptions(new PhoneDialOptions() { Number = currentNumber.ToString() });
+                _CurrentPhoneLine?.DialWithOptions(new PhoneDialOptions() { Number = currentNumber.ToString() });
             }
             catch (Exception ee)
             {

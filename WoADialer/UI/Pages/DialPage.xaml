@@ -8,7 +8,6 @@
     xmlns:controls="using:WoADialer.UI.Controls"
     mc:Ignorable="d"
     NavigationCacheMode="Required"
-    Loaded="Page_Loaded"
     Background="{ThemeResource SystemControlAcrylicWindowBrush}">
 
     <Grid Padding="12">
@@ -52,16 +51,7 @@
                     HorizontalAlignment="Stretch" 
                     FontSize="24" />
         </Grid>
-
-        <TextBlock x:Name="callStateIndicatorText" 
-                       Grid.Row="1"
-                       Grid.Column="0"
-                       Text="AAAA"
-                       Margin="10, 0, 0, 0"
-                       Style="{ThemeResource FluentSubbodyTextStyle}" HorizontalAlignment="Left" Width="157"/>
-
-        <ListView Name="lv_CallHistory" Grid.Row="2"/>
-
+        
         <controls:DialPad Grid.Row="3" MinHeight="250" DigitTapped="NumPad_DigitTapped"/>
 
         <!-- Call button -->
