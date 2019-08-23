@@ -344,11 +344,11 @@ namespace WoADialer.Background
 
         public void RefreshCallNotification(IEnumerable<Call> currentCalls)
         {
-            App.Current.NotificationSystem.RemoveCallToastNotifications();
-            ToastNotification notification = App.Current.NotificationSystem.CreateCallNotification(currentCalls);
+            RemoveCallToastNotifications();
+            ToastNotification notification = CreateCallNotification(currentCalls);
             if (notification != null)
             {
-                App.Current.NotificationSystem.ToastNotifier.Show(notification);
+                ToastNotifier.Show(notification);
             }
         }
     }
