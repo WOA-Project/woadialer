@@ -2,7 +2,7 @@
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using WoADialer.Helpers;
-using WoADialer.ViewModels;
+using WoADialer.UI.ViewModel;
 
 namespace WoADialer.UI.Dialogs
 {

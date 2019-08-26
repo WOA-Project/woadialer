@@ -1,9 +1,9 @@
 ﻿using Windows.ApplicationModel;
 using WoADialer.Helpers;
 
-namespace WoADialer.ViewModels
+namespace WoADialer.UI.ViewModel
 {
-    public class AboutViewModel : Observable
+    public class AboutViewModel : ViewModelCore
     {
         // Properties
         private string _appName;
