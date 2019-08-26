@@ -10,18 +10,18 @@
   xmlns:uap7="http://schemas.microsoft.com/appx/manifest/uap/windows10/7"
   xmlns:rescap="http://schemas.microsoft.com/appx/manifest/foundation/windows10/restrictedcapabilities"
   xmlns:iot="http://schemas.microsoft.com/appx/manifest/iot/windows10"
-  IgnorableNamespaces="mp uap uap2 uap3 uap5 rescap iot">
+  IgnorableNamespaces="mp uap uap2 uap3 uap5 uap7 rescap iot">
 
   <Identity
-    Name="1e17ea40-87af-45e2-865a-c2bd98036a67"
-    Publisher="CN=ratch"
-    Version="0.1.147.0" />
+    Name="WoADialer"
+    Publisher="CN=Dj Art"
+    Version="0.1.200.0" />
 
   <mp:PhoneIdentity PhoneProductId="1e17ea40-87af-45e2-865a-c2bd98036a67" PhonePublisherId="00000000-0000-0000-0000-000000000000"/>
 
   <Properties>
     <DisplayName>WoADialer</DisplayName>
-    <PublisherDisplayName>ratch</PublisherDisplayName>
+    <PublisherDisplayName>LumiaWoA</PublisherDisplayName>
     <Logo>Assets\StoreLogo.png</Logo>
   </Properties>
 
@@ -38,10 +38,10 @@
       Executable="$targetnametoken$.exe"
       EntryPoint="WoADialer.App" xmlns:a="http://schemas.microsoft.com/appx/manifest/desktop/windows10/4">
       <uap:VisualElements
-        DisplayName="WoADialer"
+        DisplayName="WoA Dialer"
         Square150x150Logo="Assets\Square150x150Logo.png"
         Square44x44Logo="Assets\Square44x44Logo.png"
-        Description="WoADialer"
+        Description="WoA Dialer is app that help you with cellular phone calls on your devices."
         BackgroundColor="transparent">
         <uap:DefaultTile Wide310x150Logo="Assets\Wide310x150Logo.png" ShortName="Dialer" Square71x71Logo="Assets\SmallTile.png" Square310x310Logo="Assets\LargeTile.png">
           <uap:ShowNameOnTiles>
@@ -52,6 +52,11 @@
         </uap:DefaultTile >
         <uap:SplashScreen Image="Assets\SplashScreen.png" />
         <uap:LockScreen BadgeLogo="Assets\BadgeLogo.png" Notification="badge"/>
+        <uap:InitialRotationPreference>
+          <uap:Rotation Preference="landscape"/>
+          <uap:Rotation Preference="portrait"/>
+          <uap:Rotation Preference="portraitFlipped"/>
+          <uap:Rotation Preference="landscapeFlipped"/></uap:InitialRotationPreference>
       </uap:VisualElements>
       <Extensions>
         <uap:Extension Category="windows.protocol">
@@ -80,25 +85,23 @@
   </Extensions>
 
   <Capabilities>
-    <rescap:Capability Name="dualSimTiles"/>
-    
     <rescap:Capability Name="appDiagnostics" />
 
     <uap:Capability Name="contacts" />
     
     <uap:Capability Name="phoneCall" />
     <rescap:Capability Name="phoneCallSystem" />
-    
-    <uap:Capability Name="voipCall"/>
-
     <rescap:Capability Name="phoneCallHistory"/>
     <uap2:Capability Name="phoneCallHistoryPublic"/>
     <rescap:Capability Name="phoneCallHistorySystem" />
+    
+    <uap:Capability Name="voipCall"/>
     
     <uap3:Capability Name="userNotificationListener"/>
     
     <uap7:Capability Name="globalMediaControl"/>
     
     <DeviceCapability Name="webcam"/>
+    <DeviceCapability Name="microphone"/>
   </Capabilities>
 </Package>

@@ -27,9 +27,10 @@
     <AppxBundlePlatforms>x86|x64|arm|arm64</AppxBundlePlatforms>
     <AppInstallerUpdateFrequency>0</AppInstallerUpdateFrequency>
     <AppInstallerCheckForUpdateFrequency>OnApplicationRun</AppInstallerCheckForUpdateFrequency>
-    <PackageCertificateThumbprint>D6D3DD7876C96E04FB6FEC716E0918CC849C1802</PackageCertificateThumbprint>
+    <PackageCertificateThumbprint>4A64E42ED0812B6B3BDD858F22B91D2C1E5AAAE1</PackageCertificateThumbprint>
     <GenerateTestArtifacts>True</GenerateTestArtifacts>
     <HoursBetweenUpdateChecks>0</HoursBetweenUpdateChecks>
+    <AppxPackageSigningEnabled>True</AppxPackageSigningEnabled>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x86'">
     <DebugSymbols>true</DebugSymbols>
@@ -135,7 +136,8 @@
     <Compile Include="Background\CallSystem.cs" />
     <Compile Include="Background\DeviceSystem.cs" />
     <Compile Include="Background\NotificationSystem.cs" />
-    <Compile Include="Helpers\Observable.cs" />
+    <Compile Include="Helpers\DateTimeOffsetComparer.cs" />
+    <Compile Include="UI\ViewModel\ViewModelCore.cs" />
     <Compile Include="Background\PermissionSystem.cs" />
     <Compile Include="Helpers\RelayCommand.cs" />
     <Compile Include="Helpers\SettingsManager.cs" />
@@ -189,7 +191,7 @@
       <DependentUpon>Settings.xaml</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="ViewModels\AboutViewModel.cs" />
+    <Compile Include="UI\ViewModel\AboutViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
     <AppxManifest Include="Package.appxmanifest">
@@ -346,6 +348,7 @@
     <PRIResource Include="Strings\en-US\Resources.resw" />
     <PRIResource Include="Strings\ru-RU\Resources.resw" />
     <PRIResource Include="Strings\it-IT\Resources.resw" />
+    <None Include="DialerStrongKey.pfx" />
     <None Include="WoADialer_TemporaryKey.pfx" />
   </ItemGroup>
   <ItemGroup>
@@ -357,6 +360,12 @@
   <ItemGroup />
   <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '14.0' ">
     <VisualStudioVersion>14.0</VisualStudioVersion>
+  </PropertyGroup>
+  <PropertyGroup>
+    <SignAssembly>true</SignAssembly>
+  </PropertyGroup>
+  <PropertyGroup>
+    <AssemblyOriginatorKeyFile>DialerStrongKey.pfx</AssemblyOriginatorKeyFile>
   </PropertyGroup>
   <Import Project="$(MSBuildExtensionsPath)\Microsoft\WindowsXaml\v$(VisualStudioVersion)\Microsoft.Windows.UI.Xaml.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
