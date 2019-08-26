@@ -38,9 +38,9 @@ namespace WoADialer.UI.Pages
             {
                 case string number:
                     currentNumber = PhoneNumber.Parse(number);
-                    UpdateCurrentNumber();
                     break;
             }
+            UpdateCurrentNumber();
         }
 
         private void UpdateCurrentNumber()
