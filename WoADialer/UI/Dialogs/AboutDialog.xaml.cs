@@ -8,12 +8,13 @@ namespace WoADialer.UI.Dialogs
 {
     public sealed partial class AboutDialog : ContentDialog
     {
-        public AboutViewModel ViewModel { get; } = new AboutViewModel();
+        public AboutViewModel ViewModel { get; }
 
         public AboutDialog()
         {
             RequestedTheme = (Window.Current.Content as FrameworkElement).RequestedTheme;
             this.InitializeComponent();
+            ViewModel = new AboutViewModel(Dispatcher);
         }
 
         private ICommand _closeDialogCommand;

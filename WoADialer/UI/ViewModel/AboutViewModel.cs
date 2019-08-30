@@ -1,4 +1,5 @@
 ﻿using Windows.ApplicationModel;
+using Windows.UI.Core;
 using WoADialer.Helpers;
 
 namespace WoADialer.UI.ViewModel
@@ -22,7 +23,7 @@ namespace WoADialer.UI.ViewModel
 
 
         // Constructor
-        public AboutViewModel()
+        public AboutViewModel(CoreDispatcher dispatcher) : base(dispatcher)
         {
             Initialize();
         }
