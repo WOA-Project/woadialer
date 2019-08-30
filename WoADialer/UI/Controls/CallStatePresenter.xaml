@@ -18,7 +18,7 @@
             <ColumnDefinition Width="32"/>
             <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
-        <FontIcon Glyph="{x:Bind Path=CallState, Mode=OneWay, Converter={StaticResource CallStateToIconString}}"/>
-        <TextBlock Text="{x:Bind Path=CallState, Mode=OneWay, Converter={StaticResource CallStateToTextString}}" Grid.Column="1" />
+        <FontIcon Glyph="{x:Bind Path=PresentedCall.State, Mode=OneWay, Converter={StaticResource CallStateToIconString}, ConverterParameter=PresentedCall.StateReason}"/>
+        <TextBlock HorizontalAlignment="Stretch" VerticalAlignment="Center" HorizontalTextAlignment="Left" Text="{x:Bind Path=PresentedCall.State, Mode=OneWay, Converter={StaticResource CallStateToTextString}, ConverterParameter=PresentedCall.StateReason}" Grid.Column="1" />
     </Grid>
 </UserControl>

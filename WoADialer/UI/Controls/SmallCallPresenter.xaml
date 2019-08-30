@@ -15,11 +15,11 @@
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="128"/>
-            <ColumnDefinition/>
+            <ColumnDefinition Width="1*"/>
         </Grid.ColumnDefinitions>
-        <local:CallStatePresenter Name="csp_CallState" CallState="{x:Bind Path=PhoneCall.State, Mode=OneWay}" Grid.Row="1"/>
-        <TextBlock Name="tb_LineName"/>
-        <TextBlock Name="tb_Name" Text="{x:Bind Path=PhoneCall.Contact.DisplayName, Mode=OneWay}" Grid.Column="1" FontFamily="Segoe UI"/>
-        <TextBlock Name="tb_Number" Text="{x:Bind Path=PhoneCall.Phone.Number, Mode=OneWay}"  Grid.Row="1" Grid.Column="1" FontFamily="Segoe UI"/>
+        <local:CallStatePresenter Name="csp_CallState" PresentedCall="{x:Bind Path=PresentedCall, Mode=OneWay}" Grid.Row="1"/>
+        <local:LinePresenter Name="lp_LinePresenter" PresentedLine="{x:Bind Path=PresentedCall.Call.Line, Mode=OneWay}"/>
+        <TextBlock HorizontalAlignment="Stretch" VerticalAlignment="Center" HorizontalTextAlignment="Left" Name="tb_Name" Text="{x:Bind Path=PresentedCall.Call.Contact.DisplayName, Mode=OneWay}" Grid.Column="1" FontFamily="Segoe UI" Grid.ColumnSpan="2"/>
+        <TextBlock HorizontalAlignment="Stretch" VerticalAlignment="Center" HorizontalTextAlignment="Left" Name="tb_Lenght" Text="{x:Bind Path=PresentedCall.Length, Mode=OneWay}"  Grid.Row="1" Grid.Column="1" FontFamily="Segoe UI" Grid.ColumnSpan="2"/>
     </Grid>
 </UserControl>

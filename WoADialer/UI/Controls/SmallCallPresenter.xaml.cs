@@ -1,6 +1,7 @@
 ﻿using Internal.Windows.Calls;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
+using WoADialer.UI.ViewModel;
 
 // Документацию по шаблону элемента "Пользовательский элемент управления" см. по адресу https://go.microsoft.com/fwlink/?LinkId=234236
 
@@ -8,12 +9,12 @@ namespace WoADialer.UI.Controls
 {
     public sealed partial class SmallCallPresenter : UserControl
     {
-        public static readonly DependencyProperty PhoneCallProperty = DependencyProperty.RegisterAttached("PhoneCall", typeof(Call), typeof(SmallCallPresenter), new PropertyMetadata(null));
+        public static readonly DependencyProperty PresentedCallProperty = DependencyProperty.RegisterAttached("PresentedCall", typeof(CallViewModel), typeof(CallStatePresenter), new PropertyMetadata(null));
 
-        public Call PhoneCall
+        public CallViewModel PresentedCall
         {
-            get => (Call)GetValue(PhoneCallProperty);
-            set => SetValue(PhoneCallProperty, value);
+            get => (CallViewModel)GetValue(PresentedCallProperty);
+            set => SetValue(PresentedCallProperty, value);
         }
 
         public SmallCallPresenter()

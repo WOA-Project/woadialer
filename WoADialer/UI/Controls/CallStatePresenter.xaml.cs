@@ -2,6 +2,7 @@
 using Windows.UI.Core;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
+using WoADialer.UI.ViewModel;
 
 // Документацию по шаблону элемента "Пользовательский элемент управления" см. по адресу https://go.microsoft.com/fwlink/?LinkId=234236
 
@@ -9,12 +10,12 @@ namespace WoADialer.UI.Controls
 {
     public sealed partial class CallStatePresenter : UserControl
     {
-        public static readonly DependencyProperty CallStateProperty = DependencyProperty.RegisterAttached("CallState", typeof(CallState), typeof(CallStatePresenter), new PropertyMetadata(CallState.Indeterminate));
+        public static readonly DependencyProperty PresentedCallProperty = DependencyProperty.RegisterAttached("PresentedCall", typeof(CallViewModel), typeof(CallStatePresenter), new PropertyMetadata(null));
 
-        public CallState CallState
+        public CallViewModel PresentedCall
         {
-            get => (CallState)GetValue(CallStateProperty);
-            set => Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () => SetValue(CallStateProperty, value));
+            get => (CallViewModel)GetValue(PresentedCallProperty);
+            set => SetValue(PresentedCallProperty, value);
         }
 
         public CallStatePresenter()
