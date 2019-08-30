@@ -1,6 +1,7 @@
 ﻿using Internal.Windows.Calls;
 using System;
 using Windows.UI.Xaml.Data;
+using WoADialer.UI.ViewModel;
 
 namespace WoADialer.UI.Conventers
 {
@@ -8,33 +9,42 @@ namespace WoADialer.UI.Conventers
     {
         public object Convert(object value, Type targetType, object parameter, string language)
         {
-            if (value is CallState)
+            switch (value)
             {
-                CallState state = (CallState)value;
-                switch (state)
-                {
-                    case CallState.ActiveTalking:
-                        return "\uE717";
-                    case CallState.Dialing:
-                        return "\uF715";
-                    case CallState.Disconnected:
-                        return "\uE778";
-                    case CallState.Incoming:
-                        return "\uE77E";
-                    case CallState.OnHold:
-                        return "\uE769";
-                    case CallState.Transfering:
-                        return "\uE7F2";
-                    case CallState.Count:
-                        return "\uE80B";
-                    case CallState.Indeterminate:
-                    default:
-                        return "";
-                }
-            }
-            else
-            {
-                throw new ArgumentException();
+                case CallState.ActiveTalking:
+                    return "\uE717";
+                case CallState.Dialing:
+                    return "\uF715";
+                case CallState.Disconnected:
+                    switch (parameter)
+                    {
+                        case CallStateReason.Busy:
+                        case CallStateReason.CallBarred:
+                        case CallStateReason.CallUpgradeInitiated:
+                        case CallStateReason.Dropped:
+                        case CallStateReason.Ended:
+                        case CallStateReason.FDNRestricted:
+                        case CallStateReason.NetworkCongestion:
+                        case CallStateReason.Other:
+                        case CallStateReason.RoamRestricted:
+                        case CallStateReason.ServiceOff:
+                        case CallStateReason.VideoCallingOff:
+                            return "\uE778";
+                        default:
+                            return "";
+                    }
+                case CallState.Incoming:
+                    return "\uE77E";
+                case CallState.OnHold:
+                    return "\uE769";
+                case CallState.Transferring:
+                    return "\uE7F2";
+                case CallState.Count:
+                    return "\uE80B";
+                case CallState.Indeterminate:
+                    return "?";
+                default:
+                    return "";
             }
         }
 
