@@ -150,11 +150,83 @@
     <value>Переводчики</value>
     <comment>About - Translators</comment>
   </data>
+  <data name="Button_Answer.Text" xml:space="preserve">
+    <value>Ответить</value>
+  </data>
   <data name="Button_Call.Text" xml:space="preserve">
     <value>Набрать номер</value>
   </data>
   <data name="Button_EndCall.Text" xml:space="preserve">
     <value>Завершить вызов</value>
+  </data>
+  <data name="Button_Reject.Text" xml:space="preserve">
+    <value>Отклонить</value>
+  </data>
+  <data name="Button_TextReply.Text" xml:space="preserve">
+    <value>Ответить сообщением</value>
+  </data>
+  <data name="CallState_ActiveTalking" xml:space="preserve">
+    <value>Разговор</value>
+    <comment>When call is active</comment>
+  </data>
+  <data name="CallState_Busy" xml:space="preserve">
+    <value>Вызов отклонён</value>
+    <comment>When dialing call was rejected by other party or operator</comment>
+  </data>
+  <data name="CallState_CallBarred" xml:space="preserve">
+    <value>Вызов запрещён</value>
+  </data>
+  <data name="CallState_CallUpgradeInitiated" xml:space="preserve">
+    <value>Обновление вызова</value>
+  </data>
+  <data name="CallState_Count" xml:space="preserve">
+    <value>Count</value>
+  </data>
+  <data name="CallState_Dialing" xml:space="preserve">
+    <value>Дозвон</value>
+  </data>
+  <data name="CallState_Disconnected" xml:space="preserve">
+    <value>Отключено</value>
+    <comment>When call ended by unknown reason</comment>
+  </data>
+  <data name="CallState_Dropped" xml:space="preserve">
+    <value>Соединение потеряно</value>
+    <comment>When call ended by signal lost</comment>
+  </data>
+  <data name="CallState_Ended" xml:space="preserve">
+    <value>Вызов завершён</value>
+    <comment>When call ended by user or other party</comment>
+  </data>
+  <data name="CallState_FDNRestricted" xml:space="preserve">
+    <value>Ограничено FDN</value>
+  </data>
+  <data name="CallState_Incoming" xml:space="preserve">
+    <value>Входящий вызов</value>
+  </data>
+  <data name="CallState_Indeterminate" xml:space="preserve">
+    <value>Вызов неактивен</value>
+    <comment>When call isn't active anymore</comment>
+  </data>
+  <data name="CallState_NetworkCongestion" xml:space="preserve">
+    <value>Сеть перегружена</value>
+  </data>
+  <data name="CallState_OnHold" xml:space="preserve">
+    <value>Вызов на удержании</value>
+  </data>
+  <data name="CallState_RoamRestricted" xml:space="preserve">
+    <value>Ограничено роумингом</value>
+  </data>
+  <data name="CallState_ServiceOff" xml:space="preserve">
+    <value>Service off</value>
+  </data>
+  <data name="CallState_Transferring" xml:space="preserve">
+    <value>Вызов перенаправляется</value>
+  </data>
+  <data name="CallState_Unknown" xml:space="preserve">
+    <value>Состояние неизвестно</value>
+  </data>
+  <data name="CallState_VideoCallingOff" xml:space="preserve">
+    <value>Видеовызов завершён</value>
   </data>
   <data name="Notification.MissedCall.Headline" xml:space="preserve">
     <value>Пропущеный вызов</value>

@@ -123,11 +123,11 @@
   </data>
   <data name="About_AcknowledgementsFlubase.Content" xml:space="preserve">
     <value>FLUI Framework</value>
-    <comment>About - Acknowlegdements FluBase title</comment>
+    <comment>[DOES NOT TRANSLATE] About - Acknowlegdements FluBase title</comment>
   </data>
   <data name="About_AcknowledgementsFlubase.NavigateUri" xml:space="preserve">
     <value>https://github.com/Team-FLUI/FluiFramework</value>
-    <comment>About - Acknowlegdements FluBase Project URL</comment>
+    <comment>[DOES NOT TRANSLATE] About - Acknowlegdements FluBase Project URL</comment>
   </data>
   <data name="About_AcknowledgementsIntro.Text" xml:space="preserve">
     <value>This app makes use of code from the following projects:</value>
@@ -139,11 +139,11 @@
   </data>
   <data name="About_AcknowledgementsWct.Content" xml:space="preserve">
     <value>Windows Community Toolkit</value>
-    <comment>About - Acknowledgements Windows Community Toolkit title</comment>
+    <comment>[DOES NOT TRANSLATE] About - Acknowledgements Windows Community Toolkit title</comment>
   </data>
   <data name="About_AcknowledgementsWct.NavigateUri" xml:space="preserve">
     <value>https://github.com/windows-toolkit/WindowsCommunityToolkit</value>
-    <comment>About - Acknowledgements Windows Community Toolkit Project URL</comment>
+    <comment>[DOES NOT TRANSLATE] About - Acknowledgements Windows Community Toolkit Project URL</comment>
   </data>
   <data name="About_AcknowledgementsWts.Content" xml:space="preserve">
     <value>Windows Template Studio</value>
@@ -163,7 +163,7 @@
   </data>
   <data name="About_GitHubLink.NavigateUri" xml:space="preserve">
     <value>https://github.com/WOA-Project/woadialer</value>
-    <comment>Link to the GitHub project for About</comment>
+    <comment>[DOES NOT TRANSLATE] Link to the GitHub project for About</comment>
   </data>
   <data name="About_LinksTitle.Text" xml:space="preserve">
     <value>Links</value>
@@ -175,7 +175,7 @@
   </data>
   <data name="About_PrivacyTermsLink.NavigateUri" xml:space="preserve">
     <value>https://github.com/WOA-Project/woadialer</value>
-    <comment>Privacy Statement url for About</comment>
+    <comment>[DOES NOT TRANSLATE] Privacy Statement url for About</comment>
   </data>
   <data name="About_Title.Text" xml:space="preserve">
     <value>About</value>
@@ -190,11 +190,85 @@
     <value>Translators</value>
     <comment>About - Translators</comment>
   </data>
+  <data name="Button_Answer.Text" xml:space="preserve">
+    <value>Answer</value>
+  </data>
   <data name="Button_Call.Text" xml:space="preserve">
     <value>Call</value>
+    <comment>Button that start call</comment>
   </data>
   <data name="Button_EndCall.Text" xml:space="preserve">
     <value>End call</value>
+    <comment>Button that end call</comment>
+  </data>
+  <data name="Button_Reject.Text" xml:space="preserve">
+    <value>Reject</value>
+  </data>
+  <data name="Button_TextReply.Text" xml:space="preserve">
+    <value>Text reply</value>
+  </data>
+  <data name="CallState_ActiveTalking" xml:space="preserve">
+    <value>Active talking</value>
+    <comment>When call is active</comment>
+  </data>
+  <data name="CallState_Busy" xml:space="preserve">
+    <value>Busy</value>
+    <comment>When dialing call was rejected by other party or operator</comment>
+  </data>
+  <data name="CallState_CallBarred" xml:space="preserve">
+    <value>Call barred</value>
+  </data>
+  <data name="CallState_CallUpgradeInitiated" xml:space="preserve">
+    <value>Upgrading</value>
+  </data>
+  <data name="CallState_Count" xml:space="preserve">
+    <value>Count</value>
+  </data>
+  <data name="CallState_Dialing" xml:space="preserve">
+    <value>Dialing</value>
+  </data>
+  <data name="CallState_Disconnected" xml:space="preserve">
+    <value>Disconnected</value>
+    <comment>When call ended by unknown reason</comment>
+  </data>
+  <data name="CallState_Dropped" xml:space="preserve">
+    <value>Dropped</value>
+    <comment>When call ended by signal lost</comment>
+  </data>
+  <data name="CallState_Ended" xml:space="preserve">
+    <value>Ended</value>
+    <comment>When call ended by user or other party</comment>
+  </data>
+  <data name="CallState_FDNRestricted" xml:space="preserve">
+    <value>FDN restricted</value>
+  </data>
+  <data name="CallState_Incoming" xml:space="preserve">
+    <value>Incoming</value>
+  </data>
+  <data name="CallState_Indeterminate" xml:space="preserve">
+    <value>Indeterminate</value>
+    <comment>When call isn't active anymore</comment>
+  </data>
+  <data name="CallState_NetworkCongestion" xml:space="preserve">
+    <value>Network congestion</value>
+  </data>
+  <data name="CallState_OnHold" xml:space="preserve">
+    <value>On hold</value>
+  </data>
+  <data name="CallState_RoamRestricted" xml:space="preserve">
+    <value>Roam restricted</value>
+  </data>
+  <data name="CallState_ServiceOff" xml:space="preserve">
+    <value>Service off</value>
+  </data>
+  <data name="CallState_Transferring" xml:space="preserve">
+    <value>Transfering</value>
+  </data>
+  <data name="CallState_Unknown" xml:space="preserve">
+    <value>Unknown</value>
+  </data>
+  <data name="CallState_VideoCallingOff" xml:space="preserve">
+    <value>Video calling off</value>
   </data>
   <data name="Notification.MissedCall.Headline" xml:space="preserve">
     <value>Missed call</value>
