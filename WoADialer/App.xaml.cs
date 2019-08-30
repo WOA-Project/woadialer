@@ -84,6 +84,7 @@ namespace WoADialer
         {
             await BackgroundSystem.Initializate();
             await DeviceSystem.Initializate();
+            ResourceLoader = ResourceLoader.GetForViewIndependentUse();
             NotificationSystem.Initializate();
             await CallSystem.Initializate();
         }
