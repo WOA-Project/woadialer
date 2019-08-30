@@ -21,7 +21,7 @@
     <PackageCertificateKeyFile>
     </PackageCertificateKeyFile>
     <GenerateAppInstallerFile>False</GenerateAppInstallerFile>
-    <AppxAutoIncrementPackageRevision>True</AppxAutoIncrementPackageRevision>
+    <AppxAutoIncrementPackageRevision>False</AppxAutoIncrementPackageRevision>
     <AppxSymbolPackageEnabled>False</AppxSymbolPackageEnabled>
     <AppxBundle>Always</AppxBundle>
     <AppxBundlePlatforms>x86|x64|arm|arm64</AppxBundlePlatforms>
@@ -137,6 +137,10 @@
     <Compile Include="Background\DeviceSystem.cs" />
     <Compile Include="Background\NotificationSystem.cs" />
     <Compile Include="Helpers\DateTimeOffsetComparer.cs" />
+    <Compile Include="UI\Controls\LinePresenter.xaml.cs">
+      <DependentUpon>LinePresenter.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UI\ViewModel\CallViewModel.cs" />
     <Compile Include="UI\ViewModel\ViewModelCore.cs" />
     <Compile Include="Background\PermissionSystem.cs" />
     <Compile Include="Helpers\RelayCommand.cs" />
@@ -262,6 +266,10 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Page Include="UI\Controls\LinePresenter.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="UI\Controls\CallStatePresenter.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>

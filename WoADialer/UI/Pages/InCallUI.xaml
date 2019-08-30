@@ -17,16 +17,16 @@
         <StackPanel Grid.Row="0"
                     Padding="12,24">
             <TextBlock x:Name="callerNameText" 
-                       Text="{x:Bind Path=_CurrentCall.Contact.DisplayName, Mode=OneWay}"
+                       Text="{x:Bind Path=CurrentCall.Call.Contact.DisplayName, Mode=OneWay}"
                        Margin="0,0,0,8"
                        Style="{ThemeResource FluentTitleTextStyle}"/>
             <TextBlock x:Name="callerNumberText" 
-                       Text="{x:Bind Path=_CurrentCall.Phone.Number, Mode=OneWay}"
+                       Text="{x:Bind Path=CurrentCall.Call.Phone.Number, Mode=OneWay}"
                        Margin="0,0,0,8"
                        Style="{ThemeResource FluentSubheaderTextStyle}"/>
-            <Custom:CallStatePresenter CallState="{x:Bind Path=_CurrentCall.State, Mode=OneWay}"/>
+            <Custom:CallStatePresenter Name="csp_CallState" PresentedCall="{x:Bind Path=CurrentCall, Mode=OneWay}"/>
             <TextBlock x:Name="callTimerText" 
-                       Text="[callLength]"
+                       Text="{x:Bind Path=CurrentCall.Length, Mode=OneWay}"
                        Foreground="{ThemeResource SystemControlForegroundAccentBrush}"
                        Style="{ThemeResource FluentBodyTextStyle}"/>
         </StackPanel>
@@ -64,8 +64,8 @@
                     <TextBlock x:Uid="Button_EndCall"
                                    Style="{ThemeResource FluentBodyTextStyle}"/>
                 </StackPanel>
-            </Button>
-            <Custom:SmallCallPresenter x:Name="JJa" Height="64" VerticalAlignment="Top"/>
+            </Button>  
+            <Custom:SmallCallPresenter x:Name="scp_Test" PresentedCall="{x:Bind Path=CurrentCall, Mode=OneWay}" Height="64" VerticalAlignment="Top"/>
         </Grid>
 
     </Grid>

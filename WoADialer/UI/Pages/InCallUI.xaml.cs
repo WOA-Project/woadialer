@@ -9,28 +9,19 @@ using Windows.UI.ViewManagement;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Navigation;
+using WoADialer.UI.Controls;
+using WoADialer.UI.ViewModel;
 
 namespace WoADialer.UI.Pages
 {
     public sealed partial class InCallUI : Page
     {
-        private Call _CurrentCall;
-        private Call CurrentCall
+        public static readonly DependencyProperty CurrentCallProperty = DependencyProperty.RegisterAttached("PresentedCall", typeof(CallViewModel), typeof(CallStatePresenter), new PropertyMetadata(null));
+
+        public CallViewModel CurrentCall
         {
-            get => _CurrentCall;
-            set
-            {
-                if (_CurrentCall != null)
-                {
-                    _CurrentCall.StateChanged -= CurrentCall_StateChanged;
-                }
-                _CurrentCall = value;
-                if (_CurrentCall != null)
-                {
-                    _CurrentCall.StateChanged += CurrentCall_StateChanged;
-                }
-                _ = Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () => Bindings.Update());
-            }
+            get => (CallViewModel)GetValue(CurrentCallProperty);
+            set => SetValue(CurrentCallProperty, value);
         }
 
         public InCallUI()
@@ -48,53 +39,24 @@ namespace WoADialer.UI.Pages
         {
             if (args.DialingCalls == 0 && args.OnHoldCalls == 0 && args.ActiveTalkingCalls == 0)
             {
-                await Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () => Frame.Navigate(typeof(MainPage)));
+                //await Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () => Frame.Navigate(typeof(MainPage)));
             }
             else
             {
-                if (_CurrentCall == null)
+                if (CurrentCall == null)
                 {
                     //At this point we know that we have calls, see above
-                    CurrentCall = App.Current.CallSystem.CallManager.CurrentCalls.FirstOrDefault(x => x.State == CallState.Dialing || x.State == CallState.ActiveTalking || x.State == CallState.OnHold);
+                    Call call = App.Current.CallSystem.CallManager.CurrentCalls.FirstOrDefault(x => x.State == CallState.Dialing || x.State == CallState.ActiveTalking || x.State == CallState.OnHold);
+                    CurrentCall = call == null ? null : new CallViewModel(Dispatcher, call);
                 }
             }
         }
 
-        private async void CurrentCall_StateChanged(Call sender, CallStateChangedEventArgs args)
-        {
-            try
-            {
-                switch (args.NewState)
-                {
-                    case CallState.ActiveTalking:
-                        //vibrate
-                        break;
-                    case CallState.Disconnected:
-                        CurrentCall = App.Current.CallSystem.CallManager.CurrentCalls.FirstOrDefault(x => x.State == CallState.Dialing || x.State == CallState.ActiveTalking || x.State == CallState.OnHold);
-                        if (CurrentCall == null)
-                        {
-                            await Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () => Frame.Navigate(typeof(MainPage)));
-                        }
-                        break;
-                    case CallState.OnHold:
-                        Call notHeld = App.Current.CallSystem.CallManager.CurrentCalls.FirstOrDefault(x => x.State == CallState.Dialing || x.State == CallState.ActiveTalking);
-                        if (notHeld != null)
-                        {
-                            CurrentCall = notHeld;
-                        }
-                        break;
-                }
-            }
-            catch (Exception ex)
-            {
-                await Dispatcher.RunAsync(CoreDispatcherPriority.Normal, async () => await new MessageDialog(ex.ToString()).ShowAsync());
-            }
-        }
-
-        protected async override void OnNavigatedTo(NavigationEventArgs e)
+        protected override void OnNavigatedTo(NavigationEventArgs e)
         {
             base.OnNavigatedTo(e);
-            CurrentCall = App.Current.CallSystem.CallManager.CurrentCalls.FirstOrDefault(x => x.State == CallState.Dialing || x.State == CallState.ActiveTalking || x.State == CallState.OnHold);
+            Call call = App.Current.CallSystem.CallManager.CurrentCalls.FirstOrDefault(x => x.State == CallState.Dialing || x.State == CallState.ActiveTalking || x.State == CallState.OnHold);
+            CurrentCall = call == null ? null : new CallViewModel(Dispatcher, call);
             App.Current.CallSystem.CallManager.CurrentCallsChanged += CallManager_CurrentCallsChanged;
         }
 
@@ -108,7 +70,7 @@ namespace WoADialer.UI.Pages
         {
             try
             {
-                _CurrentCall?.End();
+                CurrentCall?.Call.End();
             }
             catch (Exception ex)
             {
