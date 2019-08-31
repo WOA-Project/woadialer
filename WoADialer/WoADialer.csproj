@@ -140,6 +140,7 @@
     <Compile Include="UI\Controls\LinePresenter.xaml.cs">
       <DependentUpon>LinePresenter.xaml</DependentUpon>
     </Compile>
+    <Compile Include="UI\Conventers\TimeSpanToTextString.cs" />
     <Compile Include="UI\ViewModel\CallViewModel.cs" />
     <Compile Include="UI\ViewModel\ViewModelCore.cs" />
     <Compile Include="Background\PermissionSystem.cs" />
@@ -155,8 +156,6 @@
     <Compile Include="UI\Controls\TitlebarControl.xaml.cs">
       <DependentUpon>TitlebarControl.xaml</DependentUpon>
     </Compile>
-    <Compile Include="UI\Conventers\CallStateToTextString.cs" />
-    <Compile Include="UI\Conventers\CallStateToIconString.cs" />
     <Compile Include="UI\Dialogs\AboutDialog.xaml.cs">
       <DependentUpon>AboutDialog.xaml</DependentUpon>
     </Compile>
@@ -337,16 +336,16 @@
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="FluiFramework.UWP">
-      <Version>0.0.28-alpha</Version>
+      <Version>0.0.29</Version>
     </PackageReference>
     <PackageReference Include="Microsoft.NETCore.UniversalWindowsPlatform">
-      <Version>6.2.8</Version>
+      <Version>6.2.9</Version>
     </PackageReference>
     <PackageReference Include="Microsoft.Toolkit.Uwp.Notifications">
       <Version>5.1.1</Version>
     </PackageReference>
     <PackageReference Include="Microsoft.UI.Xaml">
-      <Version>2.2.190731001-prerelease</Version>
+      <Version>2.2.190830001</Version>
     </PackageReference>
     <PackageReference Include="QueryString.NET">
       <Version>1.0.0</Version>
