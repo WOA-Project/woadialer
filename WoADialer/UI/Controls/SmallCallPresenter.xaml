@@ -8,6 +8,10 @@
     mc:Ignorable="d"
     d:DesignWidth="400" Height="64">
 
+    <UserControl.Resources>
+        <ResourceDictionary Source="..\Conventers\Conventers.xaml"/>
+    </UserControl.Resources>
+
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="32"/>
@@ -20,6 +24,6 @@
         <local:CallStatePresenter Name="csp_CallState" PresentedCall="{x:Bind Path=PresentedCall, Mode=OneWay}" Grid.Row="1"/>
         <local:LinePresenter Name="lp_LinePresenter" PresentedLine="{x:Bind Path=PresentedCall.Call.Line, Mode=OneWay}"/>
         <TextBlock HorizontalAlignment="Stretch" VerticalAlignment="Center" HorizontalTextAlignment="Left" Name="tb_Name" Text="{x:Bind Path=PresentedCall.Call.Contact.DisplayName, Mode=OneWay}" Grid.Column="1" FontFamily="Segoe UI" Grid.ColumnSpan="2"/>
-        <TextBlock HorizontalAlignment="Stretch" VerticalAlignment="Center" HorizontalTextAlignment="Left" Name="tb_Lenght" Text="{x:Bind Path=PresentedCall.Length, Mode=OneWay}"  Grid.Row="1" Grid.Column="1" FontFamily="Segoe UI" Grid.ColumnSpan="2"/>
+        <TextBlock HorizontalAlignment="Stretch" VerticalAlignment="Center" HorizontalTextAlignment="Left" Name="tb_Lenght" Text="{x:Bind Path=PresentedCall.Length, Mode=OneWay, Converter={StaticResource ResourceKey=TimeSpanToTextString}}"  Grid.Row="1" Grid.Column="1" FontFamily="Segoe UI" Grid.ColumnSpan="2"/>
     </Grid>
 </UserControl>

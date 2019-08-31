@@ -27,12 +27,6 @@ namespace WoADialer.UI.Pages
         public InCallUI()
         {
             this.InitializeComponent();
-
-            CoreApplication.GetCurrentView().TitleBar.ExtendViewIntoTitleBar = true;
-            ApplicationViewTitleBar titleBar = ApplicationView.GetForCurrentView().TitleBar;
-            titleBar.ButtonBackgroundColor = Colors.Transparent;
-            titleBar.ButtonInactiveBackgroundColor = Colors.Transparent;
-
         }
 
         private async void CallManager_CurrentCallsChanged(CallManager sender, CallCounts args)
@@ -43,12 +37,16 @@ namespace WoADialer.UI.Pages
             }
             else
             {
-                if (CurrentCall == null)
+                await Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
                 {
-                    //At this point we know that we have calls, see above
-                    Call call = App.Current.CallSystem.CallManager.CurrentCalls.FirstOrDefault(x => x.State == CallState.Dialing || x.State == CallState.ActiveTalking || x.State == CallState.OnHold);
-                    CurrentCall = call == null ? null : new CallViewModel(Dispatcher, call);
-                }
+                    if (CurrentCall == null)
+                    {
+
+                        //At this point we know that we have calls, see above
+                        Call call = App.Current.CallSystem.CallManager.CurrentCalls.FirstOrDefault(x => x.State == CallState.Dialing || x.State == CallState.ActiveTalking || x.State == CallState.OnHold);
+                        CurrentCall = call == null ? null : new CallViewModel(Dispatcher, call);
+                    }
+                });
             }
         }
 
