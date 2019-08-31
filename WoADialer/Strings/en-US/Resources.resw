@@ -197,15 +197,27 @@
     <value>Call</value>
     <comment>Button that start call</comment>
   </data>
-  <data name="Button_EndCall.Text" xml:space="preserve">
+  <data name="Button_End.Text" xml:space="preserve">
     <value>End call</value>
     <comment>Button that end call</comment>
+  </data>
+  <data name="Button_End_And_Answer.Text" xml:space="preserve">
+    <value>End &amp; answer</value>
+  </data>
+  <data name="Button_Hold.Text" xml:space="preserve">
+    <value>Hold</value>
+  </data>
+  <data name="Button_Hold_And_Answer.Text" xml:space="preserve">
+    <value>Hold &amp; answer</value>
   </data>
   <data name="Button_Reject.Text" xml:space="preserve">
     <value>Reject</value>
   </data>
   <data name="Button_TextReply.Text" xml:space="preserve">
     <value>Text reply</value>
+  </data>
+  <data name="Button_Unhold.Text" xml:space="preserve">
+    <value>Unhold</value>
   </data>
   <data name="CallState_ActiveTalking" xml:space="preserve">
     <value>Active talking</value>
@@ -269,6 +281,9 @@
   </data>
   <data name="CallState_VideoCallingOff" xml:space="preserve">
     <value>Video calling off</value>
+  </data>
+  <data name="Notification.MissedCall.GroupHeadline" xml:space="preserve">
+    <value>Missed calls</value>
   </data>
   <data name="Notification.MissedCall.Headline" xml:space="preserve">
     <value>Missed call</value>

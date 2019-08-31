@@ -156,14 +156,26 @@
   <data name="Button_Call.Text" xml:space="preserve">
     <value>Набрать номер</value>
   </data>
-  <data name="Button_EndCall.Text" xml:space="preserve">
+  <data name="Button_End.Text" xml:space="preserve">
     <value>Завершить вызов</value>
+  </data>
+  <data name="Button_End_And_Answer.Text" xml:space="preserve">
+    <value>Завершить и ответить</value>
+  </data>
+  <data name="Button_Hold.Text" xml:space="preserve">
+    <value>Приостановить</value>
+  </data>
+  <data name="Button_Hold_And_Answer.Text" xml:space="preserve">
+    <value>Приостановить и ответить</value>
   </data>
   <data name="Button_Reject.Text" xml:space="preserve">
     <value>Отклонить</value>
   </data>
   <data name="Button_TextReply.Text" xml:space="preserve">
     <value>Ответить сообщением</value>
+  </data>
+  <data name="Button_Unhold.Text" xml:space="preserve">
+    <value>Возвобновить</value>
   </data>
   <data name="CallState_ActiveTalking" xml:space="preserve">
     <value>Разговор</value>
@@ -227,6 +239,9 @@
   </data>
   <data name="CallState_VideoCallingOff" xml:space="preserve">
     <value>Видеовызов завершён</value>
+  </data>
+  <data name="Notification.MissedCall.GroupHeadline" xml:space="preserve">
+    <value>Пропущеные вызовы</value>
   </data>
   <data name="Notification.MissedCall.Headline" xml:space="preserve">
     <value>Пропущеный вызов</value>

@@ -120,7 +120,7 @@
   <data name="Button_Call.Text" xml:space="preserve">
     <value>Chiama</value>
   </data>
-  <data name="Button_EndCall.Text" xml:space="preserve">
+  <data name="Button_End.Text" xml:space="preserve">
     <value>Chiudi</value>
   </data>
   <data name="NumPad_0.AdditionalChars" xml:space="preserve">
