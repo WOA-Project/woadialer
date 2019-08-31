@@ -9,6 +9,8 @@ using Windows.Foundation;
 using Windows.UI.Notifications;
 using Windows.UI.Notifications.Management;
 using WoADialer.Helpers;
+using WoADialer.UI.Conventers;
+using WoADialer.UI.ViewModel;
 
 namespace WoADialer.Background
 {
@@ -33,6 +35,9 @@ namespace WoADialer.Background
         };
 
         public const string ACTION = "Action";
+        public const string USED_CALLS = "UsedCalls";
+        public const string USED_CALLS_STATES = "UsedCallsStates";
+
         #region Available actions
         /// <summary>
         /// Requires <see cref="INCOMING_CALL_ID"/>
@@ -85,6 +90,7 @@ namespace WoADialer.Background
         public const string SHOW_CALL_UI = "ShowCallUI";
         public const string SHOW_INCOMING_CALL_UI = "ShowIncomingCallUI";
         #endregion
+
         #region Possible parameters
         public const string ACTIVE_CALL_ID = "ActiveCallID";
         public const string INCOMING_CALL_ID = "IncomingCallID";
@@ -105,20 +111,20 @@ namespace WoADialer.Background
             switch (call.State)
             {
                 case CallState.ActiveTalking:
-                    buttons.Add(new ToastButton("Hold", $"{ACTION}={HOLD}&{ACTIVE_CALL_ID}={call.ID}") { ActivationType = ToastActivationType.Background });
-                    buttons.Add(new ToastButton("End", $"{ACTION}={END}&{ACTIVE_CALL_ID}={call.ID}") { ActivationType = ToastActivationType.Background });
+                    buttons.Add(new ToastButton(App.Current.ResourceLoader.GetString("Button_Hold\\Text"), $"{ACTION}={HOLD}&{ACTIVE_CALL_ID}={call.ID}") { ActivationType = ToastActivationType.Background });
+                    buttons.Add(new ToastButton(App.Current.ResourceLoader.GetString("Button_End\\Text"), $"{ACTION}={END}&{ACTIVE_CALL_ID}={call.ID}") { ActivationType = ToastActivationType.Background });
                     break;
                 case CallState.Dialing:
-                    buttons.Add(new ToastButton("End", $"{ACTION}={END}&{ACTIVE_CALL_ID}={call.ID}") { ActivationType = ToastActivationType.Background });
+                    buttons.Add(new ToastButton(App.Current.ResourceLoader.GetString("Button_End\\Text"), $"{ACTION}={END}&{ACTIVE_CALL_ID}={call.ID}") { ActivationType = ToastActivationType.Background });
                     break;
                 case CallState.Incoming:
-                    buttons.Add(new ToastButton("Text reply", $"{ACTION}={TEXT_REPLY}&{INCOMING_CALL_ID}={call.ID}") { ActivationType = ToastActivationType.Foreground });
-                    buttons.Add(new ToastButton("Reject", $"{ACTION}={REJECT}&{INCOMING_CALL_ID}={call.ID}") { ActivationType = ToastActivationType.Background });
-                    buttons.Add(new ToastButton("Answer", $"{ACTION}={ANSWER}&{INCOMING_CALL_ID}={call.ID}") { ActivationType = ToastActivationType.Foreground });
+                    buttons.Add(new ToastButton(App.Current.ResourceLoader.GetString("Button_TextReply\\Text"), $"{ACTION}={TEXT_REPLY}&{INCOMING_CALL_ID}={call.ID}") { ActivationType = ToastActivationType.Foreground });
+                    buttons.Add(new ToastButton(App.Current.ResourceLoader.GetString("Button_Reject\\Text"), $"{ACTION}={REJECT}&{INCOMING_CALL_ID}={call.ID}") { ActivationType = ToastActivationType.Background });
+                    buttons.Add(new ToastButton(App.Current.ResourceLoader.GetString("Button_Answer\\Text"), $"{ACTION}={ANSWER}&{INCOMING_CALL_ID}={call.ID}") { ActivationType = ToastActivationType.Foreground });
                     break;
                 case CallState.OnHold:
-                    buttons.Add(new ToastButton("Unhold", $"{ACTION}={UNHOLD}&{ACTIVE_CALL_ID}={call.ID}") { ActivationType = ToastActivationType.Background });
-                    buttons.Add(new ToastButton("End", $"{ACTION}={END}&{ACTIVE_CALL_ID}={call.ID}") { ActivationType = ToastActivationType.Background });
+                    buttons.Add(new ToastButton(App.Current.ResourceLoader.GetString("Button_Unhold\\Text"), $"{ACTION}={UNHOLD}&{ACTIVE_CALL_ID}={call.ID}") { ActivationType = ToastActivationType.Background });
+                    buttons.Add(new ToastButton(App.Current.ResourceLoader.GetString("Button_End\\Text"), $"{ACTION}={END}&{ACTIVE_CALL_ID}={call.ID}") { ActivationType = ToastActivationType.Background });
                     break;
             }
             return buttons;
@@ -141,14 +147,14 @@ namespace WoADialer.Background
                 if (end != null)
                 {
                     _actions.RemoveAll(x => queries[x].GetFirstValueByName(ACTION) == END);
-                    end = new ToastButton("End & Answer", $"{ACTION}={END_AND_ANSWER}&{ACTIVE_CALL_ID}={queries[end].GetFirstValueByName(ACTIVE_CALL_ID)}&{INCOMING_CALL_ID}={queries[answer].GetFirstValueByName(INCOMING_CALL_ID)}") { ActivationType = ToastActivationType.Foreground };
+                    end = new ToastButton(App.Current.ResourceLoader.GetString("Button_End_And_Answer\\Text"), $"{ACTION}={END_AND_ANSWER}&{ACTIVE_CALL_ID}={queries[end].GetFirstValueByName(ACTIVE_CALL_ID)}&{INCOMING_CALL_ID}={queries[answer].GetFirstValueByName(INCOMING_CALL_ID)}") { ActivationType = ToastActivationType.Foreground };
                     queries.Add(end, new WwwFormUrlDecoder(end.Arguments));
                     _actions.Insert(0, end);
                 }
                 if (hold != null)
                 {
                     _actions.RemoveAll(x => queries[x].GetFirstValueByName(ACTION) == HOLD);
-                    hold = new ToastButton("Hold & Answer", $"{ACTION}={HOLD_AND_ANSWER}&{ACTIVE_CALL_ID}={queries[hold].GetFirstValueByName(ACTIVE_CALL_ID)}&{INCOMING_CALL_ID}={queries[answer].GetFirstValueByName(INCOMING_CALL_ID)}") { ActivationType = ToastActivationType.Foreground };
+                    hold = new ToastButton(App.Current.ResourceLoader.GetString("Button_Hold_And_Answer\\Text"), $"{ACTION}={HOLD_AND_ANSWER}&{ACTIVE_CALL_ID}={queries[hold].GetFirstValueByName(ACTIVE_CALL_ID)}&{INCOMING_CALL_ID}={queries[answer].GetFirstValueByName(INCOMING_CALL_ID)}") { ActivationType = ToastActivationType.Foreground };
                     queries.Add(hold, new WwwFormUrlDecoder(hold.Arguments));
                     _actions.Insert(0, hold);
                 }
@@ -163,7 +169,7 @@ namespace WoADialer.Background
         private List<object> CreateVisualForCall(Call call)
         {
             StringBuilder description = new StringBuilder();
-            description.Append(call.State);
+            description.Append(CallViewModel.CallStateToTextString(call.State, call.StateReason));
             if (call.Phone != null)
             {
                 description.Append(" - ");
@@ -172,7 +178,7 @@ namespace WoADialer.Background
             if (call.Line != null)
             {
                 description.Append(" - ");
-                description.Append(call.Line.DisplayName ?? call.Line.NetworkName);
+                description.Append(string.IsNullOrEmpty(call.Line.DisplayName) ? call.Line.NetworkName : call.Line.DisplayName);
             }
             return new List<object>()
             {
@@ -218,6 +224,19 @@ namespace WoADialer.Background
             NotificationListener.NotificationChanged += NotificationListener_NotificationChanged;
         }
 
+        private void RemoveCallToastNotifications(IEnumerable<ToastNotification> notifications)
+        {
+            foreach (ToastNotification notification in notifications)
+            {
+                switch (notification.Tag)
+                {
+                    case CALL_NOTIFICATION_UI:
+                        ToastNotificationManager.History.Remove(notification.Tag);
+                        break;
+                }
+            }
+        }
+
         public ToastNotification CreateMissedCallToastNotification(Call call)
         {
             ToastContent toastContent = new ToastContent()
@@ -228,7 +247,7 @@ namespace WoADialer.Background
                     {
                         Children =
                         {
-                            new AdaptiveText() { Text = $"Missed call - {call.Contact?.DisplayName}" },
+                            new AdaptiveText() { Text = $"{App.Current.ResourceLoader.GetString("Notification\\MissedCall\\Headline")} - {call.Contact?.DisplayName}" },
                             new AdaptiveText() { Text = call.Phone?.Number }
                         }
                     }
@@ -236,7 +255,7 @@ namespace WoADialer.Background
                 Scenario = ToastScenario.Default
             };
             ToastNotification notification = new ToastNotification(toastContent.GetXml());
-            notification.Group = "MissedCalls";
+            notification.Group = App.Current.ResourceLoader.GetString("Notification\\MissedCall\\GroupHeadline");
             return notification;
         }
 
@@ -302,7 +321,17 @@ namespace WoADialer.Background
             };
             ToastNotification notification = new ToastNotification(toastContent.GetXml())
             {
-                Tag = CALL_NOTIFICATION_UI
+                Tag = CALL_NOTIFICATION_UI,
+                ExpiresOnReboot = true,
+                Priority = ToastNotificationPriority.High,
+                Data = new NotificationData()
+                {
+                    Values =
+                    {
+                        { USED_CALLS, calls.Aggregate(new StringBuilder(), (x, y) => x.Append(y.ID).Append(';'), x => x.ToString()) },
+                        { USED_CALLS_STATES, calls.Aggregate(new StringBuilder(), (x, y) => x.Append((uint)y.State).Append(';'), x => x.ToString()) }
+                    }
+                }
             };
             return notification;
         }
@@ -328,27 +357,26 @@ namespace WoADialer.Background
             }
         }
 
-        public void RemoveCallToastNotifications()
-        {
-            IReadOnlyList<ToastNotification> notifications = ToastNotificationManager.History.GetHistory();
-            foreach (ToastNotification notification in notifications)
-            {
-                switch (notification.Tag)
-                {
-                    case CALL_NOTIFICATION_UI:
-                        ToastNotificationManager.History.Remove(notification.Tag);
-                        break;
-                }
-            }
-        }
+        public void RemoveCallToastNotifications() => RemoveCallToastNotifications(ToastNotificationManager.History.GetHistory());
 
         public void RefreshCallNotification(IEnumerable<Call> currentCalls)
         {
-            RemoveCallToastNotifications();
-            ToastNotification notification = CreateCallNotification(currentCalls);
-            if (notification != null)
+            IReadOnlyList<ToastNotification> notifications = ToastNotificationManager.History.GetHistory();
+            bool badState = notifications.Count == 0 || notifications.Any(x =>
             {
-                ToastNotifier.Show(notification);
+                List<uint> ids = x.Data.Values[USED_CALLS].Split(';').Where(y => !string.IsNullOrEmpty(y)).Select(y => uint.Parse(y)).ToList();
+                List<CallState> states = x.Data.Values[USED_CALLS_STATES].Split(';').Where(y => !string.IsNullOrEmpty(y)).Select(y => Enum.Parse<CallState>(y)).ToList();
+                List<(uint ID, CallState State)> prev = ids.Join(states, y => ids.IndexOf(y), y => states.IndexOf(y), (x, y) => (x, y)).ToList();
+                return !prev.All(y => currentCalls.Any(z => z.ID == y.ID && z.State == y.State));
+            });
+            if (badState)
+            {
+                RemoveCallToastNotifications(notifications);
+                ToastNotification notification = CreateCallNotification(currentCalls);
+                if (notification != null)
+                {
+                    ToastNotifier.Show(notification);
+                }
             }
         }
     }
