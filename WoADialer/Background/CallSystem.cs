@@ -82,14 +82,15 @@ namespace WoADialer.Background
         {
             if (App.Current.IsForeground)
             {
-                await App.Current.Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.Normal, () =>
+                await App.Current.Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.Normal, async () =>
                 {
                     Frame frame = Window.Current.Content as Frame;
                     if (frame != null)
                     {
-                        if (frame.SourcePageType == typeof(InCallUI) && CallManager.CallCounts.ActiveTalkingCalls == 0 && CallManager.CallCounts.ConferenceCalls == 0 && CallManager.CallCounts.DialingCalls == 0 && CallManager.CallCounts.IncomingCalls == 0 && CallManager.CallCounts.OnHoldCalls == 0 && CallManager.CallCounts.TransferingCalls == 0)
+                        // frame.SourcePageType == typeof(InCallUI) && 
+                        if (CallManager.CallCounts.ActiveTalkingCalls == 0 && CallManager.CallCounts.ConferenceCalls == 0 && CallManager.CallCounts.DialingCalls == 0 && CallManager.CallCounts.IncomingCalls == 0 && CallManager.CallCounts.OnHoldCalls == 0 && CallManager.CallCounts.TransferingCalls == 0)
                         {
-                            if (frame.CanGoBack)
+                            /*if (frame.CanGoBack)
                             {
                                 frame.GoBack();
                             }
@@ -97,7 +98,8 @@ namespace WoADialer.Background
                             {
                                 frame.BackStack.Clear();
                                 frame.Navigate(typeof(MainPage));
-                            }
+                            }*/
+                            InCallUI.HideInCallUI(App.Current.CompactOverlayId);
                         }
                         else
                         {
@@ -105,7 +107,8 @@ namespace WoADialer.Background
                             {
                                 case CallState.Dialing:
                                 case CallState.Incoming:
-                                    frame.Navigate(typeof(InCallUI));
+                                    //frame.Navigate(typeof(InCallUI));
+                                    App.Current.CompactOverlayId = await InCallUI.ShowInCallUI();
                                     break;
                             }
                         }
@@ -136,7 +139,7 @@ namespace WoADialer.Background
                 case CallState.Incoming:
 
                     break;
-                case CallState.Transfering:
+                case CallState.Transferring:
                     
                     break;
             }

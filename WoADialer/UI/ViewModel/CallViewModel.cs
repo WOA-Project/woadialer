@@ -3,6 +3,7 @@
 using Internal.Windows.Calls;
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Text;
@@ -115,7 +116,8 @@ namespace WoADialer.UI.ViewModel
         public Call Call { get; }
         public string StateFontIcon => CallStateToFontIconString(Call.State, Call.StateReason);
         public string StateText => CallStateToTextString(Call.State, Call.StateReason);
-        public TimeSpan? Length => (Call.EndTime ?? DateTimeOffset.Now) - Call.StartTime;
+        public TimeSpan? Length { get; internal set; }
+        public string DisplayableLength => Length.HasValue ? (Length.Value.Hours == 0 ? Length.Value.ToString(@"mm\:ss", CultureInfo.InvariantCulture) : Length.Value.ToString(@"hh\:mm\:ss", CultureInfo.InvariantCulture)) : "";
 
         public CallViewModel(CoreDispatcher dispatcher, Call call) : base(dispatcher)
         {
@@ -129,10 +131,21 @@ namespace WoADialer.UI.ViewModel
             }
         }
 
+        private void CalculateLength()
+        {
+            if (Call.Line?.Transport == Windows.ApplicationModel.Calls.PhoneLineTransport.Cellular)
+                Length = (Call.EndTime ?? DateTimeOffset.Now.ToUniversalTime().AddYears(-1600)) - Call.StartTime;
+            else
+                Length = (Call.EndTime ?? DateTimeOffset.Now) - Call.StartTime;
+
+            OnPropertyChanged(nameof(Length));
+            OnPropertyChanged(nameof(DisplayableLength));
+        }
+
         private void Call_EndTimeChanged(Call sender, CallTimeChangedEventArgs args)
         {
             Timer?.Dispose();
-            OnPropertyChanged(nameof(Length));
+            CalculateLength();
         }
 
         private void Call_StartTimeChanged(Call sender, CallTimeChangedEventArgs args)
@@ -141,7 +154,7 @@ namespace WoADialer.UI.ViewModel
             {
                 InitializateTimer();
             }
-            OnPropertyChanged(nameof(Length));
+            CalculateLength();
         }
 
         private void Call_StateChanged(Call sender, CallStateChangedEventArgs args)
@@ -157,7 +170,7 @@ namespace WoADialer.UI.ViewModel
 
         private void Timer_Callback(object state)
         {
-            OnPropertyChanged(nameof(Length));
+            CalculateLength();
         }
     }
 }

@@ -10,26 +10,25 @@
     NavigationCacheMode="Required"
     Background="{ThemeResource SystemControlAcrylicWindowBrush}">
 
-    <Grid Padding="12">
-        <Grid.RowDefinitions>
-            <RowDefinition Height="64"/>
-            <RowDefinition Height="32"/>
-            <RowDefinition Height="*" />
-            <RowDefinition Height="*" MinHeight="250" MaxHeight="384" />
-            <RowDefinition Height="Auto" />
-        </Grid.RowDefinitions>
+    <ScrollViewer VerticalScrollBarVisibility="Auto">
+        <Grid Padding="12">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="64"/>
+                <RowDefinition Height="*" MinHeight="230" />
+                <RowDefinition Height="84" />
+            </Grid.RowDefinitions>
 
-        <!-- Dialing info -->
-        <Grid Grid.Row="0">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="64" />
-                <ColumnDefinition Width="*" />
-                <ColumnDefinition Width="64" />
-            </Grid.ColumnDefinitions>
+            <!-- Dialing info -->
+            <Grid Grid.Row="0">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="64" />
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="64" />
+                </Grid.ColumnDefinitions>
 
-            <!-- Number to dial -->
-            <!-- The style for the text has been manually inputted; it's the same as FluentSubheaderTextStyle -->
-            <TextBlock x:Name="numberToDialBox"
+                <!-- Number to dial -->
+                <!-- The style for the text has been manually set; it's the same as FluentSubheaderTextStyle -->
+                <TextBlock x:Name="numberToDialBox"
                        TextAlignment="Center"
                        HorizontalTextAlignment="Center"
                        Grid.Row="0"
@@ -37,61 +36,45 @@
                        FontSize="40"
                        FontWeight="Bold" HorizontalAlignment="Stretch"/>
 
-            <Button x:Name="deleteLastNumberButton" 
-                    Grid.Row="0"
-                    Grid.Column="2"
-                    Background="Transparent" 
-                    Click="DeleteLastNumberButton_Click" 
-                    FontFamily="Segoe MDL2 Assets" 
-                    Content="&#xE94F;"
-                    CornerRadius="{ThemeResource FluentButtonCorners}"
-                    Style="{ThemeResource ButtonRevealStyle}"
-                    VerticalAlignment="Stretch" 
-                    HorizontalContentAlignment="Center" 
-                    HorizontalAlignment="Stretch" 
-                    FontSize="24" />
-        </Grid>
-        
-        <controls:DialPad Grid.Row="3" MinHeight="250" DigitTapped="NumPad_DigitTapped"/>
+            </Grid>
 
-        <!-- Call button -->
-        <Button x:Name="callButton" 
-                Grid.Row="4"
-                Height="96"
-                Style="{ThemeResource FluentButtonAccentStyle}"
-                HorizontalAlignment="Stretch" 
-                VerticalAlignment="Stretch"
-                Padding="-15, 0, 0, 0"
-                Margin="2,6,2,0"
+            <controls:DialPad Grid.Row="1" MinHeight="230" MaxHeight="300" DigitTapped="NumPad_DigitTapped" VerticalAlignment="Bottom"/>
+
+            <Grid Grid.Row="2" HorizontalAlignment="Stretch">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+
+                <!-- Call button -->
+                <Button x:Name="callButton" 
+                Grid.Column="1"
+                Background="Green"
+                Foreground="White"
+                CornerRadius="50"
+                HorizontalAlignment="Center" 
+                Height="60" 
+                Width="60"
                 Click="CallButton_Click">
-            <Button.Content>
-                <StackPanel Orientation="Horizontal">
-                    <TextBlock Text="&#xE717;"
-                               Style="{ThemeResource FluentBodyIconStyle}" />
-                    <TextBlock
-                               Style="{ThemeResource FluentBodyTextStyle}" FontFamily="Segoe UI" x:Uid="Button_Call"/>
-                </StackPanel>
-            </Button.Content>
-        </Button>
 
-        <!-- Space for a Commandbar for options n stuff -->
+                    <FontIcon Glyph="&#xE717;" FontFamily="Segoe MDL2 Assets"/>
+                </Button>
 
-        <VisualStateManager.VisualStateGroups>
-            <VisualStateGroup x:Name="VisualStateGroup">
-                <VisualState x:Name="Normal">
-                    <VisualState.StateTriggers>
-                        <AdaptiveTrigger MinWindowHeight="790"/>
-                    </VisualState.StateTriggers>
-                </VisualState>
-                <VisualState x:Name="Small">
-                    <VisualState.StateTriggers>
-                        <AdaptiveTrigger MinWindowHeight="0"/>
-                    </VisualState.StateTriggers>
-                    <VisualState.Setters>
-                        <Setter Target="callButton.Height" Value="48"/>
-                    </VisualState.Setters>
-                </VisualState>
-            </VisualStateGroup>
-        </VisualStateManager.VisualStateGroups>
-    </Grid>
+                <Button x:Name="deleteLastNumberButton" 
+                Grid.Column="2"
+                CornerRadius="50"
+                Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
+                HorizontalAlignment="Center" 
+                Height="60" 
+                Width="60"
+                Click="DeleteLastNumberButton_Click">
+
+                    <FontIcon Glyph="&#xE94F;" FontFamily="Segoe MDL2 Assets"/>
+                </Button>
+            </Grid>
+
+            <!-- Space for a Commandbar for options n stuff -->
+        </Grid>
+    </ScrollViewer>
 </Page>

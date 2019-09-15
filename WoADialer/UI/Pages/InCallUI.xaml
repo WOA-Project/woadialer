@@ -6,67 +6,171 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:Custom="using:WoADialer.UI.Controls"
     x:Class="WoADialer.UI.Pages.InCallUI"
-    mc:Ignorable="d" Loaded="Page_Loaded" Background="{ThemeResource SystemControlAcrylicWindowBrush}">
+    mc:Ignorable="d" Background="{ThemeResource SystemControlAcrylicWindowBrush}">
 
     <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition Height="Auto" />
-            <RowDefinition Height="*" />
+            <RowDefinition Height="30"/>
+            <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
-        <!-- Call details -->
-        <StackPanel Grid.Row="0"
-                    Padding="12,24">
-            <TextBlock x:Name="callerNameText" 
+        
+        <Grid x:Name="CompactUIGrid" Grid.Row="1" Padding="12,4" VerticalAlignment="Center">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="Auto"/>
+            </Grid.ColumnDefinitions>
+
+            <PersonPicture Height="42"
+                           Contact="{x:Bind Path=CurrentCall.Call.Contact}"/>
+
+            <StackPanel Grid.Column="1" Margin="16,0" VerticalAlignment="Center">
+
+                <TextBlock x:Name="callerNameTextTiny" 
                        Text="{x:Bind Path=CurrentCall.Call.Contact.DisplayName, Mode=OneWay}"
-                       Margin="0,0,0,8"
-                       Style="{ThemeResource FluentTitleTextStyle}"/>
-            <TextBlock x:Name="callerNumberText" 
-                       Text="{x:Bind Path=CurrentCall.Call.Phone.Number, Mode=OneWay}"
-                       Margin="0,0,0,8"
-                       Style="{ThemeResource FluentSubheaderTextStyle}"/>
-            <Custom:CallStatePresenter Name="csp_CallState" PresentedCall="{x:Bind Path=CurrentCall, Mode=OneWay}"/>
-            <TextBlock x:Name="callTimerText" 
-                       Text="{x:Bind Path=CurrentCall.Length, Mode=OneWay}"
-                       Foreground="{ThemeResource SystemControlForegroundAccentBrush}"
-                       Style="{ThemeResource FluentBodyTextStyle}"/>
-        </StackPanel>
+                       FontWeight="SemiBold"
+                       HorizontalAlignment="Left"/>
 
-        <!-- Call options -->
-        <Grid Grid.Row="1">
-            <Grid.RowDefinitions>
-                <RowDefinition Height="*" />
-                <RowDefinition Height="Auto" />
-            </Grid.RowDefinitions>
+                <TextBlock x:Name="callTimerTextTiny" 
+                       Text="{x:Bind Path=CurrentCall.DisplayableLength, Mode=OneWay}"
+                       FontSize="10"
+                       HorizontalAlignment="Left"/>
 
-            <Button x:Name="speakerOutputButton" 
-                    Style="{StaticResource ButtonRevealStyle}" 
-                    FontFamily="Segoe MDL2 Assets"
-                    Content="&#xE767;" 
-                    Width="100" 
-                    Height="100" 
-                    Visibility="Collapsed" 
-                    VerticalAlignment="Bottom" 
-                    HorizontalAlignment="Center"
-                    Margin="0, 0, 0, 100" />
+            </StackPanel>
 
-
-            <!-- Close call button -->
-            <Button x:Name="closeCallButton" 
-                    Grid.Row="1" 
-                    Style="{StaticResource FluentButtonAccentStyle}" 
-                    HorizontalAlignment="Stretch" 
-                    Height="100" 
+            <StackPanel Grid.Column="2" Orientation="Horizontal">
+                <Button x:Name="closeCallButtonTiny" 
+                    Background="Red"
+                    Foreground="White"
+                    CornerRadius="50"
+                    HorizontalAlignment="Center" 
+                    Height="38" 
+                    Width="38"
                     Margin="12"
                     Click="CloseCallButton_Click">
-                <StackPanel Orientation="Horizontal">
-                    <TextBlock Text="&#xE778;"
-                                   Style="{ThemeResource FluentBodyIconStyle}" />
-                    <TextBlock x:Uid="Button_End"
-                                   Style="{ThemeResource FluentBodyTextStyle}"/>
-                </StackPanel>
-            </Button>  
-            <Custom:SmallCallPresenter x:Name="scp_Test" PresentedCall="{x:Bind Path=CurrentCall, Mode=OneWay}" Height="64" VerticalAlignment="Top"/>
+                    
+                    <FontIcon Glyph="&#xE778;" FontFamily="Segoe MDL2 Assets" FontSize="14"/>
+                </Button>
+
+                <Button x:Name="showExtendedUIButton" 
+                    CornerRadius="50"
+                    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
+                    HorizontalAlignment="Center" 
+                    Height="38" 
+                    Width="38"
+                    Click="ShowExtendedUIButton_Click">
+
+                    <FontIcon Glyph="&#xE70D;" FontFamily="Segoe MDL2 Assets" FontSize="14"/>
+                </Button>
+            </StackPanel>
         </Grid>
 
+        <Grid x:Name="ExtendedUIGrid" Grid.Row="1" Padding="12" VerticalAlignment="Center" Visibility="Collapsed">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="84"/>
+            </Grid.RowDefinitions>
+
+            <!-- Call details -->
+            <StackPanel Grid.Row="0"
+                    Padding="12,24,12,0">
+
+                <PersonPicture Height="82"
+                           Contact="{x:Bind Path=CurrentCall.Call.Contact}"/>
+
+                <TextBlock x:Name="callerNameText" 
+                       Text="{x:Bind Path=CurrentCall.Call.Contact.DisplayName, Mode=OneWay}"
+                       FontSize="24"
+                       FontWeight="SemiBold"
+                       Margin="0,8,0,8"
+                       HorizontalAlignment="Center"/>
+
+                <TextBlock x:Name="callerNumberText" 
+                       Text="{x:Bind Path=CurrentCall.Call.Phone.Number, Mode=OneWay}"
+                       Margin="0,0,0,8"
+                       HorizontalAlignment="Center"/>
+
+                <TextBlock x:Name="callTimerText" 
+                       Text="{x:Bind Path=CurrentCall.DisplayableLength, Mode=OneWay}"
+                       Margin="0,0,0,8"
+                       HorizontalAlignment="Center"/>
+
+                <Custom:CallStatePresenter Name="csp_CallState" PresentedCall="{x:Bind Path=CurrentCall, Mode=OneWay}" HorizontalAlignment="Center"/>
+                <Custom:SmallCallPresenter x:Name="scp_Test" PresentedCall="{x:Bind Path=CurrentCall, Mode=OneWay}" Height="64" VerticalAlignment="Top" Visibility="Collapsed"/>
+
+            </StackPanel>
+
+            <!-- Call options -->
+            <Grid Grid.Row="1" VerticalAlignment="Bottom">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                </Grid.RowDefinitions>
+
+                <Grid Margin="0,8,0,16" HorizontalAlignment="Stretch">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+
+                    <AppBarToggleButton Label="Mute" Width="100" HorizontalAlignment="Center" Style="{ThemeResource AppBarToggleButtonRevealStyle}" Height="56">
+                        <FontIcon Glyph="&#xF781;" FontFamily="Segoe MDL2 Assets"/>
+                    </AppBarToggleButton>
+
+                    <AppBarToggleButton x:Name="KeypadToggleButton" Grid.Column="1" Label="Keypad" Width="100" HorizontalAlignment="Center" Checked="KeypadToggleButton_Checked" Unchecked="KeypadToggleButton_Unchecked" Style="{ThemeResource AppBarToggleButtonRevealStyle}" Height="56">
+                        <FontIcon Glyph="&#xE75F;" FontFamily="Segoe MDL2 Assets"/>
+                    </AppBarToggleButton>
+
+                    <AppBarToggleButton x:Name="speakerOutputButton"  Grid.Column="2" Label="Speaker" Width="100" HorizontalAlignment="Center" Style="{ThemeResource AppBarToggleButtonRevealStyle}" Height="56">
+                        <FontIcon Glyph="&#xE767;" FontFamily="Segoe MDL2 Assets"/>
+                    </AppBarToggleButton>
+                </Grid>
+
+                <Custom:DialPad x:Name="Keypad" Grid.Row="1" MinHeight="230" MaxHeight="300" VerticalAlignment="Bottom" Visibility="Collapsed"/>
+            </Grid>
+
+            <Grid Grid.Row="2" HorizontalAlignment="Stretch">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+
+                <!-- Close call button -->
+                <Button x:Name="closeCallButton" 
+                    Grid.Column="1" 
+                    Background="Red"
+                    Foreground="White"
+                    CornerRadius="50"
+                    HorizontalAlignment="Center" 
+                    Height="60" 
+                    Width="60"
+                    Margin="12"
+                    Click="CloseCallButton_Click">
+
+                    <FontIcon Glyph="&#xE778;" FontFamily="Segoe MDL2 Assets"/>
+                </Button>
+
+                <Button x:Name="hideExtendedUIButton" 
+                    Grid.Column="2"
+                    CornerRadius="50"
+                    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
+                    HorizontalAlignment="Center" 
+                    Height="60" 
+                    Width="60"
+                    Click="HideExtendedUIButton_Click">
+
+                    <FontIcon Glyph="&#xE70E;" FontFamily="Segoe MDL2 Assets"/>
+                </Button>
+            </Grid>
+
+            <!-- Space for a Commandbar for options n stuff -->
+        </Grid>
+
+        <Grid VerticalAlignment="Top" Height="30" Background="{ThemeResource SystemControlChromeMediumLowAcrylicElementMediumBrush}">
+            <Custom:TitlebarControl x:Name="Titlebar"/>
+        </Grid>
     </Grid>
 </Page>

@@ -2,34 +2,22 @@
 using Microsoft.QueryStringDotNET;
 using Microsoft.Toolkit.Uwp.Notifications;
 using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Threading;
 using System.Threading.Tasks;
 using Windows.ApplicationModel;
 using Windows.ApplicationModel.Activation;
 using Windows.ApplicationModel.Background;
 using Windows.ApplicationModel.Calls;
-using Windows.ApplicationModel.Calls.Background;
-using Windows.ApplicationModel.Calls.Provider;
-using Windows.ApplicationModel.Contacts;
 using Windows.ApplicationModel.LockScreen;
 using Windows.ApplicationModel.Resources;
-using Windows.Devices.Sensors;
-using Windows.Devices.Haptics;
 using Windows.Foundation;
-using Windows.Storage;
-using Windows.System;
 using Windows.UI.Core;
-using Windows.UI.Notifications;
-using Windows.UI.Notifications.Management;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Navigation;
 using WoADialer.Background;
 using WoADialer.Helpers;
 using WoADialer.UI.Pages;
-using System.Text;
 
 namespace WoADialer
 {
@@ -50,6 +38,7 @@ namespace WoADialer
         public SystemNavigationManager NavigationManager { get; private set; }
         public LockApplicationHost LockApplicationHost { get; private set; }
         public ResourceLoader ResourceLoader { get; private set; }
+        public int CompactOverlayId { get; set; }
         #endregion
 
 
@@ -152,12 +141,9 @@ namespace WoADialer
                         {
                             if (PhoneCallManager.IsCallActive)
                             {
-                                frame.Navigate(typeof(InCallUI));
+                                CompactOverlayId = await InCallUI.ShowInCallUI();
                             }
-                            else
-                            {
-                                frame.Navigate(typeof(MainPage), launchActivationArgs.Arguments);
-                            }
+                            frame.Navigate(typeof(MainPage), launchActivationArgs.Arguments);
                         }
                     }
                     break;
@@ -208,7 +194,7 @@ namespace WoADialer
             deferral.Complete();
         }
 
-        public void OnToastNotificationActivated(ToastActivationType activationType, string args)
+        public async void OnToastNotificationActivated(ToastActivationType activationType, string args)
         {
             QueryString query = QueryString.Parse(args);
             uint activeCallID = 0;
@@ -283,8 +269,9 @@ namespace WoADialer
                         break;
                     }
                 case NotificationSystem.SHOW_CALL_UI:
-                    frame = Window.Current.Content as Frame;
-                    frame.Navigate(typeof(InCallUI));
+                    CompactOverlayId = await InCallUI.ShowInCallUI();
+                    //frame = Window.Current.Content as Frame;
+                    //frame.Navigate(typeof(InCallUI));
                     break;
                 case NotificationSystem.SHOW_INCOMING_CALL_UI:
                     frame = Window.Current.Content as Frame;
