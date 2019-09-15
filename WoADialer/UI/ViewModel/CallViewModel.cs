@@ -117,7 +117,7 @@ namespace WoADialer.UI.ViewModel
         public string StateFontIcon => CallStateToFontIconString(Call.State, Call.StateReason);
         public string StateText => CallStateToTextString(Call.State, Call.StateReason);
         public TimeSpan? Length => (Call.EndTime ?? DateTimeOffset.Now) - Call.StartTime;
-        public string DisplayableLength => Call.StartTime.HasValue ? Call.StartTime.Value.DateTime.ToString() : "Unknown";
+        public string DisplayableLength => Length.HasValue ? (Length.Value.Hours == 0 ? Length.Value.ToString(@"mm\:ss", CultureInfo.InvariantCulture) : Length.Value.ToString(@"hh\:mm\:ss", CultureInfo.InvariantCulture)) : "";
 
         public CallViewModel(CoreDispatcher dispatcher, Call call) : base(dispatcher)
         {
