@@ -219,6 +219,9 @@
   <data name="Button_Unhold.Text" xml:space="preserve">
     <value>Unhold</value>
   </data>
+  <data name="CallHistoryPage" xml:space="preserve">
+    <value>Call history</value>
+  </data>
   <data name="CallState_ActiveTalking" xml:space="preserve">
     <value>Active talking</value>
     <comment>When call is active</comment>
@@ -281,6 +284,15 @@
   </data>
   <data name="CallState_VideoCallingOff" xml:space="preserve">
     <value>Video calling off</value>
+  </data>
+  <data name="CallUIPage" xml:space="preserve">
+    <value>Current call</value>
+  </data>
+  <data name="ContactsPage" xml:space="preserve">
+    <value>Contacts</value>
+  </data>
+  <data name="DialPage" xml:space="preserve">
+    <value>Dial</value>
   </data>
   <data name="Notification.MissedCall.GroupHeadline" xml:space="preserve">
     <value>Missed calls</value>

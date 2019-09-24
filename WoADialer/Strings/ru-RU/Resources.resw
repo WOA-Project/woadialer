@@ -177,6 +177,9 @@
   <data name="Button_Unhold.Text" xml:space="preserve">
     <value>Возвобновить</value>
   </data>
+  <data name="CallHistoryPage" xml:space="preserve">
+    <value>История вызовов</value>
+  </data>
   <data name="CallState_ActiveTalking" xml:space="preserve">
     <value>Разговор</value>
     <comment>When call is active</comment>
@@ -239,6 +242,15 @@
   </data>
   <data name="CallState_VideoCallingOff" xml:space="preserve">
     <value>Видеовызов завершён</value>
+  </data>
+  <data name="CallUIPage" xml:space="preserve">
+    <value>Текущий вызов</value>
+  </data>
+  <data name="ContactsPage" xml:space="preserve">
+    <value>Контакты</value>
+  </data>
+  <data name="DialPage" xml:space="preserve">
+    <value>Номеронабиратель</value>
   </data>
   <data name="Notification.MissedCall.GroupHeadline" xml:space="preserve">
     <value>Пропущеные вызовы</value>
