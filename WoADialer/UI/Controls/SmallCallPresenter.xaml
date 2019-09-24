@@ -5,6 +5,7 @@
     xmlns:local="using:WoADialer.UI.Controls"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:Windows10FallCreatorsUpdate="http://schemas.microsoft.com/winfx/2006/xaml/presentation?IsApiContractPresent(Windows.Foundation.UniversalApiContract, 5)"
     mc:Ignorable="d"
     d:DesignWidth="400" Height="64">
 
@@ -22,8 +23,8 @@
             <ColumnDefinition Width="1*"/>
         </Grid.ColumnDefinitions>
         <local:CallStatePresenter Name="csp_CallState" PresentedCall="{x:Bind Path=PresentedCall, Mode=OneWay}" Grid.Row="1"/>
-        <local:LinePresenter Name="lp_LinePresenter" PresentedLine="{x:Bind Path=PresentedCall.Call.Line, Mode=OneWay}"/>
-        <TextBlock HorizontalAlignment="Stretch" VerticalAlignment="Center" HorizontalTextAlignment="Left" Name="tb_Name" Text="{x:Bind Path=PresentedCall.Call.Contact.DisplayName, Mode=OneWay}" Grid.Column="1" FontFamily="Segoe UI" Grid.ColumnSpan="2"/>
-        <TextBlock HorizontalAlignment="Stretch" VerticalAlignment="Center" HorizontalTextAlignment="Left" Name="tb_Lenght" Text="{x:Bind Path=PresentedCall.Length, Mode=OneWay, Converter={StaticResource ResourceKey=TimeSpanToTextString}}"  Grid.Row="1" Grid.Column="1" FontFamily="Segoe UI" Grid.ColumnSpan="2"/>
+        <local:LinePresenter Name="lp_LinePresenter" PresentedLine="{x:Bind Path=PresentedCall.Line, Mode=OneWay}"/>
+        <TextBlock HorizontalAlignment="Stretch" VerticalAlignment="Center" Windows10FallCreatorsUpdate:HorizontalTextAlignment="Left" Name="tb_Name" Text="{x:Bind Path=PresentedCall.Contact.DisplayName, Mode=OneWay}" Grid.Column="1" FontFamily="Segoe UI" Grid.ColumnSpan="2"/>
+        <TextBlock HorizontalAlignment="Stretch" VerticalAlignment="Center" Windows10FallCreatorsUpdate:HorizontalTextAlignment="Left" Name="tb_Lenght" Text="{x:Bind Path=PresentedCall, Mode=OneWay, Converter={StaticResource CallToCallLengthTextString}}"  Grid.Row="1" Grid.Column="1" FontFamily="Segoe UI" Grid.ColumnSpan="2"/>
     </Grid>
 </UserControl>

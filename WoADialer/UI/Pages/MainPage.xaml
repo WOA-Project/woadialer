@@ -9,25 +9,21 @@
     xmlns:muxc="using:Microsoft.UI.Xaml.Controls"
     mc:Ignorable="d" Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
 
+    <UserControl.Resources>
+        <ResourceDictionary Source="..\Conventers\Conventers.xaml"/>
+    </UserControl.Resources>
+    
     <Grid>
-        <muxc:NavigationView Margin="0,30,0,0" x:Name="NavView" PaneDisplayMode="Top" Loaded="NavView_Loaded" ItemInvoked="NavView_ItemInvoked" BackRequested="NavView_BackRequested" AlwaysShowHeader="True" Background="{ThemeResource SystemControlAcrylicWindowBrush}">
-            <muxc:NavigationView.MenuItems>
-                <muxc:NavigationViewItem Content="History" Tag="History">
-                    <muxc:NavigationViewItem.Icon>
-                        <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xE81C;"/>
-                    </muxc:NavigationViewItem.Icon>
-                </muxc:NavigationViewItem>
-                <muxc:NavigationViewItem Content="Contacts" Tag="Contacts">
-                    <muxc:NavigationViewItem.Icon>
-                        <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xE716;"/>
-                    </muxc:NavigationViewItem.Icon>
-                </muxc:NavigationViewItem>
-                <muxc:NavigationViewItem Content="Dial" Tag="Dial">
-                    <muxc:NavigationViewItem.Icon>
-                        <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xE75F;"/>
-                    </muxc:NavigationViewItem.Icon>
-                </muxc:NavigationViewItem>
-            </muxc:NavigationView.MenuItems>
+        <muxc:NavigationView Name="nv_PagePresenter" MenuItemsSource="{x:Bind UISystem.MainPagePages}" SelectedItem="{x:Bind UISystem.MainPagePages[2]}" Margin="0,30,0,0" PaneDisplayMode="Top" Loaded="NavView_Loaded" ItemInvoked="NavView_ItemInvoked" BackRequested="NavView_BackRequested" AlwaysShowHeader="True" Background="{ThemeResource SystemControlAcrylicWindowBrush}" SelectionChanged="NavView_SelectionChanged">
+            <muxc:NavigationView.MenuItemTemplate>
+                <DataTemplate x:DataType="x:String">
+                    <muxc:NavigationViewItem Content="{x:Bind Converter={StaticResource PageNameToTextString}}" Tag="{x:Bind}">
+                        <muxc:NavigationViewItem.Icon>
+                            <FontIcon Glyph="{x:Bind Converter={StaticResource PageNameToGlyphString}}"/>
+                        </muxc:NavigationViewItem.Icon>
+                    </muxc:NavigationViewItem>
+                </DataTemplate>
+            </muxc:NavigationView.MenuItemTemplate>
             <muxc:NavigationView.PaneFooter>
                 <AppBarButton Opacity="0.75" x:Name="AboutButton" Click="AboutButton_Click">
                     <AppBarButton.Icon>

@@ -3,5 +3,9 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:local="using:WoADialer.UI.Conventers">
 
-    <local:TimeSpanToTextString x:Key="TimeSpanToTextString"/>
+    <local:CallToCallStateTextString x:Key="CallToCallStateTextString"/>
+    <local:CallToCallStateGlyphString x:Key="CallToCallStateGlyphString"/>
+    <local:CallToCallLengthTextString x:Key="CallToCallLengthTextString"/>
+    <local:PageNameToGlyphString x:Key="PageNameToGlyphString"/>
+    <local:PageNameToTextString x:Key="PageNameToTextString"/>
 </ResourceDictionary>

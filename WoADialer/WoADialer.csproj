@@ -13,7 +13,7 @@
     <DefaultLanguage>en-US</DefaultLanguage>
     <TargetPlatformIdentifier>UAP</TargetPlatformIdentifier>
     <TargetPlatformVersion Condition=" '$(TargetPlatformVersion)' == '' ">10.0.18362.0</TargetPlatformVersion>
-    <TargetPlatformMinVersion>10.0.18362.0</TargetPlatformMinVersion>
+    <TargetPlatformMinVersion>10.0.15063.0</TargetPlatformMinVersion>
     <MinimumVisualStudioVersion>14</MinimumVisualStudioVersion>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{A5A43C5B-DE2A-4C0C-9213-0A381AF9435A};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
@@ -24,7 +24,7 @@
     <AppxAutoIncrementPackageRevision>False</AppxAutoIncrementPackageRevision>
     <AppxSymbolPackageEnabled>False</AppxSymbolPackageEnabled>
     <AppxBundle>Always</AppxBundle>
-    <AppxBundlePlatforms>x86|x64|arm|arm64</AppxBundlePlatforms>
+    <AppxBundlePlatforms>arm</AppxBundlePlatforms>
     <AppInstallerUpdateFrequency>0</AppInstallerUpdateFrequency>
     <AppInstallerCheckForUpdateFrequency>OnApplicationRun</AppInstallerCheckForUpdateFrequency>
     <PackageCertificateThumbprint>4A64E42ED0812B6B3BDD858F22B91D2C1E5AAAE1</PackageCertificateThumbprint>
@@ -132,18 +132,24 @@
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Background\BackgroundSystem.cs" />
-    <Compile Include="Background\CallSystem.cs" />
-    <Compile Include="Background\DeviceSystem.cs" />
-    <Compile Include="Background\NotificationSystem.cs" />
+    <Compile Include="Systems\BackgroundSystem.cs" />
+    <Compile Include="Systems\CallSystem.cs" />
+    <Compile Include="Systems\DeviceSystem.cs" />
+    <Compile Include="Systems\MessagingSystem.cs" />
+    <Compile Include="Systems\NotificationSystem.cs" />
     <Compile Include="Helpers\DateTimeOffsetComparer.cs" />
     <Compile Include="UI\Controls\LinePresenter.xaml.cs">
       <DependentUpon>LinePresenter.xaml</DependentUpon>
     </Compile>
-    <Compile Include="UI\Conventers\TimeSpanToTextString.cs" />
-    <Compile Include="UI\ViewModel\CallViewModel.cs" />
+    <Compile Include="UI\Conventers\CallToCallStateGlyphString.cs" />
+    <Compile Include="UI\Conventers\CallToCallStateTextString.cs" />
+    <Compile Include="UI\Conventers\PageNameToGlyphString.cs" />
+    <Compile Include="UI\Conventers\PageNameToTextString.cs" />
+    <Compile Include="UI\Conventers\CallToCallLengthTextString.cs" />
+    <Compile Include="Systems\UISystem.cs" />
+    <Compile Include="UI\Glyphs.cs" />
     <Compile Include="UI\ViewModel\ViewModelCore.cs" />
-    <Compile Include="Background\PermissionSystem.cs" />
+    <Compile Include="Systems\PermissionSystem.cs" />
     <Compile Include="Helpers\RelayCommand.cs" />
     <Compile Include="Helpers\SettingsManager.cs" />
     <Compile Include="Helpers\ToastButtonEqualityComparer.cs" />
@@ -183,8 +189,8 @@
     <Compile Include="UI\Pages\About.xaml.cs">
       <DependentUpon>About.xaml</DependentUpon>
     </Compile>
-    <Compile Include="UI\Pages\InCallUI.xaml.cs">
-      <DependentUpon>InCallUI.xaml</DependentUpon>
+    <Compile Include="UI\Pages\CallUIPage.xaml.cs">
+      <DependentUpon>CallUIPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="UI\Pages\IncomingCallUI.xaml.cs">
       <DependentUpon>IncomingCallUI.xaml</DependentUpon>
@@ -321,7 +327,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="UI\Pages\InCallUI.xaml">
+    <Page Include="UI\Pages\CallUIPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -356,7 +362,6 @@
     <PRIResource Include="Strings\ru-RU\Resources.resw" />
     <PRIResource Include="Strings\it-IT\Resources.resw" />
     <None Include="DialerStrongKey.pfx" />
-    <None Include="WoADialer_TemporaryKey.pfx" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Internal.Windows.Calls\Internal.Windows.Calls\Internal.Windows.Calls.csproj">

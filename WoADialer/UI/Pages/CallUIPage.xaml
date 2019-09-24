@@ -5,8 +5,8 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:Custom="using:WoADialer.UI.Controls"
-    x:Class="WoADialer.UI.Pages.InCallUI"
-    mc:Ignorable="d" Loaded="Page_Loaded" Background="{ThemeResource SystemControlAcrylicWindowBrush}">
+    x:Class="WoADialer.UI.Pages.CallUIPage"
+    mc:Ignorable="d" Background="{ThemeResource SystemControlAcrylicWindowBrush}">
 
     <Grid>
         <Grid.RowDefinitions>
@@ -16,19 +16,6 @@
         <!-- Call details -->
         <StackPanel Grid.Row="0"
                     Padding="12,24">
-            <TextBlock x:Name="callerNameText" 
-                       Text="{x:Bind Path=CurrentCall.Call.Contact.DisplayName, Mode=OneWay}"
-                       Margin="0,0,0,8"
-                       Style="{ThemeResource FluentTitleTextStyle}"/>
-            <TextBlock x:Name="callerNumberText" 
-                       Text="{x:Bind Path=CurrentCall.Call.Phone.Number, Mode=OneWay}"
-                       Margin="0,0,0,8"
-                       Style="{ThemeResource FluentSubheaderTextStyle}"/>
-            <Custom:CallStatePresenter Name="csp_CallState" PresentedCall="{x:Bind Path=CurrentCall, Mode=OneWay}"/>
-            <TextBlock x:Name="callTimerText" 
-                       Text="{x:Bind Path=CurrentCall.Length, Mode=OneWay}"
-                       Foreground="{ThemeResource SystemControlForegroundAccentBrush}"
-                       Style="{ThemeResource FluentBodyTextStyle}"/>
         </StackPanel>
 
         <!-- Call options -->
@@ -65,7 +52,7 @@
                                    Style="{ThemeResource FluentBodyTextStyle}"/>
                 </StackPanel>
             </Button>  
-            <Custom:SmallCallPresenter x:Name="scp_Test" PresentedCall="{x:Bind Path=CurrentCall, Mode=OneWay}" Height="64" VerticalAlignment="Top"/>
+            <Custom:SmallCallPresenter x:Name="scp_Test" PresentedCall="{x:Bind Path=CallManager.ActiveCall, Mode=OneWay}" Height="64" VerticalAlignment="Top"/>
         </Grid>
 
     </Grid>

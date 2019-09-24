@@ -26,10 +26,11 @@ using Windows.UI.Notifications.Management;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Navigation;
-using WoADialer.Background;
 using WoADialer.Helpers;
 using WoADialer.UI.Pages;
 using System.Text;
+using WoADialer.UI;
+using WoADialer.Systems;
 
 namespace WoADialer
 {
@@ -59,6 +60,7 @@ namespace WoADialer
         public DeviceSystem DeviceSystem { get; } = new DeviceSystem();
         public NotificationSystem NotificationSystem { get; } = new NotificationSystem();
         public PermissionSystem PermissionSystem { get; } = new PermissionSystem();
+        public UISystem UISystem { get; } = new UISystem();
         public CoreDispatcher Dispatcher { get; private set; }
 
         public App()
@@ -74,9 +76,12 @@ namespace WoADialer
             ObtainingAccess = PermissionSystem.RequestAllPermissions();
         }
 
-        private void OnUnhandledException(object sender, Windows.UI.Xaml.UnhandledExceptionEventArgs e)
+        private async void OnUnhandledException(object sender, UnhandledExceptionEventArgs e)
         {
             e.Handled = true;
+            StorageFolder storageFolder = ApplicationData.Current.LocalFolder;
+            StorageFile sampleFile = await storageFolder.CreateFileAsync("sample.txt", CreationCollisionOption.OpenIfExists);
+            await FileIO.AppendTextAsync(sampleFile, DateTime.Now +  " " + e.Exception.ToString() + '\n');
         }
 
         #region Application state managment
@@ -141,6 +146,7 @@ namespace WoADialer
                 Initializating = InitializateSystems();
             }
             await Initializating;
+            UISystem.Initializate(Dispatcher);
             NotificationSystem.RemoveCallToastNotifications();
             switch (args.Kind)
             {
@@ -152,7 +158,7 @@ namespace WoADialer
                         {
                             if (PhoneCallManager.IsCallActive)
                             {
-                                frame.Navigate(typeof(InCallUI));
+                                frame.Navigate(typeof(CallUIPage));
                             }
                             else
                             {
@@ -284,7 +290,7 @@ namespace WoADialer
                     }
                 case NotificationSystem.SHOW_CALL_UI:
                     frame = Window.Current.Content as Frame;
-                    frame.Navigate(typeof(InCallUI));
+                    frame.Navigate(typeof(CallUIPage));
                     break;
                 case NotificationSystem.SHOW_INCOMING_CALL_UI:
                     frame = Window.Current.Content as Frame;

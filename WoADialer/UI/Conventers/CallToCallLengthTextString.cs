@@ -5,14 +5,14 @@ using WoADialer.UI.ViewModel;
 
 namespace WoADialer.UI.Conventers
 {
-    public sealed class TimeSpanToTextString : IValueConverter
+    public sealed class CallToCallLengthTextString : IValueConverter
     {
         public object Convert(object value, Type targetType, object parameter, string language)
         {
             switch (value)
             {
-                case TimeSpan span:
-                    return span.ToString("mm\\:ss");
+                case Call call:
+                    return (DateTimeOffset.Now - call.StartTime)?.ToString("mm\\:ss") ?? string.Empty;
                 default:
                     return string.Empty;
             }
