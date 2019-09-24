@@ -53,92 +53,92 @@ namespace WoADialer.Model
                 {
                     case "None":
                         return ToString();
-                    case "Italian":
-                        if (Numbers.Count > 3)
-                        {
-                            result.Append(Numbers.Take(3).ToArray());
-                            result.Append(' ');
-                            result.Append(Numbers.TakeLast(Numbers.Count - 3).ToArray());
-                        }
-                        else
-                        {
-                            result.Append(Numbers.Take(Numbers.Count).ToArray());
-                        }
-                        return result.ToString();
-                    case "Russian":
-                        switch (Numbers.Count)
-                        {
-                            case 4:
-                                result.Append(Numbers.Take(2).ToArray());
-                                result.Append('-');
-                                result.Append(Numbers.TakeLast(2).ToArray());
-                                break;
-                            case 5:
-                                result.Append(Numbers.Take(2).ToArray());
-                                result.Append('-');
-                                result.Append(Numbers.TakeLast(3).ToArray());
-                                break;
-                            case 6:
-                                result.Append(Numbers.Take(3).ToArray());
-                                result.Append('-');
-                                result.Append(Numbers.TakeLast(3).ToArray());
-                                break;
-                            case 7:
-                                result.Append(Numbers.Take(1).ToArray());
-                                result.Append(' ');
-                                result.Append(Numbers.Skip(1).Take(3).ToArray());
-                                result.Append('-');
-                                result.Append(Numbers.TakeLast(3).ToArray());
-                                break;
-                            case 8:
-                                result.Append(Numbers.Take(2).ToArray());
-                                result.Append(' ');
-                                result.Append(Numbers.Skip(2).Take(3).ToArray());
-                                result.Append('-');
-                                result.Append(Numbers.TakeLast(3).ToArray());
-                                break;
-                            case 9:
-                                result.Append(Numbers.Take(3).ToArray());
-                                result.Append(' ');
-                                result.Append(Numbers.Skip(3).Take(3).ToArray());
-                                result.Append('-');
-                                result.Append(Numbers.TakeLast(3).ToArray());
-                                break;
-                            case 10:
-                                result.Append(Numbers.Take(3).ToArray());
-                                result.Append(' ');
-                                result.Append(Numbers.Skip(3).Take(3).ToArray());
-                                result.Append('-');
-                                result.Append(Numbers.Skip(6).Take(2).ToArray());
-                                result.Append('-');
-                                result.Append(Numbers.TakeLast(2).ToArray());
-                                break;
-                            case 11:
-                                result.Append(Numbers.Take(1).ToArray());
-                                result.Append(" (");
-                                result.Append(Numbers.Skip(1).Take(3).ToArray());
-                                result.Append(") ");
-                                result.Append(Numbers.Skip(4).Take(3).ToArray());
-                                result.Append('-');
-                                result.Append(Numbers.Skip(7).Take(2).ToArray());
-                                result.Append('-');
-                                result.Append(Numbers.TakeLast(2).ToArray());
-                                break;
-                            case 12:
-                                result.Append(Numbers.Take(2).ToArray());
-                                result.Append(" (");
-                                result.Append(Numbers.Skip(2).Take(3).ToArray());
-                                result.Append(") ");
-                                result.Append(Numbers.Skip(5).Take(3).ToArray());
-                                result.Append('-');
-                                result.Append(Numbers.Skip(8).Take(2).ToArray());
-                                result.Append('-');
-                                result.Append(Numbers.TakeLast(2).ToArray());
-                                break;
-                            default:
-                                return ToString();
-                        }
-                        return result.ToString();
+                    //case "Italian":
+                    //    if (Numbers.Count > 3)
+                    //    {
+                    //        result.Append(Numbers.Take(3).ToArray());
+                    //        result.Append(' ');
+                    //        result.Append(Numbers.TakeLast(Numbers.Count - 3).ToArray());
+                    //    }
+                    //    else
+                    //    {
+                    //        result.Append(Numbers.Take(Numbers.Count).ToArray());
+                    //    }
+                    //    return result.ToString();
+                    //case "Russian":
+                    //    switch (Numbers.Count)
+                    //    {
+                    //        case 4:
+                    //            result.Append(Numbers.Take(2).ToArray());
+                    //            result.Append('-');
+                    //            result.Append(Numbers.TakeLast(2).ToArray());
+                    //            break;
+                    //        case 5:
+                    //            result.Append(Numbers.Take(2).ToArray());
+                    //            result.Append('-');
+                    //            result.Append(Numbers.TakeLast(3).ToArray());
+                    //            break;
+                    //        case 6:
+                    //            result.Append(Numbers.Take(3).ToArray());
+                    //            result.Append('-');
+                    //            result.Append(Numbers.TakeLast(3).ToArray());
+                    //            break;
+                    //        case 7:
+                    //            result.Append(Numbers.Take(1).ToArray());
+                    //            result.Append(' ');
+                    //            result.Append(Numbers.Skip(1).Take(3).ToArray());
+                    //            result.Append('-');
+                    //            result.Append(Numbers.TakeLast(3).ToArray());
+                    //            break;
+                    //        case 8:
+                    //            result.Append(Numbers.Take(2).ToArray());
+                    //            result.Append(' ');
+                    //            result.Append(Numbers.Skip(2).Take(3).ToArray());
+                    //            result.Append('-');
+                    //            result.Append(Numbers.TakeLast(3).ToArray());
+                    //            break;
+                    //        case 9:
+                    //            result.Append(Numbers.Take(3).ToArray());
+                    //            result.Append(' ');
+                    //            result.Append(Numbers.Skip(3).Take(3).ToArray());
+                    //            result.Append('-');
+                    //            result.Append(Numbers.TakeLast(3).ToArray());
+                    //            break;
+                    //        case 10:
+                    //            result.Append(Numbers.Take(3).ToArray());
+                    //            result.Append(' ');
+                    //            result.Append(Numbers.Skip(3).Take(3).ToArray());
+                    //            result.Append('-');
+                    //            result.Append(Numbers.Skip(6).Take(2).ToArray());
+                    //            result.Append('-');
+                    //            result.Append(Numbers.TakeLast(2).ToArray());
+                    //            break;
+                    //        case 11:
+                    //            result.Append(Numbers.Take(1).ToArray());
+                    //            result.Append(" (");
+                    //            result.Append(Numbers.Skip(1).Take(3).ToArray());
+                    //            result.Append(") ");
+                    //            result.Append(Numbers.Skip(4).Take(3).ToArray());
+                    //            result.Append('-');
+                    //            result.Append(Numbers.Skip(7).Take(2).ToArray());
+                    //            result.Append('-');
+                    //            result.Append(Numbers.TakeLast(2).ToArray());
+                    //            break;
+                    //        case 12:
+                    //            result.Append(Numbers.Take(2).ToArray());
+                    //            result.Append(" (");
+                    //            result.Append(Numbers.Skip(2).Take(3).ToArray());
+                    //            result.Append(") ");
+                    //            result.Append(Numbers.Skip(5).Take(3).ToArray());
+                    //            result.Append('-');
+                    //            result.Append(Numbers.Skip(8).Take(2).ToArray());
+                    //            result.Append('-');
+                    //            result.Append(Numbers.TakeLast(2).ToArray());
+                    //            break;
+                    //        default:
+                    //            return ToString();
+                    //    }
+                    //    return result.ToString();
                     default:
                         return ToString();
                 }
