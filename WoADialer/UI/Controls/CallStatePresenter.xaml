@@ -14,12 +14,12 @@
         <ResourceDictionary Source="..\Conventers\Conventers.xaml"/>
     </UserControl.Resources>
 
-    <Grid>
+    <Grid HorizontalAlignment="Center">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="32"/>
             <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
         <FontIcon Glyph="{x:Bind Path=PresentedCall, Mode=OneWay, Converter={StaticResource CallToCallStateGlyphString}}"/>
-        <TextBlock HorizontalAlignment="Stretch" VerticalAlignment="Center" Windows10FallCreatorsUpdate:HorizontalTextAlignment="Left" Text="{x:Bind Path=PresentedCall, Mode=OneWay, Converter={StaticResource CallToCallStateTextString}}" Grid.Column="1" />
+        <TextBlock Margin="8,0,0,0" HorizontalAlignment="Stretch" VerticalAlignment="Center" Windows10FallCreatorsUpdate:HorizontalTextAlignment="Left" Text="{x:Bind Path=PresentedCall, Mode=OneWay, Converter={StaticResource CallToCallStateTextString}}" Grid.Column="1" />
     </Grid>
 </UserControl>

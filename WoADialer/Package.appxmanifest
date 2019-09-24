@@ -13,15 +13,15 @@
   IgnorableNamespaces="mp uap uap2 uap3 uap5 uap7 rescap iot">
 
   <Identity
-    Name="WoADialer"
-    Publisher="CN=Dj Art"
+    Name="LumiaWOA.Dialer"
+    Publisher="CN=Windows On Lumia Second Party Application Publisher"
     Version="0.1.200.0" />
 
   <mp:PhoneIdentity PhoneProductId="1e17ea40-87af-45e2-865a-c2bd98036a67" PhonePublisherId="00000000-0000-0000-0000-000000000000"/>
 
   <Properties>
     <DisplayName>WoADialer</DisplayName>
-    <PublisherDisplayName>LumiaWoA</PublisherDisplayName>
+    <PublisherDisplayName>LumiaWOA</PublisherDisplayName>
     <Logo>Assets\StoreLogo.png</Logo>
   </Properties>
 

@@ -86,14 +86,15 @@ namespace WoADialer.Systems
         {
             if (App.Current.IsForeground)
             {
-                await App.Current.Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.Normal, () =>
+                await App.Current.Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.Normal, async () =>
                 {
                     Frame frame = Window.Current.Content as Frame;
                     if (frame != null)
                     {
-                        if (frame.SourcePageType == typeof(CallUIPage) && CallManager.CallCounts.ActiveTalkingCalls == 0 && CallManager.CallCounts.ConferenceCalls == 0 && CallManager.CallCounts.DialingCalls == 0 && CallManager.CallCounts.IncomingCalls == 0 && CallManager.CallCounts.OnHoldCalls == 0 && CallManager.CallCounts.TransferingCalls == 0)
+                        // frame.SourcePageType == typeof(InCallUI) && 
+                        if (CallManager.CallCounts.ActiveTalkingCalls == 0 && CallManager.CallCounts.ConferenceCalls == 0 && CallManager.CallCounts.DialingCalls == 0 && CallManager.CallCounts.IncomingCalls == 0 && CallManager.CallCounts.OnHoldCalls == 0 && CallManager.CallCounts.TransferingCalls == 0)
                         {
-                            if (frame.CanGoBack)
+                            /*if (frame.CanGoBack)
                             {
                                 frame.GoBack();
                             }
@@ -101,7 +102,8 @@ namespace WoADialer.Systems
                             {
                                 frame.BackStack.Clear();
                                 frame.Navigate(typeof(MainPage));
-                            }
+                            }*/
+                            InCallUI.HideInCallUI(App.Current.CompactOverlayId);
                         }
                         else
                         {
@@ -109,7 +111,8 @@ namespace WoADialer.Systems
                             {
                                 case CallState.Dialing:
                                 case CallState.Incoming:
-                                    frame.Navigate(typeof(CallUIPage));
+                                    //frame.Navigate(typeof(InCallUI));
+                                    App.Current.CompactOverlayId = await InCallUI.ShowInCallUI();
                                     break;
                             }
                         }
