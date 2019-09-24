@@ -5,9 +5,14 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:Custom="using:WoADialer.UI.Controls"
-    x:Class="WoADialer.UI.Pages.InCallUI"
+    xmlns:Windows10FallCreatorsUpdate="http://schemas.microsoft.com/winfx/2006/xaml/presentation?IsApiContractPresent(Windows.Foundation.UniversalApiContract, 5)"
+    x:Class="WoADialer.UI.Pages.CallUIPage"
     mc:Ignorable="d" Background="{ThemeResource SystemControlAcrylicWindowBrush}">
 
+    <UserControl.Resources>
+        <ResourceDictionary Source="..\Conventers\Conventers.xaml"/>
+    </UserControl.Resources>
+    
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="30"/>
@@ -21,18 +26,18 @@
                 <ColumnDefinition Width="Auto"/>
             </Grid.ColumnDefinitions>
 
-            <PersonPicture Height="42"
-                           Contact="{x:Bind Path=CurrentCall.Call.Contact}"/>
+            <Windows10FallCreatorsUpdate:PersonPicture Height="42"
+                           Contact="{x:Bind Path=CallManager.ActiveCall.Contact}"/>
 
             <StackPanel Grid.Column="1" Margin="16,0" VerticalAlignment="Center">
 
                 <TextBlock x:Name="callerNameTextTiny" 
-                       Text="{x:Bind Path=CurrentCall.Call.Contact.DisplayName, Mode=OneWay}"
+                       Text="{x:Bind Path=CallManager.ActiveCall.Contact.DisplayName, Mode=OneWay}"
                        FontWeight="SemiBold"
                        HorizontalAlignment="Left"/>
 
                 <TextBlock x:Name="callTimerTextTiny" 
-                       Text="{x:Bind Path=CurrentCall.DisplayableLength, Mode=OneWay}"
+                       Text="{x:Bind Path=CallManager.ActiveCall, Mode=OneWay, Converter={StaticResource CallToCallLengthTextString}}"
                        FontSize="10"
                        HorizontalAlignment="Left"/>
 
@@ -77,27 +82,27 @@
                     Padding="12,24,12,0">
 
                 <PersonPicture Height="82"
-                           Contact="{x:Bind Path=CurrentCall.Call.Contact}"/>
+                           Contact="{x:Bind Path=CallManager.ActiveCall.Contact}"/>
 
                 <TextBlock x:Name="callerNameText" 
-                       Text="{x:Bind Path=CurrentCall.Call.Contact.DisplayName, Mode=OneWay}"
+                       Text="{x:Bind Path=CallManager.ActiveCall.Contact.DisplayName, Mode=OneWay}"
                        FontSize="24"
                        FontWeight="SemiBold"
                        Margin="0,8,0,8"
                        HorizontalAlignment="Center"/>
 
                 <TextBlock x:Name="callerNumberText" 
-                       Text="{x:Bind Path=CurrentCall.Call.Phone.Number, Mode=OneWay}"
+                       Text="{x:Bind Path=CallManager.ActiveCall.Phone.Number, Mode=OneWay}"
                        Margin="0,0,0,8"
                        HorizontalAlignment="Center"/>
 
                 <TextBlock x:Name="callTimerText" 
-                       Text="{x:Bind Path=CurrentCall.DisplayableLength, Mode=OneWay}"
+                       Text="{x:Bind Path=CallManager.ActiveCall, Mode=OneWay, Converter={StaticResource CallToCallLengthTextString}}"
                        Margin="0,0,0,8"
                        HorizontalAlignment="Center"/>
 
-                <Custom:CallStatePresenter Name="csp_CallState" PresentedCall="{x:Bind Path=CurrentCall, Mode=OneWay}" HorizontalAlignment="Center"/>
-                <Custom:SmallCallPresenter x:Name="scp_Test" PresentedCall="{x:Bind Path=CurrentCall, Mode=OneWay}" Height="64" VerticalAlignment="Top" Visibility="Collapsed"/>
+                <Custom:CallStatePresenter Name="csp_CallState" PresentedCall="{x:Bind Path=CallManager.ActiveCall, Mode=OneWay}" HorizontalAlignment="Center"/>
+                <Custom:SmallCallPresenter x:Name="scp_Test" PresentedCall="{x:Bind Path=CallManager.ActiveCall, Mode=OneWay}" Height="64" VerticalAlignment="Top" Visibility="Collapsed"/>
 
             </StackPanel>
 

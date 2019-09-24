@@ -20,6 +20,7 @@ using WoADialer.UI.Pages;
 using System.Text;
 using WoADialer.UI;
 using WoADialer.Systems;
+using Windows.Storage;
 
 namespace WoADialer
 {
@@ -148,7 +149,7 @@ namespace WoADialer
                         {
                             if (PhoneCallManager.IsCallActive)
                             {
-                                CompactOverlayId = await InCallUI.ShowInCallUI();
+                                CompactOverlayId = await CallUIPage.ShowInCallUI();
                             }
                             frame.Navigate(typeof(MainPage), launchActivationArgs.Arguments);
                         }
@@ -276,7 +277,7 @@ namespace WoADialer
                         break;
                     }
                 case NotificationSystem.SHOW_CALL_UI:
-                    CompactOverlayId = await InCallUI.ShowInCallUI();
+                    CompactOverlayId = await CallUIPage.ShowInCallUI();
                     //frame = Window.Current.Content as Frame;
                     //frame.Navigate(typeof(InCallUI));
                     break;

@@ -103,7 +103,7 @@ namespace WoADialer.Systems
                                 frame.BackStack.Clear();
                                 frame.Navigate(typeof(MainPage));
                             }*/
-                            InCallUI.HideInCallUI(App.Current.CompactOverlayId);
+                            CallUIPage.HideInCallUI(App.Current.CompactOverlayId);
                         }
                         else
                         {
@@ -112,7 +112,7 @@ namespace WoADialer.Systems
                                 case CallState.Dialing:
                                 case CallState.Incoming:
                                     //frame.Navigate(typeof(InCallUI));
-                                    App.Current.CompactOverlayId = await InCallUI.ShowInCallUI();
+                                    App.Current.CompactOverlayId = await CallUIPage.ShowInCallUI();
                                     break;
                             }
                         }
