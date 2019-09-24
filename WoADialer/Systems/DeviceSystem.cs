@@ -7,7 +7,7 @@ using Windows.Devices.Enumeration;
 using Windows.Devices.Haptics;
 using Windows.Devices.Sensors;
 
-namespace WoADialer.Background
+namespace WoADialer.Systems
 {
     public sealed class DeviceSystem
     {
@@ -22,7 +22,7 @@ namespace WoADialer.Background
             {
                 if (value && DisplayController == null)
                 {
-                    DisplayController = ProximitySensor.CreateDisplayOnOffController();
+                    DisplayController = ProximitySensor?.CreateDisplayOnOffController();
                 }
                 else if (!value && DisplayController != null)
                 {

@@ -8,7 +8,7 @@ using Windows.ApplicationModel.Background;
 using Windows.ApplicationModel.Calls.Background;
 using Windows.UI.Notifications;
 
-namespace WoADialer.Background
+namespace WoADialer.Systems
 {
     public sealed class BackgroundSystem
     {

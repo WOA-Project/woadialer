@@ -1,6 +1,7 @@
 ﻿using Internal.Windows.Calls;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.Linq;
 using System.Text;
@@ -12,8 +13,9 @@ using Windows.UI.Notifications;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using WoADialer.UI.Pages;
+using WoADialer.UI.ViewModel;
 
-namespace WoADialer.Background
+namespace WoADialer.Systems
 {
     public sealed class CallSystem
     {
@@ -21,6 +23,8 @@ namespace WoADialer.Background
         public PhoneCallHistoryStore CallHistoryStore { get; private set; }
         public PhoneCallStore CallStore { get; private set; }
         public ContactStore ContactStore { get; private set; }
+
+        public ObservableCollection<Call> CurrentCalls { get; private set; }
 
         public CallSystem()
         {
@@ -87,7 +91,7 @@ namespace WoADialer.Background
                     Frame frame = Window.Current.Content as Frame;
                     if (frame != null)
                     {
-                        if (frame.SourcePageType == typeof(InCallUI) && CallManager.CallCounts.ActiveTalkingCalls == 0 && CallManager.CallCounts.ConferenceCalls == 0 && CallManager.CallCounts.DialingCalls == 0 && CallManager.CallCounts.IncomingCalls == 0 && CallManager.CallCounts.OnHoldCalls == 0 && CallManager.CallCounts.TransferingCalls == 0)
+                        if (frame.SourcePageType == typeof(CallUIPage) && CallManager.CallCounts.ActiveTalkingCalls == 0 && CallManager.CallCounts.ConferenceCalls == 0 && CallManager.CallCounts.DialingCalls == 0 && CallManager.CallCounts.IncomingCalls == 0 && CallManager.CallCounts.OnHoldCalls == 0 && CallManager.CallCounts.TransferingCalls == 0)
                         {
                             if (frame.CanGoBack)
                             {
@@ -105,7 +109,7 @@ namespace WoADialer.Background
                             {
                                 case CallState.Dialing:
                                 case CallState.Incoming:
-                                    frame.Navigate(typeof(InCallUI));
+                                    frame.Navigate(typeof(CallUIPage));
                                     break;
                             }
                         }
@@ -129,14 +133,17 @@ namespace WoADialer.Background
                     }
                     break;
                 case CallState.ActiveTalking:
-                    SimpleHapticsControllerFeedback feedback = App.Current.DeviceSystem.VibrationDevice?.SimpleHapticsController.SupportedFeedback.First();
-                    App.Current.DeviceSystem.VibrationDevice?.SimpleHapticsController.SendHapticFeedback(feedback);
+                    if (App.Current.PermissionSystem.Vibration == VibrationAccessStatus.Allowed && App.Current.DeviceSystem.VibrationDevice != null)
+                    {
+                        SimpleHapticsControllerFeedback feedback = App.Current.DeviceSystem.VibrationDevice.SimpleHapticsController.SupportedFeedback.First();
+                        App.Current.DeviceSystem.VibrationDevice.SimpleHapticsController.SendHapticFeedback(feedback);
+                    }
                     break;
                 case CallState.Dialing:
                 case CallState.Incoming:
 
                     break;
-                case CallState.Transfering:
+                case CallState.Transferring:
                     
                     break;
             }
@@ -148,6 +155,7 @@ namespace WoADialer.Background
             CallHistoryStore = await PhoneCallHistoryManager.RequestStoreAsync(PhoneCallHistoryStoreAccessType.AllEntriesReadWrite);
             ContactStore = await ContactManager.RequestStoreAsync(ContactStoreAccessType.AllContactsReadOnly);
             CallManager = await CallManager.GetCallManagerAsync();
+            CurrentCalls = new ObservableCollection<Call>(CallManager.CurrentCalls);
             CallManager.CallAppeared += CallManager_CallAppeared;
         }
     }

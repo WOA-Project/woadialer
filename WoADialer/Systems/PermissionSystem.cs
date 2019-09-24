@@ -9,7 +9,7 @@ using Windows.Devices.Haptics;
 using Windows.System;
 using Windows.UI.Notifications.Management;
 
-namespace WoADialer.Background
+namespace WoADialer.Systems
 {
     public sealed class PermissionSystem
     {

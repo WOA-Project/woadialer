@@ -12,7 +12,7 @@ using WoADialer.Helpers;
 using WoADialer.UI.Conventers;
 using WoADialer.UI.ViewModel;
 
-namespace WoADialer.Background
+namespace WoADialer.Systems
 {
     public sealed class NotificationSystem
     {
@@ -169,7 +169,7 @@ namespace WoADialer.Background
         private List<object> CreateVisualForCall(Call call)
         {
             StringBuilder description = new StringBuilder();
-            description.Append(CallViewModel.CallStateToTextString(call.State, call.StateReason));
+            description.Append(CallToCallStateTextString.Convert(call));
             if (call.Phone != null)
             {
                 description.Append(" - ");
@@ -365,9 +365,9 @@ namespace WoADialer.Background
             bool badState = notifications.Count == 0 || notifications.Any(x =>
             {
                 List<uint> ids = x.Data.Values[USED_CALLS].Split(';').Where(y => !string.IsNullOrEmpty(y)).Select(y => uint.Parse(y)).ToList();
-                List<CallState> states = x.Data.Values[USED_CALLS_STATES].Split(';').Where(y => !string.IsNullOrEmpty(y)).Select(y => Enum.Parse<CallState>(y)).ToList();
-                List<(uint ID, CallState State)> prev = ids.Join(states, y => ids.IndexOf(y), y => states.IndexOf(y), (x, y) => (x, y)).ToList();
-                return !prev.All(y => currentCalls.Any(z => z.ID == y.ID && z.State == y.State));
+                List<CallState> states = x.Data.Values[USED_CALLS_STATES].Split(';').Where(y => !string.IsNullOrEmpty(y)).Select(y => (CallState)Enum.Parse(typeof(CallState), y)).ToList();
+                List<Tuple<uint, CallState>> prev = ids.Join(states, y => ids.IndexOf(y), y => states.IndexOf(y), (x, y) => new Tuple<uint, CallState>(x, y)).ToList();
+                return !prev.All(y => currentCalls.Any(z => z.ID == y.Item1 && z.State == y.Item2));
             });
             if (badState)
             {
