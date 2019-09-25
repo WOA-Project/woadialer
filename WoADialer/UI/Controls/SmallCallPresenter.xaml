@@ -23,7 +23,7 @@
             <ColumnDefinition Width="1*"/>
         </Grid.ColumnDefinitions>
         <local:CallStatePresenter Name="csp_CallState" PresentedCall="{x:Bind Path=PresentedCall, Mode=OneWay}" Grid.Row="1"/>
-        <local:LinePresenter Name="lp_LinePresenter" PresentedLine="{x:Bind Path=PresentedCall.Line, Mode=OneWay}"/>
+        <local:LinePresenter Name="lp_LinePresenter" PresentedLineName="{x:Bind Path=PresentedCall.Line.NetworkName, Mode=OneWay}"/>
         <TextBlock HorizontalAlignment="Stretch" VerticalAlignment="Center" Windows10FallCreatorsUpdate:HorizontalTextAlignment="Left" Name="tb_Name" Text="{x:Bind Path=PresentedCall.Contact.DisplayName, Mode=OneWay}" Grid.Column="1" FontFamily="Segoe UI" Grid.ColumnSpan="2"/>
         <TextBlock HorizontalAlignment="Stretch" VerticalAlignment="Center" Windows10FallCreatorsUpdate:HorizontalTextAlignment="Left" Name="tb_Lenght" Text="{x:Bind Path=PresentedCall, Mode=OneWay, Converter={StaticResource CallToCallLengthTextString}}"  Grid.Row="1" Grid.Column="1" FontFamily="Segoe UI" Grid.ColumnSpan="2"/>
     </Grid>

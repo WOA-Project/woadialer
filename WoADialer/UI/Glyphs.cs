@@ -27,6 +27,7 @@ namespace WoADialer.UI
         public const string CONTACT_INFO = "\uE779";
         public const string MEMO = "\uE77C";
         public const string PASTE = "\uE77F";
+        public const string SHIELD = "\uEA18";
         public const string DATA_SENCE = "\uE791";
     }
 }

@@ -5,9 +5,22 @@
     xmlns:local="using:WoADialer.UI.Pages"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:controls="using:WoADialer.UI.Controls"
+    xmlns:calls="using:Windows.ApplicationModel.Calls"
     mc:Ignorable="d"
     NavigationCacheMode="Required"
-    Background="{ThemeResource SystemControlAcrylicWindowBrush}" Loaded="Page_Loaded">
+    Background="{ThemeResource SystemControlAcrylicWindowBrush}">
 
-    <ListView Name="lv_CallHistory"/>
+    <ListView ItemsSource="{x:Bind CallSystem.CallHistoryEntries}" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Center">
+        <ListView.ItemTemplate>
+            <DataTemplate x:DataType="calls:PhoneCallHistoryEntry">
+                <controls:CallHistoryEntryPresenter PresentedEntry="{x:Bind}"/>
+            </DataTemplate>
+        </ListView.ItemTemplate>
+        <ListView.ItemContainerStyle>
+            <Style TargetType="ListViewItem">
+                <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
+            </Style>
+        </ListView.ItemContainerStyle>
+    </ListView>
 </Page>

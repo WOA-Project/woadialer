@@ -19,16 +19,18 @@ namespace WoADialer.Systems
 {
     public sealed class CallSystem
     {
+        private readonly ObservableCollection<PhoneCallHistoryEntry> _CallHistoryEntries = new ObservableCollection<PhoneCallHistoryEntry>();
+
         public CallManager CallManager { get; private set; }
         public PhoneCallHistoryStore CallHistoryStore { get; private set; }
         public PhoneCallStore CallStore { get; private set; }
         public ContactStore ContactStore { get; private set; }
 
-        public ObservableCollection<Call> CurrentCalls { get; private set; }
+        public ReadOnlyObservableCollection<PhoneCallHistoryEntry> CallHistoryEntries { get; }
 
         public CallSystem()
         {
-
+            CallHistoryEntries = new ReadOnlyObservableCollection<PhoneCallHistoryEntry>(_CallHistoryEntries);
         }
 
         private async Task SaveCallIntoHistory(Call call, CallStateChangedEventArgs args)
@@ -63,6 +65,22 @@ namespace WoADialer.Systems
                 }
             };
             await CallHistoryStore.SaveEntryAsync(historyEntry);
+            UpdateCallHistoryEntries();
+        }
+
+        private async void UpdateCallHistoryEntries()
+        {
+            IReadOnlyList<PhoneCallHistoryEntry> entries = await App.Current.CallSystem.CallHistoryStore.GetEntryReader().ReadBatchAsync();
+            List<PhoneCallHistoryEntry> @new = entries.Except(_CallHistoryEntries).ToList();
+            List<PhoneCallHistoryEntry> removed = _CallHistoryEntries.Except(entries).ToList();
+            foreach(PhoneCallHistoryEntry entry in @removed)
+            {
+                _CallHistoryEntries.Remove(entry);
+            }
+            foreach(PhoneCallHistoryEntry entry in @new)
+            {
+                _CallHistoryEntries.Add(entry);
+            }
         }
 
         private void CallManager_CallAppeared(CallManager sender, Call call)
@@ -158,8 +176,8 @@ namespace WoADialer.Systems
             CallHistoryStore = await PhoneCallHistoryManager.RequestStoreAsync(PhoneCallHistoryStoreAccessType.AllEntriesReadWrite);
             ContactStore = await ContactManager.RequestStoreAsync(ContactStoreAccessType.AllContactsReadOnly);
             CallManager = await CallManager.GetCallManagerAsync();
-            CurrentCalls = new ObservableCollection<Call>(CallManager.CurrentCalls);
             CallManager.CallAppeared += CallManager_CallAppeared;
+            UpdateCallHistoryEntries();
         }
     }
 }

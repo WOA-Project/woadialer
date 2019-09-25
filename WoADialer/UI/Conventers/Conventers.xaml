@@ -8,4 +8,9 @@
     <local:CallToCallLengthTextString x:Key="CallToCallLengthTextString"/>
     <local:PageNameToGlyphString x:Key="PageNameToGlyphString"/>
     <local:PageNameToTextString x:Key="PageNameToTextString"/>
+    <local:CallHistoryEntryToCallStateTextString x:Key="CallHistoryEntryToCallStateTextString"/>
+    <local:CallHistoryEntryToCallStateGlyphString x:Key="CallHistoryEntryToCallStateGlyphString"/>
+    <local:CallHistoryEntryToLineIconBitmap x:Key="CallHistoryEntryToLineIconBitmap"/>
+    <local:CallHistoryEntryToLineDisplayNameText x:Key="CallHistoryEntryToLineDisplayNameText"/>
+    <local:CallHistoryEntryToContact x:Key="CallHistoryEntryToContact"/>
 </ResourceDictionary>

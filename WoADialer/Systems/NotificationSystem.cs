@@ -364,10 +364,17 @@ namespace WoADialer.Systems
             IReadOnlyList<ToastNotification> notifications = ToastNotificationManager.History.GetHistory();
             bool badState = notifications.Count == 0 || notifications.Any(x =>
             {
-                List<uint> ids = x.Data.Values[USED_CALLS].Split(';').Where(y => !string.IsNullOrEmpty(y)).Select(y => uint.Parse(y)).ToList();
-                List<CallState> states = x.Data.Values[USED_CALLS_STATES].Split(';').Where(y => !string.IsNullOrEmpty(y)).Select(y => (CallState)Enum.Parse(typeof(CallState), y)).ToList();
-                List<Tuple<uint, CallState>> prev = ids.Join(states, y => ids.IndexOf(y), y => states.IndexOf(y), (x, y) => new Tuple<uint, CallState>(x, y)).ToList();
-                return !prev.All(y => currentCalls.Any(z => z.ID == y.Item1 && z.State == y.Item2));
+                if (x.Data != null)
+                {
+                    List<uint> ids = x.Data.Values[USED_CALLS].Split(';').Where(y => !string.IsNullOrEmpty(y)).Select(y => uint.Parse(y)).ToList();
+                    List<CallState> states = x.Data.Values[USED_CALLS_STATES].Split(';').Where(y => !string.IsNullOrEmpty(y)).Select(y => (CallState)Enum.Parse(typeof(CallState), y)).ToList();
+                    List<Tuple<uint, CallState>> prev = ids.Join(states, y => ids.IndexOf(y), y => states.IndexOf(y), (x, y) => new Tuple<uint, CallState>(x, y)).ToList();
+                    return !prev.All(y => currentCalls.Any(z => z.ID == y.Item1 && z.State == y.Item2));
+                }
+                else
+                {
+                    return false;
+                }
             });
             if (badState)
             {
