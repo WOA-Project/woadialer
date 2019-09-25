@@ -11,7 +11,7 @@
     NavigationCacheMode="Required"
     Background="{ThemeResource SystemControlAcrylicWindowBrush}">
 
-    <ListView ItemsSource="{x:Bind CallSystem.CallHistoryEntries}" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Center">
+    <ListView ItemsSource="{x:Bind CallSystem.CallHistoryEntries}" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Center" IsItemClickEnabled="True" ItemClick="ListView_ItemClick">
         <ListView.ItemTemplate>
             <DataTemplate x:DataType="calls:PhoneCallHistoryEntry">
                 <controls:CallHistoryEntryPresenter PresentedEntry="{x:Bind}"/>

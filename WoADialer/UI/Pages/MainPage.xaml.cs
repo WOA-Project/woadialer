@@ -31,7 +31,7 @@ namespace WoADialer.UI.Pages
             switch (e.Parameter)
             {
                 case string number:
-                    NavView_Navigate(UISystem.DIAL_PAGE, new EntranceNavigationTransitionInfo(), number);
+                    Navigate(UISystem.DIAL_PAGE, new EntranceNavigationTransitionInfo(), number);
                     break;
             }
         }
@@ -80,7 +80,7 @@ namespace WoADialer.UI.Pages
             else if (args.SelectedItemContainer != null)
             {
                 var navItemTag = args.SelectedItemContainer.Tag.ToString();
-                NavView_Navigate(navItemTag, args.RecommendedNavigationTransitionInfo);
+                Navigate(navItemTag, args.RecommendedNavigationTransitionInfo);
             }
             else
             {
@@ -88,35 +88,7 @@ namespace WoADialer.UI.Pages
             }
         }
 
-        private async void NavView_Navigate(string navItemTag, NavigationTransitionInfo transitionInfo)
-        {
-            Type _page = null;
-            if (navItemTag == "settings")
-            {
-                SettingsDialog dialog = new SettingsDialog();
-                await dialog.ShowAsync();
-            }
-            else if (navItemTag == "About")
-            {
-                AboutDialog dialog = new AboutDialog();
-                await dialog.ShowAsync();
-            }
-            else
-            {
-                _page = UISystem.PageNameToType(navItemTag);
-            }
-            // Get the page type before navigation so you can prevent duplicate
-            // entries in the backstack.
-            var preNavPageType = ContentFrame.CurrentSourcePageType;
-
-            // Only navigate if the selected page isn't currently loaded.
-            if (!(_page is null) && !Equals(preNavPageType, _page))
-            {
-                ContentFrame.Navigate(_page, null, transitionInfo);
-            }
-        }
-
-        private async void NavView_Navigate(string navItemTag, NavigationTransitionInfo transitionInfo, object parameter)
+        public async void Navigate(string navItemTag, NavigationTransitionInfo transitionInfo, object parameter = null)
         {
             Type _page = null;
             if (navItemTag == "settings")
