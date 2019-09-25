@@ -112,6 +112,7 @@ namespace WoADialer.UI.Pages
             // Only navigate if the selected page isn't currently loaded.
             if (!(_page is null) && !Equals(preNavPageType, _page))
             {
+                nv_PagePresenter.SelectedItem = navItemTag;
                 ContentFrame.Navigate(_page, parameter, transitionInfo);
             }
         }
