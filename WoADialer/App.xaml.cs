@@ -1,5 +1,4 @@
 ﻿using Internal.Windows.Calls;
-using Microsoft.QueryStringDotNET;
 using Microsoft.Toolkit.Uwp.Notifications;
 using System;
 using System.Linq;
@@ -204,16 +203,16 @@ namespace WoADialer
 
         public async void OnToastNotificationActivated(ToastActivationType activationType, string args)
         {
-            QueryString query = QueryString.Parse(args);
+            WwwFormUrlDecoder decoder = new WwwFormUrlDecoder(args);
             uint activeCallID = 0;
             uint incomingCallID = 0;
             Call activeCall = null;
             Call incomingCall = null;
             Frame frame = null;
-            switch (query[NotificationSystem.ACTION])
+            switch (decoder.GetFirstValueByName(NotificationSystem.ACTION))
             {
                 case NotificationSystem.END:
-                    activeCallID = uint.Parse(query[NotificationSystem.ACTIVE_CALL_ID]);
+                    activeCallID = uint.Parse(decoder.GetFirstValueByName(NotificationSystem.ACTIVE_CALL_ID));
                     activeCall = CallSystem.CallManager.CurrentCalls.FirstOrDefault(x => x.ID == activeCallID);
                     //if (activeCall?.AvailableActions.EndCallAvailable ?? false)
                     //{
@@ -225,16 +224,16 @@ namespace WoADialer
                     //}
                     break;
                 case NotificationSystem.REJECT:
-                    incomingCallID = uint.Parse(query[NotificationSystem.INCOMING_CALL_ID]);
+                    incomingCallID = uint.Parse(decoder.GetFirstValueByName(NotificationSystem.INCOMING_CALL_ID));
                     incomingCall = CallSystem.CallManager.CurrentCalls.FirstOrDefault(x => x.ID == incomingCallID);
                     incomingCall?.RejectIncoming();
                     break;
                 case NotificationSystem.TEXT_REPLY:
-                    incomingCallID = uint.Parse(query[NotificationSystem.INCOMING_CALL_ID]);
+                    incomingCallID = uint.Parse(decoder.GetFirstValueByName(NotificationSystem.INCOMING_CALL_ID));
 
                     break;
                 case NotificationSystem.END_AND_ANSWER:
-                    activeCallID = uint.Parse(query[NotificationSystem.ACTIVE_CALL_ID]);
+                    activeCallID = uint.Parse(decoder.GetFirstValueByName(NotificationSystem.ACTIVE_CALL_ID));
                     activeCall = CallSystem.CallManager.CurrentCalls.FirstOrDefault(x => x.ID == activeCallID);
                     //if (activeCall?.AvailableActions.EndCallAvailable ?? false)
                     //{
@@ -246,7 +245,7 @@ namespace WoADialer
                     //}
                     goto case NotificationSystem.ANSWER;
                 case NotificationSystem.HOLD_AND_ANSWER:
-                    activeCallID = uint.Parse(query[NotificationSystem.ACTIVE_CALL_ID]);
+                    activeCallID = uint.Parse(decoder.GetFirstValueByName(NotificationSystem.ACTIVE_CALL_ID));
                     activeCall = CallSystem.CallManager.CurrentCalls.FirstOrDefault(x => x.ID == activeCallID);
                     //if (activeCall?.AvailableActions.HoldAvailable ?? false)
                     //{
@@ -258,7 +257,7 @@ namespace WoADialer
                     //}
                     goto case NotificationSystem.ANSWER;
                 case NotificationSystem.ANSWER:
-                    incomingCallID = uint.Parse(query[NotificationSystem.INCOMING_CALL_ID]);
+                    incomingCallID = uint.Parse(decoder.GetFirstValueByName(NotificationSystem.INCOMING_CALL_ID));
                     incomingCall = CallSystem.CallManager.CurrentCalls.FirstOrDefault(x => x.ID == incomingCallID);
                     //if (incomingCall?.AvailableActions.AnswerAvailable ?? false)
                     //{
@@ -283,7 +282,7 @@ namespace WoADialer
                     break;
                 case NotificationSystem.SHOW_INCOMING_CALL_UI:
                     frame = Window.Current.Content as Frame;
-                    frame.Navigate(typeof(IncomingCallUI));
+                    //frame.Navigate(typeof(IncomingCallUI));
                     break;
             }
         }

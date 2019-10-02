@@ -100,8 +100,10 @@
     <uap3:Capability Name="userNotificationListener"/>
     
     <uap7:Capability Name="globalMediaControl"/>
+    <uap3:Capability Name="backgroundMediaPlayback"/>
     
     <DeviceCapability Name="webcam"/>
     <DeviceCapability Name="microphone"/>
+    <DeviceCapability Name="bluetooth"/>
   </Capabilities>
 </Package>

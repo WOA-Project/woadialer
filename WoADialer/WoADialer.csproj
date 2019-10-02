@@ -156,6 +156,21 @@
     <Compile Include="UI\Conventers\CallToCallLengthTextString.cs" />
     <Compile Include="Systems\UISystem.cs" />
     <Compile Include="UI\Glyphs.cs" />
+    <Compile Include="UI\Pages\ApplicationsSettings.xaml.cs">
+      <DependentUpon>ApplicationsSettings.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UI\Pages\NotificationsSettings.xaml.cs">
+      <DependentUpon>NotificationsSettings.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UI\Pages\PersonalizationSettings.xaml.cs">
+      <DependentUpon>PersonalizationSettings.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UI\Pages\PhoneLineSettings.xaml.cs">
+      <DependentUpon>PhoneLineSettings.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UI\Pages\PhoneLinesSettings.xaml.cs">
+      <DependentUpon>PhoneLinesSettings.xaml</DependentUpon>
+    </Compile>
     <Compile Include="UI\ViewModel\ViewModelCore.cs" />
     <Compile Include="Systems\PermissionSystem.cs" />
     <Compile Include="Helpers\RelayCommand.cs" />
@@ -194,14 +209,8 @@
     <Compile Include="UI\Controls\DialPad.xaml.cs">
       <DependentUpon>DialPad.xaml</DependentUpon>
     </Compile>
-    <Compile Include="UI\Pages\About.xaml.cs">
-      <DependentUpon>About.xaml</DependentUpon>
-    </Compile>
     <Compile Include="UI\Pages\CallUIPage.xaml.cs">
       <DependentUpon>CallUIPage.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="UI\Pages\IncomingCallUI.xaml.cs">
-      <DependentUpon>IncomingCallUI.xaml</DependentUpon>
     </Compile>
     <Compile Include="Model\PhoneNumber.cs" />
     <Compile Include="UI\Pages\Settings.xaml.cs">
@@ -311,6 +320,10 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
+    <Page Include="UI\Pages\ApplicationsSettings.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="UI\Pages\ContactsPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -335,15 +348,23 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="UI\Pages\About.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
     <Page Include="UI\Pages\CallUIPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="UI\Pages\IncomingCallUI.xaml">
+    <Page Include="UI\Pages\NotificationsSettings.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UI\Pages\PersonalizationSettings.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UI\Pages\PhoneLineSettings.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UI\Pages\PhoneLinesSettings.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -364,9 +385,6 @@
     </PackageReference>
     <PackageReference Include="Microsoft.UI.Xaml">
       <Version>2.3.190909001-prerelease</Version>
-    </PackageReference>
-    <PackageReference Include="QueryString.NET">
-      <Version>1.0.0</Version>
     </PackageReference>
   </ItemGroup>
   <ItemGroup>
