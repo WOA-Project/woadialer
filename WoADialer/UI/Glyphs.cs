@@ -29,5 +29,9 @@ namespace WoADialer.UI
         public const string PASTE = "\uE77F";
         public const string SHIELD = "\uEA18";
         public const string DATA_SENCE = "\uE791";
+        public const string VOLUME = "\uE767";
+        public const string ACTION_CENTER = "\uE91C";
+        public const string PERSONALIZE = "\uE771";
+        public const string ALL_APPS = "\uE71D";
     }
 }
