@@ -6,6 +6,7 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:Custom="using:WoADialer.UI.Controls"
     xmlns:Windows10FallCreatorsUpdate="http://schemas.microsoft.com/winfx/2006/xaml/presentation?IsApiContractPresent(Windows.Foundation.UniversalApiContract, 5)"
+    xmlns:Windows10version1809="http://schemas.microsoft.com/winfx/2006/xaml/presentation?IsApiContractPresent(Windows.Foundation.UniversalApiContract, 7)"
     x:Class="WoADialer.UI.Pages.CallUIPage"
     mc:Ignorable="d" Background="{ThemeResource SystemControlAcrylicWindowBrush}">
 
@@ -47,7 +48,7 @@
                 <Button x:Name="closeCallButtonTiny" 
                     Background="Red"
                     Foreground="White"
-                    CornerRadius="50"
+                    Windows10version1809:CornerRadius="50"
                     HorizontalAlignment="Center" 
                     Height="38" 
                     Width="38"
@@ -58,7 +59,7 @@
                 </Button>
 
                 <Button x:Name="showExtendedUIButton" 
-                    CornerRadius="50"
+                    Windows10version1809:CornerRadius="50"
                     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
                     HorizontalAlignment="Center" 
                     Height="38" 
@@ -148,7 +149,7 @@
                     Grid.Column="1" 
                     Background="Red"
                     Foreground="White"
-                    CornerRadius="50"
+                    Windows10version1809:CornerRadius="50"
                     HorizontalAlignment="Center" 
                     Height="60" 
                     Width="60"
@@ -160,7 +161,7 @@
 
                 <Button x:Name="hideExtendedUIButton" 
                     Grid.Column="2"
-                    CornerRadius="50"
+                    Windows10version1809:CornerRadius="50"
                     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
                     HorizontalAlignment="Center" 
                     Height="60" 
