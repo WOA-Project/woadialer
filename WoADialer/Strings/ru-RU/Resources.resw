@@ -150,6 +150,9 @@
     <value>Переводчики</value>
     <comment>About - Translators</comment>
   </data>
+  <data name="ApplicationsSettings" xml:space="preserve">
+    <value>Приложения</value>
+  </data>
   <data name="Button_Answer.Text" xml:space="preserve">
     <value>Ответить</value>
   </data>
@@ -258,6 +261,9 @@
   <data name="Notification.MissedCall.Headline" xml:space="preserve">
     <value>Пропущеный вызов</value>
   </data>
+  <data name="NotificationsSettings" xml:space="preserve">
+    <value>Уведомления</value>
+  </data>
   <data name="NumPad_0.AdditionalChars" xml:space="preserve">
     <value />
   </data>
@@ -333,5 +339,14 @@
   <data name="NumPad_S.Chars" xml:space="preserve">
     <value />
     <comment>#</comment>
+  </data>
+  <data name="PersonalizationSettings" xml:space="preserve">
+    <value>Внешний вид</value>
+  </data>
+  <data name="PhoneLinesSettings" xml:space="preserve">
+    <value>Телефонные линии</value>
+  </data>
+  <data name="SoundSettings" xml:space="preserve">
+    <value>Звук</value>
   </data>
 </root>

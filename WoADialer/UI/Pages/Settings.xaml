@@ -5,28 +5,31 @@
     xmlns:local="using:WoADialer.UI.Pages"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:Windows10version1803="http://schemas.microsoft.com/winfx/2006/xaml/presentation?IsApiContractPresent(Windows.Foundation.UniversalApiContract, 6)"
     mc:Ignorable="d"
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
 
     <Grid>
-        <Button x:Name="backButton" VerticalAlignment="Top" HorizontalAlignment="Left" Background="Transparent" Margin="0, 16, 0, 0" FontSize="12" Content="" FontFamily="Segoe MDL2 Assets" Click="BackButton_Click"/>
-        <TextBlock x:Name="settingsHeaderText" 
-                    Text="Settings"
-                    Margin="30,10,0,0"
-                    Style="{ThemeResource FluentSubheaderTextStyle}"/>
-        <StackPanel Margin="0, 60, 0, 0" Padding="30, 0, 20, 10" Spacing="15">
-            <TextBlock x:Name="notWorkingText" 
-                       Text="This setting page is not working yet."
-                       Foreground="{ThemeResource SystemControlForegroundAccentBrush}"
-                       Style="{ThemeResource FluentBodyTextStyle}"/>
-            <StackPanel>
-                <TextBlock x:Name="numberFormattingSettingText" 
-                       Text="Number Formatting Style:"
-                       Style="{ThemeResource FluentBodyTextStyle}"/>
-                <DropDownButton x:Name="numberFormattingSettingDropdown" HorizontalAlignment="Stretch" HorizontalContentAlignment="Left">
-                    <TextBlock>Default</TextBlock>
-                </DropDownButton>
-            </StackPanel>
-        </StackPanel>
+        <NavigationView Content="NavigationView" IsSettingsVisible="False" Windows10version1803:PaneTitle="Settings" Windows10version1803:IsBackButtonVisible="Collapsed" SelectionChanged="NavigationView_SelectionChanged">
+            <NavigationView.MenuItems>
+                <NavigationViewItem Content="Applications" Icon="AllApps"/>
+                <NavigationViewItem Content="Phone lines" Icon="Phone"/>
+                <NavigationViewItem Content="Personalization">
+                    <NavigationViewItem.Icon>
+                        <FontIcon Glyph="&#xE771;"/>
+                    </NavigationViewItem.Icon>
+                </NavigationViewItem>
+                <NavigationViewItem Content="Notifications" >
+                    <NavigationViewItem.Icon>
+                        <FontIcon Glyph="&#xE91C;"/>
+                    </NavigationViewItem.Icon>
+                </NavigationViewItem>
+                <NavigationViewItem Content="Sound" >
+                    <NavigationViewItem.Icon>
+                        <FontIcon Glyph="&#xE767;"/>
+                    </NavigationViewItem.Icon>
+                </NavigationViewItem>
+            </NavigationView.MenuItems>
+        </NavigationView>
     </Grid>
 </Page>

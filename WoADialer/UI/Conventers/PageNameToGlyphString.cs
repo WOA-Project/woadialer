@@ -1,8 +1,6 @@
-﻿using Internal.Windows.Calls;
-using System;
+﻿using System;
 using Windows.UI.Xaml.Data;
 using WoADialer.Systems;
-using WoADialer.UI.ViewModel;
 
 namespace WoADialer.UI.Conventers
 {
@@ -22,6 +20,16 @@ namespace WoADialer.UI.Conventers
                         return Glyphs.PEOPLE;
                     case UISystem.DIAL_PAGE:
                         return Glyphs.DIALPAD;
+                    case UISystem.APPLICATIONS_SETTINGS_PAGE:
+                        return Glyphs.ALL_APPS;
+                    case UISystem.NOTIFICATIONS_SETTINGS_PAGE:
+                        return Glyphs.ACTION_CENTER;
+                    case UISystem.PERSONALIZATION_SETTINGS_PAGE:
+                        return Glyphs.PERSONALIZE;
+                    case UISystem.PHONE_LINES_SETTINGS_PAGE:
+                        return Glyphs.PHONE;
+                    case UISystem.SOUND_SETTINGS_PAGE:
+                        return Glyphs.VOLUME;
                     default:
                         return string.Empty;
                 }

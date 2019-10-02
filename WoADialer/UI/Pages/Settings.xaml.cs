@@ -14,5 +14,10 @@ namespace WoADialer.UI.Pages
         {
             Frame.Navigate(typeof(MainPage));
         }
+
+        private void NavigationView_SelectionChanged(NavigationView sender, NavigationViewSelectionChangedEventArgs args)
+        {
+
+        }
     }
 }
