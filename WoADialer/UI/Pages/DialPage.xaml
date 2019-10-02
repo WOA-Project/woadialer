@@ -8,7 +8,7 @@
     xmlns:controls="using:WoADialer.UI.Controls"
     mc:Ignorable="d"
     NavigationCacheMode="Required"
-    Background="{ThemeResource SystemControlAcrylicWindowBrush}">
+    Background="{ThemeResource SystemControlAcrylicWindowBrush}" KeyUp="Page_KeyUp">
 
     <ScrollViewer VerticalScrollBarVisibility="Auto">
         <Grid Padding="12">
