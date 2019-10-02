@@ -35,10 +35,5 @@ namespace WoADialer.UI.Pages
                 }
             }
         }
-
-        private void ListView_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-
-        }
     }
 }
