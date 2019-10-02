@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Windows.Foundation;
 using Windows.System;
+using Windows.UI.Core;
 using Windows.UI.ViewManagement;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
@@ -74,8 +75,7 @@ namespace WoADialer.UI.Pages
         {
             if (args.IsSettingsSelected == true)
             {
-                SettingsDialog dialog = new SettingsDialog();
-                await dialog.ShowAsync();
+                (Window.Current.Content as Frame).Navigate(typeof(Settings));
             }
             else if (args.SelectedItemContainer != null)
             {
@@ -146,7 +146,6 @@ namespace WoADialer.UI.Pages
         private void On_Navigated(object sender, NavigationEventArgs e)
         {
             nv_PagePresenter.IsBackEnabled = ContentFrame.CanGoBack;
-
             if (ContentFrame.SourcePageType != null)
             {
                 //var item = _pages.FirstOrDefault(p => p.Page == e.SourcePageType);
