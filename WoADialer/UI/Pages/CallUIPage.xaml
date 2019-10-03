@@ -129,7 +129,7 @@
                         <FontIcon Glyph="&#xE75F;" FontFamily="Segoe MDL2 Assets"/>
                     </AppBarToggleButton>
 
-                    <AppBarToggleButton x:Name="speakerOutputButton"  Grid.Column="2" Label="Speaker" Width="100" HorizontalAlignment="Center" Style="{ThemeResource AppBarToggleButtonRevealStyle}" Height="56">
+                    <AppBarToggleButton x:Name="speakerOutputButton"  Grid.Column="2" Label="Speaker" Width="100" HorizontalAlignment="Center" Style="{ThemeResource AppBarToggleButtonRevealStyle}" Height="56" Click="SpeakerOutputButton_Click">
                         <FontIcon Glyph="&#xE767;" FontFamily="Segoe MDL2 Assets"/>
                     </AppBarToggleButton>
                 </Grid>

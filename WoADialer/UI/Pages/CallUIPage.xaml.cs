@@ -2,6 +2,7 @@
 using System;
 using System.Linq;
 using System.Threading.Tasks;
+using Windows.ApplicationModel.Calls;
 using Windows.ApplicationModel.Core;
 using Windows.Foundation;
 using Windows.UI;
@@ -162,6 +163,19 @@ namespace WoADialer.UI.Pages
             Keypad.Visibility = Visibility.Collapsed;
 
             ResizeView(new Size { Width = 400, Height = 530 });
+        }
+
+        private void SpeakerOutputButton_Click(object sender, RoutedEventArgs e)
+        {
+            switch (CallManager.AudioEndpoint)
+            {
+                case PhoneAudioRoutingEndpoint.Speakerphone:
+                    CallManager.AudioEndpoint = PhoneAudioRoutingEndpoint.Default;
+                    break;
+                default:
+                    CallManager.AudioEndpoint = PhoneAudioRoutingEndpoint.Speakerphone;
+                    break;
+            }
         }
     }
 }
