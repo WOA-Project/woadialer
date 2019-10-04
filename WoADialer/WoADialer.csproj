@@ -132,6 +132,7 @@
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Helpers\ReadOnlyObservableCollection2.cs" />
     <Compile Include="Systems\BackgroundSystem.cs" />
     <Compile Include="Systems\CallSystem.cs" />
     <Compile Include="Systems\DeviceSystem.cs" />

@@ -21,82 +21,13 @@ namespace WoADialer.UI.Pages
     {
         public CallManager CallManager => App.Current.CallSystem.CallManager;
 
-        public async static Task<int> ShowInCallUI()
-        {
-            int compactViewId = 0;
-
-            Size previoussize = new Size(0, 0);
-
-            // Workaround for window spawn bug
-            await CoreApplication.GetCurrentView().Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
-            {
-                var view = ApplicationView.GetForCurrentView();
-                var frame = (Window.Current.Content as Frame);
-
-                previoussize = new Size(frame.ActualWidth, frame.ActualHeight);
-                view.SetPreferredMinSize(new Size { Width = 400, Height = 100 });
-            });
-
-            var preferences = ViewModePreferences.CreateDefault(ApplicationViewMode.Default);
-            preferences.CustomSize = new Size { Width = 400, Height = 100 };
-
-            await CoreApplication.CreateNewView().Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
-            {
-                var frame = new Frame();
-                var view = ApplicationView.GetForCurrentView();
-
-                compactViewId = view.Id;
-                frame.Navigate(typeof(CallUIPage));
-                Window.Current.Content = frame;
-
-                Window.Current.Activate();
-
-                view.Title = "Call";
-
-                Window.Current.Closed += (object sender, CoreWindowEventArgs e) =>
-                {
-                    var view = ApplicationView.GetForCurrentView();
-
-                    view.SetPreferredMinSize(new Size(0, 0));
-                    view.TryResizeView(previoussize);
-                };
-            });
-
-            bool viewShown = await ApplicationViewSwitcher.TryShowAsViewModeAsync(compactViewId, ApplicationViewMode.Default, preferences);
-
-            // Workaround for window spawn bug
-            await CoreApplication.GetCurrentView().Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
-            {
-                var view = ApplicationView.GetForCurrentView();
-
-                view.SetPreferredMinSize(new Size(0, 0));
-                view.TryResizeView(previoussize);
-            });
-
-            return compactViewId;
-        }
-
-        public async static void HideInCallUI(int compactViewId)
-        {
-            foreach (var view in CoreApplication.Views)
-            {
-                await view.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
-                {
-                    if (ApplicationView.GetForCurrentView().Id == compactViewId)
-                    {
-                        Window.Current.Close();
-                    }
-                });
-            }
-        }
-
         public CallUIPage()
         {
             this.InitializeComponent();
             var view = ApplicationView.GetForCurrentView();
 
-            view.SetPreferredMinSize(new Size { Width = 400, Height = 100 });
-            view.TryResizeView(new Size { Width = 400, Height = 100 });
+            //view.SetPreferredMinSize(new Size { Width = 400, Height = 100 });
+            //view.TryResizeView(new Size { Width = 400, Height = 100 });
         }
 
         private void ResizeView(Size size)
@@ -109,8 +40,17 @@ namespace WoADialer.UI.Pages
         {
             base.OnNavigatedTo(e);
 
-            var view = ApplicationView.GetForCurrentView();
-            view.TryResizeView(new Size { Width = 400, Height = 100 });
+            if (CoreApplication.GetCurrentView().IsMain)
+            {
+                CompactUIGrid.Visibility = Visibility.Collapsed;
+                ExtendedUIGrid.Visibility = Visibility.Visible;
+                Keypad.Visibility = Visibility.Visible;
+            }
+            else
+            {
+                var view = ApplicationView.GetForCurrentView();
+                view.TryResizeView(new Size { Width = 400, Height = 100 });
+            }
 
             App.Current.DeviceSystem.IsDisplayControlledByProximitySensor = true;
         }

@@ -8,13 +8,17 @@ using System.Text;
 using System.Threading.Tasks;
 using Windows.ApplicationModel.Activation;
 using Windows.ApplicationModel.Calls;
+using Windows.ApplicationModel.Core;
 using Windows.ApplicationModel.LockScreen;
+using Windows.Foundation;
 using Windows.System;
 using Windows.UI.Core;
+using Windows.UI.ViewManagement;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Navigation;
+using WoADialer.Helpers;
 using WoADialer.UI.Pages;
 
 namespace WoADialer.Systems
@@ -61,12 +65,12 @@ namespace WoADialer.Systems
 
         private readonly ObservableCollection<string> _MainPagePages;
         private readonly ObservableCollection<string> _SettingsPages;
+        private Window MainWindow;
+        private Window CallUIWindow;
 
         public SystemNavigationManager NavigationManager { get; private set; }
         public LockApplicationHost LockApplicationHost { get; private set; }
-        public Window MainWindow { get; private set; }
-        public Window CallUIWindow { get; private set; }
-        public ReadOnlyObservableCollection<string> MainPagePages { get; }
+        public ReadOnlyObservableCollection2<string> MainPagePages { get; }
         public ReadOnlyObservableCollection<string> SettingsPages { get; }
 
         public UISystem()
@@ -77,7 +81,7 @@ namespace WoADialer.Systems
                 CONTACTS_PAGE,
                 DIAL_PAGE
             };
-            MainPagePages = new ReadOnlyObservableCollection<string>(_MainPagePages);
+            MainPagePages = new ReadOnlyObservableCollection2<string>(_MainPagePages);
             _SettingsPages = new ObservableCollection<string>()
             {
                 CALL_HISTORY_PAGE,
@@ -163,6 +167,7 @@ namespace WoADialer.Systems
             Frame frame = ConstructUI();
             App.Current.CallSystem.CallManager.ActiveCallChanged += CallManager_ActiveCallChanged;
             MainWindow = Window.Current;
+            
             switch (args.Kind)
             {
                 case ActivationKind.Launch:
@@ -173,7 +178,7 @@ namespace WoADialer.Systems
                         {
                             if (PhoneCallManager.IsCallActive)
                             {
-                                App.Current.CompactOverlayId = await CallUIPage.ShowInCallUI();
+                                ShowCallUIWindow();
                             }
                             frame.Navigate(typeof(MainPage), launchActivationArgs.Arguments);
                         }
@@ -203,6 +208,65 @@ namespace WoADialer.Systems
                     throw new NotSupportedException();
             }
             Window.Current.Activate();
+        }
+
+        public void CloseCallUIWindow()
+        {
+            CallUIWindow?.Close();
+            CallUIWindow = null;
+        }
+
+        public async void ShowCallUIWindow()
+        {
+            int compactViewId = 0;
+            Size previoussize = new Size(0, 0);
+
+            // Workaround for window spawn bug
+            await MainWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
+            {
+                var view = ApplicationView.GetForCurrentView();
+                var frame = (Window.Current.Content as Frame);
+
+                previoussize = new Size(frame.ActualWidth, frame.ActualHeight);
+                view.SetPreferredMinSize(new Size { Width = 400, Height = 100 });
+            });
+
+            ViewModePreferences preferences = ViewModePreferences.CreateDefault(ApplicationViewMode.CompactOverlay);
+            preferences.CustomSize = new Size { Width = 400, Height = 100 };
+
+            CoreApplicationView view = CoreApplication.CreateNewView();
+
+            await view.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
+            {
+                CallUIWindow = Window.Current;
+                Frame frame = new Frame();
+                Window.Current.Content = frame;
+                frame.Navigate(typeof(CallUIPage));
+                Window.Current.Activate();
+
+                ApplicationView view = ApplicationView.GetForCurrentView();
+                view.Title = App.Current.ResourceLoader.GetString(CALL_UI_PAGE);
+                compactViewId = view.Id;
+
+                Window.Current.Closed += (object sender, CoreWindowEventArgs e) =>
+                {
+                    var view = ApplicationView.GetForCurrentView();
+
+                    view.SetPreferredMinSize(new Size(0, 0));
+                    view.TryResizeView(previoussize);
+                };
+            });
+
+            bool viewShown = await ApplicationViewSwitcher.TryShowAsViewModeAsync(compactViewId, ApplicationViewMode.CompactOverlay, preferences);
+
+            // Workaround for window spawn bug
+            await CoreApplication.GetCurrentView().Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
+            {
+                var view = ApplicationView.GetForCurrentView();
+
+                view.SetPreferredMinSize(new Size(0, 0));
+                view.TryResizeView(previoussize);
+            });
         }
     }
 }

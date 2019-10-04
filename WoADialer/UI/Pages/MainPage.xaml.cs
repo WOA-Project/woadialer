@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.Specialized;
 using System.Linq;
 using Windows.Foundation;
 using Windows.System;
@@ -160,6 +161,29 @@ namespace WoADialer.UI.Pages
         {
             AboutDialog dialog = new AboutDialog();
             await dialog.ShowAsync();
+        }
+
+        private void Page_Loaded(object sender, RoutedEventArgs e)
+        {
+            UISystem.MainPagePages.CollectionChanged += MainPagePages_CollectionChanged;
+        }
+
+        private void MainPagePages_CollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
+        {
+            if (e.NewItems?.Contains(UISystem.CALL_UI_PAGE) ?? false)
+            {
+                Navigate(UISystem.CALL_UI_PAGE, new EntranceNavigationTransitionInfo());
+            }
+            else if (e.OldItems?.Contains(UISystem.CALL_UI_PAGE) ?? false)
+            {
+                Navigate(UISystem.CALL_HISTORY_PAGE, new EntranceNavigationTransitionInfo());
+                ContentFrame.BackStack.Clear();
+            }
+        }
+
+        private void Page_Unloaded(object sender, RoutedEventArgs e)
+        {
+            UISystem.MainPagePages.CollectionChanged -= MainPagePages_CollectionChanged;
         }
     }
 }

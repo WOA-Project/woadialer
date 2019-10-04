@@ -230,7 +230,7 @@ namespace WoADialer
                         break;
                     }
                 case NotificationSystem.SHOW_CALL_UI:
-                    CompactOverlayId = await CallUIPage.ShowInCallUI();
+                    UISystem.ShowCallUIWindow();
                     //frame = Window.Current.Content as Frame;
                     //frame.Navigate(typeof(InCallUI));
                     break;

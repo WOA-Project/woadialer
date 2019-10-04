@@ -102,42 +102,7 @@ namespace WoADialer.Systems
 
         private async void Call_StateChanged(Call sender, CallStateChangedEventArgs args)
         {
-            if (App.Current.IsForeground)
-            {
-                await App.Current.UISystem.MainWindow.Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.Normal, async () =>
-                {
-                    Frame frame = Window.Current.Content as Frame;
-                    if (frame != null)
-                    {
-                        // frame.SourcePageType == typeof(InCallUI) && 
-                        if (CallManager.CallCounts.ActiveTalkingCalls == 0 && CallManager.CallCounts.ConferenceCalls == 0 && CallManager.CallCounts.DialingCalls == 0 && CallManager.CallCounts.IncomingCalls == 0 && CallManager.CallCounts.OnHoldCalls == 0 && CallManager.CallCounts.TransferingCalls == 0)
-                        {
-                            /*if (frame.CanGoBack)
-                            {
-                                frame.GoBack();
-                            }
-                            else
-                            {
-                                frame.BackStack.Clear();
-                                frame.Navigate(typeof(MainPage));
-                            }*/
-                            CallUIPage.HideInCallUI(App.Current.CompactOverlayId);
-                        }
-                        else
-                        {
-                            switch (args.NewState)
-                            {
-                                case CallState.Dialing:
-                                case CallState.Incoming:
-                                    //frame.Navigate(typeof(InCallUI));
-                                    App.Current.CompactOverlayId = await CallUIPage.ShowInCallUI();
-                                    break;
-                            }
-                        }
-                    }
-                });
-            }
-            else
+            if (!App.Current.IsForeground)
             {
                 App.Current.NotificationSystem.RefreshCallNotification(CallManager.CurrentCalls);
             }
