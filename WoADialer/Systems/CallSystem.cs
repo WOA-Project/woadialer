@@ -104,7 +104,7 @@ namespace WoADialer.Systems
         {
             if (App.Current.IsForeground)
             {
-                await App.Current.Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.Normal, async () =>
+                await App.Current.UISystem.MainWindow.Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.Normal, async () =>
                 {
                     Frame frame = Window.Current.Content as Frame;
                     if (frame != null)

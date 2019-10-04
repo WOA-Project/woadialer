@@ -25,8 +25,6 @@ namespace WoADialer
 {
     public sealed partial class App : Application
     {
-        private const string TEL = "tel";
-
         #region Call system constants
         private static readonly TimeSpan WAIT_CALL_DURATION = new TimeSpan(0, 0, 3);
         #endregion
@@ -37,8 +35,7 @@ namespace WoADialer
         private Task Initializating;
 
         #region UI system objects
-        public SystemNavigationManager NavigationManager { get; private set; }
-        public LockApplicationHost LockApplicationHost { get; private set; }
+        
         public ResourceLoader ResourceLoader { get; private set; }
         public int CompactOverlayId { get; set; }
         #endregion
@@ -51,7 +48,6 @@ namespace WoADialer
         public NotificationSystem NotificationSystem { get; } = new NotificationSystem();
         public PermissionSystem PermissionSystem { get; } = new PermissionSystem();
         public UISystem UISystem { get; } = new UISystem();
-        public CoreDispatcher Dispatcher { get; private set; }
 
         public App()
         {
@@ -121,11 +117,9 @@ namespace WoADialer
         private async void OnLaunchedOrActivated(IActivatedEventArgs args)
         {
             IsForeground = true;
-            Frame frame = ConstructUI();
-            Dispatcher = Window.Current.Dispatcher;
             if (!PermissionSystem.IsAllPermissionsObtained && !await ObtainingAccess)
             {
-                await Dispatcher.RunAsync(CoreDispatcherPriority.High, () =>
+                await Window.Current.Dispatcher.RunAsync(CoreDispatcherPriority.High, () =>
                 {
                     ObtainingAccess = PermissionSystem.RequestAllPermissions();
                 });
@@ -136,48 +130,8 @@ namespace WoADialer
                 Initializating = InitializateSystems();
             }
             await Initializating;
-            UISystem.Initializate(Dispatcher);
             NotificationSystem.RemoveCallToastNotifications();
-            switch (args.Kind)
-            {
-                case ActivationKind.Launch:
-                    LaunchActivatedEventArgs launchActivationArgs = args as LaunchActivatedEventArgs;
-                    if (launchActivationArgs.PrelaunchActivated == false)
-                    {
-                        if (frame.Content == null)
-                        {
-                            if (PhoneCallManager.IsCallActive)
-                            {
-                                CompactOverlayId = await CallUIPage.ShowInCallUI();
-                            }
-                            frame.Navigate(typeof(MainPage), launchActivationArgs.Arguments);
-                        }
-                    }
-                    break;
-                case ActivationKind.LockScreen:
-                    LockApplicationHost = LockApplicationHost.GetForCurrentView();
-                    LockApplicationHost.Unlocking += LockApplicationHost_Unlocking;
-                    frame.Navigate(typeof(MainPage));
-                    break;
-                case ActivationKind.Protocol:
-                    ProtocolActivatedEventArgs protocolActivationArgs = args as ProtocolActivatedEventArgs;
-                    switch (protocolActivationArgs.Uri.Scheme)
-                    {
-                        case TEL:
-                            frame.Navigate(typeof(MainPage), protocolActivationArgs.Uri.LocalPath);
-                            break;
-                        default:
-                            throw new NotSupportedException();
-                    }
-                    break;
-                case ActivationKind.ToastNotification:
-                    ToastNotificationActivatedEventArgs toastActivationArgs = args as ToastNotificationActivatedEventArgs;
-                    OnToastNotificationActivated(ToastActivationType.Foreground, toastActivationArgs.Argument);
-                    break;
-                default:
-                    throw new NotSupportedException();
-            }
-            Window.Current.Activate();
+            UISystem.OnLaunchedOrActivated(args);
         }
 
         private void OnLeavingBackground(object sender, LeavingBackgroundEventArgs e)
@@ -284,56 +238,6 @@ namespace WoADialer
                     frame = Window.Current.Content as Frame;
                     //frame.Navigate(typeof(IncomingCallUI));
                     break;
-            }
-        }
-
-        private void LockApplicationHost_Unlocking(LockApplicationHost sender, LockScreenUnlockingEventArgs args)
-        {
-            LockScreenUnlockingDeferral deferral = args.GetDeferral();
-
-            deferral.Complete();
-        }
-        #endregion
-
-        #region UI system
-        private Frame ConstructUI()
-        {
-            if (NavigationManager == null)
-            {
-                NavigationManager = SystemNavigationManager.GetForCurrentView();
-                NavigationManager.BackRequested += NavigationManager_BackRequested;
-            }
-            Frame frame = Window.Current.Content as Frame;
-            if (frame == null)
-            {
-                frame = new Frame();
-                frame.NavigationFailed += Frame_NavigationFailed;
-                frame.Navigated += Frame_Navigated;
-                Window.Current.Content = frame;
-            }
-            return frame;
-        }
-
-        private void Frame_NavigationFailed(object sender, NavigationFailedEventArgs e)
-        {
-            throw new Exception("Failed to load Page " + e.SourcePageType.FullName);
-        }
-
-        private void Frame_Navigated(object sender, NavigationEventArgs e)
-        {
-            Frame frame = sender as Frame;
-            NavigationManager.AppViewBackButtonVisibility = frame.CanGoBack ? AppViewBackButtonVisibility.Visible : AppViewBackButtonVisibility.Collapsed;
-        }
-
-        private void NavigationManager_BackRequested(object sender, BackRequestedEventArgs e)
-        {
-            if (Window.Current.Content is Frame frame && frame != null)
-            {
-                if (frame.CanGoBack)
-                {
-                    frame.GoBack();
-                    e.Handled = true;
-                }
             }
         }
         #endregion
