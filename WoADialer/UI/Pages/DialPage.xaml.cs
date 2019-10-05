@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Text;
 using Windows.ApplicationModel.Calls;
 using Windows.Foundation;
 using Windows.Globalization.PhoneNumberFormatting;
@@ -15,7 +16,7 @@ namespace WoADialer.UI.Pages
 {
     public sealed partial class DialPage : Page
     {
-        private PhoneNumber currentNumber;
+        private StringBuilder Number;
         private PhoneLine _CurrentPhoneLine;
 
         public DialPage()
@@ -25,13 +26,16 @@ namespace WoADialer.UI.Pages
 
         private void DeleteLastNumberButton_Click(object sender, RoutedEventArgs e)
         {
-            currentNumber.RemoveLastChar();
+            if (Number.Length > 0)
+            {
+                Number.Remove(Number.Length - 1, 1);
+            }
             UpdateCurrentNumber();
         }
 
         private void NumPad_DigitTapped(object sender, char e)
         {
-            currentNumber.AddLastChar(e);
+            Number.Append(e);
             UpdateCurrentNumber();
         }
 
@@ -41,7 +45,10 @@ namespace WoADialer.UI.Pages
             switch (e.Parameter)
             {
                 case string number:
-                    currentNumber = PhoneNumber.Parse(number);
+                    Number = new StringBuilder(number);
+                    break;
+                default:
+                    Number = new StringBuilder();
                     break;
             }
             UpdateCurrentNumber();
@@ -49,9 +56,9 @@ namespace WoADialer.UI.Pages
 
         private void UpdateCurrentNumber()
         {
-            callButton.IsEnabled = !string.IsNullOrWhiteSpace(currentNumber.ToString());
+            callButton.IsEnabled = !string.IsNullOrWhiteSpace(Number.ToString());
             PhoneNumberFormatter a = new PhoneNumberFormatter();
-            numberToDialBox.Text = a.FormatPartialString(currentNumber.ToString());
+            numberToDialBox.Text = a.FormatPartialString(Number.ToString());
         }
 
         private async void CallButton_Click(object sender, RoutedEventArgs e)
@@ -59,7 +66,7 @@ namespace WoADialer.UI.Pages
             try
             {
                 _CurrentPhoneLine = await PhoneLine.FromIdAsync(await App.Current.CallSystem.CallStore.GetDefaultLineAsync());
-                _CurrentPhoneLine?.DialWithOptions(new PhoneDialOptions() { Number = currentNumber.ToString() });
+                _CurrentPhoneLine?.DialWithOptions(new PhoneDialOptions() { Number = Number.ToString() });
             }
             catch (Exception ee)
             {
@@ -125,6 +132,10 @@ namespace WoADialer.UI.Pages
                 case VirtualKey.Number9:
                 case VirtualKey.NumberPad9:
                     NumPad_DigitTapped(this, '9');
+                    break;
+                case (VirtualKey)187:
+                case VirtualKey.Add:
+                    NumPad_DigitTapped(this, '+');
                     break;
                 case VirtualKey.Back:
                     DeleteLastNumberButton_Click(this, null);
