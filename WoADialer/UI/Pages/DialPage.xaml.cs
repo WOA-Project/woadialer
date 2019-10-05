@@ -10,7 +10,6 @@ using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Navigation;
 using WoADialer.Helpers;
-using WoADialer.Model;
 
 namespace WoADialer.UI.Pages
 {
