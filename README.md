@@ -13,6 +13,9 @@ This is the setup I used:
 - VS 2019
 - For the UWP app, the min version is 1809, while the target version is 1903.
 
+## Test builds
+For early testing you can join to [WOA Dialer Testing Channel](https://t.me/woadialertestingchannel). These builds will not published on GitHub.
+
 ## This readme
 I must have forgot things. Please forgive me and point me to the right directions, and I'll fix it.
 
