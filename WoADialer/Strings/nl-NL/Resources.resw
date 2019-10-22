@@ -118,151 +118,193 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="About_About.Text" xml:space="preserve">
-    <value>Об этом приложении</value>
+    <value>Over deze applicatie</value>
     <comment>About this application title for About</comment>
   </data>
+  <data name="About_AcknowledgementsFlubase.Content" xml:space="preserve">
+    <value>FLUI Framework</value>
+    <comment>[DOES NOT TRANSLATE] About - Acknowlegdements FluBase title</comment>
+  </data>
+  <data name="About_AcknowledgementsFlubase.NavigateUri" xml:space="preserve">
+    <value>https://github.com/Team-FLUI/FluiFramework</value>
+    <comment>[DOES NOT TRANSLATE] About - Acknowlegdements FluBase Project URL</comment>
+  </data>
   <data name="About_AcknowledgementsIntro.Text" xml:space="preserve">
-    <value>Это приложение использует код следущих проектов:</value>
+    <value>Deze app maakt dankbaar gebruik van code uit de volgende projecten:</value>
     <comment>About - Acknowlegdements Intro text</comment>
   </data>
+  <data name="About_AcknowledgementsTitle.Text" xml:space="preserve">
+    <value>Dankwoord</value>
+    <comment>About - Acknowlegdements Title</comment>
+  </data>
+  <data name="About_AcknowledgementsWct.Content" xml:space="preserve">
+    <value>Windows Community Toolkit</value>
+    <comment>[DOES NOT TRANSLATE] About - Acknowledgements Windows Community Toolkit title</comment>
+  </data>
+  <data name="About_AcknowledgementsWct.NavigateUri" xml:space="preserve">
+    <value>https://github.com/windows-toolkit/WindowsCommunityToolkit</value>
+    <comment>[DOES NOT TRANSLATE] About - Acknowledgements Windows Community Toolkit Project URL</comment>
+  </data>
+  <data name="About_AcknowledgementsWts.Content" xml:space="preserve">
+    <value>Windows Template Studio</value>
+    <comment>About - Acknowlegdements Windows Template Studio title</comment>
+  </data>
+  <data name="About_AcknowledgementsWts.NavigateUri" xml:space="preserve">
+    <value>https://github.com/Microsoft/WindowsTemplateStudio</value>
+    <comment>About - Acknowlegdements Windows Template Studio Project URL</comment>
+  </data>
   <data name="About_Description.Text" xml:space="preserve">
-    <value>Создано WOA Project, 2019</value>
+    <value>Gecreëerd en geprogrammeerd door het WOA Project, 2019</value>
     <comment>About this application description for Settings</comment>
   </data>
   <data name="About_GitHubLink.Content" xml:space="preserve">
-    <value>Проект на GitHub</value>
+    <value>GitHub project</value>
     <comment>GitHub project link content for About</comment>
   </data>
+  <data name="About_GitHubLink.NavigateUri" xml:space="preserve">
+    <value>https://github.com/WOA-Project/woadialer</value>
+    <comment>[DOES NOT TRANSLATE] Link to the GitHub project for About</comment>
+  </data>
   <data name="About_LinksTitle.Text" xml:space="preserve">
-    <value>Ссылки</value>
+    <value>Links</value>
     <comment>About - Title of the Links category</comment>
   </data>
+  <data name="About_PrivacyTermsLink.Content" xml:space="preserve">
+    <value>Privacybeleid</value>
+    <comment>Privacy Statement link content for About</comment>
+  </data>
+  <data name="About_PrivacyTermsLink.NavigateUri" xml:space="preserve">
+    <value>https://github.com/WOA-Project/woadialer</value>
+    <comment>[DOES NOT TRANSLATE] Privacy Statement url for About</comment>
+  </data>
   <data name="About_Title.Text" xml:space="preserve">
-    <value>О приложении</value>
+    <value>Over</value>
     <comment>Page title for AboutDialog</comment>
   </data>
   <data name="About_Translators.Text" xml:space="preserve">
-    <value>Русский, Английский языки предоставлены WOA Project
-Нидерландский переведён Paul L. Smits / PauluzzS</value>
+    <value>Engels, Russisch door WOA Project
+Nederlands door Paul L. Smits / PauluzzS</value>
     <comment>About - List of translators</comment>
   </data>
   <data name="About_TranslatorsTitle.Text" xml:space="preserve">
-    <value>Переводчики</value>
+    <value>Vertalers</value>
     <comment>About - Translators</comment>
   </data>
   <data name="ApplicationsSettings" xml:space="preserve">
-    <value>Приложения</value>
+    <value>Applicaties</value>
   </data>
   <data name="Button_Answer.Text" xml:space="preserve">
-    <value>Ответить</value>
+    <value>Opnemen</value>
   </data>
   <data name="Button_Call.Text" xml:space="preserve">
-    <value>Набрать номер</value>
+    <value>Bellen</value>
+    <comment>Button that start call</comment>
   </data>
   <data name="Button_End.Text" xml:space="preserve">
-    <value>Завершить вызов</value>
+    <value>Gesprek beëindigen</value>
+    <comment>Button that end call</comment>
   </data>
   <data name="Button_End_And_Answer.Text" xml:space="preserve">
-    <value>Завершить и ответить</value>
+    <value>Beëindigen en opnemen</value>
   </data>
   <data name="Button_Hold.Text" xml:space="preserve">
-    <value>Приостановить</value>
+    <value>Wachtstand</value>
   </data>
   <data name="Button_Hold_And_Answer.Text" xml:space="preserve">
-    <value>Приостановить и ответить</value>
+    <value>Wacht &amp; beantwoorden</value>
   </data>
   <data name="Button_Reject.Text" xml:space="preserve">
-    <value>Отклонить</value>
+    <value>Negeren</value>
   </data>
   <data name="Button_TextReply.Text" xml:space="preserve">
-    <value>Ответить сообщением</value>
+    <value>Antwoord via sms</value>
   </data>
   <data name="Button_Unhold.Text" xml:space="preserve">
-    <value>Возвобновить</value>
+    <value>Uit wachtstand</value>
   </data>
   <data name="CallHistoryPage" xml:space="preserve">
-    <value>История вызовов</value>
+    <value>Gespreksgeschiedenis</value>
   </data>
   <data name="CallState_ActiveTalking" xml:space="preserve">
-    <value>Разговор</value>
+    <value>Gesprek actief</value>
     <comment>When call is active</comment>
   </data>
   <data name="CallState_Busy" xml:space="preserve">
-    <value>Вызов отклонён</value>
+    <value>Bezet</value>
     <comment>When dialing call was rejected by other party or operator</comment>
   </data>
   <data name="CallState_CallBarred" xml:space="preserve">
-    <value>Вызов запрещён</value>
+    <value>Gesprek geblokkeerd</value>
   </data>
   <data name="CallState_CallUpgradeInitiated" xml:space="preserve">
-    <value>Обновление вызова</value>
+    <value>Upgraden</value>
   </data>
   <data name="CallState_Count" xml:space="preserve">
-    <value>Count</value>
+    <value>Aantal</value>
   </data>
   <data name="CallState_Dialing" xml:space="preserve">
-    <value>Дозвон</value>
+    <value>Bellen</value>
   </data>
   <data name="CallState_Disconnected" xml:space="preserve">
-    <value>Отключено</value>
+    <value>Verbroken</value>
     <comment>When call ended by unknown reason</comment>
   </data>
   <data name="CallState_Dropped" xml:space="preserve">
-    <value>Соединение потеряно</value>
+    <value>Verbinding verloren</value>
     <comment>When call ended by signal lost</comment>
   </data>
   <data name="CallState_Ended" xml:space="preserve">
-    <value>Вызов завершён</value>
+    <value>Beëindigd</value>
     <comment>When call ended by user or other party</comment>
   </data>
   <data name="CallState_FDNRestricted" xml:space="preserve">
-    <value>Ограничено FDN</value>
+    <value>FDN beperkt</value>
   </data>
   <data name="CallState_Incoming" xml:space="preserve">
-    <value>Входящий вызов</value>
+    <value>Inkomend</value>
   </data>
   <data name="CallState_Indeterminate" xml:space="preserve">
-    <value>Вызов неактивен</value>
+    <value>Onbepaald</value>
     <comment>When call isn't active anymore</comment>
   </data>
   <data name="CallState_NetworkCongestion" xml:space="preserve">
-    <value>Сеть перегружена</value>
+    <value>Netwerk overbelast</value>
   </data>
   <data name="CallState_OnHold" xml:space="preserve">
-    <value>Вызов на удержании</value>
+    <value>In wacht</value>
   </data>
   <data name="CallState_RoamRestricted" xml:space="preserve">
-    <value>Ограничено роумингом</value>
+    <value>Roam begrensd</value>
   </data>
   <data name="CallState_ServiceOff" xml:space="preserve">
-    <value>Service off</value>
+    <value>Geen dienst</value>
   </data>
   <data name="CallState_Transferring" xml:space="preserve">
-    <value>Вызов перенаправляется</value>
+    <value>Doorverbinden</value>
   </data>
   <data name="CallState_Unknown" xml:space="preserve">
-    <value>Состояние неизвестно</value>
+    <value>Onbekend</value>
   </data>
   <data name="CallState_VideoCallingOff" xml:space="preserve">
-    <value>Видеовызов завершён</value>
+    <value>Beeldtelefonie uitgeschakeld</value>
   </data>
   <data name="CallUIPage" xml:space="preserve">
-    <value>Текущий вызов</value>
+    <value>Huidig gesprek</value>
   </data>
   <data name="ContactsPage" xml:space="preserve">
-    <value>Контакты</value>
+    <value>Contactpersonen</value>
   </data>
   <data name="DialPage" xml:space="preserve">
-    <value>Номеронабиратель</value>
+    <value>Bellen</value>
   </data>
   <data name="Notification.MissedCall.GroupHeadline" xml:space="preserve">
-    <value>Пропущеные вызовы</value>
+    <value>Gemiste oproepen</value>
   </data>
   <data name="Notification.MissedCall.Headline" xml:space="preserve">
-    <value>Пропущеный вызов</value>
+    <value>Gemiste oproep</value>
   </data>
   <data name="NotificationsSettings" xml:space="preserve">
-    <value>Уведомления</value>
+    <value>Notificaties</value>
   </data>
   <data name="NumPad_0.AdditionalChars" xml:space="preserve">
     <value />
@@ -277,76 +319,76 @@
     <value />
   </data>
   <data name="NumPad_2.AdditionalChars" xml:space="preserve">
-    <value>ABC</value>
+    <value />
   </data>
   <data name="NumPad_2.Chars" xml:space="preserve">
-    <value>АБВГ</value>
+    <value>ABC</value>
   </data>
   <data name="NumPad_3.AdditionalChars" xml:space="preserve">
-    <value>DEF</value>
+    <value />
   </data>
   <data name="NumPad_3.Chars" xml:space="preserve">
-    <value>ДЕЁЖЗ</value>
+    <value>DEF</value>
   </data>
   <data name="NumPad_4.AdditionalChars" xml:space="preserve">
-    <value>GHI</value>
+    <value />
   </data>
   <data name="NumPad_4.Chars" xml:space="preserve">
-    <value>ИЙКЛ</value>
+    <value>GHI</value>
   </data>
   <data name="NumPad_5.AdditionalChars" xml:space="preserve">
-    <value>JKL</value>
+    <value />
   </data>
   <data name="NumPad_5.Chars" xml:space="preserve">
-    <value>МНОП</value>
+    <value>JKL</value>
   </data>
   <data name="NumPad_6.AdditionalChars" xml:space="preserve">
-    <value>MNO</value>
+    <value />
   </data>
   <data name="NumPad_6.Chars" xml:space="preserve">
-    <value>РСТУ</value>
+    <value>MNO</value>
   </data>
   <data name="NumPad_7.AdditionalChars" xml:space="preserve">
-    <value>PQRS</value>
+    <value />
   </data>
   <data name="NumPad_7.Chars" xml:space="preserve">
-    <value>ФХЦЧ</value>
+    <value>PQRS</value>
   </data>
   <data name="NumPad_8.AdditionalChars" xml:space="preserve">
-    <value>TUV</value>
+    <value />
   </data>
   <data name="NumPad_8.Chars" xml:space="preserve">
-    <value>ШЩЪЫ</value>
+    <value>TUV</value>
   </data>
   <data name="NumPad_9.AdditionalChars" xml:space="preserve">
-    <value>WXYZ</value>
+    <value />
   </data>
   <data name="NumPad_9.Chars" xml:space="preserve">
-    <value>ЬЭЮЯ</value>
+    <value>WXYZ</value>
   </data>
   <data name="NumPad_A.AdditionalChars" xml:space="preserve">
-    <value />
+    <value>*</value>
     <comment>*</comment>
   </data>
   <data name="NumPad_A.Chars" xml:space="preserve">
-    <value />
+    <value>*</value>
     <comment>*</comment>
   </data>
   <data name="NumPad_S.AdditionalChars" xml:space="preserve">
-    <value />
+    <value>#</value>
     <comment>#</comment>
   </data>
   <data name="NumPad_S.Chars" xml:space="preserve">
-    <value />
+    <value>#</value>
     <comment>#</comment>
   </data>
   <data name="PersonalizationSettings" xml:space="preserve">
-    <value>Внешний вид</value>
+    <value>Personaliseren</value>
   </data>
   <data name="PhoneLinesSettings" xml:space="preserve">
-    <value>Телефонные линии</value>
+    <value>Telefoonlijnen</value>
   </data>
   <data name="SoundSettings" xml:space="preserve">
-    <value>Звук</value>
+    <value>Geluid</value>
   </data>
 </root>
