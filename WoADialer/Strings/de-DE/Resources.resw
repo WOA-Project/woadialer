@@ -1,0 +1,396 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="About_About.Text" xml:space="preserve">
+    <value>Über WoA Dialer</value>
+    <comment>About this application title for About</comment>
+  </data>
+  <data name="About_AcknowledgementsFlubase.Content" xml:space="preserve">
+    <value>FLUI Framework</value>
+    <comment>[DOES NOT TRANSLATE] About - Acknowlegdements FluBase title</comment>
+  </data>
+  <data name="About_AcknowledgementsFlubase.NavigateUri" xml:space="preserve">
+    <value>https://github.com/Team-FLUI/FluiFramework</value>
+    <comment>[DOES NOT TRANSLATE] About - Acknowlegdements FluBase Project URL</comment>
+  </data>
+  <data name="About_AcknowledgementsIntro.Text" xml:space="preserve">
+    <value>Diese App benutzt Code von folgenden Projekten:</value>
+    <comment>About - Acknowlegdements Intro text</comment>
+  </data>
+  <data name="About_AcknowledgementsTitle.Text" xml:space="preserve">
+    <value>Acknowledgements</value>
+    <comment>About - Acknowlegdements Title</comment>
+  </data>
+  <data name="About_AcknowledgementsWct.Content" xml:space="preserve">
+    <value>Windows Community Toolkit</value>
+    <comment>[DOES NOT TRANSLATE] About - Acknowledgements Windows Community Toolkit title</comment>
+  </data>
+  <data name="About_AcknowledgementsWct.NavigateUri" xml:space="preserve">
+    <value>https://github.com/windows-toolkit/WindowsCommunityToolkit</value>
+    <comment>[DOES NOT TRANSLATE] About - Acknowledgements Windows Community Toolkit Project URL</comment>
+  </data>
+  <data name="About_AcknowledgementsWts.Content" xml:space="preserve">
+    <value>Windows Template Studio</value>
+    <comment>About - Acknowlegdements Windows Template Studio title</comment>
+  </data>
+  <data name="About_AcknowledgementsWts.NavigateUri" xml:space="preserve">
+    <value>https://github.com/Microsoft/WindowsTemplateStudio</value>
+    <comment>About - Acknowlegdements Windows Template Studio Project URL</comment>
+  </data>
+  <data name="About_Description.Text" xml:space="preserve">
+    <value>Erstellt und programmiert von WOA Project, 2019</value>
+    <comment>About this application description for Settings</comment>
+  </data>
+  <data name="About_GitHubLink.Content" xml:space="preserve">
+    <value>GitHub project</value>
+    <comment>GitHub project link content for About</comment>
+  </data>
+  <data name="About_GitHubLink.NavigateUri" xml:space="preserve">
+    <value>https://github.com/WOA-Project/woadialer</value>
+    <comment>[DOES NOT TRANSLATE] Link to the GitHub project for About</comment>
+  </data>
+  <data name="About_LinksTitle.Text" xml:space="preserve">
+    <value>Links</value>
+    <comment>About - Title of the Links category</comment>
+  </data>
+  <data name="About_PrivacyTermsLink.Content" xml:space="preserve">
+    <value>Datenschutzerklärung</value>
+    <comment>Privacy Statement link content for About</comment>
+  </data>
+  <data name="About_PrivacyTermsLink.NavigateUri" xml:space="preserve">
+    <value>https://github.com/WOA-Project/woadialer</value>
+    <comment>[DOES NOT TRANSLATE] Privacy Statement url for About</comment>
+  </data>
+  <data name="About_Title.Text" xml:space="preserve">
+    <value>Über</value>
+    <comment>Page title for AboutDialog</comment>
+  </data>
+  <data name="About_Translators.Text" xml:space="preserve">
+    <value>English, Russian by WOA Project
+Dutch by Paul L. Smits / PauluzzS
+German by Mautziy
+Spanish by Dimitri</value>
+    <comment>About - List of translators</comment>
+  </data>
+  <data name="About_TranslatorsTitle.Text" xml:space="preserve">
+    <value>Übersetzer</value>
+    <comment>About - Translators</comment>
+  </data>
+  <data name="ApplicationsSettings" xml:space="preserve">
+    <value>Apps</value>
+  </data>
+  <data name="Button_Answer.Text" xml:space="preserve">
+    <value>Annehmen</value>
+  </data>
+  <data name="Button_Call.Text" xml:space="preserve">
+    <value>Anrufen</value>
+    <comment>Button that start call</comment>
+  </data>
+  <data name="Button_End.Text" xml:space="preserve">
+    <value>Auflegen</value>
+    <comment>Button that end call</comment>
+  </data>
+  <data name="Button_End_And_Answer.Text" xml:space="preserve">
+    <value>Auflegen &amp; Antworten</value>
+  </data>
+  <data name="Button_Hold.Text" xml:space="preserve">
+    <value>Halten</value>
+  </data>
+  <data name="Button_Hold_And_Answer.Text" xml:space="preserve">
+    <value>Halten &amp; Antworten</value>
+  </data>
+  <data name="Button_Reject.Text" xml:space="preserve">
+    <value>Ablehnen</value>
+  </data>
+  <data name="Button_TextReply.Text" xml:space="preserve">
+    <value>SMS-Antwort</value>
+  </data>
+  <data name="Button_Unhold.Text" xml:space="preserve">
+    <value>nicht mehr Halten</value>
+  </data>
+  <data name="CallHistoryPage" xml:space="preserve">
+    <value>Verlauf</value>
+  </data>
+  <data name="CallState_ActiveTalking" xml:space="preserve">
+    <value>Aktives Gespräch</value>
+    <comment>When call is active</comment>
+  </data>
+  <data name="CallState_Busy" xml:space="preserve">
+    <value>Besetzt</value>
+    <comment>When dialing call was rejected by other party or operator</comment>
+  </data>
+  <data name="CallState_CallBarred" xml:space="preserve">
+    <value>Anruf blockiert</value>
+  </data>
+  <data name="CallState_CallUpgradeInitiated" xml:space="preserve">
+    <value>Upgrading</value>
+  </data>
+  <data name="CallState_Count" xml:space="preserve">
+    <value>Count</value>
+  </data>
+  <data name="CallState_Dialing" xml:space="preserve">
+    <value>Wählt</value>
+  </data>
+  <data name="CallState_Disconnected" xml:space="preserve">
+    <value>Getrennt</value>
+    <comment>When call ended by unknown reason</comment>
+  </data>
+  <data name="CallState_Dropped" xml:space="preserve">
+    <value>kein Empfang</value>
+    <comment>When call ended by signal lost</comment>
+  </data>
+  <data name="CallState_Ended" xml:space="preserve">
+    <value>Anruf beendet</value>
+    <comment>When call ended by user or other party</comment>
+  </data>
+  <data name="CallState_FDNRestricted" xml:space="preserve">
+    <value>FDN eingeschränkt</value>
+  </data>
+  <data name="CallState_Incoming" xml:space="preserve">
+    <value>Eingehender Anruf</value>
+  </data>
+  <data name="CallState_Indeterminate" xml:space="preserve">
+    <value>Anruf ignoriert</value>
+    <comment>When call isn't active anymore</comment>
+  </data>
+  <data name="CallState_NetworkCongestion" xml:space="preserve">
+    <value>Netzwerküberlastung</value>
+  </data>
+  <data name="CallState_OnHold" xml:space="preserve">
+    <value>wird gehalten</value>
+  </data>
+  <data name="CallState_RoamRestricted" xml:space="preserve">
+    <value>Roaming beschränkt</value>
+  </data>
+  <data name="CallState_ServiceOff" xml:space="preserve">
+    <value>Dienst aus</value>
+  </data>
+  <data name="CallState_Transferring" xml:space="preserve">
+    <value>Übertragen</value>
+  </data>
+  <data name="CallState_Unknown" xml:space="preserve">
+    <value>Unbekannt</value>
+  </data>
+  <data name="CallState_VideoCallingOff" xml:space="preserve">
+    <value>Video Anruf aus</value>
+  </data>
+  <data name="CallUIPage" xml:space="preserve">
+    <value>Aktueller Anruf</value>
+  </data>
+  <data name="ContactsPage" xml:space="preserve">
+    <value>Kontakte</value>
+  </data>
+  <data name="DialPage" xml:space="preserve">
+    <value>Wählen</value>
+  </data>
+  <data name="Notification.MissedCall.GroupHeadline" xml:space="preserve">
+    <value>verpasste Anrufe</value>
+  </data>
+  <data name="Notification.MissedCall.Headline" xml:space="preserve">
+    <value>verpasster Anruf</value>
+  </data>
+  <data name="NotificationsSettings" xml:space="preserve">
+    <value>Benachrichtigungen</value>
+  </data>
+  <data name="NumPad_0.AdditionalChars" xml:space="preserve">
+    <value />
+  </data>
+  <data name="NumPad_0.Chars" xml:space="preserve">
+    <value>+</value>
+  </data>
+  <data name="NumPad_1.AdditionalChars" xml:space="preserve">
+    <value />
+  </data>
+  <data name="NumPad_1.Chars" xml:space="preserve">
+    <value />
+  </data>
+  <data name="NumPad_2.AdditionalChars" xml:space="preserve">
+    <value />
+  </data>
+  <data name="NumPad_2.Chars" xml:space="preserve">
+    <value>ABC</value>
+  </data>
+  <data name="NumPad_3.AdditionalChars" xml:space="preserve">
+    <value />
+  </data>
+  <data name="NumPad_3.Chars" xml:space="preserve">
+    <value>DEF</value>
+  </data>
+  <data name="NumPad_4.AdditionalChars" xml:space="preserve">
+    <value />
+  </data>
+  <data name="NumPad_4.Chars" xml:space="preserve">
+    <value>GHI</value>
+  </data>
+  <data name="NumPad_5.AdditionalChars" xml:space="preserve">
+    <value />
+  </data>
+  <data name="NumPad_5.Chars" xml:space="preserve">
+    <value>JKL</value>
+  </data>
+  <data name="NumPad_6.AdditionalChars" xml:space="preserve">
+    <value />
+  </data>
+  <data name="NumPad_6.Chars" xml:space="preserve">
+    <value>MNO</value>
+  </data>
+  <data name="NumPad_7.AdditionalChars" xml:space="preserve">
+    <value />
+  </data>
+  <data name="NumPad_7.Chars" xml:space="preserve">
+    <value>PQRS</value>
+  </data>
+  <data name="NumPad_8.AdditionalChars" xml:space="preserve">
+    <value />
+  </data>
+  <data name="NumPad_8.Chars" xml:space="preserve">
+    <value>TUV</value>
+  </data>
+  <data name="NumPad_9.AdditionalChars" xml:space="preserve">
+    <value />
+  </data>
+  <data name="NumPad_9.Chars" xml:space="preserve">
+    <value>WXYZ</value>
+  </data>
+  <data name="NumPad_A.AdditionalChars" xml:space="preserve">
+    <value />
+    <comment>*</comment>
+  </data>
+  <data name="NumPad_A.Chars" xml:space="preserve">
+    <value />
+    <comment>*</comment>
+  </data>
+  <data name="NumPad_S.AdditionalChars" xml:space="preserve">
+    <value />
+    <comment>#</comment>
+  </data>
+  <data name="NumPad_S.Chars" xml:space="preserve">
+    <value />
+    <comment>#</comment>
+  </data>
+  <data name="PersonalizationSettings" xml:space="preserve">
+    <value>Personalisierung</value>
+  </data>
+  <data name="PhoneLinesSettings" xml:space="preserve">
+    <value>Phone lines</value>
+  </data>
+  <data name="SoundSettings" xml:space="preserve">
+    <value>Ton</value>
+  </data>
+</root>
