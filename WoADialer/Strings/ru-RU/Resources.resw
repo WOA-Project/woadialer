@@ -143,7 +143,9 @@
   </data>
   <data name="About_Translators.Text" xml:space="preserve">
     <value>Русский, Английский языки предоставлены WOA Project
-Нидерландский переведён Paul L. Smits / PauluzzS</value>
+Нидерландский переведён Paul L. Smits / PauluzzS
+Немецкий переведён Mautziy
+Испанский переведён Dimitri</value>
     <comment>About - List of translators</comment>
   </data>
   <data name="About_TranslatorsTitle.Text" xml:space="preserve">
