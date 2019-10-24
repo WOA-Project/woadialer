@@ -376,7 +376,7 @@
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="FluiFramework.UWP">
-      <Version>0.0.29</Version>
+      <Version>0.0.31</Version>
     </PackageReference>
     <PackageReference Include="Microsoft.NETCore.UniversalWindowsPlatform">
       <Version>6.2.9</Version>
@@ -385,7 +385,7 @@
       <Version>5.1.1</Version>
     </PackageReference>
     <PackageReference Include="Microsoft.UI.Xaml">
-      <Version>2.3.190909001-prerelease</Version>
+      <Version>2.3.191007001-prerelease</Version>
     </PackageReference>
   </ItemGroup>
   <ItemGroup>
