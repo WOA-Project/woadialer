@@ -10,17 +10,20 @@ using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Navigation;
 using WoADialer.Helpers;
+using WoADialer.Systems;
 
 namespace WoADialer.UI.Pages
 {
     public sealed partial class DialPage : Page
     {
+        private CallSystem CallSystem => App.Current.CallSystem;
         private StringBuilder Number;
-        private PhoneLine _CurrentPhoneLine;
+        private PhoneLine CurrentPhoneLine;
 
         public DialPage()
         {
             this.InitializeComponent();
+            CurrentPhoneLine = CallSystem.DefaultLine;
         }
 
         private void DeleteLastNumberButton_Click(object sender, RoutedEventArgs e)
@@ -64,8 +67,8 @@ namespace WoADialer.UI.Pages
         {
             try
             {
-                _CurrentPhoneLine = await PhoneLine.FromIdAsync(await App.Current.CallSystem.CallStore.GetDefaultLineAsync());
-                _CurrentPhoneLine?.DialWithOptions(new PhoneDialOptions() { Number = Number.ToString() });
+                CurrentPhoneLine = await PhoneLine.FromIdAsync(await App.Current.CallSystem.CallStore.GetDefaultLineAsync());
+                CurrentPhoneLine?.DialWithOptions(new PhoneDialOptions() { Number = Number.ToString() });
             }
             catch (Exception ee)
             {

@@ -1,11 +1,14 @@
 ﻿<Page
-    x:Class="WoADialer.UI.Pages.DialPage"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:local="using:WoADialer.UI.Pages"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:controls="using:WoADialer.UI.Controls"
+    xmlns:Windows10version1809="http://schemas.microsoft.com/winfx/2006/xaml/presentation?IsApiContractPresent(Windows.Foundation.UniversalApiContract, 7)"
+    xmlns:Custom="using:Microsoft.UI.Xaml.Controls"
+    xmlns:calls="using:Windows.ApplicationModel.Calls"
+    x:Class="WoADialer.UI.Pages.DialPage"
     mc:Ignorable="d"
     NavigationCacheMode="Required"
     Background="{ThemeResource SystemControlAcrylicWindowBrush}" KeyUp="Page_KeyUp">
@@ -13,34 +16,23 @@
     <ScrollViewer VerticalScrollBarVisibility="Auto">
         <Grid Padding="12">
             <Grid.RowDefinitions>
-                <RowDefinition Height="64"/>
-                <RowDefinition Height="*" MinHeight="230" />
-                <RowDefinition Height="84" />
+                <RowDefinition Height="96" />
+                <RowDefinition Height="64" />
+                <RowDefinition Height="*" />
+                <RowDefinition Height="320" />
+                <RowDefinition Height="64" />
             </Grid.RowDefinitions>
 
-            <!-- Dialing info -->
-            <Grid Grid.Row="0">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="64" />
-                    <ColumnDefinition Width="*" />
-                    <ColumnDefinition Width="64" />
-                </Grid.ColumnDefinitions>
-
-                <!-- Number to dial -->
-                <!-- The style for the text has been manually set; it's the same as FluentSubheaderTextStyle -->
-                <TextBlock x:Name="numberToDialBox"
+            <TextBlock x:Name="numberToDialBox"
                        TextAlignment="Center"
                        HorizontalTextAlignment="Center"
-                       Grid.Row="0"
-                       Grid.Column="1" 
+                       Grid.Row="0" 
                        FontSize="40"
-                       FontWeight="Bold" HorizontalAlignment="Stretch"/>
+                       FontWeight="Bold" Margin="10"/>
 
-            </Grid>
+            <controls:DialPad Grid.Row="3" MinHeight="230" MaxHeight="300" DigitTapped="NumPad_DigitTapped" VerticalAlignment="Top" Margin="10" Grid.RowSpan="2" Height="340"/>
 
-            <controls:DialPad Grid.Row="1" MinHeight="230" MaxHeight="300" DigitTapped="NumPad_DigitTapped" VerticalAlignment="Bottom"/>
-
-            <Grid Grid.Row="2" HorizontalAlignment="Stretch">
+            <Grid Grid.Row="4" Margin="10,0,10,0">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*"/>
                     <ColumnDefinition Width="*"/>
@@ -52,7 +44,7 @@
                 Grid.Column="1"
                 Background="Green"
                 Foreground="White"
-                CornerRadius="50"
+                Windows10version1809:CornerRadius="50"
                 HorizontalAlignment="Center" 
                 Height="60" 
                 Width="60"
@@ -63,7 +55,7 @@
 
                 <Button x:Name="deleteLastNumberButton" 
                 Grid.Column="2"
-                CornerRadius="50"
+                Windows10version1809:CornerRadius="50"
                 Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
                 HorizontalAlignment="Center" 
                 Height="60" 
@@ -73,6 +65,20 @@
                     <FontIcon Glyph="&#xE94F;" FontFamily="Segoe MDL2 Assets"/>
                 </Button>
             </Grid>
+
+            <Custom:DropDownButton Grid.Row="1" VerticalAlignment="Top" Width="202" Content="{x:Bind CurrentPhoneLine.DisplayName}">
+                <Custom:DropDownButton.Flyout>
+                    <Flyout Placement="TopEdgeAlignedRight">
+                        <ListBox ItemsSource="{x:Bind CallSystem.Lines, Mode=OneWay}">
+                            <ListBox.ItemTemplate>
+                                <DataTemplate x:DataType="calls:PhoneLine">
+                                    <controls:LinePresenter PresentedLineName="{x:Bind DisplayName}"/>
+                                </DataTemplate>
+                            </ListBox.ItemTemplate>
+                        </ListBox>
+                    </Flyout>
+                </Custom:DropDownButton.Flyout>
+            </Custom:DropDownButton>
 
             <!-- Space for a Commandbar for options n stuff -->
         </Grid>
