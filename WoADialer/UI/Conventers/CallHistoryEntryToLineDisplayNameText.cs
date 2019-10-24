@@ -33,10 +33,10 @@ namespace WoADialer.UI.Conventers
                             task1.AsTask().Wait();
                             return task1.GetResults().First().AppInfo.DisplayInfo.DisplayName;
                         case string deviceID when deviceID.StartsWith(PhoneLineTransport.Bluetooth.ToString()):
-                            deviceID = deviceID.Split('|')[1];
-                            IAsyncOperation<DeviceInformation> task2 = DeviceInformation.CreateFromIdAsync(deviceID);
-                            task2.AsTask().Wait();
-                            return task2.GetResults().Name;
+                            //deviceID = deviceID.Split('|')[1];
+                            //IAsyncOperation<DeviceInformation> task2 = DeviceInformation.CreateFromIdAsync(deviceID);
+                            //task2.AsTask().Wait();
+                            //return task2.GetResults().Name;
                         default:
                             return string.Empty;
                     }
