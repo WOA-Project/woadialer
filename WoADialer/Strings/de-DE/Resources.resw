@@ -118,16 +118,8 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="About_About.Text" xml:space="preserve">
-    <value>Über WoA Dialer</value>
+    <value>Über WOA Dialer</value>
     <comment>About this application title for About</comment>
-  </data>
-  <data name="About_AcknowledgementsFlubase.Content" xml:space="preserve">
-    <value>FLUI Framework</value>
-    <comment>[DOES NOT TRANSLATE] About - Acknowlegdements FluBase title</comment>
-  </data>
-  <data name="About_AcknowledgementsFlubase.NavigateUri" xml:space="preserve">
-    <value>https://github.com/Team-FLUI/FluiFramework</value>
-    <comment>[DOES NOT TRANSLATE] About - Acknowlegdements FluBase Project URL</comment>
   </data>
   <data name="About_AcknowledgementsIntro.Text" xml:space="preserve">
     <value>Diese App benutzt Code von folgenden Projekten:</value>
@@ -137,22 +129,6 @@
     <value>Acknowledgements</value>
     <comment>About - Acknowlegdements Title</comment>
   </data>
-  <data name="About_AcknowledgementsWct.Content" xml:space="preserve">
-    <value>Windows Community Toolkit</value>
-    <comment>[DOES NOT TRANSLATE] About - Acknowledgements Windows Community Toolkit title</comment>
-  </data>
-  <data name="About_AcknowledgementsWct.NavigateUri" xml:space="preserve">
-    <value>https://github.com/windows-toolkit/WindowsCommunityToolkit</value>
-    <comment>[DOES NOT TRANSLATE] About - Acknowledgements Windows Community Toolkit Project URL</comment>
-  </data>
-  <data name="About_AcknowledgementsWts.Content" xml:space="preserve">
-    <value>Windows Template Studio</value>
-    <comment>About - Acknowlegdements Windows Template Studio title</comment>
-  </data>
-  <data name="About_AcknowledgementsWts.NavigateUri" xml:space="preserve">
-    <value>https://github.com/Microsoft/WindowsTemplateStudio</value>
-    <comment>About - Acknowlegdements Windows Template Studio Project URL</comment>
-  </data>
   <data name="About_Description.Text" xml:space="preserve">
     <value>Erstellt und programmiert von WOA Project, 2019</value>
     <comment>About this application description for Settings</comment>
@@ -161,10 +137,6 @@
     <value>GitHub project</value>
     <comment>GitHub project link content for About</comment>
   </data>
-  <data name="About_GitHubLink.NavigateUri" xml:space="preserve">
-    <value>https://github.com/WOA-Project/woadialer</value>
-    <comment>[DOES NOT TRANSLATE] Link to the GitHub project for About</comment>
-  </data>
   <data name="About_LinksTitle.Text" xml:space="preserve">
     <value>Links</value>
     <comment>About - Title of the Links category</comment>
@@ -172,10 +144,6 @@
   <data name="About_PrivacyTermsLink.Content" xml:space="preserve">
     <value>Datenschutzerklärung</value>
     <comment>Privacy Statement link content for About</comment>
-  </data>
-  <data name="About_PrivacyTermsLink.NavigateUri" xml:space="preserve">
-    <value>https://github.com/WOA-Project/woadialer</value>
-    <comment>[DOES NOT TRANSLATE] Privacy Statement url for About</comment>
   </data>
   <data name="About_Title.Text" xml:space="preserve">
     <value>Über</value>
