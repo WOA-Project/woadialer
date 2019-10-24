@@ -8,6 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Windows.ApplicationModel.Calls;
 using Windows.ApplicationModel.Contacts;
+using Windows.Devices.Enumeration;
 using Windows.Devices.Haptics;
 using Windows.UI.Notifications;
 using Windows.UI.Xaml;
@@ -20,17 +21,22 @@ namespace WoADialer.Systems
     public sealed class CallSystem
     {
         private readonly ObservableCollection<PhoneCallHistoryEntry> _CallHistoryEntries = new ObservableCollection<PhoneCallHistoryEntry>();
+        private readonly ObservableCollection<PhoneLine> _Lines = new ObservableCollection<PhoneLine>();
+        private PhoneLineWatcher LineWatcher;
 
         public CallManager CallManager { get; private set; }
         public PhoneCallHistoryStore CallHistoryStore { get; private set; }
         public PhoneCallStore CallStore { get; private set; }
         public ContactStore ContactStore { get; private set; }
+        public PhoneLine DefaultLine { get; private set; }
 
         public ReadOnlyObservableCollection<PhoneCallHistoryEntry> CallHistoryEntries { get; }
+        public ReadOnlyObservableCollection<PhoneLine> Lines { get; }
 
         public CallSystem()
         {
             CallHistoryEntries = new ReadOnlyObservableCollection<PhoneCallHistoryEntry>(_CallHistoryEntries);
+            Lines = new ReadOnlyObservableCollection<PhoneLine>(_Lines);
         }
 
         private async Task SaveCallIntoHistory(Call call, CallStateChangedEventArgs args)
@@ -53,7 +59,7 @@ namespace WoADialer.Systems
                 {
                     PhoneLineTransport.Cellular => call.Line.Id.ToString(),
                     PhoneLineTransport.VoipApp => call.OwningApplication.PackageFamilyName,
-                    PhoneLineTransport.Bluetooth => call.Line.TransportDeviceId,
+                    PhoneLineTransport.Bluetooth => call.Line.Id.ToString(),
                     _ => "Unknown"
                 },
                 Address = new PhoneCallHistoryEntryAddress()
@@ -70,7 +76,7 @@ namespace WoADialer.Systems
 
         private async void UpdateCallHistoryEntries()
         {
-            IReadOnlyList<PhoneCallHistoryEntry> entries = await App.Current.CallSystem.CallHistoryStore.GetEntryReader().ReadBatchAsync();
+            IReadOnlyList<PhoneCallHistoryEntry> entries = await CallHistoryStore.GetEntryReader().ReadBatchAsync();
             List<PhoneCallHistoryEntry> @new = entries.Except(_CallHistoryEntries).ToList();
             List<PhoneCallHistoryEntry> removed = _CallHistoryEntries.Except(entries).ToList();
             foreach(PhoneCallHistoryEntry entry in @removed)
@@ -138,11 +144,39 @@ namespace WoADialer.Systems
         public async Task Initializate()
         {
             CallStore = await PhoneCallManager.RequestStoreAsync();
+            try
+            {
+                DefaultLine = await PhoneLine.FromIdAsync(await CallStore.GetDefaultLineAsync());
+            }
+            catch
+            {
+
+            }
+            LineWatcher = CallStore.RequestLineWatcher();
+            LineWatcher.LineAdded += LineWatcher_LineAdded;
+            LineWatcher.LineRemoved += LineWatcher_LineRemoved;
+            LineWatcher.LineUpdated += LineWatcher_LineUpdated;
+            LineWatcher.Start();
             CallHistoryStore = await PhoneCallHistoryManager.RequestStoreAsync(PhoneCallHistoryStoreAccessType.AllEntriesReadWrite);
             ContactStore = await ContactManager.RequestStoreAsync(ContactStoreAccessType.AllContactsReadOnly);
             CallManager = await CallManager.GetCallManagerAsync();
             CallManager.CallAppeared += CallManager_CallAppeared;
             UpdateCallHistoryEntries();
+        }
+
+        private void LineWatcher_LineUpdated(PhoneLineWatcher sender, PhoneLineWatcherEventArgs args)
+        {
+
+        }
+
+        private void LineWatcher_LineRemoved(PhoneLineWatcher sender, PhoneLineWatcherEventArgs args)
+        {
+            _Lines.Remove(_Lines.First(x => x.Id == args.LineId));
+        }
+
+        private async void LineWatcher_LineAdded(PhoneLineWatcher sender, PhoneLineWatcherEventArgs args)
+        {
+            _Lines.Add(await PhoneLine.FromIdAsync(args.LineId));
         }
     }
 }
