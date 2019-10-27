@@ -32,6 +32,7 @@ namespace WoADialer.Systems
 
         public ReadOnlyObservableCollection<PhoneCallHistoryEntry> CallHistoryEntries { get; }
         public ReadOnlyObservableCollection<PhoneLine> Lines { get; }
+        public IEnumerable<string> TMPWrapper => Lines.Select(x => string.IsNullOrWhiteSpace(x.DisplayName) ? x.NetworkName : x.DisplayName);
 
         public CallSystem()
         {

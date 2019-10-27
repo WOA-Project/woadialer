@@ -13,6 +13,10 @@
     NavigationCacheMode="Required"
     Background="{ThemeResource SystemControlAcrylicWindowBrush}" KeyUp="Page_KeyUp">
 
+    <UserControl.Resources>
+        <ResourceDictionary Source="..\Conventers\Conventers.xaml"/>
+    </UserControl.Resources>
+    
     <ScrollViewer VerticalScrollBarVisibility="Auto">
         <Grid Padding="12">
             <Grid.RowDefinitions>
@@ -69,12 +73,14 @@
             <Custom:DropDownButton Grid.Row="1" VerticalAlignment="Top" Width="202" Content="{x:Bind CurrentPhoneLine.DisplayName}">
                 <Custom:DropDownButton.Flyout>
                     <Flyout Placement="TopEdgeAlignedRight">
-                        <ListBox ItemsSource="{x:Bind CallSystem.Lines, Mode=OneWay}">
+                        <!--<ListBox ItemsSource="{x:Bind CallSystem.Lines, Mode=OneWay}">
                             <ListBox.ItemTemplate>
                                 <DataTemplate x:DataType="calls:PhoneLine">
                                     <controls:LinePresenter PresentedLineName="{x:Bind DisplayName}"/>
                                 </DataTemplate>
                             </ListBox.ItemTemplate>
+                        </ListBox>-->
+                        <ListBox ItemsSource="{x:Bind CallSystem.TMPWrapper, Mode=OneWay}">
                         </ListBox>
                     </Flyout>
                 </Custom:DropDownButton.Flyout>
