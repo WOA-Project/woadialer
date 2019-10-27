@@ -122,11 +122,11 @@
     <comment>About this application title for About</comment>
   </data>
   <data name="About_AcknowledgementsIntro.Text" xml:space="preserve">
-    <value>This app makes use of code from the following projects: /Esta aplicación utiliza código de los siguientes proyectos:</value>
+    <value>Esta aplicación utiliza código de los siguientes proyectos:</value>
     <comment>About - Acknowlegdements Intro text</comment>
   </data>
   <data name="About_AcknowledgementsTitle.Text" xml:space="preserve">
-    <value>Acknowledgements / Agradecimientos</value>
+    <value>Agradecimientos</value>
     <comment>About - Acknowlegdements Title</comment>
   </data>
   <data name="About_Description.Text" xml:space="preserve">
@@ -292,49 +292,49 @@ Español por Dimitri Rodríguez</value>
     <value />
   </data>
   <data name="NumPad_2.Chars" xml:space="preserve">
-    <value>ABC / ABC</value>
+    <value>ABC</value>
   </data>
   <data name="NumPad_3.AdditionalChars" xml:space="preserve">
     <value />
   </data>
   <data name="NumPad_3.Chars" xml:space="preserve">
-    <value>DEF / DEF</value>
+    <value>DEF</value>
   </data>
   <data name="NumPad_4.AdditionalChars" xml:space="preserve">
     <value />
   </data>
   <data name="NumPad_4.Chars" xml:space="preserve">
-    <value>GHI / GHI</value>
+    <value>GHI</value>
   </data>
   <data name="NumPad_5.AdditionalChars" xml:space="preserve">
     <value />
   </data>
   <data name="NumPad_5.Chars" xml:space="preserve">
-    <value>JKL / JKL</value>
+    <value>JKL</value>
   </data>
   <data name="NumPad_6.AdditionalChars" xml:space="preserve">
     <value />
   </data>
   <data name="NumPad_6.Chars" xml:space="preserve">
-    <value>MNO / MNÑO</value>
+    <value>MNÑO</value>
   </data>
   <data name="NumPad_7.AdditionalChars" xml:space="preserve">
     <value />
   </data>
   <data name="NumPad_7.Chars" xml:space="preserve">
-    <value>PQRS / PQRS</value>
+    <value>PQRS</value>
   </data>
   <data name="NumPad_8.AdditionalChars" xml:space="preserve">
     <value />
   </data>
   <data name="NumPad_8.Chars" xml:space="preserve">
-    <value>TUV / TUV</value>
+    <value>TUV</value>
   </data>
   <data name="NumPad_9.AdditionalChars" xml:space="preserve">
     <value />
   </data>
   <data name="NumPad_9.Chars" xml:space="preserve">
-    <value>WXYZ / WXYZ</value>
+    <value>WXYZ</value>
   </data>
   <data name="NumPad_A.AdditionalChars" xml:space="preserve">
     <value />
