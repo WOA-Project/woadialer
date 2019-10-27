@@ -39,15 +39,15 @@ namespace WoADialer.UI.Conventers
                             stream = task2.GetResults();
                             break;
                         case string deviceID when deviceID.StartsWith(PhoneLineTransport.Bluetooth.ToString()):
-                            deviceID = deviceID.Split('|')[1];
-                            task0 = PhoneLine.FromIdAsync(Guid.Parse(deviceID));
-                            task0.AsTask().Wait();
-                            IAsyncOperation<DeviceInformation> task3 = DeviceInformation.CreateFromIdAsync(task0.GetResults().TransportDeviceId);
-                            task3.AsTask().Wait();
-                            IAsyncOperation<DeviceThumbnail> task4 = task3.GetResults().GetThumbnailAsync();
-                            task4.AsTask().Wait();
-                            stream = task4.GetResults();
-                            break;
+                            //deviceID = deviceID.Split('|')[1];
+                            //task0 = PhoneLine.FromIdAsync(Guid.Parse(deviceID));
+                            //task0.AsTask().Wait();
+                            //IAsyncOperation<DeviceInformation> task3 = DeviceInformation.CreateFromIdAsync(task0.GetResults().TransportDeviceId);
+                            //task3.AsTask().Wait();
+                            //IAsyncOperation<DeviceThumbnail> task4 = task3.GetResults().GetThumbnailAsync();
+                            //task4.AsTask().Wait();
+                            //stream = task4.GetResults();
+                            //break;
                         default:
                             return null;
                     }

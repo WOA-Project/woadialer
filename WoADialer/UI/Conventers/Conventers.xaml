@@ -13,4 +13,5 @@
     <local:CallHistoryEntryToLineIconBitmap x:Key="CallHistoryEntryToLineIconBitmap"/>
     <local:CallHistoryEntryToLineDisplayNameText x:Key="CallHistoryEntryToLineDisplayNameText"/>
     <local:CallHistoryEntryToContact x:Key="CallHistoryEntryToContact"/>
+    <local:PhoneLineToDisplayNameText x:Key="PhoneLineToDisplayNameText"/>
 </ResourceDictionary>
