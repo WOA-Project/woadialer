@@ -105,17 +105,24 @@ namespace WoADialer.UI.Pages
             ResizeView(new Size { Width = 400, Height = 530 });
         }
 
-        private void SpeakerOutputButton_Click(object sender, RoutedEventArgs e)
+        private void Abtb_Hold_Unchecked(object sender, RoutedEventArgs e)
         {
-            switch (CallManager.AudioEndpoint)
-            {
-                case PhoneAudioRoutingEndpoint.Speakerphone:
-                    CallManager.AudioEndpoint = PhoneAudioRoutingEndpoint.Default;
-                    break;
-                default:
-                    CallManager.AudioEndpoint = PhoneAudioRoutingEndpoint.Speakerphone;
-                    break;
-            }
+            CallManager.ActiveCall?.SetHold(false);
+        }
+
+        private void Abtb_Hold_Checked(object sender, RoutedEventArgs e)
+        {
+            CallManager.ActiveCall?.SetHold(true);
+        }
+
+        private void SpeakerOutputButton_Checked(object sender, RoutedEventArgs e)
+        {
+            CallManager.AudioEndpoint = PhoneAudioRoutingEndpoint.Speakerphone;
+        }
+
+        private void SpeakerOutputButton_Unchecked(object sender, RoutedEventArgs e)
+        {
+            CallManager.AudioEndpoint = PhoneAudioRoutingEndpoint.Default;
         }
     }
 }

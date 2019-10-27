@@ -124,12 +124,13 @@
                     <AppBarToggleButton Label="Mute" Width="100" HorizontalAlignment="Center" Style="{ThemeResource AppBarToggleButtonRevealStyle}" Height="56">
                         <FontIcon Glyph="&#xF781;" FontFamily="Segoe MDL2 Assets"/>
                     </AppBarToggleButton>
-
                     <AppBarToggleButton x:Name="KeypadToggleButton" Grid.Column="1" Label="Keypad" Width="100" HorizontalAlignment="Center" Checked="KeypadToggleButton_Checked" Unchecked="KeypadToggleButton_Unchecked" Style="{ThemeResource AppBarToggleButtonRevealStyle}" Height="56">
                         <FontIcon Glyph="&#xE75F;" FontFamily="Segoe MDL2 Assets"/>
                     </AppBarToggleButton>
-
-                    <AppBarToggleButton x:Name="speakerOutputButton"  Grid.Column="2" Label="Speaker" Width="100" HorizontalAlignment="Center" Style="{ThemeResource AppBarToggleButtonRevealStyle}" Height="56" Click="SpeakerOutputButton_Click">
+                    <AppBarToggleButton x:Name="speakerOutputButton"  Grid.Column="2" Label="Speaker" Width="100" HorizontalAlignment="Center" Style="{ThemeResource AppBarToggleButtonRevealStyle}" Height="56" Checked="SpeakerOutputButton_Checked" Unchecked="SpeakerOutputButton_Unchecked">
+                        <FontIcon Glyph="&#xE767;" FontFamily="Segoe MDL2 Assets"/>
+                    </AppBarToggleButton>
+                    <AppBarToggleButton x:Name="abtb_Hold"  Grid.Column="2" Label="Hold" Width="100" HorizontalAlignment="Center" Style="{ThemeResource AppBarToggleButtonRevealStyle}" Height="56" Unchecked="Abtb_Hold_Unchecked" Checked="Abtb_Hold_Checked">
                         <FontIcon Glyph="&#xE767;" FontFamily="Segoe MDL2 Assets"/>
                     </AppBarToggleButton>
                 </Grid>
