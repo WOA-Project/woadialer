@@ -11,7 +11,7 @@
     NavigationCacheMode="Required"
     Background="{ThemeResource SystemControlAcrylicWindowBrush}">
 
-    <ListView ItemsSource="{x:Bind CallSystem.CallHistoryEntries}" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Center" IsItemClickEnabled="True" ItemClick="ListView_ItemClick" IsMultiSelectCheckBoxEnabled="False" SelectionMode="None">
+    <ListView Padding="0,10" ItemsSource="{x:Bind CallSystem.CallHistoryEntries}" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Center" IsItemClickEnabled="True" ItemClick="ListView_ItemClick" IsMultiSelectCheckBoxEnabled="False" SelectionMode="None">
         <ListView.ItemTemplate>
             <DataTemplate x:DataType="calls:PhoneCallHistoryEntry">
                 <controls:CallHistoryEntryPresenter PresentedEntry="{x:Bind}"/>
@@ -20,6 +20,7 @@
         <ListView.ItemContainerStyle>
             <Style TargetType="ListViewItem">
                 <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
+                <Setter Property="Padding" Value="0,4"/>
             </Style>
         </ListView.ItemContainerStyle>
     </ListView>

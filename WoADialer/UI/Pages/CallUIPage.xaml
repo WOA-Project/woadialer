@@ -114,7 +114,11 @@
                     <RowDefinition Height="Auto" />
                 </Grid.RowDefinitions>
 
-                <Grid Margin="0,8,0,16" HorizontalAlignment="Stretch">
+                <Grid Margin="0,8,0,16" HorizontalAlignment="Center">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                    </Grid.RowDefinitions>
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="*"/>
                         <ColumnDefinition Width="*"/>
@@ -130,12 +134,12 @@
                     <AppBarToggleButton x:Name="speakerOutputButton"  Grid.Column="2" Label="Speaker" Width="100" HorizontalAlignment="Center" Style="{ThemeResource AppBarToggleButtonRevealStyle}" Height="56" Checked="SpeakerOutputButton_Checked" Unchecked="SpeakerOutputButton_Unchecked">
                         <FontIcon Glyph="&#xE767;" FontFamily="Segoe MDL2 Assets"/>
                     </AppBarToggleButton>
-                    <AppBarToggleButton x:Name="abtb_Hold"  Grid.Column="2" Label="Hold" Width="100" HorizontalAlignment="Center" Style="{ThemeResource AppBarToggleButtonRevealStyle}" Height="56" Unchecked="Abtb_Hold_Unchecked" Checked="Abtb_Hold_Checked">
+                    <AppBarToggleButton x:Name="abtb_Hold" Grid.Row="1" Label="Hold" Width="100" HorizontalAlignment="Center" Style="{ThemeResource AppBarToggleButtonRevealStyle}" Height="56" Unchecked="Abtb_Hold_Unchecked" Checked="Abtb_Hold_Checked">
                         <FontIcon Glyph="&#xE767;" FontFamily="Segoe MDL2 Assets"/>
                     </AppBarToggleButton>
                 </Grid>
 
-                <Custom:DialPad x:Name="Keypad" Grid.Row="1" MinHeight="230" MaxHeight="300" VerticalAlignment="Bottom" Visibility="Collapsed"/>
+                <Custom:DialPad x:Name="Keypad" Grid.Row="1" MinHeight="230" MaxHeight="300" MinWidth="300" HorizontalAlignment="Center" VerticalAlignment="Bottom" Visibility="Collapsed"/>
             </Grid>
 
             <Grid Grid.Row="2" HorizontalAlignment="Stretch">
@@ -176,7 +180,7 @@
             <!-- Space for a Commandbar for options n stuff -->
         </Grid>
 
-        <Grid VerticalAlignment="Top" Height="30" Background="{ThemeResource SystemControlChromeMediumLowAcrylicElementMediumBrush}">
+        <Grid VerticalAlignment="Top" Height="30" Background="{ThemeResource SystemControlChromeMediumLowAcrylicElementMediumBrush}" x:Name="TitleBarGrid">
             <Custom:TitlebarControl x:Name="Titlebar"/>
         </Grid>
     </Grid>

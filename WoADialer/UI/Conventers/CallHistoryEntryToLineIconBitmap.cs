@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Windows.ApplicationModel;
 using Windows.ApplicationModel.Calls;
+using Windows.ApplicationModel.Core;
 using Windows.Devices.Enumeration;
 using Windows.Foundation;
 using Windows.Storage.Streams;
@@ -29,12 +30,17 @@ namespace WoADialer.UI.Conventers
                             celluarID = celluarID.Split('|')[1];
                             IAsyncOperation<PhoneLine> task0 = PhoneLine.FromIdAsync(Guid.Parse(celluarID));
                             task0.AsTask().Wait();
-                            return null;
+                            IAsyncOperation<IReadOnlyList<AppListEntry>> task3 = Package.Current.GetAppListEntriesAsync();
+                            task3.AsTask().Wait();
+                            IAsyncOperation<IRandomAccessStreamWithContentType> task2 = task3.GetResults().First().DisplayInfo.GetLogo(new Size(512, 512)).OpenReadAsync();
+                            task2.AsTask().Wait();
+                            stream = task2.GetResults();
+                            break;
                         case string appID when appID.StartsWith(PhoneLineTransport.VoipApp.ToString()):
                             appID = appID.Split('|')[1];
                             IAsyncOperation<IList<AppDiagnosticInfo>> task1 = AppDiagnosticInfo.RequestInfoForPackageAsync(appID);
                             task1.AsTask().Wait();
-                            IAsyncOperation<IRandomAccessStreamWithContentType> task2 = task1.GetResults().First().AppInfo.DisplayInfo.GetLogo(new Size(512, 512)).OpenReadAsync();
+                            task2 = task1.GetResults().First().AppInfo.DisplayInfo.GetLogo(new Size(512, 512)).OpenReadAsync();
                             task2.AsTask().Wait();
                             stream = task2.GetResults();
                             break;

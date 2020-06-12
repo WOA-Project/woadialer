@@ -45,6 +45,7 @@ namespace WoADialer.UI.Pages
                 CompactUIGrid.Visibility = Visibility.Collapsed;
                 ExtendedUIGrid.Visibility = Visibility.Visible;
                 Keypad.Visibility = Visibility.Visible;
+                TitleBarGrid.Visibility = Visibility.Collapsed;
             }
             else
             {

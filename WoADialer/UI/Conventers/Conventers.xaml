@@ -14,4 +14,5 @@
     <local:CallHistoryEntryToLineDisplayNameText x:Key="CallHistoryEntryToLineDisplayNameText"/>
     <local:CallHistoryEntryToContact x:Key="CallHistoryEntryToContact"/>
     <local:PhoneLineToDisplayNameText x:Key="PhoneLineToDisplayNameText"/>
+    <local:DateTimeToString x:Key="DateTimeToString"/>
 </ResourceDictionary>
