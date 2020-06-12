@@ -5,17 +5,29 @@
     xmlns:local="using:WoADialer.UI.Dialogs"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    
+    xmlns:Windows10version1809="http://schemas.microsoft.com/winfx/2006/xaml/presentation?IsApiContractPresent(Windows.Foundation.UniversalApiContract, 7)"
     Background="{ThemeResource SystemControlAcrylicElementBrush}"
     BorderBrush="{ThemeResource SystemControlForegroundBaseLowBrush}"
-    CornerRadius="{StaticResource FluentDialogCorners}"
+    Windows10version1809:CornerRadius="{StaticResource FluentDialogCorners}"
     
     mc:Ignorable="d">
 
+    <ContentDialog.Resources>
+        <Style TargetType="HyperlinkButton">
+            <Setter Property="ContentTemplate">
+                <Setter.Value>
+                    <DataTemplate>
+                        <TextBlock Text="{Binding}" />
+                    </DataTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+    </ContentDialog.Resources>
+
     <Grid>
-        <Grid.BackgroundTransition>
+        <Windows10version1809:Grid.BackgroundTransition>
             <BrushTransition />
-        </Grid.BackgroundTransition>
+        </Windows10version1809:Grid.BackgroundTransition>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="*"/>

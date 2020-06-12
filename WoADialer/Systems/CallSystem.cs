@@ -50,7 +50,7 @@ namespace WoADialer.Systems
                 IsIncoming = call.Direction == CallDirection.Incoming,
                 IsMissed = args.OldState == CallState.Incoming,
                 IsSeen = args.OldState != CallState.Incoming,
-                OtherAppReadAccess = PhoneCallHistoryEntryOtherAppReadAccess.Full,
+                OtherAppReadAccess = PhoneCallHistoryEntryOtherAppReadAccess.SystemOnly,
                 StartTime = call.StartTime ?? DateTimeOffset.Now,
                 Duration = call.EndTime - call.StartTime,
                 Media = PhoneCallHistoryEntryMedia.Audio,
@@ -169,18 +169,29 @@ namespace WoADialer.Systems
             UpdateCallHistoryEntries();
         }
 
-        private void LineWatcher_LineUpdated(PhoneLineWatcher sender, PhoneLineWatcherEventArgs args)
+        private async void LineWatcher_LineUpdated(PhoneLineWatcher sender, PhoneLineWatcherEventArgs args)
         {
-
+            Debug.WriteLine("Updating " + args.LineId);
+            int index = _Lines.IndexOf(_Lines.First(x => x.Id == args.LineId));
+            if (index != -1)
+            {
+                PhoneLine line = await PhoneLine.FromIdAsync(args.LineId);
+                if (line != null)
+                {
+                    _Lines[index] = line;
+                }
+            }
         }
 
         private void LineWatcher_LineRemoved(PhoneLineWatcher sender, PhoneLineWatcherEventArgs args)
         {
+            Debug.WriteLine("Removing " + args.LineId);
             _Lines.Remove(_Lines.First(x => x.Id == args.LineId));
         }
 
         private async void LineWatcher_LineAdded(PhoneLineWatcher sender, PhoneLineWatcherEventArgs args)
         {
+            Debug.WriteLine("Adding " + args.LineId);
             PhoneLine line = await PhoneLine.FromIdAsync(args.LineId);
             if (line != null)
             {

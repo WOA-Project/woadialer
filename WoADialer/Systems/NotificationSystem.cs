@@ -2,6 +2,7 @@
 using Microsoft.Toolkit.Uwp.Notifications;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -221,27 +222,27 @@ namespace WoADialer.Systems
             {
                 TileUpdater = TileUpdateManager.CreateTileUpdaterForApplication();
             }
-            catch (Exception) { }
+            catch (Exception) { Debug.WriteLine("Warning: Windows Notification Platform might be unavailable, have you crashed something?"); }
             try
             {
                 ToastNotificationManagerForUser = ToastNotificationManager.GetDefault();
             }
-            catch (Exception) { }
+            catch (Exception) { Debug.WriteLine("Warning: Windows Notification Platform might be unavailable, have you crashed something?"); }
             try
             {
                 ToastNotifier = ToastNotificationManager.CreateToastNotifier();
             }
-            catch (Exception) { }
+            catch (Exception) { Debug.WriteLine("Warning: Windows Notification Platform might be unavailable, have you crashed something?"); }
             try
             {
                 ToastCollectionManager = ToastNotificationManagerForUser.GetToastCollectionManager();
             }
-            catch (Exception) { }
+            catch (Exception) { Debug.WriteLine("Warning: Windows Notification Platform might be unavailable, have you crashed something?"); }
             try
             {
                 NotificationListener.NotificationChanged += NotificationListener_NotificationChanged;
             }
-            catch (Exception) { }
+            catch (Exception) { Debug.WriteLine("Warning: Windows Notification Platform might be unavailable, have you crashed something?"); }
         }
 
         private void RemoveCallToastNotifications(IEnumerable<ToastNotification> notifications)
@@ -383,7 +384,7 @@ namespace WoADialer.Systems
             {
                 RemoveCallToastNotifications(ToastNotificationManager.History.GetHistory());
             }
-            catch (Exception) { }
+            catch (Exception) { Debug.WriteLine("Warning: Windows Notification Platform might be unavailable, have you crashed something?"); }
         }
 
         public void RefreshCallNotification(IEnumerable<Call> currentCalls)
@@ -415,7 +416,7 @@ namespace WoADialer.Systems
                     }
                 }
             }
-            catch (Exception) { }
+            catch (Exception) { Debug.WriteLine("Warning: Windows Notification Platform might be unavailable, have you crashed something?"); }
         }
     }
 }
