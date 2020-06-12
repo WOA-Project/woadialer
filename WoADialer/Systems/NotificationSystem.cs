@@ -217,11 +217,31 @@ namespace WoADialer.Systems
         public void Initializate()
         {
             NotificationListener = UserNotificationListener.Current;
-            TileUpdater = TileUpdateManager.CreateTileUpdaterForApplication();
-            ToastNotificationManagerForUser = ToastNotificationManager.GetDefault();
-            ToastNotifier = ToastNotificationManager.CreateToastNotifier();
-            ToastCollectionManager = ToastNotificationManagerForUser.GetToastCollectionManager();
-            NotificationListener.NotificationChanged += NotificationListener_NotificationChanged;
+            try
+            {
+                TileUpdater = TileUpdateManager.CreateTileUpdaterForApplication();
+            }
+            catch (Exception) { }
+            try
+            {
+                ToastNotificationManagerForUser = ToastNotificationManager.GetDefault();
+            }
+            catch (Exception) { }
+            try
+            {
+                ToastNotifier = ToastNotificationManager.CreateToastNotifier();
+            }
+            catch (Exception) { }
+            try
+            {
+                ToastCollectionManager = ToastNotificationManagerForUser.GetToastCollectionManager();
+            }
+            catch (Exception) { }
+            try
+            {
+                NotificationListener.NotificationChanged += NotificationListener_NotificationChanged;
+            }
+            catch (Exception) { }
         }
 
         private void RemoveCallToastNotifications(IEnumerable<ToastNotification> notifications)
@@ -357,34 +377,45 @@ namespace WoADialer.Systems
             }
         }
 
-        public void RemoveCallToastNotifications() => RemoveCallToastNotifications(ToastNotificationManager.History.GetHistory());
+        public void RemoveCallToastNotifications()
+        {
+            try
+            {
+                RemoveCallToastNotifications(ToastNotificationManager.History.GetHistory());
+            }
+            catch (Exception) { }
+        }
 
         public void RefreshCallNotification(IEnumerable<Call> currentCalls)
         {
-            IReadOnlyList<ToastNotification> notifications = ToastNotificationManager.History.GetHistory();
-            bool badState = notifications.Count == 0 || notifications.Any(x =>
+            try
             {
-                if (x.Data != null)
+                IReadOnlyList<ToastNotification> notifications = ToastNotificationManager.History.GetHistory();
+                bool badState = notifications.Count == 0 || notifications.Any(x =>
                 {
-                    List<uint> ids = x.Data.Values[USED_CALLS].Split(';').Where(y => !string.IsNullOrEmpty(y)).Select(y => uint.Parse(y)).ToList();
-                    List<CallState> states = x.Data.Values[USED_CALLS_STATES].Split(';').Where(y => !string.IsNullOrEmpty(y)).Select(y => (CallState)Enum.Parse(typeof(CallState), y)).ToList();
-                    List<Tuple<uint, CallState>> prev = ids.Join(states, y => ids.IndexOf(y), y => states.IndexOf(y), (x, y) => new Tuple<uint, CallState>(x, y)).ToList();
-                    return !prev.All(y => currentCalls.Any(z => z.ID == y.Item1 && z.State == y.Item2));
-                }
-                else
+                    if (x.Data != null)
+                    {
+                        List<uint> ids = x.Data.Values[USED_CALLS].Split(';').Where(y => !string.IsNullOrEmpty(y)).Select(y => uint.Parse(y)).ToList();
+                        List<CallState> states = x.Data.Values[USED_CALLS_STATES].Split(';').Where(y => !string.IsNullOrEmpty(y)).Select(y => (CallState)Enum.Parse(typeof(CallState), y)).ToList();
+                        List<Tuple<uint, CallState>> prev = ids.Join(states, y => ids.IndexOf(y), y => states.IndexOf(y), (x, y) => new Tuple<uint, CallState>(x, y)).ToList();
+                        return !prev.All(y => currentCalls.Any(z => z.ID == y.Item1 && z.State == y.Item2));
+                    }
+                    else
+                    {
+                        return false;
+                    }
+                });
+                if (badState)
                 {
-                    return false;
-                }
-            });
-            if (badState)
-            {
-                RemoveCallToastNotifications(notifications);
-                ToastNotification notification = CreateCallNotification(currentCalls);
-                if (notification != null)
-                {
-                    ToastNotifier.Show(notification);
+                    RemoveCallToastNotifications(notifications);
+                    ToastNotification notification = CreateCallNotification(currentCalls);
+                    if (notification != null)
+                    {
+                        ToastNotifier.Show(notification);
+                    }
                 }
             }
+            catch (Exception) { }
         }
     }
 }

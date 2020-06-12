@@ -8,6 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Windows.ApplicationModel.Calls;
 using Windows.ApplicationModel.Contacts;
+using Windows.ApplicationModel.Core;
 using Windows.Devices.Enumeration;
 using Windows.Devices.Haptics;
 using Windows.UI.Notifications;
@@ -23,6 +24,7 @@ namespace WoADialer.Systems
         private readonly ObservableCollection<PhoneCallHistoryEntry> _CallHistoryEntries = new ObservableCollection<PhoneCallHistoryEntry>();
         private readonly ObservableCollection<PhoneLine> _Lines = new ObservableCollection<PhoneLine>();
         private PhoneLineWatcher LineWatcher;
+        private CoreApplicationView CoreApplicationView;
 
         public CallManager CallManager { get; private set; }
         public PhoneCallHistoryStore CallHistoryStore { get; private set; }
@@ -38,6 +40,7 @@ namespace WoADialer.Systems
         {
             CallHistoryEntries = new ReadOnlyObservableCollection<PhoneCallHistoryEntry>(_CallHistoryEntries);
             Lines = new ReadOnlyObservableCollection<PhoneLine>(_Lines);
+            CoreApplicationView = CoreApplication.GetCurrentView();
         }
 
         private async Task SaveCallIntoHistory(Call call, CallStateChangedEventArgs args)
@@ -82,11 +85,11 @@ namespace WoADialer.Systems
             List<PhoneCallHistoryEntry> removed = _CallHistoryEntries.Except(entries).ToList();
             foreach(PhoneCallHistoryEntry entry in @removed)
             {
-                _CallHistoryEntries.Remove(entry);
+                await CoreApplicationView.Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.Normal, () => _CallHistoryEntries.Remove(entry));
             }
             foreach(PhoneCallHistoryEntry entry in @new)
             {
-                _CallHistoryEntries.Add(entry);
+                await CoreApplicationView.Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.Normal, () => _CallHistoryEntries.Add(entry));
             }
         }
 
@@ -121,7 +124,8 @@ namespace WoADialer.Systems
                     switch (args.OldState)
                     {
                         case CallState.Incoming:
-                            App.Current.NotificationSystem.ToastNotifier.Show(App.Current.NotificationSystem.CreateMissedCallToastNotification(sender));
+                            if (App.Current.NotificationSystem.ToastNotifier != null)
+                                App.Current.NotificationSystem.ToastNotifier.Show(App.Current.NotificationSystem.CreateMissedCallToastNotification(sender));
                             break;
                     }
                     break;
@@ -177,7 +181,11 @@ namespace WoADialer.Systems
 
         private async void LineWatcher_LineAdded(PhoneLineWatcher sender, PhoneLineWatcherEventArgs args)
         {
-            _Lines.Add(await PhoneLine.FromIdAsync(args.LineId));
+            PhoneLine line = await PhoneLine.FromIdAsync(args.LineId);
+            if (line != null)
+            {
+                _Lines.Add(line);
+            }
         }
     }
 }
