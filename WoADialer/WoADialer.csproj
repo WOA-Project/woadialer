@@ -148,6 +148,7 @@
     </Compile>
     <Compile Include="UI\Conventers\CallHistoryEntryToCallStateGlyphString.cs" />
     <Compile Include="UI\Conventers\CallHistoryEntryToContact.cs" />
+    <Compile Include="UI\Conventers\DateTimeToString.cs" />
     <Compile Include="UI\Conventers\PhoneLineToDisplayNameText.cs" />
     <Compile Include="UI\Conventers\CallHistoryEntryToLineIconBitmap.cs" />
     <Compile Include="UI\Conventers\CallHistoryEntryToLineDisplayNameText.cs" />
@@ -377,16 +378,16 @@
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="FluiFramework.UWP">
-      <Version>0.0.31</Version>
+      <Version>0.0.33</Version>
     </PackageReference>
     <PackageReference Include="Microsoft.NETCore.UniversalWindowsPlatform">
-      <Version>6.2.9</Version>
+      <Version>6.2.10</Version>
     </PackageReference>
     <PackageReference Include="Microsoft.Toolkit.Uwp.Notifications">
-      <Version>5.1.1</Version>
+      <Version>7.0.0-preview1</Version>
     </PackageReference>
     <PackageReference Include="Microsoft.UI.Xaml">
-      <Version>2.3.191007001-prerelease</Version>
+      <Version>2.5.0-prerelease.200609001</Version>
     </PackageReference>
   </ItemGroup>
   <ItemGroup>
