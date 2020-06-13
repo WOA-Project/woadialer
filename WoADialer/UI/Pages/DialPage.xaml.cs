@@ -54,7 +54,7 @@ namespace WoADialer.UI.Pages
                         }
                     case System.Collections.Specialized.NotifyCollectionChangedAction.Remove:
                         {
-                            DisplayableLine itemToRemove = DisplayableLines.First(x => x.Line == e.OldItems[0]);
+                            DisplayableLine itemToRemove = DisplayableLines.First(x => x.Line.Id == (e.OldItems[0] as PhoneLine).Id);
                             if (CurrentPhoneLine == itemToRemove)
                             {
                                 CurrentPhoneLine = DisplayableLines.Count > 0 ? DisplayableLines.First() : null;
@@ -64,7 +64,7 @@ namespace WoADialer.UI.Pages
                         }
                     case System.Collections.Specialized.NotifyCollectionChangedAction.Replace:
                         {
-                            DisplayableLine itemToReplace = DisplayableLines.First(x => x.Line == e.OldItems[0]);
+                            DisplayableLine itemToReplace = DisplayableLines.First(x => x.Line.Id == (e.OldItems[0] as PhoneLine).Id);
                             DisplayableLine itemToAdd = new DisplayableLine(e.NewItems[0] as PhoneLine);
                             if (CurrentPhoneLine == itemToReplace)
                             {
