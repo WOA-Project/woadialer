@@ -1,10 +1,6 @@
-﻿using Internal.Windows.Calls;
-using Windows.ApplicationModel.Calls;
-using Windows.UI.Core;
-using Windows.UI.Xaml;
+﻿using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Media;
-using WoADialer.UI.ViewModel;
 
 namespace WoADialer.UI.Controls
 {
