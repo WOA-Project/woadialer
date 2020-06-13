@@ -1,8 +1,6 @@
-﻿using Internal.Windows.Calls;
-using System;
+﻿using System;
 using Windows.ApplicationModel.Calls;
 using Windows.UI.Xaml.Data;
-using WoADialer.UI.ViewModel;
 
 namespace WoADialer.UI.Conventers
 {
@@ -14,20 +12,20 @@ namespace WoADialer.UI.Conventers
             {
                 if (entry.IsCallerIdBlocked)
                 {
-                    return Glyphs.SHIELD;
+                    return Glyphs.CALL_HISTORY_BLOCKED;
                 }
                 else if (entry.IsMissed)
                 {
-                    return Glyphs.HANG_UP;
+                    return Glyphs.CALL_HISTORY_MISSED;
                 }
                 else
                 {
-                    return Glyphs.INCOMING_CALL;
+                    return Glyphs.CALL_HISTORY_INCOMING;
                 }
             }
             else
             {
-                return Glyphs.PHONE;
+                return Glyphs.CALL_HISTORY_OUTGOING;
             }
         }
 

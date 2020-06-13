@@ -1,11 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Windows.ApplicationModel;
 using Windows.ApplicationModel.Calls;
-using Windows.Devices.Enumeration;
 using Windows.Foundation;
 using Windows.System;
 using Windows.UI.Xaml.Data;

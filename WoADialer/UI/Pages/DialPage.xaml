@@ -20,19 +20,75 @@
     <ScrollViewer VerticalScrollBarVisibility="Auto">
         <Grid Padding="12">
             <Grid.RowDefinitions>
-                <RowDefinition Height="96" />
-                <RowDefinition Height="64" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
                 <RowDefinition Height="*" />
                 <RowDefinition Height="320" />
-                <RowDefinition Height="64" />
+                <RowDefinition Height="Auto" />
             </Grid.RowDefinitions>
 
-            <TextBlock x:Name="numberToDialBox"
-                       TextAlignment="Center"
-                       HorizontalTextAlignment="Center"
-                       Grid.Row="0" 
-                       FontSize="40"
-                       FontWeight="Bold" Margin="10"/>
+            <Grid HorizontalAlignment="Right" VerticalAlignment="Top">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
+
+                <TextBlock x:Uid="CallUsingLabel"
+                           Text="Call using:"
+                           Margin="0,0,8,0" 
+                           VerticalAlignment="Center"/>
+
+                <ComboBox x:Name="PhoneLineSelector"
+                          Grid.Column="1"
+                          BorderThickness="0"
+                          Width="202"
+                          Height="44"
+                          ItemsSource="{x:Bind DisplayableLines, Mode=OneWay}"
+                          SelectedItem="{x:Bind CurrentPhoneLine, Mode=OneWay}"
+                          PlaceholderText="No lines detected"
+                          SelectionChanged="PhoneLineSelector_SelectionChanged">
+                    <ComboBox.ItemTemplate>
+                        <DataTemplate>
+                            <controls:LinePresenter PresentedLineName="{Binding DisplayName}"/>
+                        </DataTemplate>
+                    </ComboBox.ItemTemplate>
+                </ComboBox>
+            </Grid>
+
+            <Grid Grid.Row="1">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="60"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="60"/>
+                </Grid.ColumnDefinitions>
+                
+                <TextBox x:Name="numberToDialBox"
+                     BorderThickness="0"
+                     Background="{ThemeResource SystemControlAcrylicWindowBrush}"
+                     TextAlignment="Center"
+                     HorizontalTextAlignment="Center"
+                     Grid.Column="2" 
+                     VerticalAlignment="Center"
+                     FontSize="40"
+                     FontWeight="Bold" Margin="10"/>
+
+                <Button x:Name="deleteLastNumberButton" 
+                        Style="{ThemeResource TextBlockButtonStyle}"
+                        Grid.Column="4"
+                        Foreground="{ThemeResource ApplicationForegroundThemeBrush}"
+                        Windows10version1809:CornerRadius="50"
+                        Background="Transparent"
+                        VerticalAlignment="Center"
+                        Height="60" 
+                        Width="60"
+                        Click="DeleteLastNumberButton_Click">
+                    <FontIcon Glyph="&#xE94F;" FontFamily="Segoe MDL2 Assets"/>
+                </Button>
+            </Grid>
+            
+            
 
             <controls:DialPad Grid.Row="3" MinHeight="230" MaxHeight="300" DigitTapped="NumPad_DigitTapped" VerticalAlignment="Top" Margin="10" Grid.RowSpan="2" Height="340"/>
 
@@ -45,48 +101,17 @@
 
                 <!-- Call button -->
                 <Button x:Name="callButton" 
-                Grid.Column="1"
-                Background="Green"
-                Foreground="White"
-                Windows10version1809:CornerRadius="50"
-                HorizontalAlignment="Center" 
-                Height="60" 
-                Width="60"
-                Click="CallButton_Click">
-
+                        Grid.Column="1"
+                        Background="Green"
+                        Foreground="White"
+                        Windows10version1809:CornerRadius="50"
+                        HorizontalAlignment="Center" 
+                        Height="60" 
+                        Width="60"
+                        Click="CallButton_Click">
                     <FontIcon Glyph="&#xE717;" FontFamily="Segoe MDL2 Assets"/>
                 </Button>
-
-                <Button x:Name="deleteLastNumberButton" 
-                Grid.Column="2"
-                Windows10version1809:CornerRadius="50"
-                Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
-                HorizontalAlignment="Center" 
-                Height="60" 
-                Width="60"
-                Click="DeleteLastNumberButton_Click">
-
-                    <FontIcon Glyph="&#xE94F;" FontFamily="Segoe MDL2 Assets"/>
-                </Button>
             </Grid>
-
-            <Custom:DropDownButton Grid.Row="1" VerticalAlignment="Top" Width="202" Content="{x:Bind CurrentPhoneLine.DisplayName}">
-                <Custom:DropDownButton.Flyout>
-                    <Flyout Placement="TopEdgeAlignedRight">
-                        <!--<ListBox ItemsSource="{x:Bind CallSystem.Lines, Mode=OneWay}">
-                            <ListBox.ItemTemplate>
-                                <DataTemplate x:DataType="calls:PhoneLine">
-                                    <controls:LinePresenter PresentedLineName="{x:Bind DisplayName}"/>
-                                </DataTemplate>
-                            </ListBox.ItemTemplate>
-                        </ListBox>-->
-                        <ListBox ItemsSource="{x:Bind CallSystem.TMPWrapper, Mode=OneWay}">
-                        </ListBox>
-                    </Flyout>
-                </Custom:DropDownButton.Flyout>
-            </Custom:DropDownButton>
-
-            <!-- Space for a Commandbar for options n stuff -->
         </Grid>
     </ScrollViewer>
 </Page>

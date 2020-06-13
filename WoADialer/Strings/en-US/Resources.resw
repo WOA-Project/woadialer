@@ -293,6 +293,9 @@ Spanish by Dimitri Rodríguez</value>
   <data name="CallUIPage" xml:space="preserve">
     <value>Current call</value>
   </data>
+  <data name="CallUsingLabel.Text" xml:space="preserve">
+    <value>Call using:</value>
+  </data>
   <data name="ContactsPage" xml:space="preserve">
     <value>Contacts</value>
   </data>

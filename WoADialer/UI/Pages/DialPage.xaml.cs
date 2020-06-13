@@ -1,6 +1,9 @@
 ﻿using System;
+using System.Collections.ObjectModel;
+using System.Linq;
 using System.Text;
 using Windows.ApplicationModel.Calls;
+using Windows.ApplicationModel.Core;
 using Windows.Foundation;
 using Windows.Globalization.PhoneNumberFormatting;
 using Windows.System;
@@ -18,12 +21,65 @@ namespace WoADialer.UI.Pages
     {
         private CallSystem CallSystem => App.Current.CallSystem;
         private StringBuilder Number;
-        private PhoneLine CurrentPhoneLine;
+        private DisplayableLine CurrentPhoneLine;
+
+        private ObservableCollection<DisplayableLine> DisplayableLines = new ObservableCollection<DisplayableLine>(App.Current.CallSystem.Lines.Select(x => new DisplayableLine(x)));
+
+        private CoreApplicationView CoreApplicationView;
 
         public DialPage()
         {
+            CoreApplicationView = CoreApplication.GetCurrentView();
             this.InitializeComponent();
-            CurrentPhoneLine = CallSystem.DefaultLine;
+            CallSystem.Lines.CollectionChanged += Lines_CollectionChanged;
+
+            CurrentPhoneLine = DisplayableLines.First(x => x.Line.Id == CallSystem.DefaultLine.Id);
+            PhoneLineSelector.SelectedItem = CurrentPhoneLine;
+        }
+
+        private async void Lines_CollectionChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
+        {
+            await CoreApplicationView.Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.Normal, () =>
+            {
+                switch (e.Action)
+                {
+                    case System.Collections.Specialized.NotifyCollectionChangedAction.Add:
+                        {
+                            bool SetAsDefault = DisplayableLines.Count == 0;
+                            DisplayableLine itemToAdd = new DisplayableLine(e.NewItems[0] as PhoneLine);
+                            if (SetAsDefault)
+                                CurrentPhoneLine = itemToAdd;
+                            DisplayableLines.Add(itemToAdd);
+                            break;
+                        }
+                    case System.Collections.Specialized.NotifyCollectionChangedAction.Remove:
+                        {
+                            DisplayableLine itemToRemove = DisplayableLines.First(x => x.Line == e.OldItems[0]);
+                            if (CurrentPhoneLine == itemToRemove)
+                            {
+                                CurrentPhoneLine = DisplayableLines.Count > 0 ? DisplayableLines.First() : null;
+                            }
+                            DisplayableLines.Remove(itemToRemove);
+                            break;
+                        }
+                    case System.Collections.Specialized.NotifyCollectionChangedAction.Replace:
+                        {
+                            DisplayableLine itemToReplace = DisplayableLines.First(x => x.Line == e.OldItems[0]);
+                            DisplayableLine itemToAdd = new DisplayableLine(e.NewItems[0] as PhoneLine);
+                            if (CurrentPhoneLine == itemToReplace)
+                            {
+                                CurrentPhoneLine = itemToAdd;
+                            }
+                            DisplayableLines[DisplayableLines.IndexOf(itemToReplace)] = itemToAdd;
+                            break;
+                        }
+                    case System.Collections.Specialized.NotifyCollectionChangedAction.Move:
+                        {
+                            DisplayableLines.Move(e.OldStartingIndex, e.NewStartingIndex);
+                            break;
+                        }
+                }
+            });
         }
 
         private void DeleteLastNumberButton_Click(object sender, RoutedEventArgs e)
@@ -63,12 +119,11 @@ namespace WoADialer.UI.Pages
             numberToDialBox.Text = a.FormatPartialString(Number.ToString());
         }
 
-        private async void CallButton_Click(object sender, RoutedEventArgs e)
+        private void CallButton_Click(object sender, RoutedEventArgs e)
         {
             try
             {
-                CurrentPhoneLine = await PhoneLine.FromIdAsync(await App.Current.CallSystem.CallStore.GetDefaultLineAsync());
-                CurrentPhoneLine?.DialWithOptions(new PhoneDialOptions() { Number = Number.ToString() });
+                CurrentPhoneLine?.Line?.DialWithOptions(new PhoneDialOptions() { Number = Number.ToString() });
             }
             catch (Exception ee)
             {
@@ -143,6 +198,19 @@ namespace WoADialer.UI.Pages
                     DeleteLastNumberButton_Click(this, null);
                     break;
             }
+        }
+
+        private void PhoneLineSelector_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (e.AddedItems != null && e.AddedItems.Count > 0 && e.AddedItems[0] != null)
+            {
+                CurrentPhoneLine = e.AddedItems[0] as DisplayableLine;
+            }
+            else if (DisplayableLines.Count > 0)
+            {
+                CurrentPhoneLine = DisplayableLines.First();
+            }
+            PhoneLineSelector.SelectedItem = CurrentPhoneLine;
         }
     }
 }

@@ -1,6 +1,5 @@
 ﻿using Windows.ApplicationModel;
 using Windows.UI.Core;
-using WoADialer.Helpers;
 
 namespace WoADialer.UI.ViewModel
 {

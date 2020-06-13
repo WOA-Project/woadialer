@@ -410,6 +410,9 @@
   <ItemGroup>
     <PRIResource Include="Strings\de-DE\Resources.resw" />
   </ItemGroup>
+  <ItemGroup>
+    <Content Include="Assets\FullMDL2Assets.ttf" />
+  </ItemGroup>
   <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '14.0' ">
     <VisualStudioVersion>14.0</VisualStudioVersion>
   </PropertyGroup>

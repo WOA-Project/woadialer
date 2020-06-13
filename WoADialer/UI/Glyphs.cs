@@ -1,37 +1,37 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace WoADialer.UI
+﻿namespace WoADialer.UI
 {
     public static class Glyphs
     {
-        public const string PHONE = "\uE717";
-        public const string VOICE_CALL = "\uF715";
         public const string NETWORK_TOWER = "\uEC05";
         public const string SIM_MISSED = "\uF619";
         public const string SIM_LOCK = "\uF61A";
         public const string ROAMING_INTERNATIONAL = "\uE878";
-        public const string ROAMING_DOMESTIC = "\uE879";
         public const string NETWORK_OFFLINE = "\uF384";
         public const string HANG_UP = "\uE778";
-        public const string INCOMING_CALL = "\uE77E";
-        public const string PAUSE = "\uE769";
-        public const string CALL_FORWARDING = "\uE7F2";
-        public const string CALL_CONTROL = "\uE80B";
-        public const string HISTORY = "\uE81C";
-        public const string PEOPLE = "\uE716";
-        public const string DIALPAD = "\uE75F";
-        public const string CONTACT_INFO = "\uE779";
-        public const string MEMO = "\uE77C";
-        public const string PASTE = "\uE77F";
-        public const string SHIELD = "\uEA18";
-        public const string DATA_SENCE = "\uE791";
-        public const string VOLUME = "\uE767";
-        public const string ACTION_CENTER = "\uE91C";
-        public const string PERSONALIZE = "\uE771";
-        public const string ALL_APPS = "\uE71D";
+        public const string CALL_ENDED = "\uF405";
+
+        public const string CALL_HISTORY_INCOMING = "\uE77E";
+        public const string CALL_HISTORY_OUTGOING = "\uE77D";
+        public const string CALL_HISTORY_BLOCKED = "\uEFFA";
+        public const string CALL_HISTORY_MISSED = "\uEFF8";
+
+        public const string CALL_PAGE_HISTORY = "\uE81C";
+        public const string CALL_PAGE_DIAL = "\uE75F";
+        public const string CALL_PAGE_CONTACTS = "\uE1D4";
+        public const string CALL_PAGE_INCALL = "\uE80B";
+
+        public const string CALL_SETTINGS_APPS = "\uF1A3";
+        public const string CALL_SETTINGS_NOTIFICATIONS = "\uEA8F";
+        public const string CALL_SETTINGS_PERSONALIZATION = "\uE771";
+        public const string CALL_SETTINGS_LINES = "\uEC05";
+        public const string CALL_SETTINGS_SOUND = "\uE940";
+
+        public const string CALL_INCALL_TALKING = "\uE13A";
+        public const string CALL_INCALL_DIALING = "\uE80B";
+        public const string CALL_INCALL_INCOMING = "\uE77E";
+        public const string CALL_INCALL_ONHOLD = "\uEA68";
+        public const string CALL_INCALL_TRANSFERRING = "\uED95";
+        public const string CALL_INCALL_COUNT = "\uE80B";
+        public const string CALL_INCALL_INDETERMINATE = "\uED97";
     }
 }

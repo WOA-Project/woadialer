@@ -18,7 +18,7 @@
             <ColumnDefinition Width="32"/>
             <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
-        <Image Source="{x:Bind Path=PresentedLineIconSource, Mode=OneWay}"/>
+        <Image Source="{x:Bind Path=PresentedLineIconSource, Mode=OneWay}" Height="32"/>
         <TextBlock HorizontalAlignment="Stretch" VerticalAlignment="Center" HorizontalTextAlignment="Left" Text="{x:Bind Path=PresentedLineName, Mode=OneWay}" Grid.Column="1" Margin="8,0,0,0"/>
     </Grid>
 </UserControl>

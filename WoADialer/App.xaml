@@ -11,6 +11,11 @@
                 <flui:FluiFrameworkThemeResources />
                 <XamlControlsResources xmlns="using:Microsoft.UI.Xaml.Controls" />
                 <ResourceDictionary>
+
+                    <Style TargetType="FontIcon">
+                        <Setter Property="FontFamily" Value="ms-appx:///Assets/FullMDL2Assets.ttf#FullMDL2Assets"/>
+                    </Style>
+                    
                     <ControlTemplate x:Key="DigitButtonTemplate" TargetType="Button">
                         <ContentPresenter x:Name="ContentPresenter"
               Background="{TemplateBinding Background}"

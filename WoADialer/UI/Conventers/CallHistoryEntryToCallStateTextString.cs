@@ -2,7 +2,6 @@
 using System;
 using Windows.ApplicationModel.Calls;
 using Windows.UI.Xaml.Data;
-using WoADialer.UI.ViewModel;
 
 namespace WoADialer.UI.Conventers
 {

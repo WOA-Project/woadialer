@@ -15,9 +15,9 @@ namespace WoADialer.UI.Conventers
                     switch (call.State)
                     {
                         case CallState.ActiveTalking:
-                            return Glyphs.VOICE_CALL;
+                            return Glyphs.CALL_INCALL_TALKING;
                         case CallState.Dialing:
-                            return Glyphs.PHONE;
+                            return Glyphs.CALL_INCALL_DIALING;
                         case CallState.Disconnected:
                             switch (call.StateReason)
                             {
@@ -33,6 +33,7 @@ namespace WoADialer.UI.Conventers
                                     return Glyphs.NETWORK_OFFLINE;
                                 case CallStateReason.Other:
                                 case CallStateReason.Ended:
+                                    return Glyphs.CALL_ENDED;
                                 case CallStateReason.Dropped:
                                 case CallStateReason.CallUpgradeInitiated:
                                 case CallStateReason.Busy:
@@ -42,14 +43,15 @@ namespace WoADialer.UI.Conventers
                                     return string.Empty;
                             }
                         case CallState.Incoming:
-                            return Glyphs.INCOMING_CALL;
+                            return Glyphs.CALL_INCALL_INCOMING;
                         case CallState.OnHold:
-                            return Glyphs.PAUSE;
+                            return Glyphs.CALL_INCALL_ONHOLD;
                         case CallState.Transferring:
-                            return Glyphs.CALL_FORWARDING;
+                            return Glyphs.CALL_INCALL_TRANSFERRING;
                         case CallState.Count:
-                            return Glyphs.CALL_CONTROL;
+                            return Glyphs.CALL_INCALL_COUNT;
                         case CallState.Indeterminate:
+                            return Glyphs.CALL_INCALL_INDETERMINATE;
                         default:
                             return string.Empty;
                     }

@@ -4,25 +4,96 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using Windows.ApplicationModel.Calls;
 using Windows.ApplicationModel.Contacts;
 using Windows.ApplicationModel.Core;
-using Windows.Devices.Enumeration;
 using Windows.Devices.Haptics;
-using Windows.UI.Notifications;
-using Windows.UI.Xaml;
-using Windows.UI.Xaml.Controls;
-using WoADialer.UI.Pages;
-using WoADialer.UI.ViewModel;
 
 namespace WoADialer.Systems
 {
+    public class DisplayableLine
+    {
+        public PhoneLine Line { get; }
+        public string DisplayName { get; }
+        public string Glyph { get; }
+
+        public DisplayableLine(PhoneLine line)
+        {
+            Line = line;
+            DisplayName = line == null ? "Unknown" : (string.IsNullOrWhiteSpace(line.DisplayName) ? line.NetworkName : line.DisplayName);
+            
+            if (line != null)
+            {
+                switch (line.NetworkState)
+                {
+                    //
+                    // Summary:
+                    //     The registration status of the phone line is unknown.
+                    case PhoneNetworkState.Unknown:
+                        {
+                            break;
+                        }
+                    //
+                    // Summary:
+                    //     Could not detect a signal on the phone line, or the phone line is limited to
+                    //     emergency calls only.
+                    case PhoneNetworkState.NoSignal:
+                        {
+                            break;
+                        }
+                    //
+                    // Summary:
+                    //     The phone line has been de-registered.
+                    case PhoneNetworkState.Deregistered:
+                        {
+                            break;
+                        }
+                    //
+                    // Summary:
+                    //     Could not register the phone line with any available network.
+                    case PhoneNetworkState.Denied:
+                        {
+                            break;
+                        }
+                    //
+                    // Summary:
+                    //     Searching for a network for the phone line.
+                    case PhoneNetworkState.Searching:
+                        {
+                            break;
+                        }
+                    //
+                    // Summary:
+                    //     The phone line is registered and is on the carrier's home network.
+                    case PhoneNetworkState.Home:
+                        {
+                            break;
+                        }
+                    //
+                    // Summary:
+                    //     The phone line is registered and is roaming internationally on another carrier's
+                    //     network.
+                    case PhoneNetworkState.RoamingInternational:
+                        {
+                            break;
+                        }
+                    //
+                    // Summary:
+                    //     The phone line is registered and is roaming domestically on another carrier's
+                    //     network.
+                    case PhoneNetworkState.RoamingDomestic:
+                        {
+                            break;
+                        }
+                }
+            }
+        }
+    }
+
     public sealed class CallSystem
     {
         private readonly ObservableCollection<PhoneCallHistoryEntry> _CallHistoryEntries = new ObservableCollection<PhoneCallHistoryEntry>();
-        private readonly ObservableCollection<PhoneLine> _Lines = new ObservableCollection<PhoneLine>();
         private PhoneLineWatcher LineWatcher;
         private CoreApplicationView CoreApplicationView;
 
@@ -33,13 +104,11 @@ namespace WoADialer.Systems
         public PhoneLine DefaultLine { get; private set; }
 
         public ReadOnlyObservableCollection<PhoneCallHistoryEntry> CallHistoryEntries { get; }
-        public ReadOnlyObservableCollection<PhoneLine> Lines { get; }
-        public IEnumerable<string> TMPWrapper => Lines.Select(x => string.IsNullOrWhiteSpace(x.DisplayName) ? x.NetworkName : x.DisplayName);
+        public readonly ObservableCollection<PhoneLine> Lines = new ObservableCollection<PhoneLine>();
 
         public CallSystem()
         {
             CallHistoryEntries = new ReadOnlyObservableCollection<PhoneCallHistoryEntry>(_CallHistoryEntries);
-            Lines = new ReadOnlyObservableCollection<PhoneLine>(_Lines);
             CoreApplicationView = CoreApplication.GetCurrentView();
         }
 
@@ -172,13 +241,13 @@ namespace WoADialer.Systems
         private async void LineWatcher_LineUpdated(PhoneLineWatcher sender, PhoneLineWatcherEventArgs args)
         {
             Debug.WriteLine("Updating " + args.LineId);
-            int index = _Lines.IndexOf(_Lines.First(x => x.Id == args.LineId));
+            int index = Lines.IndexOf(Lines.First(x => x.Id == args.LineId));
             if (index != -1)
             {
                 PhoneLine line = await PhoneLine.FromIdAsync(args.LineId);
                 if (line != null)
                 {
-                    _Lines[index] = line;
+                    Lines[index] = line;
                 }
             }
         }
@@ -186,7 +255,7 @@ namespace WoADialer.Systems
         private void LineWatcher_LineRemoved(PhoneLineWatcher sender, PhoneLineWatcherEventArgs args)
         {
             Debug.WriteLine("Removing " + args.LineId);
-            _Lines.Remove(_Lines.First(x => x.Id == args.LineId));
+            Lines.Remove(Lines.First(x => x.Id == args.LineId));
         }
 
         private async void LineWatcher_LineAdded(PhoneLineWatcher sender, PhoneLineWatcherEventArgs args)
@@ -195,7 +264,7 @@ namespace WoADialer.Systems
             PhoneLine line = await PhoneLine.FromIdAsync(args.LineId);
             if (line != null)
             {
-                _Lines.Add(line);
+                Lines.Add(line);
             }
         }
     }

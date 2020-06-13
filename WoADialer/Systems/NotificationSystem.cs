@@ -5,13 +5,11 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 using Windows.Foundation;
 using Windows.UI.Notifications;
 using Windows.UI.Notifications.Management;
 using WoADialer.Helpers;
 using WoADialer.UI.Conventers;
-using WoADialer.UI.ViewModel;
 
 namespace WoADialer.Systems
 {
@@ -34,6 +32,7 @@ namespace WoADialer.Systems
             { PRIVATE, 3 },
             { IGNORE, 4 }
         };
+        private ToastNotificationHistory ToastNotificationHistory = ToastNotificationManager.History;
 
         public const string ACTION = "Action";
         public const string USED_CALLS = "UsedCalls";
@@ -215,34 +214,41 @@ namespace WoADialer.Systems
             }
         }
 
-        public void Initializate()
+        public async void Initializate()
         {
             NotificationListener = UserNotificationListener.Current;
+            if (await NotificationListener.RequestAccessAsync() == UserNotificationListenerAccessStatus.Allowed)
+            {
+                try
+                {
+                    // Crashes windows notification platform
+                    //NotificationListener.NotificationChanged += NotificationListener_NotificationChanged;
+                }
+                catch (Exception) { Debug.WriteLine("NotificationListener.NotificationChanged.EventAdd failed.\nWarning: Windows Notification Platform might be unavailable, have you crashed something?"); }
+            }
+
             try
             {
                 TileUpdater = TileUpdateManager.CreateTileUpdaterForApplication();
             }
-            catch (Exception) { Debug.WriteLine("Warning: Windows Notification Platform might be unavailable, have you crashed something?"); }
+            catch (Exception) { Debug.WriteLine("TileUpdateManager.CreateTileUpdaterForApplication failed.\nWarning: Windows Notification Platform might be unavailable, have you crashed something?"); }
+
             try
             {
                 ToastNotificationManagerForUser = ToastNotificationManager.GetDefault();
+                try
+                {
+                    ToastCollectionManager = ToastNotificationManagerForUser.GetToastCollectionManager();
+                }
+                catch (Exception) { Debug.WriteLine("ToastNotificationManagerForUser.GetToastCollectionManager failed.\nWarning: Windows Notification Platform might be unavailable, have you crashed something?"); }
             }
-            catch (Exception) { Debug.WriteLine("Warning: Windows Notification Platform might be unavailable, have you crashed something?"); }
+            catch (Exception) { Debug.WriteLine("ToastNotificationManager.GetDefault failed.\nWarning: Windows Notification Platform might be unavailable, have you crashed something?"); }
+
             try
             {
                 ToastNotifier = ToastNotificationManager.CreateToastNotifier();
             }
-            catch (Exception) { Debug.WriteLine("Warning: Windows Notification Platform might be unavailable, have you crashed something?"); }
-            try
-            {
-                ToastCollectionManager = ToastNotificationManagerForUser.GetToastCollectionManager();
-            }
-            catch (Exception) { Debug.WriteLine("Warning: Windows Notification Platform might be unavailable, have you crashed something?"); }
-            try
-            {
-                NotificationListener.NotificationChanged += NotificationListener_NotificationChanged;
-            }
-            catch (Exception) { Debug.WriteLine("Warning: Windows Notification Platform might be unavailable, have you crashed something?"); }
+            catch (Exception) { Debug.WriteLine("ToastNotificationManager.CreateToastNotifier failed.\nWarning: Windows Notification Platform might be unavailable, have you crashed something?"); }
         }
 
         private void RemoveCallToastNotifications(IEnumerable<ToastNotification> notifications)
@@ -382,41 +388,37 @@ namespace WoADialer.Systems
         {
             try
             {
-                RemoveCallToastNotifications(ToastNotificationManager.History.GetHistory());
+                RemoveCallToastNotifications(ToastNotificationHistory.GetHistory());
             }
-            catch (Exception) { Debug.WriteLine("Warning: Windows Notification Platform might be unavailable, have you crashed something?"); }
+            catch (Exception) { Debug.WriteLine("RemoveCallToastNotifications failed.\nWarning: Windows Notification Platform might be unavailable, have you crashed something?"); }
         }
 
         public void RefreshCallNotification(IEnumerable<Call> currentCalls)
         {
-            try
+            IReadOnlyList<ToastNotification> notifications = ToastNotificationHistory.GetHistory();
+            bool badState = notifications.Count == 0 || notifications.Any(x =>
             {
-                IReadOnlyList<ToastNotification> notifications = ToastNotificationManager.History.GetHistory();
-                bool badState = notifications.Count == 0 || notifications.Any(x =>
+                if (x.Data != null)
                 {
-                    if (x.Data != null)
-                    {
-                        List<uint> ids = x.Data.Values[USED_CALLS].Split(';').Where(y => !string.IsNullOrEmpty(y)).Select(y => uint.Parse(y)).ToList();
-                        List<CallState> states = x.Data.Values[USED_CALLS_STATES].Split(';').Where(y => !string.IsNullOrEmpty(y)).Select(y => (CallState)Enum.Parse(typeof(CallState), y)).ToList();
-                        List<Tuple<uint, CallState>> prev = ids.Join(states, y => ids.IndexOf(y), y => states.IndexOf(y), (x, y) => new Tuple<uint, CallState>(x, y)).ToList();
-                        return !prev.All(y => currentCalls.Any(z => z.ID == y.Item1 && z.State == y.Item2));
-                    }
-                    else
-                    {
-                        return false;
-                    }
-                });
-                if (badState)
+                    List<uint> ids = x.Data.Values[USED_CALLS].Split(';').Where(y => !string.IsNullOrEmpty(y)).Select(y => uint.Parse(y)).ToList();
+                    List<CallState> states = x.Data.Values[USED_CALLS_STATES].Split(';').Where(y => !string.IsNullOrEmpty(y)).Select(y => (CallState)Enum.Parse(typeof(CallState), y)).ToList();
+                    List<Tuple<uint, CallState>> prev = ids.Join(states, y => ids.IndexOf(y), y => states.IndexOf(y), (x, y) => new Tuple<uint, CallState>(x, y)).ToList();
+                    return !prev.All(y => currentCalls.Any(z => z.ID == y.Item1 && z.State == y.Item2));
+                }
+                else
                 {
-                    RemoveCallToastNotifications(notifications);
-                    ToastNotification notification = CreateCallNotification(currentCalls);
-                    if (notification != null)
-                    {
-                        ToastNotifier.Show(notification);
-                    }
+                    return false;
+                }
+            });
+            if (badState)
+            {
+                RemoveCallToastNotifications(notifications);
+                ToastNotification notification = CreateCallNotification(currentCalls);
+                if (notification != null)
+                {
+                    ToastNotifier.Show(notification);
                 }
             }
-            catch (Exception) { Debug.WriteLine("Warning: Windows Notification Platform might be unavailable, have you crashed something?"); }
         }
     }
 }

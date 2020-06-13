@@ -1,12 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Windows.ApplicationModel;
 using Windows.ApplicationModel.Calls;
 using Windows.ApplicationModel.Core;
-using Windows.Devices.Enumeration;
 using Windows.Foundation;
 using Windows.Storage.Streams;
 using Windows.System;

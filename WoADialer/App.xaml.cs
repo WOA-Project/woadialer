@@ -20,6 +20,7 @@ using System.Text;
 using WoADialer.UI;
 using WoADialer.Systems;
 using Windows.Storage;
+using Windows.UI.Notifications.Management;
 
 namespace WoADialer
 {
@@ -39,7 +40,6 @@ namespace WoADialer
         public ResourceLoader ResourceLoader { get; private set; }
         public int CompactOverlayId { get; set; }
         #endregion
-
 
         public bool IsForeground { get; private set; }
         public BackgroundSystem BackgroundSystem { get; } = new BackgroundSystem();

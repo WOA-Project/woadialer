@@ -6,8 +6,6 @@ using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Media;
 using WoADialer.UI.ViewModel;
 
-// Документацию по шаблону элемента "Пользовательский элемент управления" см. по адресу https://go.microsoft.com/fwlink/?LinkId=234236
-
 namespace WoADialer.UI.Controls
 {
     public sealed partial class LinePresenter : UserControl
