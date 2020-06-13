@@ -14,13 +14,13 @@
 
   <Identity
     Name="LumiaWOA.Dialer"
-    Publisher="CN=Gus"
-    Version="0.1.204.0" />
+    Publisher="CN=Windows On Lumia Development Second Party Dialer Software 2020"
+    Version="0.1.205.0" />
 
   <mp:PhoneIdentity PhoneProductId="1e17ea40-87af-45e2-865a-c2bd98036a67" PhonePublisherId="00000000-0000-0000-0000-000000000000"/>
 
   <Properties>
-    <DisplayName>WoADialer</DisplayName>
+    <DisplayName>Dialer</DisplayName>
     <PublisherDisplayName>LumiaWOA</PublisherDisplayName>
     <Logo>Assets\StoreLogo.png</Logo>
   </Properties>
@@ -38,10 +38,10 @@
       Executable="$targetnametoken$.exe"
       EntryPoint="WoADialer.App" xmlns:a="http://schemas.microsoft.com/appx/manifest/desktop/windows10/4">
       <uap:VisualElements
-        DisplayName="WoA Dialer"
+        DisplayName="Dialer"
         Square150x150Logo="Assets\Square150x150Logo.png"
         Square44x44Logo="Assets\Square44x44Logo.png"
-        Description="WoA Dialer is app that help you with cellular phone calls on your devices."
+        Description="Dialer is an app that help you with cellular phone calls on your devices."
         BackgroundColor="transparent">
         <uap:DefaultTile Wide310x150Logo="Assets\Wide310x150Logo.png" ShortName="Dialer" Square71x71Logo="Assets\SmallTile.png" Square310x310Logo="Assets\LargeTile.png">
           <uap:ShowNameOnTiles>
