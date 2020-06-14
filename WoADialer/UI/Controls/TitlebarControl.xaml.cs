@@ -1,4 +1,5 @@
-﻿using Windows.ApplicationModel;
+﻿using System;
+using Windows.ApplicationModel;
 using Windows.ApplicationModel.Core;
 using Windows.UI.Core;
 using Windows.UI.ViewManagement;
@@ -10,50 +11,89 @@ namespace WoADialer.UI.Controls
 {
     public sealed partial class TitlebarControl : UserControl
     {
-        private string AppTitle = (!string.IsNullOrEmpty(ApplicationView.GetForCurrentView().Title) ? ApplicationView.GetForCurrentView().Title + " - " : "") + Package.Current.DisplayName;
+        private static string AppName = Package.Current.DisplayName;
+
+        private string AppTitle = (!string.IsNullOrEmpty(ApplicationView.GetForCurrentView().Title) ?
+            ApplicationView.GetForCurrentView().Title + " - " : "") +
+            AppName;
+
+        private CoreApplicationView coreApplicationView;
 
         public TitlebarControl()
         {
             this.InitializeComponent();
-            WindowTitle.Text = AppTitle;
+            Loaded += TitleBarControl_Loaded;
+
             Window.Current.SetTitleBar(this);
-            CoreApplication.GetCurrentView().TitleBar.ExtendViewIntoTitleBar = true;
-            Height = CoreApplication.GetCurrentView().TitleBar.Height;
+            coreApplicationView = CoreApplication.GetCurrentView();
+            coreApplicationView.TitleBar.ExtendViewIntoTitleBar = true;
+            Height = coreApplicationView.TitleBar.Height;
+
             var margin = CustomTitleBar.Margin;
-            margin.Right = CoreApplication.GetCurrentView().TitleBar.SystemOverlayRightInset;
+            margin.Right = coreApplicationView.TitleBar.SystemOverlayRightInset;
             CustomTitleBar.Margin = margin;
-            CoreApplication.GetCurrentView().TitleBar.IsVisibleChanged += TitleBar_IsVisibleChanged;
-            CoreApplication.GetCurrentView().TitleBar.LayoutMetricsChanged += TitleBar_LayoutMetricsChanged;
 
+            coreApplicationView.TitleBar.IsVisibleChanged += TitleBar_IsVisibleChanged;
+            coreApplicationView.TitleBar.LayoutMetricsChanged += TitleBar_LayoutMetricsChanged;
 
+            /*if (App.appearanceManager != null)
+                App.appearanceManager.ThemeChanged += AppearanceManager_ThemeChanged;*/
+
+            RefreshColor();
+        }
+
+        private async void AppearanceManager_ThemeChanged(object sender, EventArgs e)
+        {
+            await coreApplicationView.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
+            {
+                RefreshColor();
+            });
+        }
+
+        private void RefreshColor()
+        {
             var titlebar = ApplicationView.GetForCurrentView().TitleBar;
             var transparentColorBrush = new SolidColorBrush { Opacity = 0 };
             var transparentColor = transparentColorBrush.Color;
             titlebar.BackgroundColor = transparentColor;
             titlebar.ButtonBackgroundColor = transparentColor;
             titlebar.ButtonInactiveBackgroundColor = transparentColor;
-            var solidColorBrush = Application.Current.Resources["ApplicationForegroundThemeBrush"] as SolidColorBrush;
 
-            if (solidColorBrush != null)
+            if (this.Resources["ApplicationForegroundThemeBrush"] is SolidColorBrush solidColorBrush)
             {
                 titlebar.ButtonForegroundColor = solidColorBrush.Color;
                 titlebar.ButtonInactiveForegroundColor = solidColorBrush.Color;
             }
 
-            var colorBrush = Application.Current.Resources["ApplicationForegroundThemeBrush"] as SolidColorBrush;
-
-            if (colorBrush != null)
+            if (this.Resources["ApplicationForegroundThemeBrush"] is SolidColorBrush colorBrush)
             {
                 titlebar.ForegroundColor = colorBrush.Color;
             }
 
-            var hovercolor = (Application.Current.Resources["ApplicationForegroundThemeBrush"] as SolidColorBrush).Color;
+            var hovercolor = (this.Resources["ApplicationForegroundThemeBrush"] as SolidColorBrush).Color;
             hovercolor.A = 32;
             titlebar.ButtonHoverBackgroundColor = hovercolor;
-            titlebar.ButtonHoverForegroundColor = (Application.Current.Resources["ApplicationForegroundThemeBrush"] as SolidColorBrush).Color;
+            titlebar.ButtonHoverForegroundColor = (this.Resources["ApplicationForegroundThemeBrush"] as SolidColorBrush).Color;
             hovercolor.A = 64;
             titlebar.ButtonPressedBackgroundColor = hovercolor;
-            titlebar.ButtonPressedForegroundColor = (Application.Current.Resources["ApplicationForegroundThemeBrush"] as SolidColorBrush).Color;
+            titlebar.ButtonPressedForegroundColor = (this.Resources["ApplicationForegroundThemeBrush"] as SolidColorBrush).Color;
+        }
+
+        private async void TitleBarControl_Loaded(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                AppName = (await Package.Current.GetAppListEntriesAsync())[0].DisplayInfo.DisplayName;
+            }
+            catch { }
+
+            AppTitle = (!string.IsNullOrEmpty(ApplicationView.GetForCurrentView().Title) ?
+                ApplicationView.GetForCurrentView().Title + " - " : "") +
+                AppName;
+            WindowTitle.Text = AppTitle;
+
+            /*if (App.appearanceManager != null)
+                App.appearanceManager.ThemeChanged += AppearanceManager_ThemeChanged;*/
         }
 
         private void TitleBar_LayoutMetricsChanged(CoreApplicationViewTitleBar sender, object args)
@@ -98,7 +138,9 @@ namespace WoADialer.UI.Controls
 
         public void UpdateTitle()
         {
-            AppTitle = (!string.IsNullOrEmpty(ApplicationView.GetForCurrentView().Title) ? ApplicationView.GetForCurrentView().Title + " - " : "") + Package.Current.DisplayName;
+            AppTitle = (!string.IsNullOrEmpty(ApplicationView.GetForCurrentView().Title) ?
+                ApplicationView.GetForCurrentView().Title + " - " : "") +
+                AppName;
             WindowTitle.Text = AppTitle;
         }
 
@@ -108,7 +150,9 @@ namespace WoADialer.UI.Controls
             set
             {
                 ApplicationView.GetForCurrentView().Title = value;
-                AppTitle = (!string.IsNullOrEmpty(ApplicationView.GetForCurrentView().Title) ? ApplicationView.GetForCurrentView().Title + " - " : "") + Package.Current.DisplayName;
+                AppTitle = (!string.IsNullOrEmpty(ApplicationView.GetForCurrentView().Title) ?
+                    ApplicationView.GetForCurrentView().Title + " - " : "") +
+                    AppName;
                 WindowTitle.Text = AppTitle;
             }
         }

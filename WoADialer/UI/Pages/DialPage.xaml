@@ -44,7 +44,7 @@
                           Width="202"
                           Height="44"
                           ItemsSource="{x:Bind DisplayableLines, Mode=OneWay}"
-                          SelectedItem="{x:Bind CurrentPhoneLine, Mode=OneWay}"
+                          SelectedItem="{x:Bind CurrentPhoneLine}"
                           PlaceholderText="No lines detected"
                           SelectionChanged="PhoneLineSelector_SelectionChanged">
                     <ComboBox.ItemTemplate>

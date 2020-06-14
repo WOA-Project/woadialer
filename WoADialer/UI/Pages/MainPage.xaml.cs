@@ -38,7 +38,7 @@ namespace WoADialer.UI.Pages
             }
         }
 
-        private async void NavView_ItemInvoked(MUXC.NavigationView sender, MUXC.NavigationViewItemInvokedEventArgs args)
+        private void NavView_ItemInvoked(MUXC.NavigationView sender, MUXC.NavigationViewItemInvokedEventArgs args)
         {
             //if (args.IsSettingsInvoked == true)
             //{
@@ -72,7 +72,7 @@ namespace WoADialer.UI.Pages
             this.KeyboardAccelerators.Add(altLeft);
         }
 
-        private async void NavView_SelectionChanged(MUXC.NavigationView sender, MUXC.NavigationViewSelectionChangedEventArgs args)
+        private void NavView_SelectionChanged(MUXC.NavigationView sender, MUXC.NavigationViewSelectionChangedEventArgs args)
         {
             if (args.IsSettingsSelected == true)
             {

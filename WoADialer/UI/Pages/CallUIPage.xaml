@@ -33,12 +33,12 @@
             <StackPanel Grid.Column="1" Margin="16,0" VerticalAlignment="Center">
 
                 <TextBlock x:Name="callerNameTextTiny" 
-                       Text="{x:Bind Path=CallManager.ActiveCall.Contact.DisplayName, Mode=OneWay}"
+                       Text="{x:Bind Path=CallManager.ActiveCall.Contact.DisplayName}"
                        FontWeight="SemiBold"
                        HorizontalAlignment="Left"/>
 
                 <TextBlock x:Name="callTimerTextTiny" 
-                       Text="{x:Bind Path=CallManager.ActiveCall, Mode=OneWay, Converter={StaticResource CallToCallLengthTextString}}"
+                       Text="{x:Bind Path=CallManager.ActiveCall, Converter={StaticResource CallToCallLengthTextString}}"
                        FontSize="10"
                        HorizontalAlignment="Left"/>
 
@@ -86,24 +86,24 @@
                            Contact="{x:Bind Path=CallManager.ActiveCall.Contact}"/>
 
                 <TextBlock x:Name="callerNameText" 
-                       Text="{x:Bind Path=CallManager.ActiveCall.Contact.DisplayName, Mode=OneWay}"
+                       Text="{x:Bind Path=CallManager.ActiveCall.Contact.DisplayName}"
                        FontSize="24"
                        FontWeight="SemiBold"
                        Margin="0,8,0,8"
                        HorizontalAlignment="Center"/>
 
                 <TextBlock x:Name="callerNumberText" 
-                       Text="{x:Bind Path=CallManager.ActiveCall.Phone.Number, Mode=OneWay}"
+                       Text="{x:Bind Path=CallManager.ActiveCall.Phone.Number}"
                        Margin="0,0,0,8"
                        HorizontalAlignment="Center"/>
 
                 <TextBlock x:Name="callTimerText" 
-                       Text="{x:Bind Path=CallManager.ActiveCall, Mode=OneWay, Converter={StaticResource CallToCallLengthTextString}}"
+                       Text="{x:Bind Path=CallManager.ActiveCall, Converter={StaticResource CallToCallLengthTextString}}"
                        Margin="0,0,0,8"
                        HorizontalAlignment="Center"/>
 
-                <Custom:CallStatePresenter Name="csp_CallState" PresentedCall="{x:Bind Path=CallManager.ActiveCall, Mode=OneWay}" HorizontalAlignment="Center"/>
-                <Custom:SmallCallPresenter x:Name="scp_Test" PresentedCall="{x:Bind Path=CallManager.ActiveCall, Mode=OneWay}" Height="64" VerticalAlignment="Top" Visibility="Collapsed"/>
+                <Custom:CallStatePresenter Name="csp_CallState" PresentedCall="{x:Bind Path=CallManager.ActiveCall}" HorizontalAlignment="Center"/>
+                <Custom:SmallCallPresenter x:Name="scp_Test" PresentedCall="{x:Bind Path=CallManager.ActiveCall}" Height="64" VerticalAlignment="Top" Visibility="Collapsed"/>
 
             </StackPanel>
 
@@ -178,10 +178,6 @@
             </Grid>
 
             <!-- Space for a Commandbar for options n stuff -->
-        </Grid>
-
-        <Grid VerticalAlignment="Top" Height="30" Background="{ThemeResource SystemControlChromeMediumLowAcrylicElementMediumBrush}" x:Name="TitleBarGrid">
-            <Custom:TitlebarControl x:Name="Titlebar"/>
         </Grid>
     </Grid>
 </Page>

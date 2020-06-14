@@ -155,7 +155,7 @@ namespace WoADialer
             deferral.Complete();
         }
 
-        public async void OnToastNotificationActivated(ToastActivationType activationType, string args)
+        public void OnToastNotificationActivated(ToastActivationType activationType, string args)
         {
             WwwFormUrlDecoder decoder = new WwwFormUrlDecoder(args);
             uint activeCallID = 0;

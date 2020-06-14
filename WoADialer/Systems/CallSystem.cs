@@ -181,10 +181,6 @@ namespace WoADialer.Systems
 
         private async void Call_StateChanged(Call sender, CallStateChangedEventArgs args)
         {
-            if (!App.Current.IsForeground)
-            {
-                App.Current.NotificationSystem.RefreshCallNotification(CallManager.CurrentCalls);
-            }
             switch (args.NewState)
             {
                 case CallState.Disconnected:
@@ -206,8 +202,10 @@ namespace WoADialer.Systems
                     }
                     break;
                 case CallState.Dialing:
-                case CallState.Incoming:
 
+                    break;
+                case CallState.Incoming:
+                    App.Current.NotificationSystem.RefreshCallNotification(CallManager.CurrentCalls);
                     break;
                 case CallState.Transferring:
                     
@@ -247,7 +245,10 @@ namespace WoADialer.Systems
                 PhoneLine line = await PhoneLine.FromIdAsync(args.LineId);
                 if (line != null)
                 {
-                    Lines[index] = line;
+                    try
+                    {
+                        Lines[index] = line;
+                    } catch (InvalidOperationException) { }
                 }
             }
         }

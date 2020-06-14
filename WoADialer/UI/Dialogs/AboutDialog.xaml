@@ -26,7 +26,7 @@
 
     <Grid>
         <Windows10version1809:Grid.BackgroundTransition>
-            <BrushTransition />
+            <Windows10version1809:BrushTransition />
         </Windows10version1809:Grid.BackgroundTransition>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>

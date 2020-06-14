@@ -33,7 +33,8 @@ namespace WoADialer.UI.Pages
             this.InitializeComponent();
             CallSystem.Lines.CollectionChanged += Lines_CollectionChanged;
 
-            CurrentPhoneLine = DisplayableLines.First(x => x.Line.Id == CallSystem.DefaultLine.Id);
+            if (CallSystem.DefaultLine != null && DisplayableLines.Any(x => x.Line.Id == CallSystem.DefaultLine.Id))
+                CurrentPhoneLine = DisplayableLines.First(x => x.Line.Id == CallSystem.DefaultLine.Id);
             PhoneLineSelector.SelectedItem = CurrentPhoneLine;
         }
 

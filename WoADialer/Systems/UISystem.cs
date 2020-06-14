@@ -162,7 +162,7 @@ namespace WoADialer.Systems
             }
         }
 
-        public async void OnLaunchedOrActivated(IActivatedEventArgs args)
+        public void OnLaunchedOrActivated(IActivatedEventArgs args)
         {
             Frame frame = ConstructUI();
             App.Current.CallSystem.CallManager.ActiveCallChanged += CallManager_ActiveCallChanged;
