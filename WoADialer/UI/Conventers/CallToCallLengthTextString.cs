@@ -12,9 +12,9 @@ namespace WoADialer.UI.Conventers
             {
                 case Call call:
                     string length = "";
-                    if ((DateTimeOffset.Now - call.Field_BB4)?.TotalSeconds >= 1)
+                    if ((DateTimeOffset.Now - call.CallArrivalTime)?.TotalSeconds >= 1)
                     {
-                        length = (DateTimeOffset.Now - call.Field_BB4)?.ToString("mm\\:ss") ?? string.Empty;
+                        length = (DateTimeOffset.Now - call.CallArrivalTime)?.ToString("mm\\:ss") ?? string.Empty;
                     }
                     else
                     {

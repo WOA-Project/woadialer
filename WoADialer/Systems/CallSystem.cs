@@ -114,7 +114,7 @@ namespace WoADialer.Systems
 
         private async Task SaveCallIntoHistory(Call call, CallStateChangedEventArgs args)
         {
-            bool UseAlternativeField = (DateTimeOffset.Now - call.Field_BB4)?.TotalSeconds >= 1;
+            bool UseAlternativeField = (DateTimeOffset.Now - call.CallArrivalTime)?.TotalSeconds >= 1;
 
             PhoneCallHistoryEntry historyEntry = new PhoneCallHistoryEntry()
             {
@@ -122,14 +122,14 @@ namespace WoADialer.Systems
                 IsMissed = args.OldState == CallState.Incoming,
                 IsSeen = args.OldState != CallState.Incoming,
                 OtherAppReadAccess = PhoneCallHistoryEntryOtherAppReadAccess.SystemOnly,
-                StartTime = (UseAlternativeField ? call.Field_BB4 : call.StartTime) ?? DateTimeOffset.Now,
-                Duration = UseAlternativeField ? call.EndTime - call.Field_BB4 : call.EndTime - call.StartTime,
+                StartTime = (UseAlternativeField ? call.CallArrivalTime : call.StartTime) ?? DateTimeOffset.Now,
+                Duration = UseAlternativeField ? call.EndTime - call.CallArrivalTime : call.EndTime - call.StartTime,
                 Media = PhoneCallHistoryEntryMedia.Audio,
                 IsCallerIdBlocked = false,
                 IsEmergency = false,
                 IsRinging = false,
                 IsSuppressed = false,
-                IsVoicemail = call.field_BF0.HasFlag(PH_CALL_INFO_field_BF0.VoicemailCall),
+                IsVoicemail = call.field_BF0.HasFlag(CallFlags.VoicemailCall),
                 RemoteId = call.Line?.Transport + "|" + call.Line?.Transport switch
                 {
                     PhoneLineTransport.Cellular => call.Line.Id.ToString(),
