@@ -11,7 +11,7 @@
     x:Class="WoADialer.UI.Pages.DialPage"
     mc:Ignorable="d"
     NavigationCacheMode="Required"
-    Background="{ThemeResource SystemControlAcrylicWindowBrush}" KeyUp="Page_KeyUp">
+    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}" KeyUp="Page_KeyUp">
 
     <UserControl.Resources>
         <ResourceDictionary Source="..\Conventers\Conventers.xaml"/>
@@ -66,7 +66,7 @@
                 
                 <TextBox x:Name="numberToDialBox"
                      BorderThickness="0"
-                     Background="{ThemeResource SystemControlAcrylicWindowBrush}"
+                     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
                      TextAlignment="Center"
                      HorizontalTextAlignment="Center"
                      Grid.Column="2" 

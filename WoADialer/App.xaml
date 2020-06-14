@@ -4,6 +4,7 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:flui="using:FluiFramework.UWP.Core"
     xmlns:local="using:WoADialer"
+    xmlns:media="using:Microsoft.UI.Xaml.Media"
     xmlns:Windows10version1809="http://schemas.microsoft.com/winfx/2006/xaml/presentation?IsApiContractPresent(Windows.Foundation.UniversalApiContract, 7)">
 
     <Application.Resources>
@@ -11,6 +12,32 @@
             <ResourceDictionary.MergedDictionaries>
                 <flui:FluiFrameworkThemeResources />
                 <XamlControlsResources xmlns="using:Microsoft.UI.Xaml.Controls" />
+                <ResourceDictionary>
+                    <ResourceDictionary.ThemeDictionaries>
+                        <ResourceDictionary x:Key="Default">
+                        </ResourceDictionary>
+                        <ResourceDictionary x:Key="Dark">
+                            <SolidColorBrush x:Key="ApplicationPageBackgroundThemeBrush" Color="#1b1a19"/>
+                            <media:AcrylicBrush x:Key="AcrylicHostLow" BackgroundSource="HostBackdrop" TintColor="{StaticResource SystemColorBackgroundColor}" TintOpacity="0.8999" FallbackColor="{StaticResource SystemColorBackgroundColor}"/>
+                            <media:AcrylicBrush x:Key="AcrylicHostMedium" BackgroundSource="HostBackdrop" TintColor="{StaticResource SystemChromeLowColor}" TintOpacity="0.8" FallbackColor="{StaticResource SystemChromeLowColor}"/>
+                            <media:AcrylicBrush x:Key="AcrylicHostHigh" BackgroundSource="HostBackdrop" TintColor="{StaticResource SystemChromeMediumColor}" TintOpacity="0.6" FallbackColor="{StaticResource SystemChromeMediumColor}"/>
+
+                            <media:AcrylicBrush x:Key="AcrylicElementMedium" BackgroundSource="Backdrop" TintColor="{StaticResource SystemChromeLowColor}" TintOpacity="0.5" FallbackColor="{StaticResource SystemChromeLowColor}"/>
+                            <media:AcrylicBrush x:Key="AcrylicElementHigh" BackgroundSource="Backdrop" TintColor="{StaticResource SystemChromeMediumColor}" TintOpacity="0.7" FallbackColor="{StaticResource SystemChromeMediumColor}"/>
+                        </ResourceDictionary>
+                        <ResourceDictionary x:Key="Light">
+                            <SolidColorBrush x:Key="ApplicationPageBackgroundThemeBrush" Color="#faf9f8"/>
+                            <media:AcrylicBrush x:Key="AcrylicHostLow" BackgroundSource="HostBackdrop" TintColor="{StaticResource SystemColorBackgroundColor}" TintOpacity="0.9999" FallbackColor="{StaticResource SystemColorBackgroundColor}"/>
+                            <media:AcrylicBrush x:Key="AcrylicHostMedium" BackgroundSource="HostBackdrop" TintColor="{StaticResource SystemChromeLowColor}" TintOpacity="0.9" FallbackColor="{StaticResource SystemChromeLowColor}"/>
+                            <media:AcrylicBrush x:Key="AcrylicHostHigh" BackgroundSource="HostBackdrop" TintColor="{StaticResource SystemChromeMediumColor}" TintOpacity="0.7" FallbackColor="{StaticResource SystemChromeMediumColor}"/>
+
+                            <media:AcrylicBrush x:Key="AcrylicElementMedium" BackgroundSource="Backdrop" TintColor="{StaticResource SystemChromeLowColor}" TintOpacity="0.6" FallbackColor="{StaticResource SystemChromeLowColor}"/>
+                            <media:AcrylicBrush x:Key="AcrylicElementHigh" BackgroundSource="Backdrop" TintColor="{StaticResource SystemChromeMediumColor}" TintOpacity="0.8" FallbackColor="{StaticResource SystemChromeMediumColor}"/>
+                        </ResourceDictionary>
+                        <ResourceDictionary x:Key="HighContrast">
+                        </ResourceDictionary>
+                    </ResourceDictionary.ThemeDictionaries>
+                </ResourceDictionary>
                 <ResourceDictionary>
 
                     <Style TargetType="FontIcon">

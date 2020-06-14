@@ -9,7 +9,7 @@
     xmlns:calls="using:Windows.ApplicationModel.Calls"
     mc:Ignorable="d"
     NavigationCacheMode="Required"
-    Background="{ThemeResource SystemControlAcrylicWindowBrush}">
+    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
 
     <ListView Padding="0,10" ItemsSource="{x:Bind CallSystem.CallHistoryEntries}" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Center" IsItemClickEnabled="True" ItemClick="ListView_ItemClick" IsMultiSelectCheckBoxEnabled="False" SelectionMode="None">
         <ListView.ItemTemplate>
