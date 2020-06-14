@@ -114,13 +114,17 @@ namespace WoADialer.Systems
 
         private async Task SaveCallIntoHistory(Call call, CallStateChangedEventArgs args)
         {
+            //bool UseAlternativeField = (DateTimeOffset.Now - call.Field_BB4)?.TotalSeconds >= 1;
+
             PhoneCallHistoryEntry historyEntry = new PhoneCallHistoryEntry()
             {
                 IsIncoming = call.Direction == CallDirection.Incoming,
                 IsMissed = args.OldState == CallState.Incoming,
                 IsSeen = args.OldState != CallState.Incoming,
                 OtherAppReadAccess = PhoneCallHistoryEntryOtherAppReadAccess.SystemOnly,
+                //StartTime = (UseAlternativeField ? call.Field_BB4 : call.StartTime) ?? DateTimeOffset.Now,
                 StartTime = call.StartTime ?? DateTimeOffset.Now,
+                //Duration = UseAlternativeField ? call.EndTime - call.Field_BB4 : call.EndTime - call.StartTime,
                 Duration = call.EndTime - call.StartTime,
                 Media = PhoneCallHistoryEntryMedia.Audio,
                 IsCallerIdBlocked = false,
@@ -218,7 +222,11 @@ namespace WoADialer.Systems
             CallStore = await PhoneCallManager.RequestStoreAsync();
             try
             {
-                DefaultLine = await PhoneLine.FromIdAsync(await CallStore.GetDefaultLineAsync());
+                Guid phoneLine = await CallStore.GetDefaultLineAsync();
+                if (phoneLine != null)
+                {
+                    DefaultLine = await PhoneLine.FromIdAsync(phoneLine);
+                }
             }
             catch
             {

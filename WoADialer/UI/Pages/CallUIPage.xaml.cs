@@ -1,6 +1,7 @@
 ﻿using Internal.Windows.Calls;
 using System;
 using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 using Windows.ApplicationModel.Calls;
 using Windows.ApplicationModel.Core;
@@ -21,6 +22,9 @@ namespace WoADialer.UI.Pages
     {
         public CallManager CallManager => App.Current.CallSystem.CallManager;
 
+        private Timer Timer;
+        private Call PresentedCall;
+
         public CallUIPage()
         {
             this.InitializeComponent();
@@ -28,6 +32,49 @@ namespace WoADialer.UI.Pages
 
             //view.SetPreferredMinSize(new Size { Width = 400, Height = 100 });
             //view.TryResizeView(new Size { Width = 400, Height = 100 });
+
+            if (CallManager.ActiveCall != null)
+            {
+                PresentedCall = CallManager.ActiveCall;
+                PresentedCall.StateChanged += PresentedCall_StateChanged;
+                PresentedCall_StateChanged(PresentedCall, new CallStateChangedEventArgs(PresentedCall.State, PresentedCall.State, PresentedCall.StateReason));
+            }
+
+            CallManager.ActiveCallChanged += CallManager_ActiveCallChanged;
+        }
+
+        private void CallManager_ActiveCallChanged(CallManager sender, Call args)
+        {
+            if (PresentedCall != null)
+            {
+                PresentedCall.StateChanged -= PresentedCall_StateChanged;
+            }
+            if (CallManager.ActiveCall != null)
+            {
+                PresentedCall = CallManager.ActiveCall;
+                PresentedCall.StateChanged += PresentedCall_StateChanged;
+                PresentedCall_StateChanged(PresentedCall, new CallStateChangedEventArgs(PresentedCall.State, PresentedCall.State, PresentedCall.StateReason));
+            }
+        }
+
+        private void PresentedCall_StateChanged(Call sender, CallStateChangedEventArgs args)
+        {
+            switch (args.NewState)
+            {
+                case CallState.Disconnected:
+                case CallState.Count:
+                case CallState.Indeterminate:
+                    Timer?.Dispose();
+                    break;
+                case CallState.ActiveTalking:
+                    Timer = new Timer(TimerCallback, null, TimeSpan.Zero, new TimeSpan(0, 0, 1));
+                    break;
+            }
+        }
+
+        private async void TimerCallback(object state)
+        {
+            await Dispatcher.TryRunAsync(CoreDispatcherPriority.Normal, () => Bindings.Update());
         }
 
         private void ResizeView(Size size)

@@ -11,7 +11,16 @@ namespace WoADialer.UI.Conventers
             switch (value)
             {
                 case Call call:
-                    return (DateTimeOffset.Now - call.StartTime)?.ToString("mm\\:ss") ?? string.Empty;
+                    string length = "";
+                    /*if ((DateTimeOffset.Now - call.Field_BB4)?.TotalSeconds >= 1)
+                    {
+                        length = (DateTimeOffset.Now - call.Field_BB4)?.ToString("mm\\:ss") ?? string.Empty;
+                    }
+                    else*/
+                    {
+                        length = (DateTimeOffset.Now - call.StartTime)?.ToString("mm\\:ss") ?? string.Empty;
+                    }
+                    return length;
                 default:
                     return string.Empty;
             }

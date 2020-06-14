@@ -151,7 +151,10 @@ namespace WoADialer
         {
             SuspendingDeferral deferral = e.SuspendingOperation.GetDeferral();
             IsForeground = false;
-            NotificationSystem.RefreshCallNotification(CallSystem.CallManager.CurrentCalls);
+            if (CallSystem.CallManager != null)
+            {
+                NotificationSystem.RefreshCallNotification(CallSystem.CallManager.CurrentCalls);
+            }
             deferral.Complete();
         }
 

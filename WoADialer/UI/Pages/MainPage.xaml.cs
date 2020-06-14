@@ -72,11 +72,13 @@ namespace WoADialer.UI.Pages
             this.KeyboardAccelerators.Add(altLeft);
         }
 
-        private void NavView_SelectionChanged(MUXC.NavigationView sender, MUXC.NavigationViewSelectionChangedEventArgs args)
+        private async void NavView_SelectionChanged(MUXC.NavigationView sender, MUXC.NavigationViewSelectionChangedEventArgs args)
         {
             if (args.IsSettingsSelected == true)
             {
-                (Window.Current.Content as Frame).Navigate(typeof(Settings));
+                //(Window.Current.Content as Frame).Navigate(typeof(Settings));
+                SettingsDialog dialog = new SettingsDialog();
+                await dialog.ShowAsync();
             }
             else if (args.SelectedItemContainer != null)
             {
