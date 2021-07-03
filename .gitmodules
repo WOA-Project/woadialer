@@ -1,3 +1,4 @@
 [submodule "Internal.Windows.Calls"]
     path = Internal.Windows.Calls
 	url = https://github.com/Simizfo/Internal.Windows.Calls.git
+	branch = master
