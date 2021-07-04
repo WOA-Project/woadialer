@@ -1,11 +1,16 @@
 ﻿using System;
+using System.Diagnostics;
 using Windows.ApplicationModel;
 using Windows.ApplicationModel.Core;
+using Windows.System;
+using Windows.UI;
 using Windows.UI.Core;
 using Windows.UI.ViewManagement;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Media;
+
+#nullable enable
 
 namespace WoADialer.UI.Controls
 {
@@ -13,70 +18,91 @@ namespace WoADialer.UI.Controls
     {
         private static string AppName = Package.Current.DisplayName;
 
+        public event RoutedEventHandler? BackButtonClick;
+
+
         private string AppTitle = (!string.IsNullOrEmpty(ApplicationView.GetForCurrentView().Title) ?
             ApplicationView.GetForCurrentView().Title + " - " : "") +
             AppName;
 
-        private CoreApplicationView coreApplicationView;
+        private readonly DispatcherQueue dispatcherQueue;
 
         public TitlebarControl()
         {
-            this.InitializeComponent();
+            dispatcherQueue = DispatcherQueue.GetForCurrentThread();
+            InitializeComponent();
             Loaded += TitleBarControl_Loaded;
 
-            Window.Current.SetTitleBar(this);
-            coreApplicationView = CoreApplication.GetCurrentView();
-            coreApplicationView.TitleBar.ExtendViewIntoTitleBar = true;
-            Height = coreApplicationView.TitleBar.Height;
+            Window.Current.SetTitleBar(TitlebarCanvas);
 
-            var margin = CustomTitleBar.Margin;
+            CoreApplicationView? coreApplicationView = CoreApplication.GetCurrentView();
+            coreApplicationView.TitleBar.ExtendViewIntoTitleBar = true;
+            Height = coreApplicationView.TitleBar.Height != 0 ? coreApplicationView.TitleBar.Height + 16 : 0;
+
+            Thickness margin = CustomTitleBar.Margin;
             margin.Right = coreApplicationView.TitleBar.SystemOverlayRightInset;
             CustomTitleBar.Margin = margin;
 
             coreApplicationView.TitleBar.IsVisibleChanged += TitleBar_IsVisibleChanged;
             coreApplicationView.TitleBar.LayoutMetricsChanged += TitleBar_LayoutMetricsChanged;
 
-            /*if (App.appearanceManager != null)
-                App.appearanceManager.ThemeChanged += AppearanceManager_ThemeChanged;*/
+#if DEBUG
+            if (Debugger.IsAttached)
+            {
+                RedIndicator.Visibility = Visibility.Visible;
+
+                if (Debugger.IsLogging())
+                {
+                    OrangeIndicator.Visibility = Visibility.Visible;
+                }
+            }
+            else
+            {
+                AttachDebuggerButton.Visibility = Visibility.Visible;
+            }
+
+            if (Application.Current.DebugSettings.FailFastOnErrors)
+            {
+                YellowIndicator.Visibility = Visibility.Visible;
+            }
+#endif
 
             RefreshColor();
         }
 
-        private async void AppearanceManager_ThemeChanged(object sender, EventArgs e)
+        private void Back_Click(object sender, RoutedEventArgs e)
         {
-            await coreApplicationView.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
-            {
-                RefreshColor();
-            });
+            BackButtonClick?.Invoke(this, e);
         }
 
-        private void RefreshColor()
+        public async void RefreshColor()
         {
-            var titlebar = ApplicationView.GetForCurrentView().TitleBar;
-            var transparentColorBrush = new SolidColorBrush { Opacity = 0 };
-            var transparentColor = transparentColorBrush.Color;
+            ApplicationViewTitleBar titlebar = ApplicationView.GetForCurrentView().TitleBar;
+            SolidColorBrush transparentColorBrush = new() { Opacity = 0 };
+            Color transparentColor = transparentColorBrush.Color;
+
             titlebar.BackgroundColor = transparentColor;
             titlebar.ButtonBackgroundColor = transparentColor;
+            titlebar.InactiveBackgroundColor = transparentColor;
             titlebar.ButtonInactiveBackgroundColor = transparentColor;
 
-            if (this.Resources["ApplicationForegroundThemeBrush"] is SolidColorBrush solidColorBrush)
-            {
-                titlebar.ButtonForegroundColor = solidColorBrush.Color;
-                titlebar.ButtonInactiveForegroundColor = solidColorBrush.Color;
-            }
+            SolidColorBrush foregroundThemeBrush = (SolidColorBrush)Resources["ApplicationForegroundThemeBrush"];
 
-            if (this.Resources["ApplicationForegroundThemeBrush"] is SolidColorBrush colorBrush)
-            {
-                titlebar.ForegroundColor = colorBrush.Color;
-            }
+            titlebar.ButtonForegroundColor = foregroundThemeBrush.Color;
+            titlebar.ForegroundColor = foregroundThemeBrush.Color;
 
-            var hovercolor = (this.Resources["ApplicationForegroundThemeBrush"] as SolidColorBrush).Color;
+            Color color = foregroundThemeBrush.Color;
+            color.A = 16;
+            titlebar.InactiveForegroundColor = color;
+            titlebar.ButtonInactiveForegroundColor = color;
+
+            Color hovercolor = foregroundThemeBrush.Color;
             hovercolor.A = 32;
             titlebar.ButtonHoverBackgroundColor = hovercolor;
-            titlebar.ButtonHoverForegroundColor = (this.Resources["ApplicationForegroundThemeBrush"] as SolidColorBrush).Color;
+            titlebar.ButtonHoverForegroundColor = foregroundThemeBrush.Color;
             hovercolor.A = 64;
             titlebar.ButtonPressedBackgroundColor = hovercolor;
-            titlebar.ButtonPressedForegroundColor = (this.Resources["ApplicationForegroundThemeBrush"] as SolidColorBrush).Color;
+            titlebar.ButtonPressedForegroundColor = foregroundThemeBrush.Color;
         }
 
         private async void TitleBarControl_Loaded(object sender, RoutedEventArgs e)
@@ -90,47 +116,53 @@ namespace WoADialer.UI.Controls
             AppTitle = (!string.IsNullOrEmpty(ApplicationView.GetForCurrentView().Title) ?
                 ApplicationView.GetForCurrentView().Title + " - " : "") +
                 AppName;
+#if DEBUG
+            AppTitle += " [DEBUG]";
+#endif
             WindowTitle.Text = AppTitle;
-
-            /*if (App.appearanceManager != null)
-                App.appearanceManager.ThemeChanged += AppearanceManager_ThemeChanged;*/
         }
 
         private void TitleBar_LayoutMetricsChanged(CoreApplicationViewTitleBar sender, object args)
         {
-            Height = sender.Height;
-            var margin = CustomTitleBar.Margin;
+            Height = sender.Height != 0 ? sender.Height + 16 : 0;
+            Thickness margin = CustomTitleBar.Margin;
             margin.Right = sender.SystemOverlayRightInset;
             CustomTitleBar.Margin = margin;
         }
 
         private void TitleBar_IsVisibleChanged(CoreApplicationViewTitleBar sender, object args)
         {
+            FrameworkElement wincontent = (FrameworkElement)Window.Current.Content;
+            Thickness margin = wincontent.Margin;
             if (sender.IsVisible)
             {
                 Visibility = Visibility.Visible;
+                margin.Top = 0;
             }
             else
             {
                 Visibility = Visibility.Collapsed;
+                margin.Top = -48;
             }
+            wincontent.Margin = margin;
         }
+
+        private AppViewBackButtonVisibility _BackButtonVisibility = AppViewBackButtonVisibility.Collapsed;
 
         public AppViewBackButtonVisibility BackButtonVisibility
         {
-            get => SystemNavigationManager.GetForCurrentView().AppViewBackButtonVisibility;
+            get => _BackButtonVisibility;
             set
             {
-                SystemNavigationManager.GetForCurrentView().AppViewBackButtonVisibility = value;
-                switch (SystemNavigationManager.GetForCurrentView().AppViewBackButtonVisibility)
+                _BackButtonVisibility = value;
+                switch (_BackButtonVisibility)
                 {
                     case AppViewBackButtonVisibility.Visible:
-                        BackButtonBg.Visibility = Visibility.Visible;
-                        Arrow.Visibility = Visibility.Collapsed;
+                        BackButton.Visibility = Visibility.Visible;
                         break;
+
                     case AppViewBackButtonVisibility.Collapsed:
-                        BackButtonBg.Visibility = Visibility.Collapsed;
-                        Arrow.Visibility = Visibility.Visible;
+                        BackButton.Visibility = Visibility.Collapsed;
                         break;
                 }
             }
@@ -141,6 +173,9 @@ namespace WoADialer.UI.Controls
             AppTitle = (!string.IsNullOrEmpty(ApplicationView.GetForCurrentView().Title) ?
                 ApplicationView.GetForCurrentView().Title + " - " : "") +
                 AppName;
+#if DEBUG
+            AppTitle += " [DEBUG]";
+#endif
             WindowTitle.Text = AppTitle;
         }
 
@@ -150,10 +185,40 @@ namespace WoADialer.UI.Controls
             set
             {
                 ApplicationView.GetForCurrentView().Title = value;
-                AppTitle = (!string.IsNullOrEmpty(ApplicationView.GetForCurrentView().Title) ?
-                    ApplicationView.GetForCurrentView().Title + " - " : "") +
+                AppTitle = (!string.IsNullOrEmpty(value) ?
+                    value + " - " : "") +
                     AppName;
+
+#if DEBUG
+                AppTitle += " [DEBUG]";
+#endif
                 WindowTitle.Text = AppTitle;
+            }
+        }
+
+        private void AttachDebuggerButton_Click(object sender, RoutedEventArgs e)
+        {
+            Debugger.Launch();
+
+            if (Debugger.IsAttached)
+            {
+                RedIndicator.Visibility = Visibility.Visible;
+
+                if (Debugger.IsLogging())
+                {
+                    OrangeIndicator.Visibility = Visibility.Visible;
+                }
+
+                AttachDebuggerButton.Visibility = Visibility.Collapsed;
+            }
+            else
+            {
+                AttachDebuggerButton.Visibility = Visibility.Visible;
+            }
+
+            if (Application.Current.DebugSettings.FailFastOnErrors)
+            {
+                YellowIndicator.Visibility = Visibility.Visible;
             }
         }
     }

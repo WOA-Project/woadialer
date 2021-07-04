@@ -7,14 +7,25 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:controls="using:WoADialer.UI.Controls"
     xmlns:muxc="using:Microsoft.UI.Xaml.Controls"
-    mc:Ignorable="d" Background="{ThemeResource SystemControlAcrylicWindowBrush}" Loaded="Page_Loaded" Unloaded="Page_Unloaded">
+    mc:Ignorable="d"
+    muxc:BackdropMaterial.ApplyToRootOrPageBackground="True"
+    Loaded="Page_Loaded"
+    Unloaded="Page_Unloaded">
 
     <UserControl.Resources>
         <ResourceDictionary Source="..\Conventers\Conventers.xaml"/>
     </UserControl.Resources>
-    
+
+
     <Grid>
-        <muxc:NavigationView Name="nv_PagePresenter" MenuItemsSource="{x:Bind UISystem.MainPagePages}" SelectedItem="{x:Bind UISystem.MainPagePages[2]}" Margin="0,30,0,0" PaneDisplayMode="Top" Loaded="NavView_Loaded" ItemInvoked="NavView_ItemInvoked" BackRequested="NavView_BackRequested" AlwaysShowHeader="True" Background="{ThemeResource SystemControlAcrylicWindowBrush}" SelectionChanged="NavView_SelectionChanged">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+        <controls:TitlebarControl x:Name="Titlebar"
+                                  HorizontalAlignment="Stretch"/>
+
+        <muxc:NavigationView Name="nv_PagePresenter" Grid.Row="1" MenuItemsSource="{x:Bind UISystem.MainPagePages}" SelectedItem="{x:Bind UISystem.MainPagePages[2]}" PaneDisplayMode="Top" Loaded="NavView_Loaded" ItemInvoked="NavView_ItemInvoked" BackRequested="NavView_BackRequested" AlwaysShowHeader="True" SelectionChanged="NavView_SelectionChanged">
             <muxc:NavigationView.MenuItemTemplate>
                 <DataTemplate x:DataType="x:String">
                     <muxc:NavigationViewItem Content="{x:Bind Converter={StaticResource PageNameToTextString}}" Tag="{x:Bind}">
@@ -34,9 +45,5 @@
 
             <Frame x:Name="ContentFrame" IsTabStop="True"/>
         </muxc:NavigationView>
-
-        <Grid VerticalAlignment="Top" Height="30" Background="{ThemeResource SystemControlChromeMediumLowAcrylicElementMediumBrush}">
-            <controls:TitlebarControl x:Name="Titlebar"/>
-        </Grid>
     </Grid>
 </Page>

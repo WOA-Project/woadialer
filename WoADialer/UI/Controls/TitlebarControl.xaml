@@ -1,48 +1,94 @@
-﻿<UserControl
-    x:Class="WoADialer.UI.Controls.TitlebarControl"
-    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:local="using:WoADialer.UI.Controls"
-    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    mc:Ignorable="d"
-    d:DesignHeight="300"
-    d:DesignWidth="400">
+﻿<UserControl x:Class="WoADialer.UI.Controls.TitlebarControl"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:local="using:WoADialer.UI.Controls"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             d:DesignHeight="300"
+             d:DesignWidth="400"
+             mc:Ignorable="d">
 
-    <Grid x:Name="CustomTitleBar">
-        <Canvas
-            HorizontalAlignment="Stretch"
-            VerticalAlignment="Stretch"
-            Background="Transparent" />
+    <Grid x:Name="CustomTitleBar" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+        <Grid.ColumnDefinitions>
+            <!-- Back Button -->
+            <ColumnDefinition Width="Auto" />
+            <!-- App Icon -->
+            <ColumnDefinition Width="48" />
+            <!-- Title -->
+            <ColumnDefinition Width="Auto" />
+            <!-- Main Area -->
+            <ColumnDefinition Width="*" />
+            <!-- Title -->
+            <ColumnDefinition Width="Auto" />
+        </Grid.ColumnDefinitions>
 
-        <Grid Width="52"
-              HorizontalAlignment="Left">
-            <Image Source="ms-appx:///Assets/Square44x44Logo.png" 
-                   Grid.Column="1" HorizontalAlignment="Center" 
-                   Width="20" Height="20" Margin="12,0"/>
-        </Grid>
+        <Grid Grid.ColumnSpan="5" Height="4" VerticalAlignment="Top">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
 
-        <Grid Visibility="Collapsed"
-              Width="52"
-              HorizontalAlignment="Left">
-            <Rectangle x:Name="BackButtonBg"
-                       Fill="{ThemeResource SystemControlForegroundAccentBrush}" />
-            <TextBlock x:Name="Arrow"
-                       Width="13"
-                       Margin="-1,0,0,0"
-                       HorizontalAlignment="Center"
-                       VerticalAlignment="Center"
-                       FontFamily="Segoe MDL2 Assets"
-                       FontSize="16"
-                       FontStretch="ExtraCondensed"
+            <Rectangle x:Name="RedIndicator"
+                       Grid.Column="0"
+                       HorizontalAlignment="Stretch"
+                       VerticalAlignment="Stretch"
+                       Fill="Red"
                        Opacity="0.5"
-                       Text="" />
+                       Visibility="Collapsed" />
+
+            <Rectangle x:Name="OrangeIndicator"
+                       Grid.Column="1"
+                       HorizontalAlignment="Stretch"
+                       VerticalAlignment="Stretch"
+                       Fill="Orange"
+                       Opacity="0.5"
+                       Visibility="Collapsed" />
+
+            <Rectangle x:Name="YellowIndicator"
+                       Grid.Column="2"
+                       HorizontalAlignment="Stretch"
+                       VerticalAlignment="Stretch"
+                       Fill="Yellow"
+                       Opacity="0.5"
+                       Visibility="Collapsed" />
         </Grid>
+
+        <Image x:Name="AppFontIcon"
+               Grid.Column="1"
+               HorizontalAlignment="Center" 
+               VerticalAlignment="Center"
+               Source="ms-appx:///Assets/Square44x44Logo.png"
+               Width="16" 
+               Height="16" />
 
         <TextBlock x:Name="WindowTitle"
-                   Margin="64,0,0,0"
+                   Grid.Column="2"
                    VerticalAlignment="Center"
-                   FontSize="12"
-                   TextTrimming="CharacterEllipsis"/>
+                   Margin="12,0,0,0"
+                   Style="{StaticResource CaptionTextBlockStyle}"/>
+
+        <Canvas x:Name="TitlebarCanvas"
+                Grid.ColumnSpan="5"
+                HorizontalAlignment="Stretch"
+                VerticalAlignment="Stretch"
+                Background="Transparent" />
+
+        <Button x:Name="BackButton"
+                Grid.Row="0"
+                Style="{ThemeResource NavigationBackButtonNormalStyle}"
+                Width="48"
+                Click="Back_Click"
+                Visibility="Collapsed" />
+
+        <Button x:Name="AttachDebuggerButton"
+                Grid.Column="4"
+                Click="AttachDebuggerButton_Click"
+                Background="Transparent"
+                CornerRadius="0"
+                Visibility="Collapsed"
+                BorderBrush="Transparent">
+            <FontIcon FontFamily="{ThemeResource SymbolThemeFontFamily}" Glyph="&#xEBE8;" FontSize="14" />
+        </Button>
     </Grid>
 </UserControl>

@@ -8,8 +8,8 @@
     mc:Ignorable="d"
     d:DesignHeight="100"
     d:DesignWidth="100"
-    Template="{StaticResource DigitButtonTemplate}"
-    Background="Transparent"
+    Padding="0"
+    Style="{ThemeResource DefaultButtonStyle}"
     Margin="2">
 
     <Grid HorizontalAlignment="Stretch" VerticalAlignment="Stretch">

@@ -8,8 +8,7 @@
     xmlns:controls="using:WoADialer.UI.Controls"
     xmlns:calls="using:Windows.ApplicationModel.Calls"
     mc:Ignorable="d"
-    NavigationCacheMode="Required"
-    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+    NavigationCacheMode="Required">
 
     <ListView Padding="0,10" ItemsSource="{x:Bind CallSystem.CallHistoryEntries}" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Center" IsItemClickEnabled="True" ItemClick="ListView_ItemClick" IsMultiSelectCheckBoxEnabled="False" SelectionMode="None">
         <ListView.ItemTemplate>

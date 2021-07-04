@@ -13,51 +13,21 @@
                 <flui:FluiFrameworkThemeResources />
                 <XamlControlsResources xmlns="using:Microsoft.UI.Xaml.Controls" />
                 <ResourceDictionary>
-                    <ResourceDictionary.ThemeDictionaries>
-                        <ResourceDictionary x:Key="Default">
-                        </ResourceDictionary>
-                        <ResourceDictionary x:Key="Dark">
-                            <SolidColorBrush x:Key="ApplicationPageBackgroundThemeBrush" Color="#1b1a19"/>
-                            <media:AcrylicBrush x:Key="AcrylicHostLow" BackgroundSource="HostBackdrop" TintColor="{StaticResource SystemColorBackgroundColor}" TintOpacity="0.8999" FallbackColor="{StaticResource SystemColorBackgroundColor}"/>
-                            <media:AcrylicBrush x:Key="AcrylicHostMedium" BackgroundSource="HostBackdrop" TintColor="{StaticResource SystemChromeLowColor}" TintOpacity="0.8" FallbackColor="{StaticResource SystemChromeLowColor}"/>
-                            <media:AcrylicBrush x:Key="AcrylicHostHigh" BackgroundSource="HostBackdrop" TintColor="{StaticResource SystemChromeMediumColor}" TintOpacity="0.6" FallbackColor="{StaticResource SystemChromeMediumColor}"/>
 
-                            <media:AcrylicBrush x:Key="AcrylicElementMedium" BackgroundSource="Backdrop" TintColor="{StaticResource SystemChromeLowColor}" TintOpacity="0.5" FallbackColor="{StaticResource SystemChromeLowColor}"/>
-                            <media:AcrylicBrush x:Key="AcrylicElementHigh" BackgroundSource="Backdrop" TintColor="{StaticResource SystemChromeMediumColor}" TintOpacity="0.7" FallbackColor="{StaticResource SystemChromeMediumColor}"/>
-                        </ResourceDictionary>
-                        <ResourceDictionary x:Key="Light">
-                            <SolidColorBrush x:Key="ApplicationPageBackgroundThemeBrush" Color="#faf9f8"/>
-                            <media:AcrylicBrush x:Key="AcrylicHostLow" BackgroundSource="HostBackdrop" TintColor="{StaticResource SystemColorBackgroundColor}" TintOpacity="0.9999" FallbackColor="{StaticResource SystemColorBackgroundColor}"/>
-                            <media:AcrylicBrush x:Key="AcrylicHostMedium" BackgroundSource="HostBackdrop" TintColor="{StaticResource SystemChromeLowColor}" TintOpacity="0.9" FallbackColor="{StaticResource SystemChromeLowColor}"/>
-                            <media:AcrylicBrush x:Key="AcrylicHostHigh" BackgroundSource="HostBackdrop" TintColor="{StaticResource SystemChromeMediumColor}" TintOpacity="0.7" FallbackColor="{StaticResource SystemChromeMediumColor}"/>
-
-                            <media:AcrylicBrush x:Key="AcrylicElementMedium" BackgroundSource="Backdrop" TintColor="{StaticResource SystemChromeLowColor}" TintOpacity="0.6" FallbackColor="{StaticResource SystemChromeLowColor}"/>
-                            <media:AcrylicBrush x:Key="AcrylicElementHigh" BackgroundSource="Backdrop" TintColor="{StaticResource SystemChromeMediumColor}" TintOpacity="0.8" FallbackColor="{StaticResource SystemChromeMediumColor}"/>
-                        </ResourceDictionary>
-                        <ResourceDictionary x:Key="HighContrast">
-                        </ResourceDictionary>
-                    </ResourceDictionary.ThemeDictionaries>
-                </ResourceDictionary>
-                <ResourceDictionary>
-
-                    <Style TargetType="FontIcon">
-                        <Setter Property="FontFamily" Value="ms-appx:///Assets/FullMDL2Assets.ttf#FullMDL2Assets"/>
-                    </Style>
-                    
                     <ControlTemplate x:Key="DigitButtonTemplate" TargetType="Button">
                         <ContentPresenter x:Name="ContentPresenter"
-              Background="{TemplateBinding Background}"
-              Windows10version1809:BackgroundSizing="{TemplateBinding BackgroundSizing}"
-              BorderBrush="{TemplateBinding BorderBrush}"
-              BorderThickness="0"
-              Content="{TemplateBinding Content}"
-              ContentTemplate="{TemplateBinding ContentTemplate}"
-              ContentTransitions="{TemplateBinding ContentTransitions}"
-              CornerRadius="{TemplateBinding CornerRadius}"
-              Padding="0"
-              HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
-              VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"
-              AutomationProperties.AccessibilityView="Raw">
+                                          Background="{TemplateBinding Background}"
+                                          Windows10version1809:BackgroundSizing="{TemplateBinding BackgroundSizing}"
+                                          BorderBrush="{TemplateBinding BorderBrush}"
+                                          BorderThickness="0"
+                                          Content="{TemplateBinding Content}"
+                                          ContentTemplate="{TemplateBinding ContentTemplate}"
+                                          ContentTransitions="{TemplateBinding ContentTransitions}"
+                                          CornerRadius="{TemplateBinding CornerRadius}"
+                                          Padding="0"
+                                          HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                          VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"
+                                          AutomationProperties.AccessibilityView="Raw">
                             <VisualStateManager.VisualStateGroups>
                                 <VisualStateGroup x:Name="CommonStates">
                                     <VisualState x:Name="Normal">

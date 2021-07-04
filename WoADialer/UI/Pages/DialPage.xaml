@@ -11,7 +11,7 @@
     x:Class="WoADialer.UI.Pages.DialPage"
     mc:Ignorable="d"
     NavigationCacheMode="Required"
-    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}" KeyUp="Page_KeyUp">
+    KeyUp="Page_KeyUp">
 
     <UserControl.Resources>
         <ResourceDictionary Source="..\Conventers\Conventers.xaml"/>
@@ -27,7 +27,7 @@
                 <RowDefinition Height="Auto" />
             </Grid.RowDefinitions>
 
-            <Grid HorizontalAlignment="Right" VerticalAlignment="Top">
+            <Grid HorizontalAlignment="Right" VerticalAlignment="Top" Margin="10">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="Auto"/>
                     <ColumnDefinition Width="Auto"/>
@@ -55,24 +55,24 @@
                 </ComboBox>
             </Grid>
 
-            <Grid Grid.Row="1">
+            <Grid Grid.Row="1" Margin="10">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="60"/>
-                    <ColumnDefinition Width="*"/>
                     <ColumnDefinition Width="Auto"/>
                     <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="Auto"/>
                     <ColumnDefinition Width="60"/>
                 </Grid.ColumnDefinitions>
                 
                 <TextBox x:Name="numberToDialBox"
-                     BorderThickness="0"
-                     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
-                     TextAlignment="Center"
-                     HorizontalTextAlignment="Center"
-                     Grid.Column="2" 
-                     VerticalAlignment="Center"
-                     FontSize="40"
-                     FontWeight="Bold" Margin="10"/>
+                         TextAlignment="Center"
+                         HorizontalTextAlignment="Center"
+                         HorizontalAlignment="Stretch"
+                         Grid.Column="2" 
+                         VerticalAlignment="Center"
+                         FontSize="40"
+                         FontWeight="Bold"
+                         Margin="10"/>
 
                 <Button x:Name="deleteLastNumberButton" 
                         Style="{ThemeResource TextBlockButtonStyle}"
@@ -92,7 +92,7 @@
 
             <controls:DialPad Grid.Row="3" MinHeight="230" MaxHeight="300" DigitTapped="NumPad_DigitTapped" VerticalAlignment="Top" Margin="10" Grid.RowSpan="2" Height="340"/>
 
-            <Grid Grid.Row="4" Margin="10,0,10,0">
+            <Grid Grid.Row="4" Margin="10,10,10,10">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*"/>
                     <ColumnDefinition Width="*"/>
