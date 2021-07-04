@@ -8,8 +8,8 @@
     <ProjectGuid>{51BB3779-D2B9-49B5-AF9D-9838E114A869}</ProjectGuid>
     <OutputType>AppContainerExe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>WoADialer</RootNamespace>
-    <AssemblyName>WoADialer</AssemblyName>
+    <RootNamespace>Dialer</RootNamespace>
+    <AssemblyName>Dialer</AssemblyName>
     <DefaultLanguage>en-US</DefaultLanguage>
     <TargetPlatformIdentifier>UAP</TargetPlatformIdentifier>
     <TargetPlatformVersion Condition=" '$(TargetPlatformVersion)' == '' ">10.0.19041.0</TargetPlatformVersion>
