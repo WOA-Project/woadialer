@@ -15,7 +15,7 @@
   <Identity
     Name="LumiaWOA.Dialer"
     Publisher="CN=Windows On Lumia Development Second Party Dialer Software 2020"
-    Version="0.1.207.0" />
+    Version="0.1.210.0" />
 
   <mp:PhoneIdentity PhoneProductId="1e17ea40-87af-45e2-865a-c2bd98036a67" PhonePublisherId="00000000-0000-0000-0000-000000000000"/>
 
@@ -67,7 +67,7 @@
         <uap:Extension Category="windows.lockScreenCall"/>
         <uap:Extension Category="windows.lockScreen"/>
         <uap:Extension Category="windows.aboveLockScreen"/>
-        <Extension Category="windows.backgroundTasks" EntryPoint="WoADialer.App">
+        <Extension Category="windows.backgroundTasks" EntryPoint="Dialer.App">
           <BackgroundTasks>
             <uap:Task Type="phoneCall" />
           </BackgroundTasks>
@@ -78,7 +78,7 @@
   <Extensions>
     <Extension Category="windows.activatableClass.inProcessServer">
       <InProcessServer>
-        <Path>WoADialer.exe</Path>
+        <Path>Dialer.exe</Path>
         <ActivatableClass ActivatableClassId="Dialer.App" ThreadingModel="both"/>
       </InProcessServer>
     </Extension>
