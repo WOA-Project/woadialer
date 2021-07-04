@@ -2,7 +2,7 @@
 using Windows.ApplicationModel.Calls;
 using Windows.UI.Xaml.Data;
 
-namespace WoADialer.UI.Conventers
+namespace Dialer.UI.Conventers
 {
     public sealed class CallHistoryEntryToContact : IValueConverter
     {

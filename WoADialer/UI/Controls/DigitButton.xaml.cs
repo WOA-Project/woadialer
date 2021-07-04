@@ -1,6 +1,6 @@
 ﻿using Windows.UI.Xaml.Controls;
 
-namespace WoADialer.UI.Controls
+namespace Dialer.UI.Controls
 {
     public sealed partial class DigitButton : Button
     {

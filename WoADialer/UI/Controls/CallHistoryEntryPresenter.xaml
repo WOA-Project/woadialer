@@ -1,11 +1,11 @@
 ﻿<UserControl
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:local="using:WoADialer.UI.Controls"
+    xmlns:local="using:Dialer.UI.Controls"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:Custom="using:Microsoft.UI.Xaml.Controls"
-    x:Class="WoADialer.UI.Controls.CallHistoryEntryPresenter"
+    x:Class="Dialer.UI.Controls.CallHistoryEntryPresenter"
     mc:Ignorable="d"
     d:DesignWidth="400" d:DesignHeight="75" HorizontalContentAlignment="Stretch">
 

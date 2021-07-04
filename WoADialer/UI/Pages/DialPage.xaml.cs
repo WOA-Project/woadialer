@@ -1,10 +1,10 @@
-﻿using System;
+﻿using Dialer.Systems;
+using System;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using Windows.ApplicationModel.Calls;
 using Windows.ApplicationModel.Core;
-using Windows.Foundation;
 using Windows.Globalization.PhoneNumberFormatting;
 using Windows.System;
 using Windows.UI.Popups;
@@ -12,10 +12,8 @@ using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Navigation;
-using WoADialer.Helpers;
-using WoADialer.Systems;
 
-namespace WoADialer.UI.Pages
+namespace Dialer.UI.Pages
 {
     public sealed partial class DialPage : Page
     {
@@ -149,7 +147,7 @@ namespace WoADialer.UI.Pages
 
         private void Page_KeyUp(object sender, KeyRoutedEventArgs e)
         {
-            switch(e.Key)
+            switch (e.Key)
             {
                 case VirtualKey.Number0:
                 case VirtualKey.NumberPad0:

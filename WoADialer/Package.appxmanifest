@@ -36,7 +36,7 @@
   <Applications>
     <Application Id="App"
       Executable="$targetnametoken$.exe"
-      EntryPoint="WoADialer.App" xmlns:a="http://schemas.microsoft.com/appx/manifest/desktop/windows10/4">
+      EntryPoint="Dialer.App" xmlns:a="http://schemas.microsoft.com/appx/manifest/desktop/windows10/4">
       <uap:VisualElements
         DisplayName="Dialer"
         Square150x150Logo="Assets\Square150x150Logo.png"

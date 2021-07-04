@@ -1,8 +1,8 @@
-﻿using Windows.UI.Xaml.Controls;
-using WoADialer.Systems;
+﻿using Dialer.Systems;
+using Windows.UI.Xaml.Controls;
 using MUXC = Microsoft.UI.Xaml.Controls;
 
-namespace WoADialer.UI.Pages
+namespace Dialer.UI.Pages
 {
     public sealed partial class SettingsPage : Page
     {

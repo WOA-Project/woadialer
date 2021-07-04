@@ -10,7 +10,7 @@ using Windows.ApplicationModel.Contacts;
 using Windows.ApplicationModel.Core;
 using Windows.Devices.Haptics;
 
-namespace WoADialer.Systems
+namespace Dialer.Systems
 {
     public class DisplayableLine
     {
@@ -22,7 +22,7 @@ namespace WoADialer.Systems
         {
             Line = line;
             DisplayName = line == null ? "Unknown" : (string.IsNullOrWhiteSpace(line.DisplayName) ? line.NetworkName : line.DisplayName);
-            
+
             if (line != null)
             {
                 switch (line.NetworkState)
@@ -154,11 +154,11 @@ namespace WoADialer.Systems
             IReadOnlyList<PhoneCallHistoryEntry> entries = await CallHistoryStore.GetEntryReader().ReadBatchAsync();
             List<PhoneCallHistoryEntry> @new = entries.Except(_CallHistoryEntries).ToList();
             List<PhoneCallHistoryEntry> removed = _CallHistoryEntries.Except(entries).ToList();
-            foreach(PhoneCallHistoryEntry entry in @removed)
+            foreach (PhoneCallHistoryEntry entry in @removed)
             {
                 await CoreApplicationView.Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.Normal, () => _CallHistoryEntries.Remove(entry));
             }
-            foreach(PhoneCallHistoryEntry entry in @new)
+            foreach (PhoneCallHistoryEntry entry in @new)
             {
                 await CoreApplicationView.Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.Normal, () => _CallHistoryEntries.Add(entry));
             }
@@ -210,7 +210,7 @@ namespace WoADialer.Systems
                     App.Current.NotificationSystem.RefreshCallNotification(CallManager.CurrentCalls);
                     break;
                 case CallState.Transferring:
-                    
+
                     break;
             }
         }
@@ -254,7 +254,8 @@ namespace WoADialer.Systems
                     try
                     {
                         Lines[index] = line;
-                    } catch (InvalidOperationException) { }
+                    }
+                    catch (InvalidOperationException) { }
                 }
             }
         }

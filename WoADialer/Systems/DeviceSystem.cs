@@ -5,7 +5,7 @@ using Windows.Devices.Enumeration;
 using Windows.Devices.Haptics;
 using Windows.Devices.Sensors;
 
-namespace WoADialer.Systems
+namespace Dialer.Systems
 {
     public sealed class DeviceSystem
     {

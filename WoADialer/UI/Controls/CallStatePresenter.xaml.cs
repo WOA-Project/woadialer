@@ -1,10 +1,10 @@
-﻿using System;
-using Internal.Windows.Calls;
+﻿using Internal.Windows.Calls;
+using System;
 using Windows.UI.Core;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 
-namespace WoADialer.UI.Controls
+namespace Dialer.UI.Controls
 {
     public sealed partial class CallStatePresenter : UserControl
     {

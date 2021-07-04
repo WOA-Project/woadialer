@@ -2,7 +2,7 @@
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Input;
 
-namespace WoADialer.UI.Controls
+namespace Dialer.UI.Controls
 {
     public sealed partial class DialPad : UserControl
     {

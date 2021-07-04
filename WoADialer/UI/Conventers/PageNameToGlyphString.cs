@@ -1,8 +1,8 @@
-﻿using System;
+﻿using Dialer.Systems;
+using System;
 using Windows.UI.Xaml.Data;
-using WoADialer.Systems;
 
-namespace WoADialer.UI.Conventers
+namespace Dialer.UI.Conventers
 {
     public sealed class PageNameToGlyphString : IValueConverter
     {

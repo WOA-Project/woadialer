@@ -1,4 +1,6 @@
-﻿using Internal.Windows.Calls;
+﻿using Dialer.Helpers;
+using Dialer.Systems;
+using Internal.Windows.Calls;
 using Microsoft.Toolkit.Uwp.Notifications;
 using System;
 using System.Linq;
@@ -6,23 +8,14 @@ using System.Threading.Tasks;
 using Windows.ApplicationModel;
 using Windows.ApplicationModel.Activation;
 using Windows.ApplicationModel.Background;
-using Windows.ApplicationModel.Calls;
-using Windows.ApplicationModel.LockScreen;
 using Windows.ApplicationModel.Resources;
 using Windows.Foundation;
+using Windows.Storage;
 using Windows.UI.Core;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Navigation;
-using WoADialer.Helpers;
-using WoADialer.UI.Pages;
-using System.Text;
-using WoADialer.UI;
-using WoADialer.Systems;
-using Windows.Storage;
-using Windows.UI.Notifications.Management;
 
-namespace WoADialer
+namespace Dialer
 {
     public sealed partial class App : Application
     {
@@ -36,7 +29,7 @@ namespace WoADialer
         private Task Initializating;
 
         #region UI system objects
-        
+
         public ResourceLoader ResourceLoader { get; private set; }
         public int CompactOverlayId { get; set; }
         #endregion
@@ -67,7 +60,7 @@ namespace WoADialer
             e.Handled = true;
             StorageFolder storageFolder = ApplicationData.Current.LocalFolder;
             StorageFile sampleFile = await storageFolder.CreateFileAsync("sample.txt", CreationCollisionOption.OpenIfExists);
-            await FileIO.AppendTextAsync(sampleFile, DateTime.Now +  " " + e.Exception.ToString() + '\n');
+            await FileIO.AppendTextAsync(sampleFile, DateTime.Now + " " + e.Exception.ToString() + '\n');
         }
 
         #region Application state managment

@@ -1,4 +1,4 @@
-﻿namespace WoADialer.UI
+﻿namespace Dialer.UI
 {
     public static class Glyphs
     {

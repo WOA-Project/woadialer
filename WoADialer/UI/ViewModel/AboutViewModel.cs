@@ -1,7 +1,7 @@
 ﻿using Windows.ApplicationModel;
 using Windows.UI.Core;
 
-namespace WoADialer.UI.ViewModel
+namespace Dialer.UI.ViewModel
 {
     public class AboutViewModel : ViewModelCore
     {

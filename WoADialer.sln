@@ -1,9 +1,9 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 16
-VisualStudioVersion = 16.0.28803.352
+# Visual Studio Version 17
+VisualStudioVersion = 17.0.31423.177
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WoADialer", "WoADialer\WoADialer.csproj", "{51BB3779-D2B9-49B5-AF9D-9838E114A869}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Dialer", "WoADialer\Dialer.csproj", "{51BB3779-D2B9-49B5-AF9D-9838E114A869}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Internal.Windows.Calls", "Internal.Windows.Calls\Internal.Windows.Calls\Internal.Windows.Calls.csproj", "{35E52B56-36F5-4820-8626-8547FEFD7666}"
 EndProject

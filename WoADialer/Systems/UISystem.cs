@@ -1,4 +1,6 @@
-﻿using Internal.Windows.Calls;
+﻿using Dialer.Helpers;
+using Dialer.UI.Pages;
+using Internal.Windows.Calls;
 using Microsoft.Toolkit.Uwp.Notifications;
 using System;
 using System.Collections.ObjectModel;
@@ -12,10 +14,8 @@ using Windows.UI.ViewManagement;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Navigation;
-using WoADialer.Helpers;
-using WoADialer.UI.Pages;
 
-namespace WoADialer.Systems
+namespace Dialer.Systems
 {
     public sealed class UISystem
     {
@@ -35,7 +35,7 @@ namespace WoADialer.Systems
 
         public static Type PageNameToType(string name)
         {
-            switch(name)
+            switch (name)
             {
                 case CALL_HISTORY_PAGE:
                     return typeof(HistoryPage);
@@ -109,7 +109,7 @@ namespace WoADialer.Systems
                 {
                     await MainWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () => _MainPagePages.Add(CALL_UI_PAGE));
                 }
-                switch(args.State)
+                switch (args.State)
                 {
                     case CallState.Incoming:
                     case CallState.Dialing:
@@ -177,7 +177,7 @@ namespace WoADialer.Systems
             Frame frame = ConstructUI();
             App.Current.CallSystem.CallManager.ActiveCallChanged += CallManager_ActiveCallChanged;
             MainWindow = Window.Current;
-            
+
             switch (args.Kind)
             {
                 case ActivationKind.Launch:

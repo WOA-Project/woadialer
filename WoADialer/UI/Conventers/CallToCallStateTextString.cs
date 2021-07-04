@@ -2,7 +2,7 @@
 using System;
 using Windows.UI.Xaml.Data;
 
-namespace WoADialer.UI.Conventers
+namespace Dialer.UI.Conventers
 {
     public sealed class CallToCallStateTextString : IValueConverter
     {
@@ -58,7 +58,7 @@ namespace WoADialer.UI.Conventers
 
         public object Convert(object value, Type targetType, object parameter, string language)
         {
-            switch(value)
+            switch (value)
             {
                 case Call call:
                     return Convert(call);

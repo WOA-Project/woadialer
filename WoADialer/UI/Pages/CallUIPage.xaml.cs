@@ -1,22 +1,17 @@
 ﻿using Internal.Windows.Calls;
 using System;
-using System.Linq;
 using System.Threading;
-using System.Threading.Tasks;
 using Windows.ApplicationModel.Calls;
 using Windows.ApplicationModel.Core;
 using Windows.Foundation;
-using Windows.UI;
 using Windows.UI.Core;
 using Windows.UI.Popups;
 using Windows.UI.ViewManagement;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Navigation;
-using WoADialer.UI.Controls;
-using WoADialer.UI.ViewModel;
 
-namespace WoADialer.UI.Pages
+namespace Dialer.UI.Pages
 {
     public sealed partial class CallUIPage : Page
     {

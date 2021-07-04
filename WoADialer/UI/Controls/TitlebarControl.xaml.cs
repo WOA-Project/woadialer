@@ -12,7 +12,7 @@ using Windows.UI.Xaml.Media;
 
 #nullable enable
 
-namespace WoADialer.UI.Controls
+namespace Dialer.UI.Controls
 {
     public sealed partial class TitlebarControl : UserControl
     {

@@ -1,8 +1,8 @@
-﻿using Windows.UI.Xaml;
+﻿using Dialer.UI.ViewModel;
+using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
-using WoADialer.UI.ViewModel;
 
-namespace WoADialer.UI.Pages
+namespace Dialer.UI.Pages
 {
     public sealed partial class AboutSettings : Page
     {

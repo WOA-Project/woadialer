@@ -1,13 +1,13 @@
 ﻿<Page
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:local="using:WoADialer.UI.Pages"
+    xmlns:local="using:Dialer.UI.Pages"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    xmlns:Custom="using:WoADialer.UI.Controls"
+    xmlns:Custom="using:Dialer.UI.Controls"
     xmlns:Windows10FallCreatorsUpdate="http://schemas.microsoft.com/winfx/2006/xaml/presentation?IsApiContractPresent(Windows.Foundation.UniversalApiContract, 5)"
     xmlns:Windows10version1809="http://schemas.microsoft.com/winfx/2006/xaml/presentation?IsApiContractPresent(Windows.Foundation.UniversalApiContract, 7)"
-    x:Class="WoADialer.UI.Pages.CallUIPage"
+    x:Class="Dialer.UI.Pages.CallUIPage"
     mc:Ignorable="d">
 
     <UserControl.Resources>

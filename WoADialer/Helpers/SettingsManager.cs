@@ -1,6 +1,6 @@
 ﻿using Windows.Storage;
 
-namespace WoADialer.Helpers
+namespace Dialer.Helpers
 {
     class SettingsManager
     {

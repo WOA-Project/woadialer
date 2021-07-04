@@ -7,7 +7,7 @@ using Windows.ApplicationModel.Background;
 using Windows.ApplicationModel.Calls.Background;
 using Windows.UI.Notifications;
 
-namespace WoADialer.Systems
+namespace Dialer.Systems
 {
     public sealed class BackgroundSystem
     {

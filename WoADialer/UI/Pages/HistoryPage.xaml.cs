@@ -1,18 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using Dialer.Systems;
 using Windows.ApplicationModel.Calls;
-using Windows.Storage.Streams;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Media.Animation;
-using Windows.UI.Xaml.Media.Imaging;
-using WoADialer.Systems;
-using WoADialer.UI.Controls;
-using WoADialer.UI.Conventers;
 
-namespace WoADialer.UI.Pages
+namespace Dialer.UI.Pages
 {
     public sealed partial class HistoryPage : Page
     {

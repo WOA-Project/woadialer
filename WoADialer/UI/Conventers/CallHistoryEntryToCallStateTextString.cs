@@ -3,7 +3,7 @@ using System;
 using Windows.ApplicationModel.Calls;
 using Windows.UI.Xaml.Data;
 
-namespace WoADialer.UI.Conventers
+namespace Dialer.UI.Conventers
 {
     public sealed class CallHistoryEntryToCallStateTextString : IValueConverter
     {
@@ -32,7 +32,7 @@ namespace WoADialer.UI.Conventers
 
         public object Convert(object value, Type targetType, object parameter, string language)
         {
-            switch(value)
+            switch (value)
             {
                 case PhoneCallHistoryEntry entry:
                     return Convert(entry);

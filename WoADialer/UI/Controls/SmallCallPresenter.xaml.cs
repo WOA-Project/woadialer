@@ -1,11 +1,11 @@
-﻿using System;
+﻿using Internal.Windows.Calls;
+using System;
 using System.Threading;
-using Internal.Windows.Calls;
 using Windows.UI.Core;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 
-namespace WoADialer.UI.Controls
+namespace Dialer.UI.Controls
 {
     public sealed partial class SmallCallPresenter : UserControl
     {
@@ -41,7 +41,7 @@ namespace WoADialer.UI.Controls
 
         private void PresentedCall_StateChanged(Call sender, CallStateChangedEventArgs args)
         {
-            switch(args.NewState)
+            switch (args.NewState)
             {
                 case CallState.Disconnected:
                 case CallState.Count:

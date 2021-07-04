@@ -1,4 +1,6 @@
-﻿using Internal.Windows.Calls;
+﻿using Dialer.Helpers;
+using Dialer.UI.Conventers;
+using Internal.Windows.Calls;
 using Microsoft.Toolkit.Uwp.Notifications;
 using System;
 using System.Collections.Generic;
@@ -8,10 +10,8 @@ using System.Text;
 using Windows.Foundation;
 using Windows.UI.Notifications;
 using Windows.UI.Notifications.Management;
-using WoADialer.Helpers;
-using WoADialer.UI.Conventers;
 
-namespace WoADialer.Systems
+namespace Dialer.Systems
 {
     public sealed class NotificationSystem
     {

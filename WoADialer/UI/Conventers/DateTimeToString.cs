@@ -2,7 +2,7 @@
 using System.Globalization;
 using Windows.UI.Xaml.Data;
 
-namespace WoADialer.UI.Conventers
+namespace Dialer.UI.Conventers
 {
     public sealed class DateTimeToString : IValueConverter
     {

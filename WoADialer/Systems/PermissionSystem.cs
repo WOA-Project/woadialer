@@ -6,7 +6,7 @@ using Windows.Devices.Haptics;
 using Windows.System;
 using Windows.UI.Notifications.Management;
 
-namespace WoADialer.Systems
+namespace Dialer.Systems
 {
     public sealed class PermissionSystem
     {

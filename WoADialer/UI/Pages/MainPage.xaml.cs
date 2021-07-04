@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Dialer.Systems;
+using System;
 using System.Collections.Specialized;
 using Windows.System;
 using Windows.UI.Xaml;
@@ -6,10 +7,9 @@ using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media.Animation;
 using Windows.UI.Xaml.Navigation;
-using WoADialer.Systems;
 using MUXC = Microsoft.UI.Xaml.Controls;
 
-namespace WoADialer.UI.Pages
+namespace Dialer.UI.Pages
 {
     public sealed partial class MainPage : Page
     {

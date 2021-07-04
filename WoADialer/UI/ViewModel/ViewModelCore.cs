@@ -3,7 +3,7 @@ using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using Windows.UI.Core;
 
-namespace WoADialer.UI.ViewModel
+namespace Dialer.UI.ViewModel
 {
     public abstract class ViewModelCore : INotifyPropertyChanged
     {
@@ -16,7 +16,7 @@ namespace WoADialer.UI.ViewModel
             Dispatcher = dispatcher;
         }
 
-        protected virtual void Set<T>(ref T storage, T value, [CallerMemberName]string propertyName = null)
+        protected virtual void Set<T>(ref T storage, T value, [CallerMemberName] string propertyName = null)
         {
             if (!Equals(storage, value))
             {
