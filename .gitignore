@@ -2,9 +2,9 @@
 packages
 releases
 PreparedInstaller
-WoADialer/AppPackages
-WoADialer/BundleArtifacts
-WoADialer/*.user
+Dialer/AppPackages
+Dialer/BundleArtifacts
+Dialer/*.user
 **/*.pfx
 */obj
 */bin
