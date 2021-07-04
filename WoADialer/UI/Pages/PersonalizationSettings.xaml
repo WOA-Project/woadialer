@@ -7,7 +7,39 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d">
 
-    <Grid>
+    <ScrollViewer Padding="24" VerticalScrollBarVisibility="Auto" VerticalScrollMode="Auto">
 
-    </Grid>
+        <!-- Dial Pad Size -->
+        <StackPanel Margin="{StaticResource DialogCategoryMargin}">
+            <StackPanel Orientation="Horizontal"
+                      Margin="{ThemeResource DialogTitleMargin}">
+                <TextBlock Text="&#xE75F;"
+                       Style="{ThemeResource FluentTitleIconStyle}" />
+                <TextBlock x:Uid="Settings_DialPadSizeTitle"
+                       Text="Dial Pad Size"
+                       Style="{StaticResource FluentTitleTextStyle}" />
+            </StackPanel>
+
+            <TextBlock x:Uid="Settings_DialPadSizeIntro"
+                     Text="You can choose a format to show the numbers you're dialing:"
+                     TextWrapping="Wrap"
+                     Margin="{StaticResource DialogSubtitleMargin}"/>
+
+            <RadioButton x:Name="shortDialPadRadio"
+                       x:Uid="Settings_DialPadSizeShortRadio"
+                       Content="Short"
+                       IsChecked="False"/>
+            <RadioButton x:Name="mediumDialPadRadio"
+                       x:Uid="Settings_DialPadSizeMediumRadio"
+                       Content="Medium"
+                       IsChecked="False"/>
+            <RadioButton x:Name="tallDialPadRadio"
+                       x:Uid="Settings_DialPadSizeTallRadio"
+                       Content="Tall"
+                       IsChecked="True"/>
+
+
+        </StackPanel>
+
+    </ScrollViewer>
 </Page>

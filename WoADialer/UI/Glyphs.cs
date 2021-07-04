@@ -25,6 +25,7 @@
         public const string CALL_SETTINGS_PERSONALIZATION = "\uE771";
         public const string CALL_SETTINGS_LINES = "\uEC05";
         public const string CALL_SETTINGS_SOUND = "\uE940";
+        public const string CALL_SETTINGS_ABOUT = "\uE946";
 
         public const string CALL_INCALL_TALKING = "\uE13A";
         public const string CALL_INCALL_DIALING = "\uE80B";

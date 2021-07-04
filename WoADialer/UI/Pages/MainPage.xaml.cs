@@ -1,19 +1,12 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Collections.Specialized;
-using System.Linq;
-using Windows.Foundation;
 using Windows.System;
-using Windows.UI.Core;
-using Windows.UI.ViewManagement;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Data;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media.Animation;
 using Windows.UI.Xaml.Navigation;
 using WoADialer.Systems;
-using WoADialer.UI.Dialogs;
 using MUXC = Microsoft.UI.Xaml.Controls;
 
 namespace WoADialer.UI.Pages
@@ -38,20 +31,6 @@ namespace WoADialer.UI.Pages
             }
         }
 
-        private void NavView_ItemInvoked(MUXC.NavigationView sender, MUXC.NavigationViewItemInvokedEventArgs args)
-        {
-            //if (args.IsSettingsInvoked == true)
-            //{
-            //    SettingsDialog dialog = new SettingsDialog();
-            //    await dialog.ShowAsync();
-            //}
-            //else if (args.InvokedItemContainer != null)
-            //{
-            //    var navItemTag = args.InvokedItemContainer.Tag.ToString();
-            //    NavView_Navigate(navItemTag, args.RecommendedNavigationTransitionInfo);
-            //}
-        }
-
         private void NavView_Loaded(object sender, RoutedEventArgs e)
         {
             // Add handler for ContentFrame navigation.
@@ -72,13 +51,11 @@ namespace WoADialer.UI.Pages
             this.KeyboardAccelerators.Add(altLeft);
         }
 
-        private async void NavView_SelectionChanged(MUXC.NavigationView sender, MUXC.NavigationViewSelectionChangedEventArgs args)
+        private void NavView_SelectionChanged(MUXC.NavigationView sender, MUXC.NavigationViewSelectionChangedEventArgs args)
         {
             if (args.IsSettingsSelected == true)
             {
-                //(Window.Current.Content as Frame).Navigate(typeof(Settings));
-                SettingsDialog dialog = new SettingsDialog();
-                await dialog.ShowAsync();
+                Navigate("SettingsPage", args.RecommendedNavigationTransitionInfo);
             }
             else if (args.SelectedItemContainer != null)
             {
@@ -91,23 +68,10 @@ namespace WoADialer.UI.Pages
             }
         }
 
-        public async void Navigate(string navItemTag, NavigationTransitionInfo transitionInfo, object parameter = null)
+        public void Navigate(string navItemTag, NavigationTransitionInfo transitionInfo, object parameter = null)
         {
-            Type _page = null;
-            if (navItemTag == "settings")
-            {
-                SettingsDialog dialog = new SettingsDialog();
-                await dialog.ShowAsync();
-            }
-            else if (navItemTag == "About")
-            {
-                AboutDialog dialog = new AboutDialog();
-                await dialog.ShowAsync();
-            }
-            else
-            {
-                _page = UISystem.PageNameToType(navItemTag);
-            }
+            Type _page = UISystem.PageNameToType(navItemTag);
+
             // Get the page type before navigation so you can prevent duplicate
             // entries in the backstack.
             var preNavPageType = ContentFrame.CurrentSourcePageType;
@@ -149,20 +113,6 @@ namespace WoADialer.UI.Pages
         private void On_Navigated(object sender, NavigationEventArgs e)
         {
             nv_PagePresenter.IsBackEnabled = ContentFrame.CanGoBack;
-            if (ContentFrame.SourcePageType != null)
-            {
-                //var item = _pages.FirstOrDefault(p => p.Page == e.SourcePageType);
-
-                //NavView.SelectedItem = NavView.MenuItems
-                //    .OfType<MUXC.NavigationViewItem>()
-                //    .First(n => n.Tag.Equals(item.Tag));
-            }
-        }
-
-        private async void AboutButton_Click(object sender, RoutedEventArgs e)
-        {
-            AboutDialog dialog = new AboutDialog();
-            await dialog.ShowAsync();
         }
 
         private void Page_Loaded(object sender, RoutedEventArgs e)

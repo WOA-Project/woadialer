@@ -31,6 +31,8 @@ namespace WoADialer.UI.Conventers
                         return Glyphs.CALL_SETTINGS_LINES;
                     case UISystem.SOUND_SETTINGS_PAGE:
                         return Glyphs.CALL_SETTINGS_SOUND;
+                    case UISystem.ABOUT_SETTINGS_PAGE:
+                        return Glyphs.CALL_SETTINGS_ABOUT;
                     default:
                         return string.Empty;
                 }

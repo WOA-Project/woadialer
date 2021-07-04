@@ -1,22 +1,16 @@
 ﻿using Internal.Windows.Calls;
 using Microsoft.Toolkit.Uwp.Notifications;
 using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Windows.ApplicationModel.Activation;
 using Windows.ApplicationModel.Calls;
 using Windows.ApplicationModel.Core;
 using Windows.ApplicationModel.LockScreen;
 using Windows.Foundation;
-using Windows.System;
 using Windows.UI.Core;
 using Windows.UI.ViewManagement;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Navigation;
 using WoADialer.Helpers;
 using WoADialer.UI.Pages;
@@ -31,11 +25,13 @@ namespace WoADialer.Systems
         public const string CALL_UI_PAGE = "CallUIPage";
         public const string CONTACTS_PAGE = "ContactsPage";
         public const string DIAL_PAGE = "DialPage";
+        public const string SETTINGS_PAGE = "SettingsPage";
         public const string APPLICATIONS_SETTINGS_PAGE = "ApplicationsSettings";
         public const string PHONE_LINES_SETTINGS_PAGE = "PhoneLinesSettings";
         public const string PERSONALIZATION_SETTINGS_PAGE = "PersonalizationSettings";
         public const string NOTIFICATIONS_SETTINGS_PAGE = "NotificationsSettings";
         public const string SOUND_SETTINGS_PAGE = "SoundSettings";
+        public const string ABOUT_SETTINGS_PAGE = "AboutSettings";
 
         public static Type PageNameToType(string name)
         {
@@ -49,6 +45,8 @@ namespace WoADialer.Systems
                     return typeof(ContactsPage);
                 case DIAL_PAGE:
                     return typeof(DialPage);
+                case SETTINGS_PAGE:
+                    return typeof(SettingsPage);
                 case APPLICATIONS_SETTINGS_PAGE:
                     return typeof(ApplicationsSettings);
                 case PHONE_LINES_SETTINGS_PAGE:
@@ -57,6 +55,8 @@ namespace WoADialer.Systems
                     return typeof(PersonalizationSettings);
                 case NOTIFICATIONS_SETTINGS_PAGE:
                     return typeof(NotificationsSettings);
+                case ABOUT_SETTINGS_PAGE:
+                    return typeof(AboutSettings);
                 case SOUND_SETTINGS_PAGE:
                 default:
                     return null;
@@ -65,6 +65,7 @@ namespace WoADialer.Systems
 
         private readonly ObservableCollection<string> _MainPagePages;
         private readonly ObservableCollection<string> _SettingsPages;
+        private readonly ObservableCollection<string> _SettingsFooterPages;
         private Window MainWindow;
         private Window CallUIWindow;
 
@@ -72,6 +73,7 @@ namespace WoADialer.Systems
         public LockApplicationHost LockApplicationHost { get; private set; }
         public ReadOnlyObservableCollection2<string> MainPagePages { get; }
         public ReadOnlyObservableCollection<string> SettingsPages { get; }
+        public ReadOnlyObservableCollection<string> SettingsFooterPages { get; }
 
         public UISystem()
         {
@@ -79,16 +81,24 @@ namespace WoADialer.Systems
             {
                 CALL_HISTORY_PAGE,
                 CONTACTS_PAGE,
-                DIAL_PAGE
+                DIAL_PAGE,
+                SETTINGS_PAGE
             };
             MainPagePages = new ReadOnlyObservableCollection2<string>(_MainPagePages);
             _SettingsPages = new ObservableCollection<string>()
             {
-                CALL_HISTORY_PAGE,
-                CONTACTS_PAGE,
-                DIAL_PAGE
+                APPLICATIONS_SETTINGS_PAGE,
+                PHONE_LINES_SETTINGS_PAGE,
+                PERSONALIZATION_SETTINGS_PAGE,
+                NOTIFICATIONS_SETTINGS_PAGE,
+                SOUND_SETTINGS_PAGE
             };
             SettingsPages = new ReadOnlyObservableCollection<string>(_SettingsPages);
+            _SettingsFooterPages = new ObservableCollection<string>()
+            {
+                ABOUT_SETTINGS_PAGE
+            };
+            SettingsFooterPages = new ReadOnlyObservableCollection<string>(_SettingsFooterPages);
         }
 
         private async void CallManager_ActiveCallChanged(CallManager sender, Call args)

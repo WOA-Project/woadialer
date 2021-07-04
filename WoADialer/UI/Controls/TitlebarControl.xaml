@@ -85,7 +85,6 @@
                 Grid.Column="4"
                 Click="AttachDebuggerButton_Click"
                 Background="Transparent"
-                CornerRadius="0"
                 Visibility="Collapsed"
                 BorderBrush="Transparent">
             <FontIcon FontFamily="{ThemeResource SymbolThemeFontFamily}" Glyph="&#xEBE8;" FontSize="14" />

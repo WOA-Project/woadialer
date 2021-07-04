@@ -16,7 +16,6 @@
         <ResourceDictionary Source="..\Conventers\Conventers.xaml"/>
     </UserControl.Resources>
 
-
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
@@ -25,7 +24,15 @@
         <controls:TitlebarControl x:Name="Titlebar"
                                   HorizontalAlignment="Stretch"/>
 
-        <muxc:NavigationView Name="nv_PagePresenter" Grid.Row="1" MenuItemsSource="{x:Bind UISystem.MainPagePages}" SelectedItem="{x:Bind UISystem.MainPagePages[2]}" PaneDisplayMode="Top" Loaded="NavView_Loaded" ItemInvoked="NavView_ItemInvoked" BackRequested="NavView_BackRequested" AlwaysShowHeader="True" SelectionChanged="NavView_SelectionChanged">
+        <muxc:NavigationView x:Name="nv_PagePresenter"
+                             Grid.Row="1"
+                             MenuItemsSource="{x:Bind UISystem.MainPagePages}"
+                             SelectedItem="{x:Bind UISystem.MainPagePages[2]}"
+                             PaneDisplayMode="Top"
+                             Loaded="NavView_Loaded"
+                             BackRequested="NavView_BackRequested"
+                             AlwaysShowHeader="True"
+                             SelectionChanged="NavView_SelectionChanged">
             <muxc:NavigationView.MenuItemTemplate>
                 <DataTemplate x:DataType="x:String">
                     <muxc:NavigationViewItem Content="{x:Bind Converter={StaticResource PageNameToTextString}}" Tag="{x:Bind}">
@@ -35,14 +42,7 @@
                     </muxc:NavigationViewItem>
                 </DataTemplate>
             </muxc:NavigationView.MenuItemTemplate>
-            <muxc:NavigationView.PaneFooter>
-                <AppBarButton Opacity="0.75" x:Name="AboutButton" Click="AboutButton_Click">
-                    <AppBarButton.Icon>
-                        <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xE946;"/>
-                    </AppBarButton.Icon>
-                </AppBarButton>
-            </muxc:NavigationView.PaneFooter>
-
+            
             <Frame x:Name="ContentFrame" IsTabStop="True"/>
         </muxc:NavigationView>
     </Grid>
