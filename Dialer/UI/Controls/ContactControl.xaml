@@ -12,7 +12,12 @@
 
     <Grid x:Name="MainGrid" MinHeight="80" Height="80">
         <Grid x:Name="PrimaryPanel" Background="#30ffffff" Height="80" VerticalAlignment="Top" CornerRadius="4, 4, 4, 4" Tapped="ToggleMoreDataButton_Tapped">
-            <Image x:Name="ContactImage" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="30, 0, 0, 0" Width="40" Height="40"/>
+            <Ellipse HorizontalAlignment="Left" VerticalAlignment="Center" Margin="30, 0, 0, 0" Width="40" Height="40">
+                <Ellipse.Fill>
+                    <ImageBrush x:Name="ContactImage" ImageSource="/Assets/NoContactIcon.png" />
+                </Ellipse.Fill>
+            </Ellipse>
+
             <StackPanel Orientation="Vertical" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="90, 0, 0, 0">
                 <TextBlock x:Name="ContactNameTB"><Run Text="[ContactName]"/></TextBlock>
                 <TextBlock x:Name="ContactMainPhoneTB" Style="{StaticResource CaptionTextBlockStyle}"><Run Text="[+99 999 999999]"/></TextBlock>

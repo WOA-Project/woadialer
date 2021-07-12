@@ -26,10 +26,6 @@ namespace Dialer.UI.Controls
 {
     public sealed partial class ContactControl : UserControl
     {
-        private CallSystem CallSystem => App.Current.CallSystem;
-        private DisplayableLine CurrentPhoneLine;
-        private ObservableCollection<DisplayableLine> DisplayableLines = new ObservableCollection<DisplayableLine>(App.Current.CallSystem.Lines.Select(x => new DisplayableLine(x)));
-
         public string ContactName
         {
             get => ContactNameTB.Text;
@@ -44,18 +40,21 @@ namespace Dialer.UI.Controls
 
         public IRandomAccessStreamReference ContactPicture
         {
-            set => ContactImage.Source = new BitmapImage(new Uri(((StorageFile) value).Path));
+            set 
+            {
+                try
+                {
+                    ContactImage.ImageSource = new BitmapImage(new Uri(((StorageFile)value).Path));
+                } catch
+                {
+                    ContactImage.ImageSource = new BitmapImage(new Uri("ms-appx:///Assets//NoContactIcon.png"));
+                }
+            }
         }
 
         public ContactControl()
         {
             InitializeComponent();
-
-            //CallSystem.Lines.CollectionChanged += Lines_CollectionChanged;
-
-            if (CallSystem.DefaultLine != null && DisplayableLines.Any(x => x.Line.Id == CallSystem.DefaultLine.Id))
-                CurrentPhoneLine = DisplayableLines.First(x => x.Line.Id == CallSystem.DefaultLine.Id);
-            //PhoneLineSelector.SelectedItem = CurrentPhoneLine;
         }
 
         private void ToggleMoreDataButton_Tapped(object sender, TappedRoutedEventArgs e)
@@ -84,7 +83,7 @@ namespace Dialer.UI.Controls
             //TODO: Check for missing phone lines. If no phone lines, show an alert
             try
             {
-                CurrentPhoneLine?.Line?.DialWithOptions(new PhoneDialOptions() { Number = ContactMainPhone.ToString() });
+                App.Current.CallSystem.DefaultLine?.DialWithOptions(new PhoneDialOptions() { Number = ContactMainPhone.ToString() });
             }
             catch { }
         }
