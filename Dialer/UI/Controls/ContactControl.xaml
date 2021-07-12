@@ -20,7 +20,7 @@
             <Button x:Name="ToggleMoreDataButton" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="0, 2, 20, 0" Style="{StaticResource TextBlockButtonStyle}" >
                 <FontIcon x:Name="ToggleMoreDataButtonIcon" Foreground="{StaticResource ApplicationForegroundThemeBrush}" FontFamily="Segoe Fluent Icons" Glyph="&#xE011;" />
             </Button>
-            <Button HorizontalAlignment="Right" VerticalAlignment="Center" Margin="0, 0, 70, 0">
+            <Button x:Name="MainCallButton" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="0, 0, 70, 0" Tapped="MainCallButton_Tapped">
                 <StackPanel Orientation="Horizontal" Spacing="10">
                     <FontIcon FontFamily="Segoe Fluent Icons" Glyph="&#xE13A;" />
                     <TextBlock><Run Text="Call"/></TextBlock>

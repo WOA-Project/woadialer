@@ -11,7 +11,7 @@
     NavigationCacheMode="Required">
 
     <Grid>
-        <controls:VerticalIndexScrollbar x:Name="viScrollbar" HorizontalAlignment="Right" VerticalAlignment="Stretch" Margin="0, 10, 15, 10"></controls:VerticalIndexScrollbar>
+        <controls:VerticalIndexScrollbar x:Name="viScrollbar" HorizontalAlignment="Right" VerticalAlignment="Stretch" Margin="0, 20, 15, 10"></controls:VerticalIndexScrollbar>
         <ScrollViewer Padding="10" Margin="0, 0, 40, 0">
             <ItemsControl ItemsSource="{x:Bind ContactControls}">
                 <ItemsControl.ItemsPanel>
@@ -23,9 +23,11 @@
             </ItemsControl>
         </ScrollViewer>
         <Grid x:Name="LoadingGrid" Visibility="Collapsed">
+            <Grid Background="{StaticResource SystemControlAcrylicElementBrush}"></Grid>
             <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center" Spacing="10">
-                <ProgressRing IsActive="True"></ProgressRing>
-                <TextBlock>Loading contact list...</TextBlock>
+                <ProgressRing IsActive="True" HorizontalAlignment="Center"></ProgressRing>
+                <TextBlock HorizontalAlignment="Center">Loading contact list...</TextBlock>
+                <TextBlock x:Name="LoadingGridProgressCount" HorizontalAlignment="Center" Text=""></TextBlock>
             </StackPanel>
         </Grid>
     </Grid>

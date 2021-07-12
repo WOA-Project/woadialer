@@ -26,10 +26,13 @@ namespace Dialer.UI.Pages
             base.OnNavigatedTo(e);
             SizeChanged += ContactsPage_SizeChanged;
 
+            //await Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.High, () => {
+            //    LoadingGridProgressCount.Text = "";
+            //});
             LoadingGrid.Visibility = Windows.UI.Xaml.Visibility.Visible;
 
-            //if(ContactControls.Count != 0)
-            //{
+            if(ContactControls.Count == 0)
+            {
                 ContactStore contactStore = await ContactManager.RequestStoreAsync();
                 IReadOnlyList<Contact> contacts = await contactStore.FindContactsAsync();
 
@@ -37,6 +40,9 @@ namespace Dialer.UI.Pages
 
                 foreach (Contact contact in contacts)
                 {
+                    //await Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.High, () => {
+                    //    LoadingGridProgressCount.Text = "(" + ContactControls.Count + " out of " + contacts.Count + ")";
+                    //});
                     ContactControl cc = new ContactControl();
                     cc.ContactName = contact.DisplayName;
                     if (contact.Phones.Count == 0) continue;
@@ -47,7 +53,7 @@ namespace Dialer.UI.Pages
                     } catch { }
                     ContactControls.Add(cc);
                 }
-            //}
+            }
 
             LoadingGrid.Visibility = Windows.UI.Xaml.Visibility.Collapsed;
         }
@@ -55,6 +61,11 @@ namespace Dialer.UI.Pages
         private void ContactsPage_SizeChanged(object sender, Windows.UI.Xaml.SizeChangedEventArgs e)
         {
             viScrollbar.FixSpacing();
+        }
+
+        public void NavigateToLetter(char letter)
+        {
+            throw new NotImplementedException();
         }
     }
 }

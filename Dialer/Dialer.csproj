@@ -31,7 +31,7 @@
     <HoursBetweenUpdateChecks>0</HoursBetweenUpdateChecks>
     <AppxPackageSigningEnabled>True</AppxPackageSigningEnabled>
     <AppxPackageSigningTimestampDigestAlgorithm>SHA256</AppxPackageSigningTimestampDigestAlgorithm>
-    <PackageCertificateThumbprint>22CE1297025BAE413F6BEF99F1A63E5B7BB2536B</PackageCertificateThumbprint>
+    <PackageCertificateThumbprint>040885C2D07C83DDF905F42787FC244EFB3EFD00</PackageCertificateThumbprint>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x86'">
     <DebugSymbols>true</DebugSymbols>
@@ -143,8 +143,14 @@
     <Compile Include="UI\Controls\CallHistoryEntryPresenter.xaml.cs">
       <DependentUpon>CallHistoryEntryPresenter.xaml</DependentUpon>
     </Compile>
+    <Compile Include="UI\Controls\ContactControl.xaml.cs">
+      <DependentUpon>ContactControl.xaml</DependentUpon>
+    </Compile>
     <Compile Include="UI\Controls\LinePresenter.xaml.cs">
       <DependentUpon>LinePresenter.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UI\Controls\VerticalIndexScrollbar.xaml.cs">
+      <DependentUpon>VerticalIndexScrollbar.xaml</DependentUpon>
     </Compile>
     <Compile Include="UI\Conventers\CallHistoryEntryToCallStateGlyphString.cs" />
     <Compile Include="UI\Conventers\CallHistoryEntryToContact.cs" />
@@ -292,6 +298,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="UI\Controls\ContactControl.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="UI\Controls\LinePresenter.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -305,6 +315,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="UI\Controls\TitlebarControl.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="UI\Controls\VerticalIndexScrollbar.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
