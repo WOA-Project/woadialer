@@ -75,7 +75,7 @@ namespace Dialer.UI.Controls
             BackButtonClick?.Invoke(this, e);
         }
 
-        public async void RefreshColor()
+        public void RefreshColor()
         {
             ApplicationViewTitleBar titlebar = ApplicationView.GetForCurrentView().TitleBar;
             SolidColorBrush transparentColorBrush = new() { Opacity = 0 };
