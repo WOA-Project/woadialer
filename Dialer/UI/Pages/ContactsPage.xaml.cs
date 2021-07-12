@@ -3,7 +3,10 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
+using System.Linq;
+using System.Timers;
 using Windows.ApplicationModel.Contacts;
+using Windows.Storage.Streams;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Navigation;
 
@@ -15,10 +18,16 @@ namespace Dialer.UI.Pages
 
         ObservableCollection<ContactControl> ContactControls;
 
+        public static ContactsPage CurrentInstance;
+
+        private Timer HideHintTimer;
+
         public ContactsPage()
         {
             InitializeComponent();
             ContactControls = new ObservableCollection<ContactControl>();
+
+            CurrentInstance = this;
         }
 
         protected async override void OnNavigatedTo(NavigationEventArgs e)
@@ -26,9 +35,11 @@ namespace Dialer.UI.Pages
             base.OnNavigatedTo(e);
             SizeChanged += ContactsPage_SizeChanged;
 
+            //TODO: Improve loading by showing a percentage or number of contacts loaded?
             //await Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.High, () => {
             //    LoadingGridProgressCount.Text = "";
             //});
+
             LoadingGrid.Visibility = Windows.UI.Xaml.Visibility.Visible;
 
             if(ContactControls.Count == 0)
@@ -40,6 +51,7 @@ namespace Dialer.UI.Pages
 
                 foreach (Contact contact in contacts)
                 {
+                    //TODO: Improve loading by showing a percentage or number of contacts loaded?
                     //await Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.High, () => {
                     //    LoadingGridProgressCount.Text = "(" + ContactControls.Count + " out of " + contacts.Count + ")";
                     //});
@@ -47,10 +59,9 @@ namespace Dialer.UI.Pages
                     cc.ContactName = contact.DisplayName;
                     if (contact.Phones.Count == 0) continue;
                     cc.ContactMainPhone = contact.Phones[0].Number;
-                    try
-                    {
-                        if(contact.SmallDisplayPicture != null) cc.ContactPicture = contact.SmallDisplayPicture;
-                    } catch { }
+                    if(contact.SmallDisplayPicture != null) 
+                        //TODO: Fix wrong cast
+                        cc.ContactPicture = contact.SmallDisplayPicture;
                     ContactControls.Add(cc);
                 }
             }
@@ -63,7 +74,44 @@ namespace Dialer.UI.Pages
             viScrollbar.FixSpacing();
         }
 
-        public void NavigateToLetter(char letter)
+        public void NavigateToLetter(string letter)
+        {
+            IEnumerable<ContactControl> ContactsWithLetter = from contact in ContactControls where contact.ContactName.ToUpper().StartsWith(letter) select contact;
+
+            ScrollLetterHint.Text = letter;
+            if(ScrollLetterGrid.Visibility == Windows.UI.Xaml.Visibility.Collapsed) ScrollLetterHintShow.Begin();
+            ScrollLetterGrid.Visibility = Windows.UI.Xaml.Visibility.Visible;
+            if (HideHintTimer != null)
+            {
+                HideHintTimer.Stop();
+                HideHintTimer.Dispose();
+            }
+            HideHintTimer = new Timer(1000);
+            HideHintTimer.Elapsed += async (object sender, ElapsedEventArgs e) =>
+            {
+                await Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.High, () =>
+                {
+                    ScrollLetterHintHide.Begin();
+                    ScrollLetterHintHide.Completed += async (object sender, object e) =>
+                    {
+                        await Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.High, () =>
+                        {
+                            ScrollLetterGrid.Visibility = Windows.UI.Xaml.Visibility.Collapsed;
+                        });
+                    };
+                });
+            };
+            HideHintTimer.Start();
+
+            //TODO: Fix for missing letter -> move to previous/next letter
+            try
+            {
+                ContactsWithLetter.First().StartBringIntoView();
+            } catch { }
+            Debug.WriteLine("Got request to navigate to letter " + letter);
+        }
+
+        private void ScrollLetterHintHide_Completed(object sender, object e)
         {
             throw new NotImplementedException();
         }

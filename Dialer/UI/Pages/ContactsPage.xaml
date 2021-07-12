@@ -12,8 +12,8 @@
 
     <Grid>
         <controls:VerticalIndexScrollbar x:Name="viScrollbar" HorizontalAlignment="Right" VerticalAlignment="Stretch" Margin="0, 20, 15, 10"></controls:VerticalIndexScrollbar>
-        <ScrollViewer Padding="10" Margin="0, 0, 40, 0">
-            <ItemsControl ItemsSource="{x:Bind ContactControls}">
+        <ScrollViewer x:Name="ContactsScrollViewer" Padding="10" Margin="0, 0, 40, 0">
+            <ItemsControl x:Name="ContactsItemsControl" ItemsSource="{x:Bind ContactControls}">
                 <ItemsControl.ItemsPanel>
                     <ItemsPanelTemplate>
                         <StackPanel Spacing="3">
@@ -22,6 +22,17 @@
                 </ItemsControl.ItemsPanel>
             </ItemsControl>
         </ScrollViewer>
+        <Grid x:Name="ScrollLetterGrid" Visibility="Collapsed" HorizontalAlignment="Center" VerticalAlignment="Center" Background="{StaticResource SystemControlAcrylicElementBrush}" Margin="0, 0, 40, 0" Width="200" Height="200" CornerRadius="8">
+            <Grid.Resources>
+                <Storyboard x:Name="ScrollLetterHintShow">
+                    <DoubleAnimation Storyboard.TargetName="ScrollLetterGrid" Storyboard.TargetProperty="Opacity" Duration="0:0:0.1" From="0" To="1"></DoubleAnimation>
+                </Storyboard>
+                <Storyboard x:Name="ScrollLetterHintHide">
+                    <DoubleAnimation Storyboard.TargetName="ScrollLetterGrid" Storyboard.TargetProperty="Opacity" Duration="0:0:0.1" From="1" To="0"></DoubleAnimation>
+                </Storyboard>
+            </Grid.Resources>
+            <TextBlock x:Name="ScrollLetterHint" FontSize="80" VerticalAlignment="Center" HorizontalAlignment="Center">A</TextBlock>
+        </Grid>
         <Grid x:Name="LoadingGrid" Visibility="Collapsed">
             <Grid Background="{StaticResource SystemControlAcrylicElementBrush}"></Grid>
             <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center" Spacing="10">

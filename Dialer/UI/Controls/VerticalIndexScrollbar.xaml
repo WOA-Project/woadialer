@@ -10,35 +10,35 @@
     d:DesignWidth="30">
 
     <Grid>
-        <StackPanel x:Name="LettersStackPanel" Orientation="Vertical" HorizontalAlignment="Center" Opacity="0.5">
-            <TextBlock>#</TextBlock>
-            <TextBlock>A</TextBlock>
-            <TextBlock>B</TextBlock>
-            <TextBlock>C</TextBlock>
-            <TextBlock>D</TextBlock>
-            <TextBlock>E</TextBlock>
-            <TextBlock>F</TextBlock>
-            <TextBlock>G</TextBlock>
-            <TextBlock>H</TextBlock>
-            <TextBlock>I</TextBlock>
-            <TextBlock>J</TextBlock>
-            <TextBlock>K</TextBlock>
-            <TextBlock>L</TextBlock>
-            <TextBlock>M</TextBlock>
-            <TextBlock>N</TextBlock>
-            <TextBlock>O</TextBlock>
-            <TextBlock>P</TextBlock>
-            <TextBlock>Q</TextBlock>
-            <TextBlock>R</TextBlock>
-            <TextBlock>S</TextBlock>
-            <TextBlock>T</TextBlock>
-            <TextBlock>U</TextBlock>
-            <TextBlock>V</TextBlock>
-            <TextBlock>W</TextBlock>
-            <TextBlock>X</TextBlock>
-            <TextBlock>Y</TextBlock>
-            <TextBlock>Z</TextBlock>
-            <TextBlock>?</TextBlock>
+        <StackPanel x:Name="LettersStackPanel" Orientation="Vertical" HorizontalAlignment="Center" Opacity="0.5" PointerPressed="LettersStackPanel_PointerPressed" PointerMoved="LettersStackPanel_PointerMoved" PointerReleased="LettersStackPanel_PointerReleased">
+            <TextBlock x:Name="referenceTB" Tapped="Letter_Tapped">#</TextBlock>
+            <TextBlock Tapped="Letter_Tapped">A</TextBlock>
+            <TextBlock Tapped="Letter_Tapped">B</TextBlock>
+            <TextBlock Tapped="Letter_Tapped">C</TextBlock>
+            <TextBlock Tapped="Letter_Tapped">D</TextBlock>
+            <TextBlock Tapped="Letter_Tapped">E</TextBlock>
+            <TextBlock Tapped="Letter_Tapped">F</TextBlock>
+            <TextBlock Tapped="Letter_Tapped">G</TextBlock>
+            <TextBlock Tapped="Letter_Tapped">H</TextBlock>
+            <TextBlock Tapped="Letter_Tapped">I</TextBlock>
+            <TextBlock Tapped="Letter_Tapped">J</TextBlock>
+            <TextBlock Tapped="Letter_Tapped">K</TextBlock>
+            <TextBlock Tapped="Letter_Tapped">L</TextBlock>
+            <TextBlock Tapped="Letter_Tapped">M</TextBlock>
+            <TextBlock Tapped="Letter_Tapped">N</TextBlock>
+            <TextBlock Tapped="Letter_Tapped">O</TextBlock>
+            <TextBlock Tapped="Letter_Tapped">P</TextBlock>
+            <TextBlock Tapped="Letter_Tapped">Q</TextBlock>
+            <TextBlock Tapped="Letter_Tapped">R</TextBlock>
+            <TextBlock Tapped="Letter_Tapped">S</TextBlock>
+            <TextBlock Tapped="Letter_Tapped">T</TextBlock>
+            <TextBlock Tapped="Letter_Tapped">U</TextBlock>
+            <TextBlock Tapped="Letter_Tapped">V</TextBlock>
+            <TextBlock Tapped="Letter_Tapped">W</TextBlock>
+            <TextBlock Tapped="Letter_Tapped">X</TextBlock>
+            <TextBlock Tapped="Letter_Tapped">Y</TextBlock>
+            <TextBlock Tapped="Letter_Tapped">Z</TextBlock>
+            <TextBlock Tapped="Letter_Tapped">?</TextBlock>
         </StackPanel>
     </Grid>
 </UserControl>
