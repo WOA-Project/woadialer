@@ -1,0 +1,44 @@
+﻿<UserControl
+    x:Class="Dialer.UI.Controls.VerticalIndexScrollbar"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:Dialer.UI.Controls"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d"
+    d:DesignHeight="600"
+    d:DesignWidth="30">
+
+    <Grid>
+        <StackPanel x:Name="LettersStackPanel" Orientation="Vertical" HorizontalAlignment="Center" Opacity="0.5">
+            <TextBlock>#</TextBlock>
+            <TextBlock>A</TextBlock>
+            <TextBlock>B</TextBlock>
+            <TextBlock>C</TextBlock>
+            <TextBlock>D</TextBlock>
+            <TextBlock>E</TextBlock>
+            <TextBlock>F</TextBlock>
+            <TextBlock>G</TextBlock>
+            <TextBlock>H</TextBlock>
+            <TextBlock>I</TextBlock>
+            <TextBlock>J</TextBlock>
+            <TextBlock>K</TextBlock>
+            <TextBlock>L</TextBlock>
+            <TextBlock>M</TextBlock>
+            <TextBlock>N</TextBlock>
+            <TextBlock>O</TextBlock>
+            <TextBlock>P</TextBlock>
+            <TextBlock>Q</TextBlock>
+            <TextBlock>R</TextBlock>
+            <TextBlock>S</TextBlock>
+            <TextBlock>T</TextBlock>
+            <TextBlock>U</TextBlock>
+            <TextBlock>V</TextBlock>
+            <TextBlock>W</TextBlock>
+            <TextBlock>X</TextBlock>
+            <TextBlock>Y</TextBlock>
+            <TextBlock>Z</TextBlock>
+            <TextBlock>?</TextBlock>
+        </StackPanel>
+    </Grid>
+</UserControl>

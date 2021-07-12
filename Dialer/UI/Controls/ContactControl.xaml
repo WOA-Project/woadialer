@@ -1,0 +1,51 @@
+﻿<UserControl
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:Dialer.UI.Controls"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:Custom="using:System.Numerics" xmlns:Windows10version1809="http://schemas.microsoft.com/winfx/2006/xaml/presentation?IsApiContractPresent(Windows.Foundation.UniversalApiContract, 7)"
+    x:Class="Dialer.UI.Controls.ContactControl"
+    mc:Ignorable="d"
+    d:DesignHeight="80"
+    d:DesignWidth="600">
+
+    <Grid x:Name="MainGrid" MinHeight="80" Height="80">
+        <Grid x:Name="PrimaryPanel" Background="#30ffffff" Height="80" VerticalAlignment="Top" CornerRadius="4, 4, 4, 4" Tapped="ToggleMoreDataButton_Tapped">
+            <Image x:Name="ContactImage" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="30, 0, 0, 0" Width="40" Height="40"/>
+            <StackPanel Orientation="Vertical" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="90, 0, 0, 0">
+                <TextBlock x:Name="ContactNameTB"><Run Text="[ContactName]"/></TextBlock>
+                <TextBlock x:Name="ContactMainPhoneTB" Style="{StaticResource CaptionTextBlockStyle}"><Run Text="[+99 999 999999]"/></TextBlock>
+            </StackPanel>
+            <Button x:Name="ToggleMoreDataButton" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="0, 2, 20, 0" Style="{StaticResource TextBlockButtonStyle}" >
+                <FontIcon x:Name="ToggleMoreDataButtonIcon" Foreground="{StaticResource ApplicationForegroundThemeBrush}" FontFamily="Segoe Fluent Icons" Glyph="&#xE011;" />
+            </Button>
+            <Button HorizontalAlignment="Right" VerticalAlignment="Center" Margin="0, 0, 70, 0">
+                <StackPanel Orientation="Horizontal" Spacing="10">
+                    <FontIcon FontFamily="Segoe Fluent Icons" Glyph="&#xE13A;" />
+                    <TextBlock><Run Text="Call"/></TextBlock>
+                </StackPanel>
+            </Button>
+        </Grid>
+
+        <Grid x:Name="MoreDataPanel" Background="#15ffffff" Height="100" Visibility="Collapsed" Padding="30, 10, 30, 10" CornerRadius="0, 0, 4, 4" RenderTransformOrigin="0.5,0.5">
+            <Grid.Resources>
+                <Storyboard x:Name="ShowPaneAnimation">
+                    <DoubleAnimation Storyboard.TargetName="MoreDataPanel" Storyboard.TargetProperty="Opacity" Duration="0:0:0.1" From="0" To="1"/>
+                    <DoubleAnimation Storyboard.TargetName="testprop" Storyboard.TargetProperty="TranslateY" Duration="0:0:0.3" From="0" To="40"/>
+                    <DoubleAnimation x:Name="HeightAnimationOpen" Storyboard.TargetName="MainGrid" Storyboard.TargetProperty="Height" Duration="0:0:0.3" From="80" To="180"/>
+                </Storyboard>
+                <Storyboard x:Name="HidePaneAnimation">
+                    <DoubleAnimation Storyboard.TargetName="MoreDataPanel" Storyboard.TargetProperty="Opacity" Duration="0:0:0.1" From="1" To="0"/>
+                    <DoubleAnimation Storyboard.TargetName="testprop" Storyboard.TargetProperty="TranslateY" Duration="0:0:0.3" From="40" To="0"/>
+                    <DoubleAnimation x:Name="HeightAnimationClose" Storyboard.TargetName="MainGrid" Storyboard.TargetProperty="Height" Duration="0:0:0.3" From="180" To="80"/>
+                </Storyboard>
+            </Grid.Resources>
+            <Grid.Transform3D>
+                <CompositeTransform3D x:Name="testprop" TranslateY="50"/>
+            </Grid.Transform3D>
+            <TextBlock><Run Text="More contact data here"/></TextBlock>
+        </Grid>
+    </Grid>
+
+</UserControl>

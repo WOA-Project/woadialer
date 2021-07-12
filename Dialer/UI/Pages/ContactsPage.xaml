@@ -4,11 +4,29 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:local="using:Dialer.UI.Pages"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+    xmlns:Windows10version1903="http://schemas.microsoft.com/winfx/2006/xaml/presentation?IsApiContractPresent(Windows.Foundation.UniversalApiContract, 8)" 
+    xmlns:controls="using:Dialer.UI.Controls"
     mc:Ignorable="d"
     NavigationCacheMode="Required">
 
     <Grid>
-
+        <controls:VerticalIndexScrollbar x:Name="viScrollbar" HorizontalAlignment="Right" VerticalAlignment="Stretch" Margin="0, 10, 15, 10"></controls:VerticalIndexScrollbar>
+        <ScrollViewer Padding="10" Margin="0, 0, 40, 0">
+            <ItemsControl ItemsSource="{x:Bind ContactControls}">
+                <ItemsControl.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <StackPanel Spacing="3">
+                        </StackPanel>
+                    </ItemsPanelTemplate>
+                </ItemsControl.ItemsPanel>
+            </ItemsControl>
+        </ScrollViewer>
+        <Grid x:Name="LoadingGrid" Visibility="Collapsed">
+            <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center" Spacing="10">
+                <ProgressRing IsActive="True"></ProgressRing>
+                <TextBlock>Loading contact list...</TextBlock>
+            </StackPanel>
+        </Grid>
     </Grid>
 </Page>
