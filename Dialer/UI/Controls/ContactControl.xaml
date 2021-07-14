@@ -54,7 +54,7 @@
             <TextBlock><Run Text="More contact data here"/></TextBlock>
         </Grid>
     </Grid>-->
-    <muxc:Expander x:Name="ContactExpander" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" HorizontalContentAlignment="Stretch" Expanding="ContactExpander_Expanding">
+    <muxc:Expander x:Name="ContactExpander" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" HorizontalContentAlignment="Stretch">
 
         <muxc:Expander.Header>
             <Grid x:Name="PrimaryPanel" MinHeight="80" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
