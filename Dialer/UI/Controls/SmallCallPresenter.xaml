@@ -10,7 +10,7 @@
     d:DesignWidth="400" Height="64">
 
     <UserControl.Resources>
-        <ResourceDictionary Source="..\Conventers\Conventers.xaml"/>
+        <ResourceDictionary Source="..\Converters\Converters.xaml"/>
     </UserControl.Resources>
 
     <Grid>

@@ -10,7 +10,7 @@ using Windows.System;
 using Windows.UI.Xaml.Data;
 using Windows.UI.Xaml.Media.Imaging;
 
-namespace Dialer.UI.Conventers
+namespace Dialer.UI.Converters
 {
     public sealed class CallHistoryEntryToLineIconBitmap : IValueConverter
     {

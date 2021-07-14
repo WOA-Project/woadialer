@@ -20,11 +20,11 @@
         public const string CALL_PAGE_CONTACTS = "\uE1D4";
         public const string CALL_PAGE_INCALL = "\uE80B";
 
-        public const string CALL_SETTINGS_APPS = "\uF1A3";
+        public const string CALL_SETTINGS_APPS = "\uE74C";
         public const string CALL_SETTINGS_NOTIFICATIONS = "\uEA8F";
         public const string CALL_SETTINGS_PERSONALIZATION = "\uE771";
         public const string CALL_SETTINGS_LINES = "\uEC05";
-        public const string CALL_SETTINGS_SOUND = "\uE940";
+        public const string CALL_SETTINGS_SOUND = "\uE15D";
         public const string CALL_SETTINGS_ABOUT = "\uE946";
 
         public const string CALL_INCALL_TALKING = "\uE13A";

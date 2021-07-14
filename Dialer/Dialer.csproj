@@ -31,7 +31,7 @@
     <HoursBetweenUpdateChecks>0</HoursBetweenUpdateChecks>
     <AppxPackageSigningEnabled>True</AppxPackageSigningEnabled>
     <AppxPackageSigningTimestampDigestAlgorithm>SHA256</AppxPackageSigningTimestampDigestAlgorithm>
-    <PackageCertificateThumbprint>040885C2D07C83DDF905F42787FC244EFB3EFD00</PackageCertificateThumbprint>
+    <PackageCertificateThumbprint>22CE1297025BAE413F6BEF99F1A63E5B7BB2536B</PackageCertificateThumbprint>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x86'">
     <DebugSymbols>true</DebugSymbols>
@@ -152,18 +152,18 @@
     <Compile Include="UI\Controls\VerticalIndexScrollbar.xaml.cs">
       <DependentUpon>VerticalIndexScrollbar.xaml</DependentUpon>
     </Compile>
-    <Compile Include="UI\Conventers\CallHistoryEntryToCallStateGlyphString.cs" />
-    <Compile Include="UI\Conventers\CallHistoryEntryToContact.cs" />
-    <Compile Include="UI\Conventers\DateTimeToString.cs" />
-    <Compile Include="UI\Conventers\PhoneLineToDisplayNameText.cs" />
-    <Compile Include="UI\Conventers\CallHistoryEntryToLineIconBitmap.cs" />
-    <Compile Include="UI\Conventers\CallHistoryEntryToLineDisplayNameText.cs" />
-    <Compile Include="UI\Conventers\CallToCallStateGlyphString.cs" />
-    <Compile Include="UI\Conventers\CallHistoryEntryToCallStateTextString.cs" />
-    <Compile Include="UI\Conventers\CallToCallStateTextString.cs" />
-    <Compile Include="UI\Conventers\PageNameToGlyphString.cs" />
-    <Compile Include="UI\Conventers\PageNameToTextString.cs" />
-    <Compile Include="UI\Conventers\CallToCallLengthTextString.cs" />
+    <Compile Include="UI\Converters\CallHistoryEntryToCallStateGlyphString.cs" />
+    <Compile Include="UI\Converters\CallHistoryEntryToContact.cs" />
+    <Compile Include="UI\Converters\DateTimeToString.cs" />
+    <Compile Include="UI\Converters\PhoneLineToDisplayNameText.cs" />
+    <Compile Include="UI\Converters\CallHistoryEntryToLineIconBitmap.cs" />
+    <Compile Include="UI\Converters\CallHistoryEntryToLineDisplayNameText.cs" />
+    <Compile Include="UI\Converters\CallToCallStateGlyphString.cs" />
+    <Compile Include="UI\Converters\CallHistoryEntryToCallStateTextString.cs" />
+    <Compile Include="UI\Converters\CallToCallStateTextString.cs" />
+    <Compile Include="UI\Converters\PageNameToGlyphString.cs" />
+    <Compile Include="UI\Converters\PageNameToTextString.cs" />
+    <Compile Include="UI\Converters\CallToCallLengthTextString.cs" />
     <Compile Include="Systems\UISystem.cs" />
     <Compile Include="UI\Glyphs.cs" />
     <Compile Include="UI\Pages\AboutSettings.xaml.cs">
@@ -323,7 +323,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="UI\Conventers\Conventers.xaml">
+    <Page Include="UI\Converters\Converters.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
