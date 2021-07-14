@@ -1,11 +1,14 @@
 ﻿using Dialer.Systems;
+using Microsoft.UI.Xaml.Controls;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Numerics;
 using System.Runtime.InteropServices.WindowsRuntime;
+using System.Timers;
 using Windows.ApplicationModel.Calls;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
@@ -26,6 +29,9 @@ namespace Dialer.UI.Controls
 {
     public sealed partial class ContactControl : UserControl
     {
+        private List<Tuple<string, string>> additionalPhoneContacts;
+        private ObservableCollection<AdditionalPhoneContactPresenter> additionalPhoneContactPresenters;
+
         public string ContactName
         {
             get => ContactNameTB.Text;
@@ -36,6 +42,22 @@ namespace Dialer.UI.Controls
         {
             get => ContactMainPhoneTB.Text;
             set => ContactMainPhoneTB.Text = value;
+        }
+
+        public List<Tuple<string, string>> AdditionalContactPhones
+        {
+            get => additionalPhoneContacts;
+            set
+            {
+                additionalPhoneContacts = value;
+                foreach (Tuple<string, string> additionalPhone in value)
+                {
+                    AdditionalPhoneContactPresenter apcp = new AdditionalPhoneContactPresenter();
+                    apcp.PhoneType = additionalPhone.Item1;
+                    apcp.PhoneNumber = additionalPhone.Item2;
+                    additionalPhoneContactPresenters.Add(apcp);
+                }
+            }
         }
 
         public IRandomAccessStreamReference ContactPicture
@@ -55,27 +77,7 @@ namespace Dialer.UI.Controls
         public ContactControl()
         {
             InitializeComponent();
-        }
-
-        private void ToggleMoreDataButton_Tapped(object sender, TappedRoutedEventArgs e)
-        {
-            if (MoreDataPanel.Visibility == Visibility.Collapsed)
-            {
-                ToggleMoreDataButtonIcon.Glyph = "\uE010";
-                MoreDataPanel.Visibility = Visibility.Visible;
-                //MoreDataPanel.Margin = new Thickness(0, 80, 0, 0);
-                HeightAnimationOpen.To = 80 + MoreDataPanel.ActualHeight;
-                ShowPaneAnimation.Begin();
-                PrimaryPanel.CornerRadius = new CornerRadius(4, 4, 0, 0);
-            } else
-            {
-                ToggleMoreDataButtonIcon.Glyph = "\uE011";
-                //MoreDataPanel.Margin = new Thickness(0, 0, 0, 0);
-                HeightAnimationClose.From = 80 + MoreDataPanel.ActualHeight;
-                HidePaneAnimation.Completed += (object a, object b) => MoreDataPanel.Visibility = Visibility.Collapsed;
-                HidePaneAnimation.Begin();
-                PrimaryPanel.CornerRadius = new CornerRadius(4, 4, 4, 4);
-            }
+            additionalPhoneContactPresenters = new ObservableCollection<AdditionalPhoneContactPresenter>();
         }
 
         private void MainCallButton_Tapped(object sender, TappedRoutedEventArgs e)

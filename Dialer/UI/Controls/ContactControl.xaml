@@ -4,13 +4,15 @@
     xmlns:local="using:Dialer.UI.Controls"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    xmlns:Custom="using:System.Numerics" xmlns:Windows10version1809="http://schemas.microsoft.com/winfx/2006/xaml/presentation?IsApiContractPresent(Windows.Foundation.UniversalApiContract, 7)"
+    xmlns:Custom="using:System.Numerics" 
+    xmlns:Windows10version1809="http://schemas.microsoft.com/winfx/2006/xaml/presentation?IsApiContractPresent(Windows.Foundation.UniversalApiContract, 7)" 
+    xmlns:muxc="using:Microsoft.UI.Xaml.Controls"
     x:Class="Dialer.UI.Controls.ContactControl"
     mc:Ignorable="d"
     d:DesignHeight="80"
     d:DesignWidth="600">
 
-    <Grid x:Name="MainGrid" MinHeight="80" Height="80">
+    <!--<Grid x:Name="MainGrid" MinHeight="80" Height="80">
         <Grid x:Name="PrimaryPanel" Background="#30ffffff" Height="80" VerticalAlignment="Top" CornerRadius="4, 4, 4, 4" Tapped="ToggleMoreDataButton_Tapped">
             <Ellipse HorizontalAlignment="Left" VerticalAlignment="Center" Margin="30, 0, 0, 0" Width="40" Height="40">
                 <Ellipse.Fill>
@@ -51,6 +53,37 @@
             </Grid.Transform3D>
             <TextBlock><Run Text="More contact data here"/></TextBlock>
         </Grid>
-    </Grid>
+    </Grid>-->
+    <muxc:Expander x:Name="ContactExpander" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" HorizontalContentAlignment="Stretch" Expanding="ContactExpander_Expanding">
 
+        <muxc:Expander.Header>
+            <Grid x:Name="PrimaryPanel" MinHeight="80" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+                <Ellipse HorizontalAlignment="Left" VerticalAlignment="Center" Margin="30, 0, 0, 0" Width="40" Height="40">
+                    <Ellipse.Fill>
+                        <ImageBrush x:Name="ContactImage" ImageSource="/Assets/NoContactIcon.png"/>
+                    </Ellipse.Fill>
+                </Ellipse>
+                <StackPanel Orientation="Vertical" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="90, 0, 0, 0">
+                    <TextBlock x:Name="ContactNameTB"><Run Text="[ContactName]"/></TextBlock>
+                    <TextBlock x:Name="ContactMainPhoneTB" Style="{StaticResource CaptionTextBlockStyle}"><Run Text="[+99 999 999999]"/></TextBlock>
+                </StackPanel>
+                <Button x:Name="MainCallButton" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="0, 0, 0, 0" Tapped="MainCallButton_Tapped">
+                    <StackPanel Orientation="Horizontal" Spacing="10">
+                        <FontIcon FontFamily="Segoe Fluent Icons" Glyph="&#xE13A;" />
+                        <TextBlock Text="Call"></TextBlock>
+                    </StackPanel>
+                </Button>
+            </Grid>
+        </muxc:Expander.Header>
+        <Grid x:Name="MoreDataPanel" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+            <ItemsControl x:Name="ContactsItemsControl" ItemsSource="{x:Bind additionalPhoneContactPresenters}">
+                <ItemsControl.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <StackPanel Spacing="10">
+                        </StackPanel>
+                    </ItemsPanelTemplate>
+                </ItemsControl.ItemsPanel>
+            </ItemsControl>
+        </Grid>
+    </muxc:Expander>
 </UserControl>

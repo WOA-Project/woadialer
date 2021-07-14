@@ -59,6 +59,12 @@ namespace Dialer.UI.Pages
                     cc.ContactName = contact.DisplayName;
                     if (contact.Phones.Count == 0) continue;
                     cc.ContactMainPhone = contact.Phones[0].Number;
+                    List<Tuple<string, string>> additionalPhones = new List<Tuple<string, string>>();
+                    foreach (ContactPhone contactPhone in contact.Phones)
+                    {
+                        additionalPhones.Add(new Tuple<string, string>(contactPhone.Kind.ToString(), contactPhone.Number));
+                    }
+                    cc.AdditionalContactPhones = additionalPhones;
                     if(contact.SmallDisplayPicture != null) 
                         //TODO: Fix wrong cast
                         cc.ContactPicture = contact.SmallDisplayPicture;
