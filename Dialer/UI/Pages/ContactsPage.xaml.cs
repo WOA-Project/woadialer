@@ -116,10 +116,5 @@ namespace Dialer.UI.Pages
             } catch { }
             Debug.WriteLine("Got request to navigate to letter " + letter);
         }
-
-        private void ScrollLetterHintHide_Completed(object sender, object e)
-        {
-            throw new NotImplementedException();
-        }
     }
 }
