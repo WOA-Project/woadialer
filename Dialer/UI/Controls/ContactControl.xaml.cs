@@ -1,29 +1,16 @@
 ﻿using Dialer.Systems;
-using Microsoft.UI.Xaml.Controls;
+using Dialer.UI.Pages;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Diagnostics;
-using System.IO;
-using System.Linq;
-using System.Numerics;
-using System.Runtime.InteropServices.WindowsRuntime;
-using System.Timers;
 using Windows.ApplicationModel.Calls;
-using Windows.Foundation;
-using Windows.Foundation.Collections;
+using Windows.ApplicationModel.Contacts;
 using Windows.Storage;
 using Windows.Storage.Streams;
-using Windows.UI.Composition;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Controls.Primitives;
-using Windows.UI.Xaml.Data;
 using Windows.UI.Xaml.Input;
-using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Media.Imaging;
-using Windows.UI.Xaml.Navigation;
-
 
 namespace Dialer.UI.Controls
 {
@@ -31,6 +18,8 @@ namespace Dialer.UI.Controls
     {
         private List<Tuple<string, string>> additionalPhoneContacts;
         private ObservableCollection<AdditionalPhoneContactPresenter> additionalPhoneContactPresenters;
+
+        public Contact AssociatedContact;
 
         public string ContactName
         {
@@ -88,6 +77,12 @@ namespace Dialer.UI.Controls
                 App.Current.CallSystem.DefaultLine?.DialWithOptions(new PhoneDialOptions() { Number = ContactMainPhone.ToString() });
             }
             catch { }
+        }
+
+        private async void FlyoutDeleteContact_Click(object sender, RoutedEventArgs e)
+        {
+            await ContactSystem.DeleteContact(AssociatedContact);
+            ContactsPage.CurrentInstance.RemoveContactControl(this);
         }
     }
 }

@@ -136,6 +136,7 @@
     <Compile Include="Helpers\ReadOnlyObservableCollection2.cs" />
     <Compile Include="Systems\BackgroundSystem.cs" />
     <Compile Include="Systems\CallSystem.cs" />
+    <Compile Include="Systems\ContactSystem.cs" />
     <Compile Include="Systems\DeviceSystem.cs" />
     <Compile Include="Systems\MessagingSystem.cs" />
     <Compile Include="Systems\NotificationSystem.cs" />

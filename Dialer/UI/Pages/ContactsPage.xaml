@@ -12,7 +12,7 @@
     <Grid>
         <controls:VerticalIndexScrollbar x:Name="viScrollbar" HorizontalAlignment="Right" VerticalAlignment="Stretch" Margin="0, 20, 15, 10"></controls:VerticalIndexScrollbar>
         <ScrollViewer x:Name="ContactsScrollViewer" Padding="10" Margin="0, 0, 40, 0">
-            <ItemsControl x:Name="ContactsItemsControl" ItemsSource="{x:Bind ContactControls}">
+            <ItemsControl x:Name="ContactsItemsControl" ItemsSource="{x:Bind _contactControls}">
                 <ItemsControl.ItemsPanel>
                     <ItemsPanelTemplate>
                         <StackPanel Spacing="3">

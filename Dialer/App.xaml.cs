@@ -71,6 +71,7 @@ namespace Dialer
             ResourceLoader = ResourceLoader.GetForViewIndependentUse();
             NotificationSystem.Initializate();
             await CallSystem.Initializate();
+            await ContactSystem.LoadContacts();
         }
 
         protected override void OnActivated(IActivatedEventArgs args)

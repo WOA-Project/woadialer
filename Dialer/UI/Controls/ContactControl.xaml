@@ -12,50 +12,17 @@
     d:DesignHeight="80"
     d:DesignWidth="600">
 
-    <!--<Grid x:Name="MainGrid" MinHeight="80" Height="80">
-        <Grid x:Name="PrimaryPanel" Background="#30ffffff" Height="80" VerticalAlignment="Top" CornerRadius="4, 4, 4, 4" Tapped="ToggleMoreDataButton_Tapped">
-            <Ellipse HorizontalAlignment="Left" VerticalAlignment="Center" Margin="30, 0, 0, 0" Width="40" Height="40">
-                <Ellipse.Fill>
-                    <ImageBrush x:Name="ContactImage" ImageSource="/Assets/NoContactIcon.png" />
-                </Ellipse.Fill>
-            </Ellipse>
-
-            <StackPanel Orientation="Vertical" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="90, 0, 0, 0">
-                <TextBlock x:Name="ContactNameTB"><Run Text="[ContactName]"/></TextBlock>
-                <TextBlock x:Name="ContactMainPhoneTB" Style="{StaticResource CaptionTextBlockStyle}"><Run Text="[+99 999 999999]"/></TextBlock>
-            </StackPanel>
-            <Button x:Name="ToggleMoreDataButton" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="0, 2, 20, 0" Style="{StaticResource TextBlockButtonStyle}" >
-                <FontIcon x:Name="ToggleMoreDataButtonIcon" Foreground="{StaticResource ApplicationForegroundThemeBrush}" FontFamily="Segoe Fluent Icons" Glyph="&#xE011;" />
-            </Button>
-            <Button x:Name="MainCallButton" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="0, 0, 70, 0" Tapped="MainCallButton_Tapped">
-                <StackPanel Orientation="Horizontal" Spacing="10">
-                    <FontIcon FontFamily="Segoe Fluent Icons" Glyph="&#xE13A;" />
-                    <TextBlock><Run Text="Call"/></TextBlock>
-                </StackPanel>
-            </Button>
-        </Grid>
-
-        <Grid x:Name="MoreDataPanel" Background="#15ffffff" Height="100" Visibility="Collapsed" Padding="30, 10, 30, 10" CornerRadius="0, 0, 4, 4" RenderTransformOrigin="0.5,0.5">
-            <Grid.Resources>
-                <Storyboard x:Name="ShowPaneAnimation">
-                    <DoubleAnimation Storyboard.TargetName="MoreDataPanel" Storyboard.TargetProperty="Opacity" Duration="0:0:0.1" From="0" To="1"/>
-                    <DoubleAnimation Storyboard.TargetName="testprop" Storyboard.TargetProperty="TranslateY" Duration="0:0:0.3" From="0" To="40"/>
-                    <DoubleAnimation x:Name="HeightAnimationOpen" Storyboard.TargetName="MainGrid" Storyboard.TargetProperty="Height" Duration="0:0:0.3" From="80" To="180"/>
-                </Storyboard>
-                <Storyboard x:Name="HidePaneAnimation">
-                    <DoubleAnimation Storyboard.TargetName="MoreDataPanel" Storyboard.TargetProperty="Opacity" Duration="0:0:0.1" From="1" To="0"/>
-                    <DoubleAnimation Storyboard.TargetName="testprop" Storyboard.TargetProperty="TranslateY" Duration="0:0:0.3" From="40" To="0"/>
-                    <DoubleAnimation x:Name="HeightAnimationClose" Storyboard.TargetName="MainGrid" Storyboard.TargetProperty="Height" Duration="0:0:0.3" From="180" To="80"/>
-                </Storyboard>
-            </Grid.Resources>
-            <Grid.Transform3D>
-                <CompositeTransform3D x:Name="testprop" TranslateY="50"/>
-            </Grid.Transform3D>
-            <TextBlock><Run Text="More contact data here"/></TextBlock>
-        </Grid>
-    </Grid>-->
     <muxc:Expander x:Name="ContactExpander" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" HorizontalContentAlignment="Stretch">
-
+        <muxc:Expander.ContextFlyout>
+            <MenuFlyout>
+                <MenuFlyoutItem Text="Call" Icon="Phone"></MenuFlyoutItem>
+                <MenuFlyoutSeparator></MenuFlyoutSeparator>
+                <MenuFlyoutItem Text="Copy" Icon="Copy"></MenuFlyoutItem>
+                <MenuFlyoutItem Text="Share Contact" Icon="Share"></MenuFlyoutItem>
+                <MenuFlyoutSeparator></MenuFlyoutSeparator>
+                <MenuFlyoutItem Text="Delete Contact" Icon="Delete" Click="FlyoutDeleteContact_Click"></MenuFlyoutItem>
+            </MenuFlyout>
+        </muxc:Expander.ContextFlyout>
         <muxc:Expander.Header>
             <Grid x:Name="PrimaryPanel" MinHeight="80" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
                 <Ellipse HorizontalAlignment="Left" VerticalAlignment="Center" Margin="30, 0, 0, 0" Width="40" Height="40">

@@ -1,32 +1,29 @@
-﻿using Dialer.UI.Controls;
+﻿using Dialer.Systems;
+using Dialer.UI.Controls;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Timers;
-using Windows.ApplicationModel.Contacts;
-using Windows.Storage.Streams;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Navigation;
 
 namespace Dialer.UI.Pages
 {
-
     public sealed partial class ContactsPage : Page
     {
-
-        ObservableCollection<ContactControl> ContactControls;
+        private Timer _hideHintTimer;
+        private ObservableCollection<ContactControl> _contactControls;
 
         public static ContactsPage CurrentInstance;
-
-        private Timer HideHintTimer;
 
         public ContactsPage()
         {
             InitializeComponent();
-            ContactControls = new ObservableCollection<ContactControl>();
 
+            _contactControls = new ObservableCollection<ContactControl>();
             CurrentInstance = this;
         }
 
@@ -35,43 +32,27 @@ namespace Dialer.UI.Pages
             base.OnNavigatedTo(e);
             SizeChanged += ContactsPage_SizeChanged;
 
-            //TODO: Improve loading by showing a percentage or number of contacts loaded?
-            //await Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.High, () => {
-            //    LoadingGridProgressCount.Text = "";
-            //});
-
-            LoadingGrid.Visibility = Windows.UI.Xaml.Visibility.Visible;
-
-            if(ContactControls.Count == 0)
+            await Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.High, () =>
             {
-                ContactStore contactStore = await ContactManager.RequestStoreAsync();
-                IReadOnlyList<Contact> contacts = await contactStore.FindContactsAsync();
+                LoadingGrid.Visibility = Windows.UI.Xaml.Visibility.Visible;
+            });
 
-                Debug.WriteLine("Found " + contacts.Count + " contacts");
+            Aaa(); //Todo: This needs to be run in background, currently it blocks the UI (??)
+        }
 
-                foreach (Contact contact in contacts)
-                {
-                    //TODO: Improve loading by showing a percentage or number of contacts loaded?
-                    //await Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.High, () => {
-                    //    LoadingGridProgressCount.Text = "(" + ContactControls.Count + " out of " + contacts.Count + ")";
-                    //});
-                    ContactControl cc = new ContactControl();
-                    cc.ContactName = contact.DisplayName;
-                    if (contact.Phones.Count == 0) continue;
-                    cc.ContactMainPhone = contact.Phones[0].Number;
-                    List<Tuple<string, string>> additionalPhones = new List<Tuple<string, string>>();
-                    foreach (ContactPhone contactPhone in contact.Phones)
-                    {
-                        additionalPhones.Add(new Tuple<string, string>(contactPhone.Kind.ToString(), contactPhone.Number));
-                    }
-                    cc.AdditionalContactPhones = additionalPhones;
-                    if(contact.SmallDisplayPicture != null) 
-                        //TODO: Fix wrong cast
-                        cc.ContactPicture = contact.SmallDisplayPicture;
-                    ContactControls.Add(cc);
-                }
+        private Task Aaa()
+        {
+            if (ContactSystem.ContactControls == null)
+            {
+                ContactSystem.ContactsLoaded += (object sender, EventArgs e) => LoadDataCompleted();
             }
+            else LoadDataCompleted();
+            return Task.CompletedTask;
+        }
 
+        private void LoadDataCompleted()
+        {
+            _contactControls = ContactSystem.ContactControls;
             LoadingGrid.Visibility = Windows.UI.Xaml.Visibility.Collapsed;
         }
 
@@ -82,18 +63,16 @@ namespace Dialer.UI.Pages
 
         public void NavigateToLetter(string letter)
         {
-            IEnumerable<ContactControl> ContactsWithLetter = from contact in ContactControls where contact.ContactName.ToUpper().StartsWith(letter) select contact;
-
             ScrollLetterHint.Text = letter;
             if(ScrollLetterGrid.Visibility == Windows.UI.Xaml.Visibility.Collapsed) ScrollLetterHintShow.Begin();
             ScrollLetterGrid.Visibility = Windows.UI.Xaml.Visibility.Visible;
-            if (HideHintTimer != null)
+            if (_hideHintTimer != null)
             {
-                HideHintTimer.Stop();
-                HideHintTimer.Dispose();
+                _hideHintTimer.Stop();
+                _hideHintTimer.Dispose();
             }
-            HideHintTimer = new Timer(1000);
-            HideHintTimer.Elapsed += async (object sender, ElapsedEventArgs e) =>
+            _hideHintTimer = new Timer(1000);
+            _hideHintTimer.Elapsed += async (object sender, ElapsedEventArgs e) =>
             {
                 await Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.High, () =>
                 {
@@ -107,14 +86,23 @@ namespace Dialer.UI.Pages
                     };
                 });
             };
-            HideHintTimer.Start();
+
+            IEnumerable<ContactControl> ContactsWithLetter = from contact in _contactControls where contact.ContactName.ToUpper().StartsWith(letter) select contact;
 
             //TODO: Fix for missing letter -> move to previous/next letter
             try
             {
                 ContactsWithLetter.First().StartBringIntoView();
             } catch { }
+
+            _hideHintTimer.Start();
+
             Debug.WriteLine("Got request to navigate to letter " + letter);
+        }
+
+        public void RemoveContactControl(ContactControl cc)
+        {
+            _contactControls.Remove(cc);
         }
     }
 }
