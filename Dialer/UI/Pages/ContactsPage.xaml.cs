@@ -27,33 +27,37 @@ namespace Dialer.UI.Pages
             CurrentInstance = this;
         }
 
-        protected async override void OnNavigatedTo(NavigationEventArgs e)
+        protected override void OnNavigatedTo(NavigationEventArgs e)
         {
             base.OnNavigatedTo(e);
             SizeChanged += ContactsPage_SizeChanged;
 
-            await Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.High, () =>
-            {
-                LoadingGrid.Visibility = Windows.UI.Xaml.Visibility.Visible;
-            });
+            LoadingGrid.Visibility = Windows.UI.Xaml.Visibility.Visible;
 
-            Aaa(); //Todo: This needs to be run in background, currently it blocks the UI (??)
+            Task.Run(() =>
+            { 
+                Aaa(); 
+            }); //TODO: This still hangs the UI in some cases 🥲 
         }
 
-        private Task Aaa()
+        private void Aaa()
         {
             if (ContactSystem.ContactControls == null)
             {
                 ContactSystem.ContactsLoaded += (object sender, EventArgs e) => LoadDataCompleted();
             }
             else LoadDataCompleted();
-            return Task.CompletedTask;
         }
 
-        private void LoadDataCompleted()
+        private async void LoadDataCompleted()
         {
-            _contactControls = ContactSystem.ContactControls;
-            LoadingGrid.Visibility = Windows.UI.Xaml.Visibility.Collapsed;
+            await Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.High, () =>
+            {
+                ContactsItemsControl.ItemsSource = null;
+                _contactControls = ContactSystem.ContactControls;
+                ContactsItemsControl.ItemsSource = _contactControls;
+                LoadingGrid.Visibility = Windows.UI.Xaml.Visibility.Collapsed;
+            });
         }
 
         private void ContactsPage_SizeChanged(object sender, Windows.UI.Xaml.SizeChangedEventArgs e)
@@ -89,11 +93,12 @@ namespace Dialer.UI.Pages
 
             IEnumerable<ContactControl> ContactsWithLetter = from contact in _contactControls where contact.ContactName.ToUpper().StartsWith(letter) select contact;
 
-            //TODO: Fix for missing letter -> move to previous/next letter
             try
             {
                 ContactsWithLetter.First().StartBringIntoView();
-            } catch { }
+            } catch { 
+                //TODO: Fix for missing letter -> move to previous/next letter
+            }
 
             _hideHintTimer.Start();
 

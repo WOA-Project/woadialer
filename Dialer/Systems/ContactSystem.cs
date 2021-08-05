@@ -38,19 +38,19 @@ namespace Dialer.Systems
             }
         }
 
-        public static async Task LoadContacts()
+        public static async void LoadContacts()
         {
             if(_contacts == null && ContactsLoading == false)
             {
                 ContactsLoading = true;
                 _contactStore = await ContactManager.RequestStoreAsync();
-                _contacts = new ObservableCollection<Contact>(await _contactStore.FindContactsAsync());
+                ObservableCollection<Contact> t_contacts = new ObservableCollection<Contact>(await _contactStore.FindContactsAsync());
 
-                Debug.WriteLine("Found " + _contacts.Count + " contacts");
+                Debug.WriteLine("Found " + t_contacts.Count + " contacts");
 
-                _contactControls = new ObservableCollection<ContactControl>();
+                ObservableCollection<ContactControl> t_contactControls = new ObservableCollection<ContactControl>();
 
-                foreach (Contact contact in _contacts)
+                foreach (Contact contact in t_contacts)
                 {
                     ContactControl cc = new ContactControl();
                     cc.AssociatedContact = contact;
@@ -66,11 +66,15 @@ namespace Dialer.Systems
                     if (contact.SmallDisplayPicture != null)
                         //TODO: Fix wrong cast
                         cc.ContactPicture = contact.SmallDisplayPicture;
-                    _contactControls.Add(cc);
+                    t_contactControls.Add(cc);
                 }
-            }
+                _contacts = t_contacts;
+                _contactControls = t_contactControls;
 
-            ContactsLoaded?.Invoke(null, EventArgs.Empty);
+                ContactsLoading = false;
+
+                ContactsLoaded?.Invoke(null, EventArgs.Empty);
+            }
         }
 
         public static async Task DeleteContact(Contact contact)

@@ -10,12 +10,6 @@
     d:DesignWidth="400">
 
     <Grid>
-        <Grid.ContextFlyout>
-            <MenuFlyout>
-                <MenuFlyoutItem Text="Call" Icon="Phone"></MenuFlyoutItem>
-                <MenuFlyoutItem Text="Copy" Icon="Copy"></MenuFlyoutItem>
-            </MenuFlyout>
-        </Grid.ContextFlyout>
         <StackPanel Orientation="Vertical" HorizontalAlignment="Left" VerticalAlignment="Center">
             <TextBlock x:Name="PhoneTypeTB" Style="{StaticResource CaptionTextBlockStyle}" Margin="0, 0, 0, 5"><Run Text="[PhoneType]"/></TextBlock>
             <TextBlock x:Name="PhoneNumberTB"><Run Text="[+99 999 999999]"/></TextBlock>

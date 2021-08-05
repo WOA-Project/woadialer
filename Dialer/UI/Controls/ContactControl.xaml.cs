@@ -84,5 +84,14 @@ namespace Dialer.UI.Controls
             await ContactSystem.DeleteContact(AssociatedContact);
             ContactsPage.CurrentInstance.RemoveContactControl(this);
         }
+
+        private void FlyoutCallContact_Click(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                App.Current.CallSystem.DefaultLine?.DialWithOptions(new PhoneDialOptions() { Number = ContactMainPhone.ToString() });
+            }
+            catch { }
+        }
     }
 }

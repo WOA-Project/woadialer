@@ -15,12 +15,12 @@
     <muxc:Expander x:Name="ContactExpander" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" HorizontalContentAlignment="Stretch">
         <muxc:Expander.ContextFlyout>
             <MenuFlyout>
-                <MenuFlyoutItem Text="Call" Icon="Phone"></MenuFlyoutItem>
+                <MenuFlyoutItem Text="Call" Icon="Phone" Click="FlyoutCallContact_Click"></MenuFlyoutItem>
                 <MenuFlyoutSeparator></MenuFlyoutSeparator>
-                <MenuFlyoutItem Text="Copy" Icon="Copy"></MenuFlyoutItem>
-                <MenuFlyoutItem Text="Share Contact" Icon="Share"></MenuFlyoutItem>
+                <MenuFlyoutItem Text="Copy" Icon="Copy" IsEnabled="False"></MenuFlyoutItem>
+                <MenuFlyoutItem Text="Share Contact" Icon="Share" IsEnabled="False"></MenuFlyoutItem>
                 <MenuFlyoutSeparator></MenuFlyoutSeparator>
-                <MenuFlyoutItem Text="Delete Contact" Icon="Delete" Click="FlyoutDeleteContact_Click"></MenuFlyoutItem>
+                <MenuFlyoutItem Text="Delete Contact" Icon="Delete" Click="FlyoutDeleteContact_Click" IsEnabled="False"></MenuFlyoutItem>
             </MenuFlyout>
         </muxc:Expander.ContextFlyout>
         <muxc:Expander.Header>
