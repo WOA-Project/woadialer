@@ -1,0 +1,44 @@
+﻿<UserControl
+    x:Class="Dialer.UI.Controls.VerticalIndexScrollbar"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:Dialer.UI.Controls"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d"
+    d:DesignHeight="600"
+    d:DesignWidth="30">
+
+    <Grid>
+        <StackPanel x:Name="LettersStackPanel" Orientation="Vertical" HorizontalAlignment="Center" Opacity="0.5" PointerPressed="LettersStackPanel_PointerPressed" PointerMoved="LettersStackPanel_PointerMoved" PointerReleased="LettersStackPanel_PointerReleased">
+            <TextBlock x:Name="referenceTB" Tapped="Letter_Tapped">#</TextBlock>
+            <TextBlock Tapped="Letter_Tapped">A</TextBlock>
+            <TextBlock Tapped="Letter_Tapped">B</TextBlock>
+            <TextBlock Tapped="Letter_Tapped">C</TextBlock>
+            <TextBlock Tapped="Letter_Tapped">D</TextBlock>
+            <TextBlock Tapped="Letter_Tapped">E</TextBlock>
+            <TextBlock Tapped="Letter_Tapped">F</TextBlock>
+            <TextBlock Tapped="Letter_Tapped">G</TextBlock>
+            <TextBlock Tapped="Letter_Tapped">H</TextBlock>
+            <TextBlock Tapped="Letter_Tapped">I</TextBlock>
+            <TextBlock Tapped="Letter_Tapped">J</TextBlock>
+            <TextBlock Tapped="Letter_Tapped">K</TextBlock>
+            <TextBlock Tapped="Letter_Tapped">L</TextBlock>
+            <TextBlock Tapped="Letter_Tapped">M</TextBlock>
+            <TextBlock Tapped="Letter_Tapped">N</TextBlock>
+            <TextBlock Tapped="Letter_Tapped">O</TextBlock>
+            <TextBlock Tapped="Letter_Tapped">P</TextBlock>
+            <TextBlock Tapped="Letter_Tapped">Q</TextBlock>
+            <TextBlock Tapped="Letter_Tapped">R</TextBlock>
+            <TextBlock Tapped="Letter_Tapped">S</TextBlock>
+            <TextBlock Tapped="Letter_Tapped">T</TextBlock>
+            <TextBlock Tapped="Letter_Tapped">U</TextBlock>
+            <TextBlock Tapped="Letter_Tapped">V</TextBlock>
+            <TextBlock Tapped="Letter_Tapped">W</TextBlock>
+            <TextBlock Tapped="Letter_Tapped">X</TextBlock>
+            <TextBlock Tapped="Letter_Tapped">Y</TextBlock>
+            <TextBlock Tapped="Letter_Tapped">Z</TextBlock>
+            <TextBlock Tapped="Letter_Tapped">?</TextBlock>
+        </StackPanel>
+    </Grid>
+</UserControl>

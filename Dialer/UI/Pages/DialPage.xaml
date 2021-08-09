@@ -14,7 +14,7 @@
     KeyUp="Page_KeyUp">
 
     <UserControl.Resources>
-        <ResourceDictionary Source="..\Conventers\Conventers.xaml"/>
+        <ResourceDictionary Source="..\Converters\Converters.xaml"/>
     </UserControl.Resources>
     
     <ScrollViewer VerticalScrollBarVisibility="Auto">

@@ -6,7 +6,7 @@ using Windows.Foundation;
 using Windows.System;
 using Windows.UI.Xaml.Data;
 
-namespace Dialer.UI.Conventers
+namespace Dialer.UI.Converters
 {
     public sealed class CallHistoryEntryToLineDisplayNameText : IValueConverter
     {
