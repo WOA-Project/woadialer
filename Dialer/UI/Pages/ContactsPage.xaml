@@ -6,6 +6,7 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
     xmlns:controls="using:Dialer.UI.Controls"
+    xmlns:Windows10FallCreatorsUpdate="http://schemas.microsoft.com/winfx/2006/xaml/presentation?IsApiContractPresent(Windows.Foundation.UniversalApiContract, 5)"
     mc:Ignorable="d"
     NavigationCacheMode="Required">
 
@@ -15,13 +16,13 @@
             <ItemsControl x:Name="ContactsItemsControl" ItemsSource="{x:Bind _contactControls}">
                 <ItemsControl.ItemsPanel>
                     <ItemsPanelTemplate>
-                        <StackPanel Spacing="3">
+                        <StackPanel Windows10FallCreatorsUpdate:Spacing="3">
                         </StackPanel>
                     </ItemsPanelTemplate>
                 </ItemsControl.ItemsPanel>
             </ItemsControl>
         </ScrollViewer>
-        <Grid x:Name="ScrollLetterGrid" Visibility="Collapsed" HorizontalAlignment="Center" VerticalAlignment="Center" Background="{StaticResource SystemControlAcrylicElementBrush}" Margin="0, 0, 40, 0" Width="200" Height="200" CornerRadius="8">
+        <Grid x:Name="ScrollLetterGrid" Visibility="Collapsed" HorizontalAlignment="Center" VerticalAlignment="Center" Background="{StaticResource SystemControlAcrylicElementBrush}" Margin="0, 0, 40, 0" Width="200" Height="200" Windows10FallCreatorsUpdate:CornerRadius="8">
             <Grid.Resources>
                 <Storyboard x:Name="ScrollLetterHintShow">
                     <DoubleAnimation Storyboard.TargetName="ScrollLetterGrid" Storyboard.TargetProperty="Opacity" Duration="0:0:0.1" From="0" To="1"></DoubleAnimation>
@@ -34,7 +35,7 @@
         </Grid>
         <Grid x:Name="LoadingGrid" Visibility="Collapsed">
             <Grid Background="{StaticResource SystemControlAcrylicElementBrush}"></Grid>
-            <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center" Spacing="10">
+            <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center" Windows10FallCreatorsUpdate:Spacing="10">
                 <ProgressRing IsActive="True" HorizontalAlignment="Center"></ProgressRing>
                 <TextBlock HorizontalAlignment="Center">Loading contact list...</TextBlock>
                 <TextBlock x:Name="LoadingGridProgressCount" HorizontalAlignment="Center" Text=""></TextBlock>

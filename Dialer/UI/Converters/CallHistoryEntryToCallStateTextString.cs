@@ -15,13 +15,9 @@ namespace Dialer.UI.Converters
                 {
                     return "Blocked";
                 }
-                else if (entry.IsMissed)
-                {
-                    return "Missed";
-                }
                 else
                 {
-                    return App.Current.ResourceLoader.GetString(nameof(CallState) + '_' + nameof(CallState.Incoming));
+                    return entry.IsMissed ? "Missed" : App.Current.ResourceLoader.GetString(nameof(CallState) + '_' + nameof(CallState.Incoming));
                 }
             }
             else
@@ -32,14 +28,11 @@ namespace Dialer.UI.Converters
 
         public object Convert(object value, Type targetType, object parameter, string language)
         {
-            switch (value)
+            return value switch
             {
-                case PhoneCallHistoryEntry entry:
-                    return Convert(entry);
-                case null:
-                default:
-                    return App.Current.ResourceLoader.GetString(nameof(CallState) + "_Unknown");
-            }
+                PhoneCallHistoryEntry entry => Convert(entry),
+                _ => App.Current.ResourceLoader.GetString(nameof(CallState) + "_Unknown"),
+            };
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, string language)

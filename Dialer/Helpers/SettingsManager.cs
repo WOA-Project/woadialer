@@ -2,12 +2,11 @@
 
 namespace Dialer.Helpers
 {
-    class SettingsManager
+    internal static class SettingsManager
     {
         public static bool isFirstTimeRun()
         {
-            if (getNumberFormatting() == "" || getNumberFormatting() == null || getNumberFormatting() == string.Empty) return true;
-            else return false;
+            return getNumberFormatting()?.Length == 0 || getNumberFormatting() == null || getNumberFormatting()?.Length == 0;
         }
 
         public static void setDefaultSettings()

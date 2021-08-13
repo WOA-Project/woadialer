@@ -22,7 +22,7 @@ namespace Dialer.UI.Pages
                 switch (entry.Address.RawAddressKind)
                 {
                     case PhoneCallHistoryEntryRawAddressKind.PhoneNumber:
-                        ((Window.Current.Content as Frame).Content as MainPage).Navigate(UISystem.DIAL_PAGE, new EntranceNavigationTransitionInfo(), entry.Address.RawAddress);
+                        ((Window.Current.Content as Frame)?.Content as MainPage)?.Navigate(UISystem.DIAL_PAGE, new EntranceNavigationTransitionInfo(), entry.Address.RawAddress);
                         break;
                 }
             }

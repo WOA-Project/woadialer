@@ -5,8 +5,8 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
-using System.Timers;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Navigation;
 
@@ -34,10 +34,7 @@ namespace Dialer.UI.Pages
 
             LoadingGrid.Visibility = Windows.UI.Xaml.Visibility.Visible;
 
-            Task.Run(() =>
-            { 
-                Aaa(); 
-            }); //TODO: This still hangs the UI in some cases 🥲 
+            Task.Run(() => Aaa()); //TODO: This still hangs the UI in some cases 🥲 
         }
 
         private void Aaa()
@@ -46,7 +43,10 @@ namespace Dialer.UI.Pages
             {
                 ContactSystem.ContactsLoaded += (object sender, EventArgs e) => LoadDataCompleted();
             }
-            else LoadDataCompleted();
+            else
+            {
+                LoadDataCompleted();
+            }
         }
 
         private async void LoadDataCompleted()
@@ -72,35 +72,38 @@ namespace Dialer.UI.Pages
             ScrollLetterGrid.Visibility = Windows.UI.Xaml.Visibility.Visible;
             if (_hideHintTimer != null)
             {
-                _hideHintTimer.Stop();
+                _hideHintTimer.Change(Timeout.Infinite, Timeout.Infinite);
                 _hideHintTimer.Dispose();
+                _hideHintTimer = null;
             }
-            _hideHintTimer = new Timer(1000);
-            _hideHintTimer.Elapsed += async (object sender, ElapsedEventArgs e) =>
-            {
-                await Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.High, () =>
-                {
-                    ScrollLetterHintHide.Begin();
-                    ScrollLetterHintHide.Completed += async (object sender, object e) =>
-                    {
-                        await Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.High, () =>
-                        {
-                            ScrollLetterGrid.Visibility = Windows.UI.Xaml.Visibility.Collapsed;
-                        });
-                    };
-                });
-            };
 
             IEnumerable<ContactControl> ContactsWithLetter = from contact in _contactControls where contact.ContactName.ToUpper().StartsWith(letter) select contact;
 
             try
             {
                 ContactsWithLetter.First().StartBringIntoView();
-            } catch { 
+            } catch {
                 //TODO: Fix for missing letter -> move to previous/next letter
             }
 
-            _hideHintTimer.Start();
+            _hideHintTimer = new Timer(async (state) =>
+            {
+                await Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.High, () =>
+                {
+                    ScrollLetterHintHide.Begin();
+                    ScrollLetterHintHide.Completed += async (object sender, object e) =>
+                    {
+                        await Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.High, () => ScrollLetterGrid.Visibility = Windows.UI.Xaml.Visibility.Collapsed);
+
+                        if (_hideHintTimer != null)
+                        {
+                            _hideHintTimer.Change(Timeout.Infinite, Timeout.Infinite);
+                            _hideHintTimer.Dispose();
+                            _hideHintTimer = null;
+                        }
+                    };
+                });
+            }, null, 1000, 1000);
 
             Debug.WriteLine("Got request to navigate to letter " + letter);
         }

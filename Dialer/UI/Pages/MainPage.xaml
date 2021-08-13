@@ -8,9 +8,9 @@
     xmlns:controls="using:Dialer.UI.Controls"
     xmlns:muxc="using:Microsoft.UI.Xaml.Controls"
     mc:Ignorable="d"
-    muxc:BackdropMaterial.ApplyToRootOrPageBackground="True"
     Loaded="Page_Loaded"
-    Unloaded="Page_Unloaded">
+    Unloaded="Page_Unloaded"
+    muxc:BackdropMaterial.ApplyToRootOrPageBackground="True">
 
     <UserControl.Resources>
         <ResourceDictionary Source="..\Converters\Converters.xaml"/>
@@ -29,9 +29,9 @@
                              MenuItemsSource="{x:Bind UISystem.MainPagePages}"
                              SelectedItem="{x:Bind UISystem.MainPagePages[2]}"
                              PaneDisplayMode="Top"
+                             AlwaysShowHeader="True"
                              Loaded="NavView_Loaded"
                              BackRequested="NavView_BackRequested"
-                             AlwaysShowHeader="True"
                              SelectionChanged="NavView_SelectionChanged">
             <muxc:NavigationView.MenuItemTemplate>
                 <DataTemplate x:DataType="x:String">
@@ -42,7 +42,7 @@
                     </muxc:NavigationViewItem>
                 </DataTemplate>
             </muxc:NavigationView.MenuItemTemplate>
-            
+
             <Frame x:Name="ContentFrame" IsTabStop="True"/>
         </muxc:NavigationView>
     </Grid>

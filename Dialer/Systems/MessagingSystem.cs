@@ -2,6 +2,5 @@
 {
     public sealed class MessagingSystem
     {
-
     }
 }

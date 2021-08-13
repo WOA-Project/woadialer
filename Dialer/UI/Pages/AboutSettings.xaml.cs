@@ -10,7 +10,7 @@ namespace Dialer.UI.Pages
 
         public AboutSettings()
         {
-            RequestedTheme = (Window.Current.Content as FrameworkElement).RequestedTheme;
+            RequestedTheme = (Window.Current.Content as FrameworkElement)?.RequestedTheme ?? ElementTheme.Default;
             this.InitializeComponent();
             ViewModel = new AboutViewModel(Dispatcher);
         }

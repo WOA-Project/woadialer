@@ -9,7 +9,6 @@ namespace Dialer.Helpers
 
         private ToastButtonEqualityComparer()
         {
-
         }
 
         public bool Equals(ToastButton x, ToastButton y)

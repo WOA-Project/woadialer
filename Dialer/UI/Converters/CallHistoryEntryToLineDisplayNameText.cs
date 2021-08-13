@@ -18,17 +18,17 @@ namespace Dialer.UI.Converters
                 {
                     switch (entry.RemoteId)
                     {
-                        case string celluarID when celluarID.StartsWith(PhoneLineTransport.Cellular.ToString()):
+                        case string celluarID when celluarID.StartsWith(nameof(PhoneLineTransport.Cellular)):
                             celluarID = celluarID.Split('|')[1];
                             IAsyncOperation<PhoneLine> task0 = PhoneLine.FromIdAsync(Guid.Parse(celluarID));
                             task0.AsTask().Wait();
                             return task0.GetResults().NetworkName;
-                        case string appID when appID.StartsWith(PhoneLineTransport.VoipApp.ToString()):
+                        case string appID when appID.StartsWith(nameof(PhoneLineTransport.VoipApp)):
                             appID = appID.Split('|')[1];
                             IAsyncOperation<IList<AppDiagnosticInfo>> task1 = AppDiagnosticInfo.RequestInfoForPackageAsync(appID);
                             task1.AsTask().Wait();
-                            return task1.GetResults().First().AppInfo.DisplayInfo.DisplayName;
-                        case string deviceID when deviceID.StartsWith(PhoneLineTransport.Bluetooth.ToString()):
+                            return task1.GetResults()[0].AppInfo.DisplayInfo.DisplayName;
+                        case string deviceID when deviceID.StartsWith(nameof(PhoneLineTransport.Bluetooth)):
                         //deviceID = deviceID.Split('|')[1];
                         //IAsyncOperation<DeviceInformation> task2 = DeviceInformation.CreateFromIdAsync(deviceID);
                         //task2.AsTask().Wait();

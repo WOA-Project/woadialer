@@ -32,7 +32,7 @@ namespace Dialer.Systems
             { PRIVATE, 3 },
             { IGNORE, 4 }
         };
-        private ToastNotificationHistory ToastNotificationHistory = ToastNotificationManager.History;
+        private readonly ToastNotificationHistory ToastNotificationHistory = ToastNotificationManager.History;
 
         public const string ACTION = "Action";
         public const string USED_CALLS = "UsedCalls";
@@ -107,7 +107,7 @@ namespace Dialer.Systems
 
         private List<ToastButton> CreateButtonsForCall(Call call)
         {
-            List<ToastButton> buttons = new List<ToastButton>();
+            List<ToastButton> buttons = new();
             switch (call.State)
             {
                 case CallState.ActiveTalking:
@@ -132,12 +132,12 @@ namespace Dialer.Systems
 
         private IEnumerable<ToastButton> MergeButtons(IEnumerable<ToastButton> actions)
         {
-            List<ToastButton> result = new List<ToastButton>(5);
+            List<ToastButton> result = new(5);
             Dictionary<ToastButton, WwwFormUrlDecoder> queries = actions.ToDictionary(x => x, x => new WwwFormUrlDecoder(x.Arguments), ToastButtonEqualityComparer.EqualityComparer);
             List<ToastButton> _actions = actions.OrderBy(x => ACTION_PRIORITY[queries[x].GetFirstValueByName(ACTION)]).ToList();
-            ToastButton answer = _actions.FirstOrDefault(x => queries[x].GetFirstValueByName(ACTION) == ANSWER);
-            ToastButton hold = _actions.FirstOrDefault(x => queries[x].GetFirstValueByName(ACTION) == HOLD);
-            ToastButton end = _actions.FirstOrDefault(x => queries[x].GetFirstValueByName(ACTION) == END);
+            ToastButton answer = _actions.Find(x => queries[x].GetFirstValueByName(ACTION) == ANSWER);
+            ToastButton hold = _actions.Find(x => queries[x].GetFirstValueByName(ACTION) == HOLD);
+            ToastButton end = _actions.Find(x => queries[x].GetFirstValueByName(ACTION) == END);
             if (answer != null)
             {
                 if (hold != null || end != null)
@@ -168,7 +168,7 @@ namespace Dialer.Systems
 
         private List<object> CreateVisualForCall(Call call)
         {
-            StringBuilder description = new StringBuilder();
+            StringBuilder description = new();
             description.Append(CallToCallStateTextString.Convert(call));
             if (call.Phone != null)
             {
@@ -201,20 +201,19 @@ namespace Dialer.Systems
                     UserNotification notification = sender.GetNotification(args.UserNotificationId);
                     try
                     {
-                        if (notification != null && notification.AppInfo.AppUserModelId == WINDOWS_SYSTEM_TOAST_CALLING)
+                        if (notification?.AppInfo.AppUserModelId == WINDOWS_SYSTEM_TOAST_CALLING)
                         {
                             sender.RemoveNotification(notification.Id);
                         }
                     }
                     catch
                     {
-
                     }
                     break;
             }
         }
 
-        public async void Initializate()
+        public async void Initialize()
         {
             NotificationListener = UserNotificationListener.Current;
             if (await NotificationListener.RequestAccessAsync() == UserNotificationListenerAccessStatus.Allowed)
@@ -266,7 +265,7 @@ namespace Dialer.Systems
 
         public ToastNotification CreateMissedCallToastNotification(Call call)
         {
-            ToastContent toastContent = new ToastContent()
+            ToastContent toastContent = new()
             {
                 Visual = new ToastVisual()
                 {
@@ -281,7 +280,7 @@ namespace Dialer.Systems
                 },
                 Scenario = ToastScenario.Default
             };
-            ToastNotification notification = new ToastNotification(toastContent.GetXml());
+            ToastNotification notification = new(toastContent.GetXml());
             notification.Group = App.Current.ResourceLoader.GetString("Notification\\MissedCall\\GroupHeadline");
             return notification;
         }
@@ -289,14 +288,14 @@ namespace Dialer.Systems
         public ToastNotification CreateCallNotification(IEnumerable<Call> currentCalls)
         {
             List<Call> calls = currentCalls.Where(x => x.State != CallState.Disconnected && x.State != CallState.Indeterminate).OrderBy(x => x.State).ToList();
-            ToastBindingGeneric content = new ToastBindingGeneric();
-            ToastActionsCustom actions = new ToastActionsCustom();
+            ToastBindingGeneric content = new();
+            ToastActionsCustom actions = new();
             switch (calls.Count)
             {
                 case 0:
                     return null;
                 case 1:
-                    Call singleCall = calls.First();
+                    Call singleCall = calls[0];
                     foreach (IToastBindingGenericChild child in CreateVisualForCall(singleCall))
                     {
                         content.Children.Add(child);
@@ -310,10 +309,10 @@ namespace Dialer.Systems
                     content.Children.Add(new AdaptiveText() { Text = "Dialer - Active calls" });
                     for (int i0 = 0; i0 < calls.Count / 2; i0++)
                     {
-                        AdaptiveGroup group = new AdaptiveGroup();
-                        for (int i1 = i0 * 2; i1 < i0 * 2 + 2 && i1 < calls.Count; i1++)
+                        AdaptiveGroup group = new();
+                        for (int i1 = i0 * 2; i1 < (i0 * 2) + 2 && i1 < calls.Count; i1++)
                         {
-                            AdaptiveSubgroup subgroup = new AdaptiveSubgroup();
+                            AdaptiveSubgroup subgroup = new();
                             foreach (IAdaptiveSubgroupChild child in CreateVisualForCall(calls[i1]))
                             {
                                 subgroup.Children.Add(child);
@@ -328,9 +327,9 @@ namespace Dialer.Systems
                     }
                     break;
             }
-            Call incomingCall = calls.FirstOrDefault(x => x.State == CallState.Incoming);
+            Call incomingCall = calls.Find(x => x.State == CallState.Incoming);
             bool hasRingTone = !string.IsNullOrEmpty(incomingCall?.Contact?.RingToneToken);
-            ToastContent toastContent = new ToastContent()
+            ToastContent toastContent = new()
             {
                 Visual = new ToastVisual()
                 {
@@ -346,7 +345,7 @@ namespace Dialer.Systems
                 Launch = $"{ACTION}={SHOW_CALL_UI}",
                 Scenario = ToastScenario.IncomingCall
             };
-            ToastNotification notification = new ToastNotification(toastContent.GetXml())
+            ToastNotification notification = new(toastContent.GetXml())
             {
                 Tag = CALL_NOTIFICATION_UI,
                 ExpiresOnReboot = true,

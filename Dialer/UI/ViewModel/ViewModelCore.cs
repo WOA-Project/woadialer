@@ -11,7 +11,7 @@ namespace Dialer.UI.ViewModel
 
         public event PropertyChangedEventHandler PropertyChanged;
 
-        public ViewModelCore(CoreDispatcher dispatcher)
+        protected ViewModelCore(CoreDispatcher dispatcher)
         {
             Dispatcher = dispatcher;
         }

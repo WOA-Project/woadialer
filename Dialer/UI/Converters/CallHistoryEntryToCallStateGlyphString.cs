@@ -14,13 +14,9 @@ namespace Dialer.UI.Converters
                 {
                     return Glyphs.CALL_HISTORY_BLOCKED;
                 }
-                else if (entry.IsMissed)
-                {
-                    return Glyphs.CALL_HISTORY_MISSED;
-                }
                 else
                 {
-                    return Glyphs.CALL_HISTORY_INCOMING;
+                    return entry.IsMissed ? Glyphs.CALL_HISTORY_MISSED : Glyphs.CALL_HISTORY_INCOMING;
                 }
             }
             else
@@ -31,14 +27,11 @@ namespace Dialer.UI.Converters
 
         public object Convert(object value, Type targetType, object parameter, string language)
         {
-            switch (value)
+            return value switch
             {
-                case PhoneCallHistoryEntry entry:
-                    return Convert(entry);
-                case null:
-                default:
-                    return string.Empty;
-            }
+                PhoneCallHistoryEntry entry => Convert(entry),
+                _ => string.Empty,
+            };
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, string language)

@@ -20,7 +20,7 @@ namespace Dialer
     public sealed partial class App : Application
     {
         #region Call system constants
-        private static readonly TimeSpan WAIT_CALL_DURATION = new TimeSpan(0, 0, 3);
+        private static readonly TimeSpan WAIT_CALL_DURATION = new(0, 0, 3);
         #endregion
 
         public static new App Current => Application.Current as App;
@@ -64,13 +64,13 @@ namespace Dialer
         }
 
         #region Application state managment
-        private async Task InitializateSystems()
+        private async Task InitializeSystems()
         {
-            await BackgroundSystem.Initializate();
-            await DeviceSystem.Initializate();
+            await BackgroundSystem.Initialize();
+            await DeviceSystem.Initialize();
             ResourceLoader = ResourceLoader.GetForViewIndependentUse();
-            NotificationSystem.Initializate();
-            await CallSystem.Initializate();
+            NotificationSystem.Initialize();
+            await CallSystem.Initialize();
             ContactSystem.LoadContacts();
         }
 
@@ -87,10 +87,10 @@ namespace Dialer
             {
                 if (Initializating == null)
                 {
-                    Initializating = InitializateSystems();
+                    Initializating = InitializeSystems();
                 }
                 await Initializating;
-                BackgroundSystem.OnBackgroundActivated(args.TaskInstance);
+                BackgroundSystem?.OnBackgroundActivated(args.TaskInstance);
             }
             deferral.Complete();
         }
@@ -99,7 +99,8 @@ namespace Dialer
         {
             Deferral deferral = e.GetDeferral();
             IsForeground = false;
-            NotificationSystem.RefreshCallNotification(CallSystem.CallManager.CurrentCalls);
+            if (CallSystem.CallManager != null)
+                NotificationSystem.RefreshCallNotification(CallSystem.CallManager.CurrentCalls);
             deferral.Complete();
         }
 
@@ -113,15 +114,12 @@ namespace Dialer
             IsForeground = true;
             if (!PermissionSystem.IsAllPermissionsObtained && !await ObtainingAccess)
             {
-                await Window.Current.Dispatcher.RunAsync(CoreDispatcherPriority.High, () =>
-                {
-                    ObtainingAccess = PermissionSystem.RequestAllPermissions();
-                });
+                await Window.Current.Dispatcher.RunAsync(CoreDispatcherPriority.High, () => ObtainingAccess = PermissionSystem.RequestAllPermissions());
                 await ObtainingAccess;
             }
             if (Initializating == null)
             {
-                Initializating = InitializateSystems();
+                Initializating = InitializeSystems();
             }
             await Initializating;
             NotificationSystem.RemoveCallToastNotifications();
@@ -138,7 +136,6 @@ namespace Dialer
 
         private void OnResuming(object sender, object e)
         {
-
         }
 
         private void OnSuspending(object sender, SuspendingEventArgs e)
@@ -154,7 +151,7 @@ namespace Dialer
 
         public void OnToastNotificationActivated(ToastActivationType activationType, string args)
         {
-            WwwFormUrlDecoder decoder = new WwwFormUrlDecoder(args);
+            WwwFormUrlDecoder decoder = new(args);
             uint activeCallID = 0;
             uint incomingCallID = 0;
             Call activeCall = null;

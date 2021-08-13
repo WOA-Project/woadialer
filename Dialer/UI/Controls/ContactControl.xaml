@@ -7,6 +7,7 @@
     xmlns:Custom="using:System.Numerics" 
     xmlns:Windows10version1809="http://schemas.microsoft.com/winfx/2006/xaml/presentation?IsApiContractPresent(Windows.Foundation.UniversalApiContract, 7)" 
     xmlns:muxc="using:Microsoft.UI.Xaml.Controls"
+    xmlns:Windows10FallCreatorsUpdate="http://schemas.microsoft.com/winfx/2006/xaml/presentation?IsApiContractPresent(Windows.Foundation.UniversalApiContract, 5)"
     x:Class="Dialer.UI.Controls.ContactControl"
     mc:Ignorable="d"
     d:DesignHeight="80"
@@ -35,7 +36,7 @@
                     <TextBlock x:Name="ContactMainPhoneTB" Style="{StaticResource CaptionTextBlockStyle}"><Run Text="[+99 999 999999]"/></TextBlock>
                 </StackPanel>
                 <Button x:Name="MainCallButton" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="0, 0, 0, 0" Tapped="MainCallButton_Tapped">
-                    <StackPanel Orientation="Horizontal" Spacing="10">
+                    <StackPanel Orientation="Horizontal" Windows10FallCreatorsUpdate:Spacing="10">
                         <FontIcon FontFamily="Segoe Fluent Icons" Glyph="&#xE13A;" />
                         <TextBlock Text="Call"></TextBlock>
                     </StackPanel>
@@ -46,7 +47,7 @@
             <ItemsControl x:Name="ContactsItemsControl" ItemsSource="{x:Bind additionalPhoneContactPresenters}">
                 <ItemsControl.ItemsPanel>
                     <ItemsPanelTemplate>
-                        <StackPanel Spacing="10">
+                        <StackPanel Windows10FallCreatorsUpdate:Spacing="10">
                         </StackPanel>
                     </ItemsPanelTemplate>
                 </ItemsControl.ItemsPanel>

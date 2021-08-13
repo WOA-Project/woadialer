@@ -15,7 +15,7 @@
   <Identity
     Name="LumiaWOA.Dialer"
     Publisher="CN=Windows On Lumia Development Second Party Dialer Software 2020"
-    Version="0.1.211.0" />
+    Version="0.1.233.0" />
 
   <mp:PhoneIdentity PhoneProductId="1e17ea40-87af-45e2-865a-c2bd98036a67" PhonePublisherId="00000000-0000-0000-0000-000000000000"/>
 
@@ -36,7 +36,7 @@
   <Applications>
     <Application Id="App"
       Executable="$targetnametoken$.exe"
-      EntryPoint="Dialer.App" xmlns:a="http://schemas.microsoft.com/appx/manifest/desktop/windows10/4">
+      EntryPoint="Dialer.App">
       <uap:VisualElements
         DisplayName="Dialer"
         Square150x150Logo="Assets\Square150x150Logo.png"
@@ -56,7 +56,8 @@
           <uap:Rotation Preference="landscape"/>
           <uap:Rotation Preference="portrait"/>
           <uap:Rotation Preference="portraitFlipped"/>
-          <uap:Rotation Preference="landscapeFlipped"/></uap:InitialRotationPreference>
+          <uap:Rotation Preference="landscapeFlipped"/>
+        </uap:InitialRotationPreference>
       </uap:VisualElements>
       <Extensions>
         <uap:Extension Category="windows.protocol">
@@ -88,20 +89,20 @@
     <rescap:Capability Name="appDiagnostics" />
 
     <uap:Capability Name="contacts" />
-    
+
     <uap:Capability Name="phoneCall" />
     <rescap:Capability Name="phoneCallSystem" />
     <rescap:Capability Name="phoneCallHistory"/>
     <uap2:Capability Name="phoneCallHistoryPublic"/>
     <rescap:Capability Name="phoneCallHistorySystem" />
-    
+
     <uap:Capability Name="voipCall"/>
-    
+
     <uap3:Capability Name="userNotificationListener"/>
-    
+
     <uap7:Capability Name="globalMediaControl"/>
     <uap3:Capability Name="backgroundMediaPlayback"/>
-    
+
     <DeviceCapability Name="webcam"/>
     <DeviceCapability Name="microphone"/>
     <DeviceCapability Name="bluetooth"/>

@@ -35,32 +35,20 @@ namespace Dialer.Systems
 
         public static Type PageNameToType(string name)
         {
-            switch (name)
+            return name switch
             {
-                case CALL_HISTORY_PAGE:
-                    return typeof(HistoryPage);
-                case CALL_UI_PAGE:
-                    return typeof(CallUIPage);
-                case CONTACTS_PAGE:
-                    return typeof(ContactsPage);
-                case DIAL_PAGE:
-                    return typeof(DialPage);
-                case SETTINGS_PAGE:
-                    return typeof(SettingsPage);
-                case APPLICATIONS_SETTINGS_PAGE:
-                    return typeof(ApplicationsSettings);
-                case PHONE_LINES_SETTINGS_PAGE:
-                    return typeof(PhoneLinesSettings);
-                case PERSONALIZATION_SETTINGS_PAGE:
-                    return typeof(PersonalizationSettings);
-                case NOTIFICATIONS_SETTINGS_PAGE:
-                    return typeof(NotificationsSettings);
-                case ABOUT_SETTINGS_PAGE:
-                    return typeof(AboutSettings);
-                case SOUND_SETTINGS_PAGE:
-                default:
-                    return null;
-            }
+                CALL_HISTORY_PAGE => typeof(HistoryPage),
+                CALL_UI_PAGE => typeof(CallUIPage),
+                CONTACTS_PAGE => typeof(ContactsPage),
+                DIAL_PAGE => typeof(DialPage),
+                SETTINGS_PAGE => typeof(SettingsPage),
+                APPLICATIONS_SETTINGS_PAGE => typeof(ApplicationsSettings),
+                PHONE_LINES_SETTINGS_PAGE => typeof(PhoneLinesSettings),
+                PERSONALIZATION_SETTINGS_PAGE => typeof(PersonalizationSettings),
+                NOTIFICATIONS_SETTINGS_PAGE => typeof(NotificationsSettings),
+                ABOUT_SETTINGS_PAGE => typeof(AboutSettings),
+                _ => null,
+            };
         }
 
         private readonly ObservableCollection<string> _MainPagePages;
@@ -130,8 +118,7 @@ namespace Dialer.Systems
                 NavigationManager = SystemNavigationManager.GetForCurrentView();
                 NavigationManager.BackRequested += NavigationManager_BackRequested;
             }
-            Frame frame = Window.Current.Content as Frame;
-            if (frame == null)
+            if (Window.Current.Content is not Frame frame)
             {
                 frame = new Frame();
                 frame.NavigationFailed += Frame_NavigationFailed;
@@ -151,7 +138,6 @@ namespace Dialer.Systems
             Frame frame = sender as Frame;
             NavigationManager.AppViewBackButtonVisibility = frame.CanGoBack ? AppViewBackButtonVisibility.Visible : AppViewBackButtonVisibility.Collapsed;
         }
-
 
         private void LockApplicationHost_Unlocking(LockApplicationHost sender, LockScreenUnlockingEventArgs args)
         {
@@ -182,7 +168,7 @@ namespace Dialer.Systems
             {
                 case ActivationKind.Launch:
                     LaunchActivatedEventArgs launchActivationArgs = args as LaunchActivatedEventArgs;
-                    if (launchActivationArgs.PrelaunchActivated == false)
+                    if (!launchActivationArgs.PrelaunchActivated)
                     {
                         if (frame.Content == null)
                         {
@@ -229,7 +215,7 @@ namespace Dialer.Systems
         public async void ShowCallUIWindow()
         {
             int compactViewId = 0;
-            Size previoussize = new Size(0, 0);
+            Size previoussize = new(0, 0);
 
             // Workaround for window spawn bug
             await MainWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
@@ -249,7 +235,7 @@ namespace Dialer.Systems
             await view.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
             {
                 CallUIWindow = Window.Current;
-                Frame frame = new Frame();
+                Frame frame = new();
                 Window.Current.Content = frame;
                 frame.Navigate(typeof(CallUIPage));
                 Window.Current.Activate();

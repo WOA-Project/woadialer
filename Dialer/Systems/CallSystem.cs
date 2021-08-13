@@ -93,9 +93,9 @@ namespace Dialer.Systems
 
     public sealed class CallSystem
     {
-        private readonly ObservableCollection<PhoneCallHistoryEntry> _CallHistoryEntries = new ObservableCollection<PhoneCallHistoryEntry>();
+        private readonly ObservableCollection<PhoneCallHistoryEntry> _CallHistoryEntries = new();
         private PhoneLineWatcher LineWatcher;
-        private CoreApplicationView CoreApplicationView;
+        private readonly CoreApplicationView CoreApplicationView;
 
         public CallManager CallManager { get; private set; }
         public PhoneCallHistoryStore CallHistoryStore { get; private set; }
@@ -104,7 +104,7 @@ namespace Dialer.Systems
         public PhoneLine DefaultLine { get; private set; }
 
         public ReadOnlyObservableCollection<PhoneCallHistoryEntry> CallHistoryEntries { get; }
-        public readonly ObservableCollection<PhoneLine> Lines = new ObservableCollection<PhoneLine>();
+        public readonly ObservableCollection<PhoneLine> Lines = new();
 
         public CallSystem()
         {
@@ -116,7 +116,7 @@ namespace Dialer.Systems
         {
             bool UseAlternativeField = (DateTimeOffset.Now - call.CallArrivalTime)?.TotalSeconds >= 1;
 
-            PhoneCallHistoryEntry historyEntry = new PhoneCallHistoryEntry()
+            PhoneCallHistoryEntry historyEntry = new()
             {
                 IsIncoming = call.Direction == CallDirection.Incoming,
                 IsMissed = args.OldState == CallState.Incoming,
@@ -191,15 +191,14 @@ namespace Dialer.Systems
                     switch (args.OldState)
                     {
                         case CallState.Incoming:
-                            if (App.Current.NotificationSystem.ToastNotifier != null)
-                                App.Current.NotificationSystem.ToastNotifier.Show(App.Current.NotificationSystem.CreateMissedCallToastNotification(sender));
+                            App.Current.NotificationSystem.ToastNotifier?.Show(App.Current.NotificationSystem.CreateMissedCallToastNotification(sender));
                             break;
                     }
                     break;
                 case CallState.ActiveTalking:
                     if (App.Current.PermissionSystem.Vibration == VibrationAccessStatus.Allowed && App.Current.DeviceSystem.VibrationDevice != null)
                     {
-                        SimpleHapticsControllerFeedback feedback = App.Current.DeviceSystem.VibrationDevice.SimpleHapticsController.SupportedFeedback.First();
+                        SimpleHapticsControllerFeedback feedback = App.Current.DeviceSystem.VibrationDevice.SimpleHapticsController.SupportedFeedback[0];
                         App.Current.DeviceSystem.VibrationDevice.SimpleHapticsController.SendHapticFeedback(feedback);
                     }
                     break;
@@ -215,31 +214,56 @@ namespace Dialer.Systems
             }
         }
 
-        public async Task Initializate()
+        public async Task Initialize()
         {
-            CallStore = await PhoneCallManager.RequestStoreAsync();
             try
             {
-                Guid phoneLine = await CallStore.GetDefaultLineAsync();
-                if (phoneLine != null)
+                CallStore = await PhoneCallManager.RequestStoreAsync();
+
+                try
                 {
+                    Guid phoneLine = await CallStore.GetDefaultLineAsync();
                     DefaultLine = await PhoneLine.FromIdAsync(phoneLine);
+                }
+                catch
+                {
+                }
+
+                LineWatcher = CallStore.RequestLineWatcher();
+                LineWatcher.LineAdded += LineWatcher_LineAdded;
+                LineWatcher.LineRemoved += LineWatcher_LineRemoved;
+                LineWatcher.LineUpdated += LineWatcher_LineUpdated;
+                LineWatcher.Start();
+
+                try
+                {
+                    CallManager = await CallManager.GetCallManagerAsync();
+                    CallManager.CallAppeared += CallManager_CallAppeared;
+                }
+                catch
+                {
                 }
             }
             catch
             {
-
             }
-            LineWatcher = CallStore.RequestLineWatcher();
-            LineWatcher.LineAdded += LineWatcher_LineAdded;
-            LineWatcher.LineRemoved += LineWatcher_LineRemoved;
-            LineWatcher.LineUpdated += LineWatcher_LineUpdated;
-            LineWatcher.Start();
-            CallHistoryStore = await PhoneCallHistoryManager.RequestStoreAsync(PhoneCallHistoryStoreAccessType.AllEntriesReadWrite);
-            ContactStore = await ContactManager.RequestStoreAsync(ContactStoreAccessType.AllContactsReadOnly);
-            CallManager = await CallManager.GetCallManagerAsync();
-            CallManager.CallAppeared += CallManager_CallAppeared;
-            UpdateCallHistoryEntries();
+
+            try
+            {
+                CallHistoryStore = await PhoneCallHistoryManager.RequestStoreAsync(PhoneCallHistoryStoreAccessType.AllEntriesReadWrite);
+                UpdateCallHistoryEntries();
+            }
+            catch
+            {
+            }
+
+            try
+            {
+                ContactStore = await ContactManager.RequestStoreAsync(ContactStoreAccessType.AllContactsReadOnly);
+            }
+            catch
+            {
+            }
         }
 
         private async void LineWatcher_LineUpdated(PhoneLineWatcher sender, PhoneLineWatcherEventArgs args)

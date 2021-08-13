@@ -17,7 +17,7 @@ namespace Dialer.UI.Controls
     public sealed partial class ContactControl : UserControl
     {
         private List<Tuple<string, string>> additionalPhoneContacts;
-        private ObservableCollection<AdditionalPhoneContactPresenter> additionalPhoneContactPresenters;
+        private readonly ObservableCollection<AdditionalPhoneContactPresenter> additionalPhoneContactPresenters;
 
         public Contact AssociatedContact;
 
@@ -41,7 +41,7 @@ namespace Dialer.UI.Controls
                 additionalPhoneContacts = value;
                 foreach (Tuple<string, string> additionalPhone in value)
                 {
-                    AdditionalPhoneContactPresenter apcp = new AdditionalPhoneContactPresenter();
+                    AdditionalPhoneContactPresenter apcp = new();
                     apcp.PhoneType = additionalPhone.Item1;
                     apcp.PhoneNumber = additionalPhone.Item2;
                     additionalPhoneContactPresenters.Add(apcp);
@@ -51,7 +51,7 @@ namespace Dialer.UI.Controls
 
         public IRandomAccessStreamReference ContactPicture
         {
-            set 
+            set
             {
                 try
                 {
@@ -74,7 +74,7 @@ namespace Dialer.UI.Controls
             //TODO: Check for missing phone lines. If no phone lines, show an alert
             try
             {
-                App.Current.CallSystem.DefaultLine?.DialWithOptions(new PhoneDialOptions() { Number = ContactMainPhone.ToString() });
+                App.Current.CallSystem.DefaultLine?.DialWithOptions(new PhoneDialOptions() { Number = ContactMainPhone });
             }
             catch { }
         }
@@ -89,7 +89,7 @@ namespace Dialer.UI.Controls
         {
             try
             {
-                App.Current.CallSystem.DefaultLine?.DialWithOptions(new PhoneDialOptions() { Number = ContactMainPhone.ToString() });
+                App.Current.CallSystem.DefaultLine?.DialWithOptions(new PhoneDialOptions() { Number = ContactMainPhone });
             }
             catch { }
         }

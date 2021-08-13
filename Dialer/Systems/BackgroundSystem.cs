@@ -25,7 +25,7 @@ namespace Dialer.Systems
         private async Task ConfigureBackgroundTasks(bool force = false)
         {
             await BackgroundExecutionManager.RequestAccessAsync();
-            Dictionary<string, bool> taskRegistration = new Dictionary<string, bool>()
+            Dictionary<string, bool> taskRegistration = new()
             {
                 { CALL_BLOCKED, false },
                 { CALL_HISTORY_CHANGED, false },
@@ -57,7 +57,7 @@ namespace Dialer.Systems
             {
                 if (!taskRegistration[taskName])
                 {
-                    BackgroundTaskBuilder taskBuilder = new BackgroundTaskBuilder();
+                    BackgroundTaskBuilder taskBuilder = new();
                     taskBuilder.Name = taskName;
                     switch (taskName)
                     {
@@ -93,7 +93,7 @@ namespace Dialer.Systems
             App.Current.NotificationSystem.RefreshCallNotification(App.Current.CallSystem.CallManager.CurrentCalls);
         }
 
-        public async Task Initializate()
+        public async Task Initialize()
         {
             await ConfigureBackgroundTasks();
         }

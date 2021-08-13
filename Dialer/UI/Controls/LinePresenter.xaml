@@ -5,6 +5,7 @@
     xmlns:local="using:Dialer.UI.Controls"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:Windows10FallCreatorsUpdate="http://schemas.microsoft.com/winfx/2006/xaml/presentation?IsApiContractPresent(Windows.Foundation.UniversalApiContract, 5)"
     mc:Ignorable="d"
     d:DesignHeight="32"
     d:DesignWidth="128">
@@ -19,6 +20,6 @@
             <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
         <Image Source="{x:Bind Path=PresentedLineIconSource, Mode=OneWay}" Height="32"/>
-        <TextBlock HorizontalAlignment="Stretch" VerticalAlignment="Center" HorizontalTextAlignment="Left" Text="{x:Bind Path=PresentedLineName, Mode=OneWay}" Grid.Column="1" Margin="8,0,0,0"/>
+        <TextBlock HorizontalAlignment="Stretch" VerticalAlignment="Center" Windows10FallCreatorsUpdate:HorizontalTextAlignment="Left" Text="{x:Bind Path=PresentedLineName, Mode=OneWay}" Grid.Column="1" Margin="8,0,0,0"/>
     </Grid>
 </UserControl>

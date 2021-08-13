@@ -8,6 +8,7 @@
     xmlns:Windows10version1809="http://schemas.microsoft.com/winfx/2006/xaml/presentation?IsApiContractPresent(Windows.Foundation.UniversalApiContract, 7)"
     xmlns:Custom="using:Microsoft.UI.Xaml.Controls"
     xmlns:calls="using:Windows.ApplicationModel.Calls"
+    xmlns:Windows10FallCreatorsUpdate="http://schemas.microsoft.com/winfx/2006/xaml/presentation?IsApiContractPresent(Windows.Foundation.UniversalApiContract, 5)"
     x:Class="Dialer.UI.Pages.DialPage"
     mc:Ignorable="d"
     NavigationCacheMode="Required"
@@ -66,7 +67,7 @@
                 
                 <TextBox x:Name="numberToDialBox"
                          TextAlignment="Center"
-                         HorizontalTextAlignment="Center"
+                         Windows10FallCreatorsUpdate:HorizontalTextAlignment="Center"
                          HorizontalAlignment="Stretch"
                          Grid.Column="2" 
                          VerticalAlignment="Center"
@@ -84,7 +85,7 @@
                         Height="60" 
                         Width="60"
                         Click="DeleteLastNumberButton_Click">
-                    <FontIcon Glyph="&#xE94F;" FontFamily="Segoe MDL2 Assets"/>
+                    <FontIcon Glyph="&#xE94F;"/>
                 </Button>
             </Grid>
             
@@ -109,7 +110,7 @@
                         Height="60" 
                         Width="60"
                         Click="CallButton_Click">
-                    <FontIcon Glyph="&#xE717;" FontFamily="Segoe MDL2 Assets"/>
+                    <FontIcon Glyph="&#xE717;"/>
                 </Button>
             </Grid>
         </Grid>

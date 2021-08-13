@@ -32,7 +32,7 @@ namespace Dialer.Systems
 
         public DeviceSystem() { }
 
-        public async Task Initializate()
+        public async Task Initialize()
         {
             try
             {
@@ -48,7 +48,6 @@ namespace Dialer.Systems
             }
             catch
             {
-
             }
         }
     }

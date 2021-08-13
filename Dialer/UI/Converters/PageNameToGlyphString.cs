@@ -10,34 +10,25 @@ namespace Dialer.UI.Converters
         {
             if (value is string name)
             {
-                switch (name)
+                return name switch
                 {
-                    case UISystem.CALL_HISTORY_PAGE:
-                        return Glyphs.CALL_PAGE_HISTORY;
-                    case UISystem.CALL_UI_PAGE:
-                        return Glyphs.CALL_PAGE_INCALL;
-                    case UISystem.CONTACTS_PAGE:
-                        return Glyphs.CALL_PAGE_CONTACTS;
-                    case UISystem.DIAL_PAGE:
-                        return Glyphs.CALL_PAGE_DIAL;
-
-                    case UISystem.APPLICATIONS_SETTINGS_PAGE:
-                        return Glyphs.CALL_SETTINGS_APPS;
-                    case UISystem.NOTIFICATIONS_SETTINGS_PAGE:
-                        return Glyphs.CALL_SETTINGS_NOTIFICATIONS;
-                    case UISystem.PERSONALIZATION_SETTINGS_PAGE:
-                        return Glyphs.CALL_SETTINGS_PERSONALIZATION;
-                    case UISystem.PHONE_LINES_SETTINGS_PAGE:
-                        return Glyphs.CALL_SETTINGS_LINES;
-                    case UISystem.SOUND_SETTINGS_PAGE:
-                        return Glyphs.CALL_SETTINGS_SOUND;
-                    case UISystem.ABOUT_SETTINGS_PAGE:
-                        return Glyphs.CALL_SETTINGS_ABOUT;
-                    default:
-                        return string.Empty;
-                }
+                    UISystem.CALL_HISTORY_PAGE => Glyphs.CALL_PAGE_HISTORY,
+                    UISystem.CALL_UI_PAGE => Glyphs.CALL_PAGE_INCALL,
+                    UISystem.CONTACTS_PAGE => Glyphs.CALL_PAGE_CONTACTS,
+                    UISystem.DIAL_PAGE => Glyphs.CALL_PAGE_DIAL,
+                    UISystem.APPLICATIONS_SETTINGS_PAGE => Glyphs.CALL_SETTINGS_APPS,
+                    UISystem.NOTIFICATIONS_SETTINGS_PAGE => Glyphs.CALL_SETTINGS_NOTIFICATIONS,
+                    UISystem.PERSONALIZATION_SETTINGS_PAGE => Glyphs.CALL_SETTINGS_PERSONALIZATION,
+                    UISystem.PHONE_LINES_SETTINGS_PAGE => Glyphs.CALL_SETTINGS_LINES,
+                    UISystem.SOUND_SETTINGS_PAGE => Glyphs.CALL_SETTINGS_SOUND,
+                    UISystem.ABOUT_SETTINGS_PAGE => Glyphs.CALL_SETTINGS_ABOUT,
+                    _ => string.Empty,
+                };
             }
-            else throw new ArgumentException();
+            else
+            {
+                throw new ArgumentException();
+            }
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, string language)

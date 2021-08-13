@@ -2,7 +2,6 @@
 using System.Diagnostics;
 using Windows.ApplicationModel;
 using Windows.ApplicationModel.Core;
-using Windows.System;
 using Windows.UI;
 using Windows.UI.Core;
 using Windows.UI.ViewManagement;
@@ -18,43 +17,38 @@ namespace Dialer.UI.Controls
     {
         private static string AppName = Package.Current.DisplayName;
 
-        public event RoutedEventHandler? BackButtonClick;
-
+        public event EventHandler<RoutedEventArgs> BackButtonClick;
 
         private string AppTitle = (!string.IsNullOrEmpty(ApplicationView.GetForCurrentView().Title) ?
             ApplicationView.GetForCurrentView().Title + " - " : "") +
             AppName;
 
-        private readonly DispatcherQueue dispatcherQueue;
-
         public TitlebarControl()
         {
-            dispatcherQueue = DispatcherQueue.GetForCurrentThread();
             InitializeComponent();
             Loaded += TitleBarControl_Loaded;
 
-            Window.Current.SetTitleBar(TitlebarCanvas);
-
             CoreApplicationView? coreApplicationView = CoreApplication.GetCurrentView();
-            coreApplicationView.TitleBar.ExtendViewIntoTitleBar = true;
-            Height = coreApplicationView.TitleBar.Height != 0 ? coreApplicationView.TitleBar.Height + 16 : 0;
+            if (coreApplicationView.TitleBar != null)
+            {
+                Window.Current.SetTitleBar(TitlebarCanvas);
 
-            Thickness margin = CustomTitleBar.Margin;
-            margin.Right = coreApplicationView.TitleBar.SystemOverlayRightInset;
-            CustomTitleBar.Margin = margin;
+                SetVisibility(coreApplicationView.TitleBar.IsVisible);
+                coreApplicationView.TitleBar.ExtendViewIntoTitleBar = true;
+                Height = coreApplicationView.TitleBar.Height != 0 ? coreApplicationView.TitleBar.Height : 0;
 
-            coreApplicationView.TitleBar.IsVisibleChanged += TitleBar_IsVisibleChanged;
-            coreApplicationView.TitleBar.LayoutMetricsChanged += TitleBar_LayoutMetricsChanged;
+                Thickness margin = CustomTitleBar.Margin;
+                margin.Right = coreApplicationView.TitleBar.SystemOverlayRightInset;
+                CustomTitleBar.Margin = margin;
+
+                coreApplicationView.TitleBar.IsVisibleChanged += TitleBar_IsVisibleChanged;
+                coreApplicationView.TitleBar.LayoutMetricsChanged += TitleBar_LayoutMetricsChanged;
+            }
 
 #if DEBUG
             if (Debugger.IsAttached)
             {
                 RedIndicator.Visibility = Visibility.Visible;
-
-                if (Debugger.IsLogging())
-                {
-                    OrangeIndicator.Visibility = Visibility.Visible;
-                }
             }
             else
             {
@@ -78,31 +72,34 @@ namespace Dialer.UI.Controls
         public void RefreshColor()
         {
             ApplicationViewTitleBar titlebar = ApplicationView.GetForCurrentView().TitleBar;
-            SolidColorBrush transparentColorBrush = new() { Opacity = 0 };
-            Color transparentColor = transparentColorBrush.Color;
+            if (titlebar != null)
+            {
+                SolidColorBrush transparentColorBrush = new() { Opacity = 0 };
+                Color transparentColor = transparentColorBrush.Color;
 
-            titlebar.BackgroundColor = transparentColor;
-            titlebar.ButtonBackgroundColor = transparentColor;
-            titlebar.InactiveBackgroundColor = transparentColor;
-            titlebar.ButtonInactiveBackgroundColor = transparentColor;
+                titlebar.BackgroundColor = transparentColor;
+                titlebar.ButtonBackgroundColor = transparentColor;
+                titlebar.InactiveBackgroundColor = transparentColor;
+                titlebar.ButtonInactiveBackgroundColor = transparentColor;
 
-            SolidColorBrush foregroundThemeBrush = (SolidColorBrush)Resources["ApplicationForegroundThemeBrush"];
+                SolidColorBrush foregroundThemeBrush = (SolidColorBrush)Resources["ApplicationForegroundThemeBrush"];
 
-            titlebar.ButtonForegroundColor = foregroundThemeBrush.Color;
-            titlebar.ForegroundColor = foregroundThemeBrush.Color;
+                titlebar.ButtonForegroundColor = foregroundThemeBrush.Color;
+                titlebar.ForegroundColor = foregroundThemeBrush.Color;
 
-            Color color = foregroundThemeBrush.Color;
-            color.A = 16;
-            titlebar.InactiveForegroundColor = color;
-            titlebar.ButtonInactiveForegroundColor = color;
+                Color color = foregroundThemeBrush.Color;
+                color.A = 16;
+                titlebar.InactiveForegroundColor = color;
+                titlebar.ButtonInactiveForegroundColor = color;
 
-            Color hovercolor = foregroundThemeBrush.Color;
-            hovercolor.A = 32;
-            titlebar.ButtonHoverBackgroundColor = hovercolor;
-            titlebar.ButtonHoverForegroundColor = foregroundThemeBrush.Color;
-            hovercolor.A = 64;
-            titlebar.ButtonPressedBackgroundColor = hovercolor;
-            titlebar.ButtonPressedForegroundColor = foregroundThemeBrush.Color;
+                Color hovercolor = foregroundThemeBrush.Color;
+                hovercolor.A = 32;
+                titlebar.ButtonHoverBackgroundColor = hovercolor;
+                titlebar.ButtonHoverForegroundColor = foregroundThemeBrush.Color;
+                hovercolor.A = 64;
+                titlebar.ButtonPressedBackgroundColor = hovercolor;
+                titlebar.ButtonPressedForegroundColor = foregroundThemeBrush.Color;
+            }
         }
 
         private async void TitleBarControl_Loaded(object sender, RoutedEventArgs e)
@@ -124,7 +121,7 @@ namespace Dialer.UI.Controls
 
         private void TitleBar_LayoutMetricsChanged(CoreApplicationViewTitleBar sender, object args)
         {
-            Height = sender.Height != 0 ? sender.Height + 16 : 0;
+            Height = sender.Height != 0 ? sender.Height : 0;
             Thickness margin = CustomTitleBar.Margin;
             margin.Right = sender.SystemOverlayRightInset;
             CustomTitleBar.Margin = margin;
@@ -132,19 +129,19 @@ namespace Dialer.UI.Controls
 
         private void TitleBar_IsVisibleChanged(CoreApplicationViewTitleBar sender, object args)
         {
-            FrameworkElement wincontent = (FrameworkElement)Window.Current.Content;
-            Thickness margin = wincontent.Margin;
-            if (sender.IsVisible)
+            SetVisibility(sender.IsVisible);
+        }
+
+        private void SetVisibility(bool IsVisible)
+        {
+            if (IsVisible)
             {
                 Visibility = Visibility.Visible;
-                margin.Top = 0;
             }
             else
             {
                 Visibility = Visibility.Collapsed;
-                margin.Top = -48;
             }
-            wincontent.Margin = margin;
         }
 
         private AppViewBackButtonVisibility _BackButtonVisibility = AppViewBackButtonVisibility.Collapsed;
@@ -203,11 +200,6 @@ namespace Dialer.UI.Controls
             if (Debugger.IsAttached)
             {
                 RedIndicator.Visibility = Visibility.Visible;
-
-                if (Debugger.IsLogging())
-                {
-                    OrangeIndicator.Visibility = Visibility.Visible;
-                }
 
                 AttachDebuggerButton.Visibility = Visibility.Collapsed;
             }

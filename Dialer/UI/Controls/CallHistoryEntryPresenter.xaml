@@ -4,7 +4,7 @@
     xmlns:local="using:Dialer.UI.Controls"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    xmlns:Custom="using:Microsoft.UI.Xaml.Controls"
+    xmlns:Custom="using:Microsoft.UI.Xaml.Controls" xmlns:Windows10FallCreatorsUpdate="http://schemas.microsoft.com/winfx/2006/xaml/presentation?IsApiContractPresent(Windows.Foundation.UniversalApiContract, 5)"
     x:Class="Dialer.UI.Controls.CallHistoryEntryPresenter"
     mc:Ignorable="d"
     d:DesignWidth="400" d:DesignHeight="75" HorizontalContentAlignment="Stretch">
@@ -19,8 +19,8 @@
             <ColumnDefinition Width="1*" MinWidth="256"/>
             <ColumnDefinition Width="64"/>
         </Grid.ColumnDefinitions>
-        <PersonPicture Contact="{x:Bind Path=PresentedEntry, Mode=OneWay, Converter={StaticResource CallHistoryEntryToContact}}" VerticalAlignment="Center" Height="43" Margin="11,0,10,0"/>
-        <Grid Background="{ThemeResource SystemAccentColor}" Height="22" Width="22" Margin="0,0,-32,-32" CornerRadius="11">
+        <Custom:PersonPicture Contact="{x:Bind Path=PresentedEntry, Mode=OneWay, Converter={StaticResource CallHistoryEntryToContact}}" VerticalAlignment="Center" Height="43" Margin="11,0,10,0"/>
+        <Grid Background="{ThemeResource SystemAccentColor}" Height="22" Width="22" Margin="0,0,-32,-32" Windows10FallCreatorsUpdate:CornerRadius="11">
             <Image Source="{x:Bind Path=PresentedEntry, Mode=OneWay, Converter={StaticResource CallHistoryEntryToLineIconBitmap}}" Width="32" Height="32" HorizontalAlignment="Center" VerticalAlignment="Center"/>
         </Grid>
         <Grid Grid.Column="1" Margin="10,0,0,0">
@@ -43,9 +43,9 @@
                 </Grid.ColumnDefinitions>
                 <TextBlock Text="{x:Bind Path=PresentedEntry.StartTime, Mode=OneWay, Converter={StaticResource DateTimeToString}}" TextWrapping="Wrap" VerticalAlignment="Center" Margin="0,0,10,0"/>
                 <FontIcon HorizontalAlignment="Right" Glyph="{x:Bind Path=PresentedEntry, Mode=OneWay, Converter={StaticResource CallHistoryEntryToCallStateGlyphString}}" Grid.Column="2"/>
-                <TextBlock VerticalAlignment="Center" HorizontalTextAlignment="Left" Text="{x:Bind PresentedEntry, Mode=OneWay, Converter={StaticResource CallHistoryEntryToCallStateTextString}}" Grid.Column="1" Margin="0,0,10,0"/>
+                <TextBlock VerticalAlignment="Center" Windows10FallCreatorsUpdate:HorizontalTextAlignment="Left" Text="{x:Bind PresentedEntry, Mode=OneWay, Converter={StaticResource CallHistoryEntryToCallStateTextString}}" Grid.Column="1" Margin="0,0,10,0"/>
             </Grid>
-            <TextBlock Grid.Row="2" VerticalAlignment="Center" HorizontalTextAlignment="Left" Text="{x:Bind PresentedEntry, Mode=OneWay, Converter={StaticResource CallHistoryEntryToLineDisplayNameText}}" Grid.Column="1" Foreground="{ThemeResource SystemControlForegroundAccentBrush}"/>
+            <TextBlock Grid.Row="2" VerticalAlignment="Center" Windows10FallCreatorsUpdate:HorizontalTextAlignment="Left" Text="{x:Bind PresentedEntry, Mode=OneWay, Converter={StaticResource CallHistoryEntryToLineDisplayNameText}}" Grid.Column="1" Foreground="{ThemeResource SystemControlForegroundAccentBrush}"/>
         </Grid>
         <Button Grid.Column="2" HorizontalAlignment="Stretch" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch" VerticalAlignment="Stretch" IsEnabled="{x:Bind Path=ContactPresented}" Style="{ThemeResource TextBlockButtonStyle}" Foreground="{ThemeResource ApplicationForegroundThemeBrush}">
             <FontIcon Glyph="&#xE779;"/>

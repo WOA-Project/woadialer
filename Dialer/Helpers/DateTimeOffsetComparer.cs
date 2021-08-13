@@ -17,13 +17,9 @@ namespace Dialer.Helpers
             {
                 return 1;
             }
-            else if (y == null)
-            {
-                return -1;
-            }
             else
             {
-                return DateTimeOffset.Compare(x.Value, y.Value);
+                return y == null ? -1 : DateTimeOffset.Compare(x.Value, y.Value);
             }
         }
     }

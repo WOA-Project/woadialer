@@ -32,7 +32,6 @@ namespace Dialer.Systems
 
         public PermissionSystem()
         {
-
         }
 
         public async Task<bool> RequestAllPermissions()

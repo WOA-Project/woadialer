@@ -5,6 +5,7 @@
     xmlns:local="using:Dialer.UI.Controls"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:Windows10FallCreatorsUpdate="http://schemas.microsoft.com/winfx/2006/xaml/presentation?IsApiContractPresent(Windows.Foundation.UniversalApiContract, 5)"
     mc:Ignorable="d"
     d:DesignHeight="300"
     d:DesignWidth="400">
@@ -14,12 +15,12 @@
             <TextBlock x:Name="PhoneTypeTB" Style="{StaticResource CaptionTextBlockStyle}" Margin="0, 0, 0, 5"><Run Text="[PhoneType]"/></TextBlock>
             <TextBlock x:Name="PhoneNumberTB"><Run Text="[+99 999 999999]"/></TextBlock>
         </StackPanel>
-        <StackPanel Orientation="Horizontal" Spacing="10" HorizontalAlignment="Right">
+        <StackPanel Orientation="Horizontal" Windows10FallCreatorsUpdate:Spacing="10" HorizontalAlignment="Right">
             <Button Style="{StaticResource TextBlockButtonStyle}">
                 <FontIcon Foreground="{StaticResource ApplicationForegroundThemeBrush}" FontSize="18" Glyph="&#xE16F;"></FontIcon>
             </Button>
             <Button HorizontalAlignment="Right" VerticalAlignment="Center" Margin="0, 0, 0, 0">
-                <StackPanel Orientation="Horizontal" Spacing="10">
+                <StackPanel Orientation="Horizontal" Windows10FallCreatorsUpdate:Spacing="10">
                     <FontIcon FontFamily="Segoe Fluent Icons" Glyph="&#xE13A;" />
                     <TextBlock Text="Call"></TextBlock>
                 </StackPanel>

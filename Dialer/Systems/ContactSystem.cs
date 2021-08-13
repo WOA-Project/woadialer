@@ -10,7 +10,7 @@ using Windows.ApplicationModel.Contacts;
 
 namespace Dialer.Systems
 {
-    class ContactSystem
+    internal static class ContactSystem
     {
         private static ContactStore _contactStore;
         private static ObservableCollection<Contact> _contacts;
@@ -24,8 +24,7 @@ namespace Dialer.Systems
         {
             get
             {
-                if (_contacts != null) return _contacts;
-                else return null;
+                return _contacts ?? null;
             }
         }
 
@@ -33,43 +32,51 @@ namespace Dialer.Systems
         {
             get
             {
-                if (_contactControls != null) return _contactControls;
-                else return null;
+                return _contactControls ?? null;
             }
         }
 
         public static async void LoadContacts()
         {
-            if(_contacts == null && ContactsLoading == false)
+            if (_contacts == null && !ContactsLoading)
             {
-                ContactsLoading = true;
-                _contactStore = await ContactManager.RequestStoreAsync();
-                ObservableCollection<Contact> t_contacts = new ObservableCollection<Contact>(await _contactStore.FindContactsAsync());
-
-                Debug.WriteLine("Found " + t_contacts.Count + " contacts");
-
-                ObservableCollection<ContactControl> t_contactControls = new ObservableCollection<ContactControl>();
-
-                foreach (Contact contact in t_contacts)
+                try
                 {
-                    ContactControl cc = new ContactControl();
-                    cc.AssociatedContact = contact;
-                    cc.ContactName = contact.DisplayName;
-                    if (contact.Phones.Count == 0) continue;
-                    cc.ContactMainPhone = contact.Phones[0].Number;
-                    List<Tuple<string, string>> additionalPhones = new List<Tuple<string, string>>();
-                    foreach (ContactPhone contactPhone in contact.Phones)
+                    ContactsLoading = true;
+                    _contactStore = await ContactManager.RequestStoreAsync();
+                    ObservableCollection<Contact> t_contacts = new(await _contactStore.FindContactsAsync());
+
+                    Debug.WriteLine("Found " + t_contacts.Count + " contacts");
+
+                    ObservableCollection<ContactControl> t_contactControls = new();
+
+                    foreach (Contact contact in t_contacts)
                     {
-                        additionalPhones.Add(new Tuple<string, string>(contactPhone.Kind.ToString(), contactPhone.Number));
+                        ContactControl cc = new();
+                        cc.AssociatedContact = contact;
+                        cc.ContactName = contact.DisplayName;
+                        if (contact.Phones.Count == 0) continue;
+                        cc.ContactMainPhone = contact.Phones[0].Number;
+                        List<Tuple<string, string>> additionalPhones = new();
+                        foreach (ContactPhone contactPhone in contact.Phones)
+                        {
+                            additionalPhones.Add(new Tuple<string, string>(contactPhone.Kind.ToString(), contactPhone.Number));
+                        }
+                        cc.AdditionalContactPhones = additionalPhones;
+                        if (contact.SmallDisplayPicture != null)
+                        {
+                            //TODO: Fix wrong cast
+                            cc.ContactPicture = contact.SmallDisplayPicture;
+                        }
+
+                        t_contactControls.Add(cc);
                     }
-                    cc.AdditionalContactPhones = additionalPhones;
-                    if (contact.SmallDisplayPicture != null)
-                        //TODO: Fix wrong cast
-                        cc.ContactPicture = contact.SmallDisplayPicture;
-                    t_contactControls.Add(cc);
+                    _contacts = t_contacts;
+                    _contactControls = t_contactControls;
                 }
-                _contacts = t_contacts;
-                _contactControls = t_contactControls;
+                catch
+                {
+                }
 
                 ContactsLoading = false;
 

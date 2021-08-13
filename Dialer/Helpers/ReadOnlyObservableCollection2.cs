@@ -13,7 +13,6 @@ namespace Dialer.Helpers
 
         public ReadOnlyObservableCollection2(ObservableCollection<T> list) : base(list)
         {
-
         }
     }
 }

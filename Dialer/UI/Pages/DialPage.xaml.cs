@@ -21,9 +21,9 @@ namespace Dialer.UI.Pages
         private StringBuilder Number;
         private DisplayableLine CurrentPhoneLine;
 
-        private ObservableCollection<DisplayableLine> DisplayableLines = new ObservableCollection<DisplayableLine>(App.Current.CallSystem.Lines.Select(x => new DisplayableLine(x)));
+        private readonly ObservableCollection<DisplayableLine> DisplayableLines = new(App.Current.CallSystem.Lines.Select(x => new DisplayableLine(x)));
 
-        private CoreApplicationView CoreApplicationView;
+        private readonly CoreApplicationView CoreApplicationView;
 
         public DialPage()
         {
@@ -45,7 +45,7 @@ namespace Dialer.UI.Pages
                     case System.Collections.Specialized.NotifyCollectionChangedAction.Add:
                         {
                             bool SetAsDefault = DisplayableLines.Count == 0;
-                            DisplayableLine itemToAdd = new DisplayableLine(e.NewItems[0] as PhoneLine);
+                            DisplayableLine itemToAdd = new(e.NewItems[0] as PhoneLine);
                             if (SetAsDefault)
                                 CurrentPhoneLine = itemToAdd;
                             DisplayableLines.Add(itemToAdd);
@@ -53,7 +53,7 @@ namespace Dialer.UI.Pages
                         }
                     case System.Collections.Specialized.NotifyCollectionChangedAction.Remove:
                         {
-                            DisplayableLine itemToRemove = DisplayableLines.First(x => x.Line.Id == (e.OldItems[0] as PhoneLine).Id);
+                            DisplayableLine itemToRemove = DisplayableLines.First(x => x.Line.Id == (e.OldItems[0] as PhoneLine)?.Id);
                             if (CurrentPhoneLine == itemToRemove)
                             {
                                 CurrentPhoneLine = DisplayableLines.Count > 0 ? DisplayableLines.First() : null;
@@ -63,8 +63,8 @@ namespace Dialer.UI.Pages
                         }
                     case System.Collections.Specialized.NotifyCollectionChangedAction.Replace:
                         {
-                            DisplayableLine itemToReplace = DisplayableLines.First(x => x.Line.Id == (e.OldItems[0] as PhoneLine).Id);
-                            DisplayableLine itemToAdd = new DisplayableLine(e.NewItems[0] as PhoneLine);
+                            DisplayableLine itemToReplace = DisplayableLines.First(x => x.Line.Id == (e.OldItems[0] as PhoneLine)?.Id);
+                            DisplayableLine itemToAdd = new(e.NewItems[0] as PhoneLine);
                             if (CurrentPhoneLine == itemToReplace)
                             {
                                 CurrentPhoneLine = itemToAdd;
@@ -99,22 +99,18 @@ namespace Dialer.UI.Pages
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
             base.OnNavigatedTo(e);
-            switch (e.Parameter)
+            Number = e.Parameter switch
             {
-                case string number:
-                    Number = new StringBuilder(number);
-                    break;
-                default:
-                    Number = new StringBuilder();
-                    break;
-            }
+                string number => new StringBuilder(number),
+                _ => new StringBuilder(),
+            };
             UpdateCurrentNumber();
         }
 
         private void UpdateCurrentNumber()
         {
             callButton.IsEnabled = !string.IsNullOrWhiteSpace(Number.ToString());
-            PhoneNumberFormatter a = new PhoneNumberFormatter();
+            PhoneNumberFormatter a = new();
             numberToDialBox.Text = a.FormatPartialString(Number.ToString());
         }
 
@@ -201,7 +197,7 @@ namespace Dialer.UI.Pages
 
         private void PhoneLineSelector_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            if (e.AddedItems != null && e.AddedItems.Count > 0 && e.AddedItems[0] != null)
+            if (e.AddedItems?.Count > 0 && e.AddedItems[0] != null)
             {
                 CurrentPhoneLine = e.AddedItems[0] as DisplayableLine;
             }

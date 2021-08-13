@@ -5,6 +5,7 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:Custom="using:Dialer.UI.Controls"
+    xmlns:muxc="using:Microsoft.UI.Xaml.Controls"
     xmlns:Windows10FallCreatorsUpdate="http://schemas.microsoft.com/winfx/2006/xaml/presentation?IsApiContractPresent(Windows.Foundation.UniversalApiContract, 5)"
     xmlns:Windows10version1809="http://schemas.microsoft.com/winfx/2006/xaml/presentation?IsApiContractPresent(Windows.Foundation.UniversalApiContract, 7)"
     x:Class="Dialer.UI.Pages.CallUIPage"
@@ -55,7 +56,7 @@
                     Margin="12"
                     Click="CloseCallButton_Click">
                     
-                    <FontIcon Glyph="&#xE778;" FontFamily="Segoe MDL2 Assets" FontSize="14"/>
+                    <FontIcon Glyph="&#xE778;" FontSize="14"/>
                 </Button>
 
                 <Button x:Name="showExtendedUIButton" 
@@ -66,7 +67,7 @@
                     Width="38"
                     Click="ShowExtendedUIButton_Click">
 
-                    <FontIcon Glyph="&#xE70D;" FontFamily="Segoe MDL2 Assets" FontSize="14"/>
+                    <FontIcon Glyph="&#xE70D;" FontSize="14"/>
                 </Button>
             </StackPanel>
         </Grid>
@@ -82,7 +83,7 @@
             <StackPanel Grid.Row="0"
                     Padding="12,24,12,0">
 
-                <PersonPicture Height="82"
+                <muxc:PersonPicture Height="82"
                            Contact="{x:Bind Path=CallManager.ActiveCall.Contact}"/>
 
                 <TextBlock x:Name="callerNameText" 
@@ -126,16 +127,16 @@
                     </Grid.ColumnDefinitions>
 
                     <AppBarToggleButton Label="Mute" Width="100" HorizontalAlignment="Center" Style="{ThemeResource AppBarToggleButtonRevealStyle}" Height="56">
-                        <FontIcon Glyph="&#xF781;" FontFamily="Segoe MDL2 Assets"/>
+                        <FontIcon Glyph="&#xF781;"/>
                     </AppBarToggleButton>
                     <AppBarToggleButton x:Name="KeypadToggleButton" Grid.Column="1" Label="Keypad" Width="100" HorizontalAlignment="Center" Checked="KeypadToggleButton_Checked" Unchecked="KeypadToggleButton_Unchecked" Style="{ThemeResource AppBarToggleButtonRevealStyle}" Height="56">
-                        <FontIcon Glyph="&#xE75F;" FontFamily="Segoe MDL2 Assets"/>
+                        <FontIcon Glyph="&#xE75F;"/>
                     </AppBarToggleButton>
                     <AppBarToggleButton x:Name="speakerOutputButton"  Grid.Column="2" Label="Speaker" Width="100" HorizontalAlignment="Center" Style="{ThemeResource AppBarToggleButtonRevealStyle}" Height="56" Checked="SpeakerOutputButton_Checked" Unchecked="SpeakerOutputButton_Unchecked">
-                        <FontIcon Glyph="&#xE767;" FontFamily="Segoe MDL2 Assets"/>
+                        <FontIcon Glyph="&#xE767;"/>
                     </AppBarToggleButton>
                     <AppBarToggleButton x:Name="abtb_Hold" Grid.Row="1" Label="Hold" Width="100" HorizontalAlignment="Center" Style="{ThemeResource AppBarToggleButtonRevealStyle}" Height="56" Unchecked="Abtb_Hold_Unchecked" Checked="Abtb_Hold_Checked">
-                        <FontIcon Glyph="&#xE767;" FontFamily="Segoe MDL2 Assets"/>
+                        <FontIcon Glyph="&#xE767;"/>
                     </AppBarToggleButton>
                 </Grid>
 
@@ -161,7 +162,7 @@
                     Margin="12"
                     Click="CloseCallButton_Click">
 
-                    <FontIcon Glyph="&#xE778;" FontFamily="Segoe MDL2 Assets"/>
+                    <FontIcon Glyph="&#xE778;"/>
                 </Button>
 
                 <Button x:Name="hideExtendedUIButton" 
@@ -173,7 +174,7 @@
                     Width="60"
                     Click="HideExtendedUIButton_Click">
 
-                    <FontIcon Glyph="&#xE70E;" FontFamily="Segoe MDL2 Assets"/>
+                    <FontIcon Glyph="&#xE70E;"/>
                 </Button>
             </Grid>
 

@@ -53,7 +53,7 @@ namespace Dialer.UI.Pages
 
         private void NavView_SelectionChanged(MUXC.NavigationView sender, MUXC.NavigationViewSelectionChangedEventArgs args)
         {
-            if (args.IsSettingsSelected == true)
+            if (args.IsSettingsSelected)
             {
                 Navigate("SettingsPage", args.RecommendedNavigationTransitionInfo);
             }
@@ -104,7 +104,9 @@ namespace Dialer.UI.Pages
             if (nv_PagePresenter.IsPaneOpen &&
                 (nv_PagePresenter.DisplayMode == MUXC.NavigationViewDisplayMode.Compact ||
                  nv_PagePresenter.DisplayMode == MUXC.NavigationViewDisplayMode.Minimal))
+            {
                 return false;
+            }
 
             ContentFrame.GoBack();
             return true;
