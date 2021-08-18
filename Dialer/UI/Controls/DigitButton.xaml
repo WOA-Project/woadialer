@@ -12,15 +12,11 @@
     Style="{ThemeResource DefaultButtonStyle}"
     Margin="2">
 
-    <Grid HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
-        <Grid.RowDefinitions>
-            <RowDefinition/>
-            <RowDefinition/>
-        </Grid.RowDefinitions>
-        <TextBlock Name="tb_Digit" Text=" " FontSize="24" HorizontalAlignment="Center"/>
-        <Grid Grid.Row="1" Margin="0, 3, 0, 0">
+    <StackPanel HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+        <TextBlock Name="tb_Digit" Text="" FontSize="24" HorizontalAlignment="Center"/>
+        <StackPanel Margin="0, 3, 0, 0" HorizontalAlignment="Center" Spacing="3">
             <TextBlock Name="tb_Chars" Text="" FontSize="10" TextAlignment="Center"/>
-            <TextBlock Name="tb_AdditionalChars" Margin="0,12,0,0" Text="" FontSize="10" TextAlignment="Center"/>
-        </Grid>
-    </Grid>
+            <TextBlock Name="tb_AdditionalChars" Text="" FontSize="10" TextAlignment="Center"/>
+        </StackPanel>
+    </StackPanel>
 </Button>

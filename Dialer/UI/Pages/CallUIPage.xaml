@@ -140,7 +140,7 @@
                     </AppBarToggleButton>
                 </Grid>
 
-                <Custom:DialPad x:Name="Keypad" Grid.Row="1" MinHeight="230" MaxHeight="300" MinWidth="300" HorizontalAlignment="Center" VerticalAlignment="Bottom" Visibility="Collapsed"/>
+                <Custom:DialPad x:Name="Keypad" Grid.Row="1" MinHeight="230" MaxHeight="400" MinWidth="300" HorizontalAlignment="Center" VerticalAlignment="Bottom" Visibility="Collapsed"/>
             </Grid>
 
             <Grid Grid.Row="2" HorizontalAlignment="Stretch">

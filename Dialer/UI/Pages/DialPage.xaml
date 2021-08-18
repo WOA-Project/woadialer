@@ -91,7 +91,7 @@
             
             
 
-            <controls:DialPad Grid.Row="3" MinHeight="230" MaxHeight="360" DigitTapped="NumPad_DigitTapped" VerticalAlignment="Bottom" Margin="10, 0, 10, 100" Grid.RowSpan="2" Height="340"/>
+            <controls:DialPad Grid.Row="3" MinHeight="230" MaxHeight="500" DigitTapped="NumPad_DigitTapped" VerticalAlignment="Bottom" Margin="10, 0, 10, 100" Grid.RowSpan="2" Height="340"/>
 
             <Grid Grid.Row="4" Margin="10,10,10,10">
                 <Grid.ColumnDefinitions>
