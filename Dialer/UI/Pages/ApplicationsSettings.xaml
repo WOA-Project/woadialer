@@ -8,39 +8,56 @@
     mc:Ignorable="d">
 
     <ScrollViewer Padding="24" VerticalScrollBarVisibility="Auto" VerticalScrollMode="Auto">
+        <StackPanel>
+            
+            <!-- Phone Number Formatting -->
+            <StackPanel Margin="{StaticResource DialogCategoryMargin}">
+                <StackPanel Orientation="Horizontal"
+                          Margin="{ThemeResource DialogTitleMargin}">
+                    <TextBlock Text="&#xE75C;"
+                           Style="{ThemeResource FluentTitleIconStyle}" />
+                    <TextBlock x:Uid="Settings_NumberFormattingTitle"
+                           Text="Phone Number Formatting"
+                           Style="{StaticResource FluentTitleTextStyle}" />
+                </StackPanel>
 
-        <!-- Phone Number Formatting -->
-        <StackPanel Margin="{StaticResource DialogCategoryMargin}">
-            <StackPanel Orientation="Horizontal"
-                      Margin="{ThemeResource DialogTitleMargin}">
-                <TextBlock Text="&#xE75C;"
-                       Style="{ThemeResource FluentTitleIconStyle}" />
-                <TextBlock x:Uid="Settings_NumberFormattingTitle"
-                       Text="Phone Number Formatting"
-                       Style="{StaticResource FluentTitleTextStyle}" />
+                <TextBlock x:Uid="Settings_NumberFormattingIntro"
+                         Text="You can choose a format to show the numbers you're dialing:"
+                         TextWrapping="Wrap"
+                         Margin="{StaticResource DialogSubtitleMargin}"/>
+
+                <ComboBox x:Uid="Settings_NumberFormattingCombobox"
+                        x:Name="numberFormattingCombobox"
+                        SelectedIndex="2"
+                        HorizontalAlignment="Stretch">
+                    <ComboBoxItem x:Name="formattingNoneComboOption"
+                              x:Uid="Settings_NumberFormattingNoneOption"
+                              Content="None"/>
+                    <ComboBoxItem x:Name="formattingItalianComboOption"
+                              x:Uid="Settings_NumberFormattingItalianOption"
+                              Content="Italian"/>
+                    <ComboBoxItem x:Name="formattingRussianComboOption"
+                              x:Uid="Settings_NumberFormattingRussianOption"
+                              Content="Russian"/>
+                </ComboBox>
+
             </StackPanel>
 
-            <TextBlock x:Uid="Settings_NumberFormattingIntro"
-                     Text="You can choose a format to show the numbers you're dialing:"
-                     TextWrapping="Wrap"
-                     Margin="{StaticResource DialogSubtitleMargin}"/>
-
-            <ComboBox x:Uid="Settings_NumberFormattingCombobox"
-                    x:Name="numberFormattingCombobox"
-                    SelectedIndex="2"
-                    HorizontalAlignment="Stretch">
-                <ComboBoxItem x:Name="formattingNoneComboOption"
-                          x:Uid="Settings_NumberFormattingNoneOption"
-                          Content="None"/>
-                <ComboBoxItem x:Name="formattingItalianComboOption"
-                          x:Uid="Settings_NumberFormattingItalianOption"
-                          Content="Italian"/>
-                <ComboBoxItem x:Name="formattingRussianComboOption"
-                          x:Uid="Settings_NumberFormattingRussianOption"
-                          Content="Russian"/>
-            </ComboBox>
-
-
+            <StackPanel Margin="{StaticResource DialogCategoryMargin}">
+                <StackPanel Orientation="Horizontal"
+                          Margin="{ThemeResource DialogTitleMargin}">
+                    <TextBlock Text="&#xE957;"
+                           Style="{ThemeResource FluentTitleIconStyle}" />
+                    <TextBlock x:Uid="Settings_ProximitySensorTitle"
+                           Text="Enable proximity sensor"
+                           Style="{StaticResource FluentTitleTextStyle}" />
+                </StackPanel>
+                <ToggleSwitch
+                    x:Name="ProximitySensorSettingToggle"
+                    Toggled="ProximitySensorSettingToggle_Toggled">
+                    Turn off the phone screen when you put your phone close to your face during a call (uses proximity sensor)
+                </ToggleSwitch>
+            </StackPanel>
         </StackPanel>
 
     </ScrollViewer>

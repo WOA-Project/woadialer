@@ -1,17 +1,25 @@
-﻿using Windows.UI.Xaml.Controls;
-
-// Документацию по шаблону элемента "Пустая страница" см. по адресу https://go.microsoft.com/fwlink/?LinkId=234238
+﻿using Dialer.Helpers;
+using Windows.UI.Xaml.Controls;
+using Windows.UI.Xaml.Navigation;
 
 namespace Dialer.UI.Pages
 {
-    /// <summary>
-    /// Пустая страница, которую можно использовать саму по себе или для перехода внутри фрейма.
-    /// </summary>
     public sealed partial class ApplicationsSettings : Page
     {
         public ApplicationsSettings()
         {
-            this.InitializeComponent();
+            InitializeComponent();
+        }
+
+        protected override void OnNavigatedTo(NavigationEventArgs e)
+        {
+            base.OnNavigatedTo(e);
+            ProximitySensorSettingToggle.IsOn = SettingsManager.getProximitySensorOn();
+        }
+
+        private void ProximitySensorSettingToggle_Toggled(object sender, Windows.UI.Xaml.RoutedEventArgs e)
+        {
+            SettingsManager.setProximitySensorOn(((ToggleSwitch)e.OriginalSource).IsOn);
         }
     }
 }

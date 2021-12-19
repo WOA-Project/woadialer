@@ -1,4 +1,5 @@
-﻿using Internal.Windows.Calls;
+﻿using Dialer.Helpers;
+using Internal.Windows.Calls;
 using System;
 using System.Threading;
 using Windows.ApplicationModel.Calls;
@@ -94,12 +95,12 @@ namespace Dialer.UI.Pages
                 view.TryResizeView(new Size { Width = 400, Height = 100 });
             }
 
-            App.Current.DeviceSystem.IsDisplayControlledByProximitySensor = true;
+            if(SettingsManager.getProximitySensorOn()) App.Current.DeviceSystem.IsDisplayControlledByProximitySensor = true;
         }
 
         protected override void OnNavigatingFrom(NavigatingCancelEventArgs e)
         {
-            App.Current.DeviceSystem.IsDisplayControlledByProximitySensor = false;
+            if (SettingsManager.getProximitySensorOn()) App.Current.DeviceSystem.IsDisplayControlledByProximitySensor = false;
             base.OnNavigatingFrom(e);
         }
 

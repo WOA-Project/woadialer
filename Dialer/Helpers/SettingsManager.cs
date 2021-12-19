@@ -13,6 +13,7 @@ namespace Dialer.Helpers
         {
             setDialPadSize("Tall");
             setNumberFormatting("None");
+            setProximitySensorOn(true);
         }
 
         public static string getNumberFormatting()
@@ -29,6 +30,13 @@ namespace Dialer.Helpers
             return currentDialPadSize;
         }
 
+        public static bool getProximitySensorOn()
+        {
+            ApplicationDataContainer roamingSettings = ApplicationData.Current.RoamingSettings;
+            if (roamingSettings.Values["proximitySensorOn"] == null) setProximitySensorOn(true);
+            return (bool) roamingSettings.Values["proximitySensorOn"];
+        }
+
         public static void setNumberFormatting(string newFormatting)
         {
             //maybe check if the newFormatting is a valid value
@@ -41,6 +49,12 @@ namespace Dialer.Helpers
             //maybe check if the newDialPadSize is a valid value
             ApplicationDataContainer roamingSettings = ApplicationData.Current.RoamingSettings;
             roamingSettings.Values["dialpadSize"] = newDialPadSize;
+        }
+
+        public static void setProximitySensorOn(bool on)
+        {
+            ApplicationDataContainer roamingSettings = ApplicationData.Current.RoamingSettings;
+            roamingSettings.Values["proximitySensorOn"] = on;
         }
     }
 }
