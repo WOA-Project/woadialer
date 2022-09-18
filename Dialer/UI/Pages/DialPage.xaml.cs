@@ -21,7 +21,7 @@ namespace Dialer.UI.Pages
         private StringBuilder Number;
         private DisplayableLine CurrentPhoneLine;
 
-        private readonly ObservableCollection<DisplayableLine> DisplayableLines = new(App.Current.CallSystem.Lines.Select(x => new DisplayableLine(x)));
+        private ObservableCollection<DisplayableLine> DisplayableLines => App.Current.CallSystem.DisplayableLines;
 
         private readonly CoreApplicationView CoreApplicationView;
 
@@ -48,7 +48,6 @@ namespace Dialer.UI.Pages
                             DisplayableLine itemToAdd = new(e.NewItems[0] as PhoneLine);
                             if (SetAsDefault)
                                 CurrentPhoneLine = itemToAdd;
-                            DisplayableLines.Add(itemToAdd);
                             break;
                         }
                     case System.Collections.Specialized.NotifyCollectionChangedAction.Remove:
@@ -58,7 +57,6 @@ namespace Dialer.UI.Pages
                             {
                                 CurrentPhoneLine = DisplayableLines.Count > 0 ? DisplayableLines.First() : null;
                             }
-                            DisplayableLines.Remove(itemToRemove);
                             break;
                         }
                     case System.Collections.Specialized.NotifyCollectionChangedAction.Replace:
@@ -69,12 +67,6 @@ namespace Dialer.UI.Pages
                             {
                                 CurrentPhoneLine = itemToAdd;
                             }
-                            DisplayableLines[DisplayableLines.IndexOf(itemToReplace)] = itemToAdd;
-                            break;
-                        }
-                    case System.Collections.Specialized.NotifyCollectionChangedAction.Move:
-                        {
-                            DisplayableLines.Move(e.OldStartingIndex, e.NewStartingIndex);
                             break;
                         }
                 }

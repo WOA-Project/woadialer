@@ -20,9 +20,7 @@ namespace Dialer.UI.Converters
                     {
                         case string celluarID when celluarID.StartsWith(nameof(PhoneLineTransport.Cellular)):
                             celluarID = celluarID.Split('|')[1];
-                            IAsyncOperation<PhoneLine> task0 = PhoneLine.FromIdAsync(Guid.Parse(celluarID));
-                            task0.AsTask().Wait();
-                            return task0.GetResults().NetworkName;
+                            return App.Current.CallSystem.DisplayableLines.First(x => x.Line.Id == Guid.Parse(celluarID)).DisplayName;
                         case string appID when appID.StartsWith(nameof(PhoneLineTransport.VoipApp)):
                             appID = appID.Split('|')[1];
                             IAsyncOperation<IList<AppDiagnosticInfo>> task1 = AppDiagnosticInfo.RequestInfoForPackageAsync(appID);

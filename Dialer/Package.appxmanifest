@@ -103,6 +103,9 @@
     <uap7:Capability Name="globalMediaControl"/>
     <uap3:Capability Name="backgroundMediaPlayback"/>
 
+    <rescap:Capability Name="cellularDeviceIdentity"/>
+    <rescap:Capability Name="cellularDeviceControl"/>
+
     <DeviceCapability Name="webcam"/>
     <DeviceCapability Name="microphone"/>
     <DeviceCapability Name="bluetooth"/>

@@ -10,6 +10,7 @@ using System.Text;
 using Windows.Foundation;
 using Windows.UI.Notifications;
 using Windows.UI.Notifications.Management;
+using Windows.UI.Xaml.Shapes;
 
 namespace Dialer.Systems
 {
@@ -175,10 +176,10 @@ namespace Dialer.Systems
                 description.Append(" - ");
                 description.Append(call.Phone.Kind);
             }
-            if (call.Line != null)
+            if (call.Line != null && App.Current.CallSystem.DisplayableLines.Any(x => x.Line.Id == call.Line.Id))
             {
                 description.Append(" - ");
-                description.Append(string.IsNullOrEmpty(call.Line.DisplayName) ? call.Line.NetworkName : call.Line.DisplayName);
+                description.Append(App.Current.CallSystem.DisplayableLines.First(x => x.Line.Id == call.Line.Id).DisplayName);
             }
             return new List<object>()
             {

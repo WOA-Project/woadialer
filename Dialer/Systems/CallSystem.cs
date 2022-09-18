@@ -1,27 +1,104 @@
 ﻿using Internal.Windows.Calls;
+using Microsoft.Toolkit.Uwp;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 using Windows.ApplicationModel.Calls;
 using Windows.ApplicationModel.Contacts;
 using Windows.ApplicationModel.Core;
+using Windows.Devices.Enumeration;
 using Windows.Devices.Haptics;
+using Windows.Networking.NetworkOperators;
+using Windows.System;
 
 namespace Dialer.Systems
 {
-    public class DisplayableLine
+    public class DisplayableLine : INotifyPropertyChanged
     {
         public PhoneLine Line { get; }
-        public string DisplayName { get; }
+        public string DisplayName { get; private set; }
         public string Glyph { get; }
+        public MobileBroadbandModem Modem { get; private set; }
+
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        public async static Task<MobileBroadbandModem> LoadMobileBroadbandModemAsync(PhoneLine line)
+        {
+            MobileBroadbandModem modem = null;
+
+            if (line.CellularDetails != null)
+            {
+                try
+                {
+                    string selectorStr = MobileBroadbandModem.GetDeviceSelector();
+                    DeviceInformationCollection devices = await DeviceInformation.FindAllAsync(selectorStr);
+
+                    if (devices.Count > line.CellularDetails.SimSlotIndex)
+                    {
+                        DeviceInformation mdevice = devices[line.CellularDetails.SimSlotIndex];
+                        modem = MobileBroadbandModem.FromId(mdevice.Id);
+                    }
+                }
+                catch
+                {
+                }
+            }
+
+            return modem;
+        }
+
+        public static string LoadExtendedDisplayNameInformation(PhoneLine line, MobileBroadbandModem modem)
+        {
+            string displayName = line == null ? "Unknown" : (string.IsNullOrWhiteSpace(line.DisplayName) ? line.NetworkName : line.DisplayName);
+
+            if (string.IsNullOrWhiteSpace(displayName) && line.CellularDetails != null && modem != null)
+            {
+                displayName = modem.CurrentNetwork.RegisteredProviderName;
+                displayName += " (SIM " + (line.CellularDetails.SimSlotIndex + 1) + ")";
+            }
+
+            if (line != null && line.CellularDetails != null && string.IsNullOrWhiteSpace(displayName))
+            {
+                foreach (PhoneLineNetworkOperatorDisplayTextLocation location in Enum.GetValues(typeof(PhoneLineNetworkOperatorDisplayTextLocation)))
+                {
+                    displayName = line.CellularDetails.GetNetworkOperatorDisplayText(location);
+                    if (!string.IsNullOrWhiteSpace(displayName))
+                    {
+                        break;
+                    }
+                }
+            }
+
+            if (string.IsNullOrWhiteSpace(displayName))
+            {
+                displayName = "Unknown";
+            }
+
+            return displayName;
+        }
 
         public DisplayableLine(PhoneLine line)
         {
             Line = line;
-            DisplayName = line == null ? "Unknown" : (string.IsNullOrWhiteSpace(line.DisplayName) ? line.NetworkName : line.DisplayName);
+
+            DispatcherQueue dispatcherQueue = DispatcherQueue.GetForCurrentThread();
+
+            Task.Run(async () =>
+            {
+                MobileBroadbandModem newModem = await LoadMobileBroadbandModemAsync(line);
+                await dispatcherQueue.EnqueueAsync(() =>
+                {
+                    Modem = newModem;
+                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(Modem)));
+
+                    DisplayName = LoadExtendedDisplayNameInformation(line, newModem);
+                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(DisplayName)));
+                });
+            });
 
             if (line != null)
             {
@@ -105,11 +182,13 @@ namespace Dialer.Systems
 
         public ReadOnlyObservableCollection<PhoneCallHistoryEntry> CallHistoryEntries { get; }
         public readonly ObservableCollection<PhoneLine> Lines = new();
+        public readonly ObservableCollection<DisplayableLine> DisplayableLines = new();
 
         public CallSystem()
         {
             CallHistoryEntries = new ReadOnlyObservableCollection<PhoneCallHistoryEntry>(_CallHistoryEntries);
             CoreApplicationView = CoreApplication.GetCurrentView();
+            Lines.CollectionChanged += Lines_CollectionChanged;
         }
 
         private async Task SaveCallIntoHistory(Call call, CallStateChangedEventArgs args)
@@ -298,6 +377,40 @@ namespace Dialer.Systems
             {
                 Lines.Add(line);
             }
+        }
+
+        private async void Lines_CollectionChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
+        {
+            await CoreApplicationView.Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.Normal, () =>
+            {
+                switch (e.Action)
+                {
+                    case System.Collections.Specialized.NotifyCollectionChangedAction.Add:
+                        {
+                            DisplayableLine itemToAdd = new(e.NewItems[0] as PhoneLine);
+                            DisplayableLines.Add(itemToAdd);
+                            break;
+                        }
+                    case System.Collections.Specialized.NotifyCollectionChangedAction.Remove:
+                        {
+                            DisplayableLine itemToRemove = DisplayableLines.First(x => x.Line.Id == (e.OldItems[0] as PhoneLine)?.Id);
+                            DisplayableLines.Remove(itemToRemove);
+                            break;
+                        }
+                    case System.Collections.Specialized.NotifyCollectionChangedAction.Replace:
+                        {
+                            DisplayableLine itemToReplace = DisplayableLines.First(x => x.Line.Id == (e.OldItems[0] as PhoneLine)?.Id);
+                            DisplayableLine itemToAdd = new(e.NewItems[0] as PhoneLine);
+                            DisplayableLines[DisplayableLines.IndexOf(itemToReplace)] = itemToAdd;
+                            break;
+                        }
+                    case System.Collections.Specialized.NotifyCollectionChangedAction.Move:
+                        {
+                            DisplayableLines.Move(e.OldStartingIndex, e.NewStartingIndex);
+                            break;
+                        }
+                }
+            });
         }
     }
 }
