@@ -1,6 +1,6 @@
-﻿using Internal.Windows.Calls;
+using Internal.Windows.Calls;
+using Microsoft.UI.Xaml.Data;
 using System;
-using Windows.UI.Xaml.Data;
 
 namespace Dialer.UI.Converters
 {
@@ -11,15 +11,9 @@ namespace Dialer.UI.Converters
             switch (value)
             {
                 case Call call:
-                    string length = "";
-                    if ((DateTimeOffset.Now - call.CallArrivalTime)?.TotalSeconds >= 1)
-                    {
-                        length = (DateTimeOffset.Now - call.CallArrivalTime)?.ToString("mm\\:ss") ?? string.Empty;
-                    }
-                    else
-                    {
-                        length = (DateTimeOffset.Now - call.StartTime)?.ToString("mm\\:ss") ?? string.Empty;
-                    }
+                    string length = (DateTimeOffset.Now - call.CallArrivalTime)?.TotalSeconds >= 1
+    ? (DateTimeOffset.Now - call.CallArrivalTime)?.ToString("mm\\:ss") ?? string.Empty
+    : (DateTimeOffset.Now - call.StartTime)?.ToString("mm\\:ss") ?? string.Empty;
                     return length;
                 default:
                     return string.Empty;

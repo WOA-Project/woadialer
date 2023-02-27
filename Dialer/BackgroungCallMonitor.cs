@@ -1,23 +1,17 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading;
-using System.Threading.Tasks;
+﻿using System.Threading;
 using Windows.ApplicationModel.Background;
-using Windows.ApplicationModel.LockScreen;
 
-namespace WoADialer.Background
+namespace Dialer
 {
     public sealed class BackgroungCallMonitor : IBackgroundTask
     {
-        BackgroundTaskDeferral _Deferral;
-        ManualResetEvent a = new ManualResetEvent(false);
+        private BackgroundTaskDeferral _Deferral;
+        private readonly ManualResetEvent a = new(false);
 
-        public async void Run(IBackgroundTaskInstance taskInstance)
+        public void Run(IBackgroundTaskInstance taskInstance)
         {
             _Deferral = taskInstance.GetDeferral();
-            a.WaitOne();
+            _ = a.WaitOne();
             _Deferral.Complete();
         }
     }

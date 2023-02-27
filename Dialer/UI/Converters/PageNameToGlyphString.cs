@@ -1,6 +1,6 @@
-﻿using Dialer.Systems;
+using Dialer.Systems;
+using Microsoft.UI.Xaml.Data;
 using System;
-using Windows.UI.Xaml.Data;
 
 namespace Dialer.UI.Converters
 {
@@ -8,9 +8,8 @@ namespace Dialer.UI.Converters
     {
         public object Convert(object value, Type targetType, object parameter, string language)
         {
-            if (value is string name)
-            {
-                return name switch
+            return value is string name
+                ? (object)(name switch
                 {
                     UISystem.CALL_HISTORY_PAGE => Glyphs.CALL_PAGE_HISTORY,
                     UISystem.CALL_UI_PAGE => Glyphs.CALL_PAGE_INCALL,
@@ -23,12 +22,8 @@ namespace Dialer.UI.Converters
                     UISystem.SOUND_SETTINGS_PAGE => Glyphs.CALL_SETTINGS_SOUND,
                     UISystem.ABOUT_SETTINGS_PAGE => Glyphs.CALL_SETTINGS_ABOUT,
                     _ => string.Empty,
-                };
-            }
-            else
-            {
-                throw new ArgumentException();
-            }
+                })
+                : throw new ArgumentException();
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, string language)

@@ -1,8 +1,7 @@
-﻿using Dialer.Systems;
+using Dialer.Systems;
+using Microsoft.UI.Xaml.Controls;
+using Microsoft.UI.Xaml.Media.Animation;
 using Windows.ApplicationModel.Calls;
-using Windows.UI.Xaml;
-using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Media.Animation;
 
 namespace Dialer.UI.Pages
 {
@@ -12,7 +11,7 @@ namespace Dialer.UI.Pages
 
         public HistoryPage()
         {
-            this.InitializeComponent();
+            InitializeComponent();
         }
 
         private void ListView_ItemClick(object sender, ItemClickEventArgs e)
@@ -22,7 +21,7 @@ namespace Dialer.UI.Pages
                 switch (entry.Address.RawAddressKind)
                 {
                     case PhoneCallHistoryEntryRawAddressKind.PhoneNumber:
-                        ((Window.Current.Content as Frame)?.Content as MainPage)?.Navigate(UISystem.DIAL_PAGE, new EntranceNavigationTransitionInfo(), entry.Address.RawAddress);
+                        ((App.Window.Content as Frame)?.Content as MainPage)?.Navigate(UISystem.DIAL_PAGE, new EntranceNavigationTransitionInfo(), entry.Address.RawAddress);
                         break;
                 }
             }

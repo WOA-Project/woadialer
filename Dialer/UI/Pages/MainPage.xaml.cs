@@ -1,13 +1,12 @@
-﻿using Dialer.Systems;
+using Dialer.Systems;
+using Microsoft.UI.Xaml;
+using Microsoft.UI.Xaml.Controls;
+using Microsoft.UI.Xaml.Input;
+using Microsoft.UI.Xaml.Media.Animation;
+using Microsoft.UI.Xaml.Navigation;
 using System;
 using System.Collections.Specialized;
 using Windows.System;
-using Windows.UI.Xaml;
-using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Input;
-using Windows.UI.Xaml.Media.Animation;
-using Windows.UI.Xaml.Navigation;
-using MUXC = Microsoft.UI.Xaml.Controls;
 
 namespace Dialer.UI.Pages
 {
@@ -17,7 +16,7 @@ namespace Dialer.UI.Pages
 
         public MainPage()
         {
-            this.InitializeComponent();
+            InitializeComponent();
         }
 
         protected override void OnNavigatedTo(NavigationEventArgs e)
@@ -37,21 +36,24 @@ namespace Dialer.UI.Pages
             ContentFrame.Navigated += On_Navigated;
 
             // Add keyboard accelerators for backwards navigation.
-            var goBack = new KeyboardAccelerator { Key = VirtualKey.GoBack };
+            KeyboardAccelerator goBack = new()
+            {
+                Key = VirtualKey.GoBack
+            };
             goBack.Invoked += BackInvoked;
-            this.KeyboardAccelerators.Add(goBack);
+            KeyboardAccelerators.Add(goBack);
 
             // ALT routes here
-            var altLeft = new KeyboardAccelerator
+            KeyboardAccelerator altLeft = new()
             {
                 Key = VirtualKey.Left,
                 Modifiers = VirtualKeyModifiers.Menu
             };
             altLeft.Invoked += BackInvoked;
-            this.KeyboardAccelerators.Add(altLeft);
+            KeyboardAccelerators.Add(altLeft);
         }
 
-        private void NavView_SelectionChanged(MUXC.NavigationView sender, MUXC.NavigationViewSelectionChangedEventArgs args)
+        private void NavView_SelectionChanged(NavigationView sender, NavigationViewSelectionChangedEventArgs args)
         {
             if (args.IsSettingsSelected)
             {
@@ -59,12 +61,12 @@ namespace Dialer.UI.Pages
             }
             else if (args.SelectedItemContainer != null)
             {
-                var navItemTag = args.SelectedItemContainer.Tag.ToString();
+                string navItemTag = args.SelectedItemContainer.Tag.ToString();
                 Navigate(navItemTag, args.RecommendedNavigationTransitionInfo);
             }
             else
             {
-                ContentFrame.Navigate(UISystem.PageNameToType(args.SelectedItem.ToString()));
+                _ = ContentFrame.Navigate(UISystem.PageNameToType(args.SelectedItem.ToString()));
             }
         }
 
@@ -74,36 +76,38 @@ namespace Dialer.UI.Pages
 
             // Get the page type before navigation so you can prevent duplicate
             // entries in the backstack.
-            var preNavPageType = ContentFrame.CurrentSourcePageType;
+            Type preNavPageType = ContentFrame.CurrentSourcePageType;
 
             // Only navigate if the selected page isn't currently loaded.
-            if (!(_page is null) && !Equals(preNavPageType, _page))
+            if (_page is not null && !Equals(preNavPageType, _page))
             {
                 nv_PagePresenter.SelectedItem = navItemTag;
-                ContentFrame.Navigate(_page, parameter, transitionInfo);
+                _ = ContentFrame.Navigate(_page, parameter, transitionInfo);
             }
         }
 
-        private void NavView_BackRequested(MUXC.NavigationView sender, MUXC.NavigationViewBackRequestedEventArgs args)
+        private void NavView_BackRequested(NavigationView sender, NavigationViewBackRequestedEventArgs args)
         {
-            On_BackRequested();
+            _ = On_BackRequested();
         }
 
         private void BackInvoked(KeyboardAccelerator sender, KeyboardAcceleratorInvokedEventArgs args)
         {
-            On_BackRequested();
+            _ = On_BackRequested();
             args.Handled = true;
         }
 
         private bool On_BackRequested()
         {
             if (!ContentFrame.CanGoBack)
+            {
                 return false;
+            }
 
             // Don't go back if the nav pane is overlayed.
             if (nv_PagePresenter.IsPaneOpen &&
-                (nv_PagePresenter.DisplayMode == MUXC.NavigationViewDisplayMode.Compact ||
-                 nv_PagePresenter.DisplayMode == MUXC.NavigationViewDisplayMode.Minimal))
+                (nv_PagePresenter.DisplayMode == NavigationViewDisplayMode.Compact ||
+                 nv_PagePresenter.DisplayMode == NavigationViewDisplayMode.Minimal))
             {
                 return false;
             }

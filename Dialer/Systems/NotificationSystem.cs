@@ -1,7 +1,7 @@
-﻿using Dialer.Helpers;
+using CommunityToolkit.WinUI.Notifications;
+using Dialer.Helpers;
 using Dialer.UI.Converters;
 using Internal.Windows.Calls;
-using Microsoft.Toolkit.Uwp.Notifications;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -10,7 +10,6 @@ using System.Text;
 using Windows.Foundation;
 using Windows.UI.Notifications;
 using Windows.UI.Notifications.Management;
-using Windows.UI.Xaml.Shapes;
 
 namespace Dialer.Systems
 {
@@ -98,13 +97,30 @@ namespace Dialer.Systems
         public const string HOLD_CALL_ID = "HoldCallID";
         #endregion
 
-        public UserNotificationListener NotificationListener { get; private set; }
-        public TileUpdater TileUpdater { get; private set; }
-        public ToastNotificationManagerForUser ToastNotificationManagerForUser { get; private set; }
-        public ToastNotifier ToastNotifier { get; private set; }
-        public ToastCollectionManager ToastCollectionManager { get; private set; }
+        public UserNotificationListener NotificationListener
+        {
+            get; private set;
+        }
+        public TileUpdater TileUpdater
+        {
+            get; private set;
+        }
+        public ToastNotificationManagerForUser ToastNotificationManagerForUser
+        {
+            get; private set;
+        }
+        public ToastNotifier ToastNotifier
+        {
+            get; private set;
+        }
+        public ToastCollectionManager ToastCollectionManager
+        {
+            get; private set;
+        }
 
-        public NotificationSystem() { }
+        public NotificationSystem()
+        {
+        }
 
         private List<ToastButton> CreateButtonsForCall(Call call)
         {
@@ -143,18 +159,18 @@ namespace Dialer.Systems
             {
                 if (hold != null || end != null)
                 {
-                    _actions.Remove(answer);
+                    _ = _actions.Remove(answer);
                 }
                 if (end != null)
                 {
-                    _actions.RemoveAll(x => queries[x].GetFirstValueByName(ACTION) == END);
+                    _ = _actions.RemoveAll(x => queries[x].GetFirstValueByName(ACTION) == END);
                     end = new ToastButton(App.Current.ResourceLoader.GetString("Button_End_And_Answer\\Text"), $"{ACTION}={END_AND_ANSWER}&{ACTIVE_CALL_ID}={queries[end].GetFirstValueByName(ACTIVE_CALL_ID)}&{INCOMING_CALL_ID}={queries[answer].GetFirstValueByName(INCOMING_CALL_ID)}") { ActivationType = ToastActivationType.Foreground };
                     queries.Add(end, new WwwFormUrlDecoder(end.Arguments));
                     _actions.Insert(0, end);
                 }
                 if (hold != null)
                 {
-                    _actions.RemoveAll(x => queries[x].GetFirstValueByName(ACTION) == HOLD);
+                    _ = _actions.RemoveAll(x => queries[x].GetFirstValueByName(ACTION) == HOLD);
                     hold = new ToastButton(App.Current.ResourceLoader.GetString("Button_Hold_And_Answer\\Text"), $"{ACTION}={HOLD_AND_ANSWER}&{ACTIVE_CALL_ID}={queries[hold].GetFirstValueByName(ACTIVE_CALL_ID)}&{INCOMING_CALL_ID}={queries[answer].GetFirstValueByName(INCOMING_CALL_ID)}") { ActivationType = ToastActivationType.Foreground };
                     queries.Add(hold, new WwwFormUrlDecoder(hold.Arguments));
                     _actions.Insert(0, hold);
@@ -170,16 +186,16 @@ namespace Dialer.Systems
         private List<object> CreateVisualForCall(Call call)
         {
             StringBuilder description = new();
-            description.Append(CallToCallStateTextString.Convert(call));
+            _ = description.Append(CallToCallStateTextString.Convert(call));
             if (call.Phone != null)
             {
-                description.Append(" - ");
-                description.Append(call.Phone.Kind);
+                _ = description.Append(" - ");
+                _ = description.Append(call.Phone.Kind);
             }
             if (call.Line != null && App.Current.CallSystem.DisplayableLines.Any(x => x.Line.Id == call.Line.Id))
             {
-                description.Append(" - ");
-                description.Append(App.Current.CallSystem.DisplayableLines.First(x => x.Line.Id == call.Line.Id).DisplayName);
+                _ = description.Append(" - ");
+                _ = description.Append(App.Current.CallSystem.DisplayableLines.First(x => x.Line.Id == call.Line.Id).DisplayName);
             }
             return new List<object>()
             {
@@ -281,14 +297,16 @@ namespace Dialer.Systems
                 },
                 Scenario = ToastScenario.Default
             };
-            ToastNotification notification = new(toastContent.GetXml());
-            notification.Group = App.Current.ResourceLoader.GetString("Notification\\MissedCall\\GroupHeadline");
+            ToastNotification notification = new(toastContent.GetXml())
+            {
+                Group = App.Current.ResourceLoader.GetString("Notification\\MissedCall\\GroupHeadline")
+            };
             return notification;
         }
 
         public ToastNotification CreateCallNotification(IEnumerable<Call> currentCalls)
         {
-            List<Call> calls = currentCalls.Where(x => x.State != CallState.Disconnected && x.State != CallState.Indeterminate).OrderBy(x => x.State).ToList();
+            List<Call> calls = currentCalls.Where(x => x.State is not CallState.Disconnected and not CallState.Indeterminate).OrderBy(x => x.State).ToList();
             ToastBindingGeneric content = new();
             ToastActionsCustom actions = new();
             switch (calls.Count)
@@ -322,7 +340,7 @@ namespace Dialer.Systems
                         }
                         content.Children.Add(group);
                     }
-                    foreach (IToastButton button in MergeButtons(calls.Select(x => CreateButtonsForCall(x)).SelectMany(x => x)))
+                    foreach (IToastButton button in MergeButtons(calls.Select(CreateButtonsForCall).SelectMany(x => x)))
                     {
                         actions.Buttons.Add(button);
                     }

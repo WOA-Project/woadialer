@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Linq;
 using System.Threading.Tasks;
 using Windows.Devices.Enumeration;
@@ -11,8 +11,14 @@ namespace Dialer.Systems
     {
         private ProximitySensorDisplayOnOffController DisplayController;
 
-        public ProximitySensor ProximitySensor { get; private set; }
-        public VibrationDevice VibrationDevice { get; private set; }
+        public ProximitySensor ProximitySensor
+        {
+            get; private set;
+        }
+        public VibrationDevice VibrationDevice
+        {
+            get; private set;
+        }
         public bool IsDisplayControlledByProximitySensor
         {
             get => DisplayController != null;
@@ -30,7 +36,9 @@ namespace Dialer.Systems
             }
         }
 
-        public DeviceSystem() { }
+        public DeviceSystem()
+        {
+        }
 
         public async Task Initialize()
         {

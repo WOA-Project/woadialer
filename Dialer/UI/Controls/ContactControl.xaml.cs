@@ -1,16 +1,15 @@
-﻿using Dialer.Systems;
+using Dialer.Systems;
 using Dialer.UI.Pages;
+using Microsoft.UI.Xaml;
+using Microsoft.UI.Xaml.Controls;
+using Microsoft.UI.Xaml.Input;
+using Microsoft.UI.Xaml.Media.Imaging;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using Windows.ApplicationModel.Calls;
 using Windows.ApplicationModel.Contacts;
-using Windows.Storage;
 using Windows.Storage.Streams;
-using Windows.UI.Xaml;
-using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Input;
-using Windows.UI.Xaml.Media.Imaging;
 
 namespace Dialer.UI.Controls
 {
@@ -41,26 +40,34 @@ namespace Dialer.UI.Controls
                 additionalPhoneContacts = value;
                 foreach (Tuple<string, string> additionalPhone in value)
                 {
-                    AdditionalPhoneContactPresenter apcp = new();
-                    apcp.PhoneType = additionalPhone.Item1;
-                    apcp.PhoneNumber = additionalPhone.Item2;
+                    AdditionalPhoneContactPresenter apcp = new()
+                    {
+                        PhoneType = additionalPhone.Item1,
+                        PhoneNumber = additionalPhone.Item2
+                    };
                     additionalPhoneContactPresenters.Add(apcp);
                 }
             }
         }
 
+        private async void SetContactPicture(IRandomAccessStreamReference randomAccessStreamReference)
+        {
+            try
+            {
+                BitmapImage bitmapImage = new();
+                using IRandomAccessStreamWithContentType valueStream = await randomAccessStreamReference.OpenReadAsync();
+                bitmapImage.SetSource(valueStream);
+                ContactImage.ImageSource = bitmapImage;
+            }
+            catch
+            {
+                ContactImage.ImageSource = new BitmapImage(new Uri("ms-appx:///Assets//NoContactIcon.png"));
+            }
+        }
+
         public IRandomAccessStreamReference ContactPicture
         {
-            set
-            {
-                try
-                {
-                    ContactImage.ImageSource = new BitmapImage(new Uri(((StorageFile)value).Path));
-                } catch
-                {
-                    ContactImage.ImageSource = new BitmapImage(new Uri("ms-appx:///Assets//NoContactIcon.png"));
-                }
-            }
+            set => SetContactPicture(value);
         }
 
         public ContactControl()

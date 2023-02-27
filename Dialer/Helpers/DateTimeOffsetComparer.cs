@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 
 namespace Dialer.Helpers
@@ -9,18 +9,7 @@ namespace Dialer.Helpers
 
         public int Compare(DateTimeOffset? x, DateTimeOffset? y)
         {
-            if (x == null && y == null)
-            {
-                return 0;
-            }
-            else if (x == null)
-            {
-                return 1;
-            }
-            else
-            {
-                return y == null ? -1 : DateTimeOffset.Compare(x.Value, y.Value);
-            }
+            return x == null && y == null ? 0 : x == null ? 1 : y == null ? -1 : DateTimeOffset.Compare(x.Value, y.Value);
         }
     }
 }

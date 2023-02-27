@@ -1,4 +1,4 @@
-﻿using Windows.UI.Xaml.Controls;
+using Microsoft.UI.Xaml.Controls;
 
 namespace Dialer.UI.Controls
 {
@@ -22,7 +22,7 @@ namespace Dialer.UI.Controls
 
         public DigitButton()
         {
-            this.InitializeComponent();
+            InitializeComponent();
         }
     }
 }

@@ -1,16 +1,14 @@
-﻿using Dialer.Helpers;
+using Dialer.Helpers;
 using Internal.Windows.Calls;
+using Microsoft.UI.Dispatching;
+using Microsoft.UI.Xaml;
+using Microsoft.UI.Xaml.Controls;
+using Microsoft.UI.Xaml.Navigation;
 using System;
 using System.Threading;
 using Windows.ApplicationModel.Calls;
-using Windows.ApplicationModel.Core;
-using Windows.Foundation;
-using Windows.UI.Core;
-using Windows.UI.Popups;
-using Windows.UI.ViewManagement;
-using Windows.UI.Xaml;
-using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Navigation;
+using Windows.Graphics;
+using WinUIEx;
 
 namespace Dialer.UI.Pages
 {
@@ -23,11 +21,23 @@ namespace Dialer.UI.Pages
 
         public CallUIPage()
         {
-            this.InitializeComponent();
-            var view = ApplicationView.GetForCurrentView();
+            InitializeComponent();
 
-            //view.SetPreferredMinSize(new Size { Width = 400, Height = 100 });
-            //view.TryResizeView(new Size { Width = 400, Height = 100 });
+            // Retrieve the window handle (HWND) of the current (XAML) WinUI 3 window.
+            nint hWnd = HwndExtensions.GetActiveWindow();
+
+            // Retrieve the WindowId that corresponds to hWnd.
+            Microsoft.UI.WindowId windowId = Microsoft.UI.Win32Interop.GetWindowIdFromWindow(hWnd);
+
+            // Lastly, retrieve the AppWindow for the current (XAML) WinUI 3 window.
+            Microsoft.UI.Windowing.AppWindow appWindow = Microsoft.UI.Windowing.AppWindow.GetFromWindowId(windowId);
+
+            if (appWindow != null)
+            {
+                // You now have an AppWindow object, and you can call its methods to manipulate the window.
+                //appWindow.SetPreferredMinSize(new Size { Width = 400, Height = 100 });
+                //appWindow.Resize(new Size { Width = 400, Height = 100 });
+            }
 
             if (CallManager.ActiveCall != null)
             {
@@ -68,22 +78,41 @@ namespace Dialer.UI.Pages
             }
         }
 
-        private async void TimerCallback(object state)
+        private void TimerCallback(object state)
         {
-            await Dispatcher.TryRunAsync(CoreDispatcherPriority.Normal, () => Bindings.Update());
+            _ = DispatcherQueue.TryEnqueue(DispatcherQueuePriority.Normal, Bindings.Update);
         }
 
-        private void ResizeView(Size size)
+        private void ResizeView(SizeInt32 size)
         {
-            var view = ApplicationView.GetForCurrentView();
-            view.TryResizeView(size);
+            // Retrieve the window handle (HWND) of the current (XAML) WinUI 3 window.
+            nint hWnd = HwndExtensions.GetActiveWindow();
+
+            // Retrieve the WindowId that corresponds to hWnd.
+            Microsoft.UI.WindowId windowId = Microsoft.UI.Win32Interop.GetWindowIdFromWindow(hWnd);
+
+            // Lastly, retrieve the AppWindow for the current (XAML) WinUI 3 window.
+            Microsoft.UI.Windowing.AppWindow appWindow = Microsoft.UI.Windowing.AppWindow.GetFromWindowId(windowId);
+
+            // You now have an AppWindow object, and you can call its methods to manipulate the window.
+            appWindow?.Resize(size);
         }
 
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
             base.OnNavigatedTo(e);
 
-            if (CoreApplication.GetCurrentView().IsMain)
+            // Retrieve the window handle (HWND) of the current (XAML) WinUI 3 window.
+            nint hWnd = HwndExtensions.GetActiveWindow();
+
+            // Retrieve the WindowId that corresponds to hWnd.
+            Microsoft.UI.WindowId windowId = Microsoft.UI.Win32Interop.GetWindowIdFromWindow(hWnd);
+
+            // Lastly, retrieve the AppWindow for the current (XAML) WinUI 3 window.
+            Microsoft.UI.Windowing.AppWindow appWindow = Microsoft.UI.Windowing.AppWindow.GetFromWindowId(windowId);
+
+            // You now have an AppWindow object, and you can call its methods to manipulate the window.
+            if (appWindow == App.Window.AppWindow)
             {
                 CompactUIGrid.Visibility = Visibility.Collapsed;
                 ExtendedUIGrid.Visibility = Visibility.Visible;
@@ -91,16 +120,22 @@ namespace Dialer.UI.Pages
             }
             else
             {
-                var view = ApplicationView.GetForCurrentView();
-                view.TryResizeView(new Size { Width = 400, Height = 100 });
+                appWindow?.Resize(new SizeInt32 { Width = 400, Height = 100 });
             }
 
-            if(SettingsManager.getProximitySensorOn()) App.Current.DeviceSystem.IsDisplayControlledByProximitySensor = true;
+            if (SettingsManager.getProximitySensorOn())
+            {
+                App.Current.DeviceSystem.IsDisplayControlledByProximitySensor = true;
+            }
         }
 
         protected override void OnNavigatingFrom(NavigatingCancelEventArgs e)
         {
-            if (SettingsManager.getProximitySensorOn()) App.Current.DeviceSystem.IsDisplayControlledByProximitySensor = false;
+            if (SettingsManager.getProximitySensorOn())
+            {
+                App.Current.DeviceSystem.IsDisplayControlledByProximitySensor = false;
+            }
+
             base.OnNavigatingFrom(e);
         }
 
@@ -112,7 +147,7 @@ namespace Dialer.UI.Pages
             }
             catch (Exception ex)
             {
-                await new MessageDialog(ex.ToString()).ShowAsync();
+                _ = await new ContentDialog() { Title = "Unhandled Exception", Content = ex.ToString(), XamlRoot = XamlRoot, IsPrimaryButtonEnabled = true, PrimaryButtonText = "Ok" }.ShowAsync();
             }
         }
         private void HideExtendedUIButton_Click(object sender, RoutedEventArgs e)
@@ -120,7 +155,7 @@ namespace Dialer.UI.Pages
             ExtendedUIGrid.Visibility = Visibility.Collapsed;
             CompactUIGrid.Visibility = Visibility.Visible;
 
-            ResizeView(new Size { Width = 400, Height = 100 });
+            ResizeView(new SizeInt32 { Width = 400, Height = 100 });
         }
 
         private void ShowExtendedUIButton_Click(object sender, RoutedEventArgs e)
@@ -129,23 +164,27 @@ namespace Dialer.UI.Pages
             ExtendedUIGrid.Visibility = Visibility.Visible;
 
             if (KeypadToggleButton.IsChecked.GetValueOrDefault())
-                ResizeView(new Size { Width = 400, Height = 730 });
+            {
+                ResizeView(new SizeInt32 { Width = 400, Height = 730 });
+            }
             else
-                ResizeView(new Size { Width = 400, Height = 530 });
+            {
+                ResizeView(new SizeInt32 { Width = 400, Height = 530 });
+            }
         }
 
         private void KeypadToggleButton_Checked(object sender, RoutedEventArgs e)
         {
             Keypad.Visibility = Visibility.Visible;
 
-            ResizeView(new Size { Width = 400, Height = 730 });
+            ResizeView(new SizeInt32 { Width = 400, Height = 730 });
         }
 
         private void KeypadToggleButton_Unchecked(object sender, RoutedEventArgs e)
         {
             Keypad.Visibility = Visibility.Collapsed;
 
-            ResizeView(new Size { Width = 400, Height = 530 });
+            ResizeView(new SizeInt32 { Width = 400, Height = 530 });
         }
 
         private void Abtb_Hold_Unchecked(object sender, RoutedEventArgs e)

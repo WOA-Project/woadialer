@@ -1,5 +1,8 @@
-﻿using Dialer.Systems;
+using Dialer.Systems;
 using Dialer.UI.Controls;
+using Microsoft.UI.Dispatching;
+using Microsoft.UI.Xaml.Controls;
+using Microsoft.UI.Xaml.Navigation;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -7,8 +10,6 @@ using System.Diagnostics;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Navigation;
 
 namespace Dialer.UI.Pages
 {
@@ -32,9 +33,9 @@ namespace Dialer.UI.Pages
             base.OnNavigatedTo(e);
             SizeChanged += ContactsPage_SizeChanged;
 
-            LoadingGrid.Visibility = Windows.UI.Xaml.Visibility.Visible;
+            LoadingGrid.Visibility = Microsoft.UI.Xaml.Visibility.Visible;
 
-            Task.Run(() => Aaa()); //TODO: This still hangs the UI in some cases 🥲 
+            _ = Task.Run(Aaa); //TODO: This still hangs the UI in some cases 🥲 
         }
 
         private void Aaa()
@@ -49,18 +50,18 @@ namespace Dialer.UI.Pages
             }
         }
 
-        private async void LoadDataCompleted()
+        private void LoadDataCompleted()
         {
-            await Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.High, () =>
+            _ = DispatcherQueue.TryEnqueue(DispatcherQueuePriority.High, () =>
             {
                 ContactsItemsControl.ItemsSource = null;
                 _contactControls = ContactSystem.ContactControls;
                 ContactsItemsControl.ItemsSource = _contactControls;
-                LoadingGrid.Visibility = Windows.UI.Xaml.Visibility.Collapsed;
+                LoadingGrid.Visibility = Microsoft.UI.Xaml.Visibility.Collapsed;
             });
         }
 
-        private void ContactsPage_SizeChanged(object sender, Windows.UI.Xaml.SizeChangedEventArgs e)
+        private void ContactsPage_SizeChanged(object sender, Microsoft.UI.Xaml.SizeChangedEventArgs e)
         {
             viScrollbar.FixSpacing();
         }
@@ -68,11 +69,15 @@ namespace Dialer.UI.Pages
         public void NavigateToLetter(string letter)
         {
             ScrollLetterHint.Text = letter;
-            if(ScrollLetterGrid.Visibility == Windows.UI.Xaml.Visibility.Collapsed) ScrollLetterHintShow.Begin();
-            ScrollLetterGrid.Visibility = Windows.UI.Xaml.Visibility.Visible;
+            if (ScrollLetterGrid.Visibility == Microsoft.UI.Xaml.Visibility.Collapsed)
+            {
+                ScrollLetterHintShow.Begin();
+            }
+
+            ScrollLetterGrid.Visibility = Microsoft.UI.Xaml.Visibility.Visible;
             if (_hideHintTimer != null)
             {
-                _hideHintTimer.Change(Timeout.Infinite, Timeout.Infinite);
+                _ = _hideHintTimer.Change(Timeout.Infinite, Timeout.Infinite);
                 _hideHintTimer.Dispose();
                 _hideHintTimer = null;
             }
@@ -82,22 +87,24 @@ namespace Dialer.UI.Pages
             try
             {
                 ContactsWithLetter.First().StartBringIntoView();
-            } catch {
+            }
+            catch
+            {
                 //TODO: Fix for missing letter -> move to previous/next letter
             }
 
-            _hideHintTimer = new Timer(async (state) =>
+            _hideHintTimer = new Timer((state) =>
             {
-                await Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.High, () =>
+                _ = DispatcherQueue.TryEnqueue(DispatcherQueuePriority.High, () =>
                 {
                     ScrollLetterHintHide.Begin();
-                    ScrollLetterHintHide.Completed += async (object sender, object e) =>
+                    ScrollLetterHintHide.Completed += (object sender, object e) =>
                     {
-                        await Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.High, () => ScrollLetterGrid.Visibility = Windows.UI.Xaml.Visibility.Collapsed);
+                        _ = DispatcherQueue.TryEnqueue(DispatcherQueuePriority.High, () => ScrollLetterGrid.Visibility = Microsoft.UI.Xaml.Visibility.Collapsed);
 
                         if (_hideHintTimer != null)
                         {
-                            _hideHintTimer.Change(Timeout.Infinite, Timeout.Infinite);
+                            _ = _hideHintTimer.Change(Timeout.Infinite, Timeout.Infinite);
                             _hideHintTimer.Dispose();
                             _hideHintTimer = null;
                         }
@@ -110,7 +117,7 @@ namespace Dialer.UI.Pages
 
         public void RemoveContactControl(ContactControl cc)
         {
-            _contactControls.Remove(cc);
+            _ = _contactControls.Remove(cc);
         }
     }
 }

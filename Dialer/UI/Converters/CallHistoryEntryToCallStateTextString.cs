@@ -1,7 +1,7 @@
-﻿using Internal.Windows.Calls;
+using Internal.Windows.Calls;
+using Microsoft.UI.Xaml.Data;
 using System;
 using Windows.ApplicationModel.Calls;
-using Windows.UI.Xaml.Data;
 
 namespace Dialer.UI.Converters
 {
@@ -9,21 +9,11 @@ namespace Dialer.UI.Converters
     {
         public static string Convert(PhoneCallHistoryEntry entry)
         {
-            if (entry.IsIncoming)
-            {
-                if (entry.IsCallerIdBlocked)
-                {
-                    return "Blocked";
-                }
-                else
-                {
-                    return entry.IsMissed ? "Missed" : App.Current.ResourceLoader.GetString(nameof(CallState) + '_' + nameof(CallState.Incoming));
-                }
-            }
-            else
-            {
-                return "Outgoing";
-            }
+            return entry.IsIncoming
+                ? entry.IsCallerIdBlocked
+                    ? "Blocked"
+                    : entry.IsMissed ? "Missed" : App.Current.ResourceLoader.GetString(nameof(CallState) + '_' + nameof(CallState.Incoming))
+                : "Outgoing";
         }
 
         public object Convert(object value, Type targetType, object parameter, string language)

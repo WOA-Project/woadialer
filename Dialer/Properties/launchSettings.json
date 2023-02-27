@@ -1,0 +1,10 @@
+﻿{
+  "profiles": {
+    "Dialer (Package)": {
+      "commandName": "MsixPackage"
+    },
+    "Dialer (Unpackaged)": {
+      "commandName": "Project"
+    }
+  }
+}

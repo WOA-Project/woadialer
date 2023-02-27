@@ -1,6 +1,5 @@
-﻿using Dialer.Systems;
-using Windows.UI.Xaml.Controls;
-using MUXC = Microsoft.UI.Xaml.Controls;
+using Dialer.Systems;
+using Microsoft.UI.Xaml.Controls;
 
 namespace Dialer.UI.Pages
 {
@@ -10,13 +9,15 @@ namespace Dialer.UI.Pages
 
         public SettingsPage()
         {
-            this.InitializeComponent();
+            InitializeComponent();
         }
 
-        private void NavigationView_SelectionChanged(MUXC.NavigationView sender, MUXC.NavigationViewSelectionChangedEventArgs args)
+        private void NavigationView_SelectionChanged(NavigationView sender, NavigationViewSelectionChangedEventArgs args)
         {
             if (UISystem.PageNameToType(args.SelectedItem.ToString()) != null)
-                ContentFrame.Navigate(UISystem.PageNameToType(args.SelectedItem.ToString()));
+            {
+                _ = ContentFrame.Navigate(UISystem.PageNameToType(args.SelectedItem.ToString()));
+            }
         }
     }
 }

@@ -1,4 +1,4 @@
-﻿using Microsoft.Toolkit.Uwp.Notifications;
+using CommunityToolkit.WinUI.Notifications;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -20,11 +20,13 @@ namespace Dialer.Systems
 
         private bool Skip = false;
 
-        public BackgroundSystem() { }
+        public BackgroundSystem()
+        {
+        }
 
         private async Task ConfigureBackgroundTasks(bool force = false)
         {
-            await BackgroundExecutionManager.RequestAccessAsync();
+            _ = await BackgroundExecutionManager.RequestAccessAsync();
             Dictionary<string, bool> taskRegistration = new()
             {
                 { CALL_BLOCKED, false },
@@ -57,8 +59,11 @@ namespace Dialer.Systems
             {
                 if (!taskRegistration[taskName])
                 {
-                    BackgroundTaskBuilder taskBuilder = new();
-                    taskBuilder.Name = taskName;
+                    BackgroundTaskBuilder taskBuilder = new()
+                    {
+                        Name = taskName,
+                        TaskEntryPoint = "Dialer.App" // Maybe we need to use .SetTaskEntryPointClsid like the notification sample..
+                    };
                     switch (taskName)
                     {
                         case CALL_BLOCKED:
@@ -82,7 +87,7 @@ namespace Dialer.Systems
                         default:
                             throw new NotImplementedException($"Case for {taskName} task missed.");
                     }
-                    taskBuilder.Register();
+                    _ = taskBuilder.Register();
                 }
             }
         }
@@ -112,7 +117,7 @@ namespace Dialer.Systems
                     //PhoneCallOriginManager.SetCallOrigin(originDataRequest.RequestId, data);
                     break;
                 case LINE_STATE_CHANGED:
-                    PhoneLineChangedTriggerDetails lineChangedDetails = taskInstance.TriggerDetails as PhoneLineChangedTriggerDetails;
+                    _ = taskInstance.TriggerDetails as PhoneLineChangedTriggerDetails;
                     if (!Skip && !App.Current.IsForeground)
                     {
                         Skip = true;

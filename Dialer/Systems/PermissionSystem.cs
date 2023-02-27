@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Threading.Tasks;
 using Windows.ApplicationModel.Calls;
 using Windows.ApplicationModel.Contacts;
@@ -10,12 +10,30 @@ namespace Dialer.Systems
 {
     public sealed class PermissionSystem
     {
-        public VibrationAccessStatus? Vibration { get; private set; }
-        public UserNotificationListenerAccessStatus? Notifications { get; private set; }
-        public DiagnosticAccessStatus? Diagnostic { get; private set; }
-        public bool? CallHistory { get; private set; }
-        public bool? Contacts { get; private set; }
-        public bool? Calling { get; private set; }
+        public VibrationAccessStatus? Vibration
+        {
+            get; private set;
+        }
+        public UserNotificationListenerAccessStatus? Notifications
+        {
+            get; private set;
+        }
+        public DiagnosticAccessStatus? Diagnostic
+        {
+            get; private set;
+        }
+        public bool? CallHistory
+        {
+            get; private set;
+        }
+        public bool? Contacts
+        {
+            get; private set;
+        }
+        public bool? Calling
+        {
+            get; private set;
+        }
         public bool IsAllPermissionsObtained
         {
             get
@@ -89,7 +107,7 @@ namespace Dialer.Systems
         {
             try
             {
-                Calling = !(await PhoneCallManager.RequestStoreAsync() is null);
+                Calling = await PhoneCallManager.RequestStoreAsync() is not null;
             }
             catch
             {
@@ -102,7 +120,7 @@ namespace Dialer.Systems
         {
             try
             {
-                CallHistory = !(await PhoneCallHistoryManager.RequestStoreAsync(PhoneCallHistoryStoreAccessType.AllEntriesReadWrite) is null);
+                CallHistory = await PhoneCallHistoryManager.RequestStoreAsync(PhoneCallHistoryStoreAccessType.AllEntriesReadWrite) is not null;
             }
             catch
             {
@@ -115,7 +133,7 @@ namespace Dialer.Systems
         {
             try
             {
-                Contacts = !(await ContactManager.RequestStoreAsync(ContactStoreAccessType.AllContactsReadOnly) is null);
+                Contacts = await ContactManager.RequestStoreAsync(ContactStoreAccessType.AllContactsReadOnly) is not null;
             }
             catch
             {

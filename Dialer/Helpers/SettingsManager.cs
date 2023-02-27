@@ -1,4 +1,4 @@
-﻿using Windows.Storage;
+using Windows.Storage;
 
 namespace Dialer.Helpers
 {
@@ -33,8 +33,12 @@ namespace Dialer.Helpers
         public static bool getProximitySensorOn()
         {
             ApplicationDataContainer roamingSettings = ApplicationData.Current.RoamingSettings;
-            if (roamingSettings.Values["proximitySensorOn"] == null) setProximitySensorOn(true);
-            return (bool) roamingSettings.Values["proximitySensorOn"];
+            if (roamingSettings.Values["proximitySensorOn"] == null)
+            {
+                setProximitySensorOn(true);
+            }
+
+            return (bool)roamingSettings.Values["proximitySensorOn"];
         }
 
         public static void setNumberFormatting(string newFormatting)

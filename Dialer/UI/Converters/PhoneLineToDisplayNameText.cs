@@ -1,6 +1,6 @@
-﻿using System;
+using Microsoft.UI.Xaml.Data;
+using System;
 using Windows.ApplicationModel.Calls;
-using Windows.UI.Xaml.Data;
 
 namespace Dialer.UI.Converters
 {

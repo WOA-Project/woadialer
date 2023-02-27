@@ -1,23 +1,24 @@
-﻿using Dialer.Helpers;
+using CommunityToolkit.WinUI.Notifications;
+using Dialer.Helpers;
 using Dialer.Systems;
 using Internal.Windows.Calls;
-using Microsoft.Toolkit.Uwp.Notifications;
+using Microsoft.UI.Dispatching;
+using Microsoft.UI.Xaml;
+using Microsoft.UI.Xaml.Controls;
+using Microsoft.Windows.ApplicationModel.Resources;
+using Microsoft.Windows.AppLifecycle;
 using System;
 using System.Linq;
 using System.Threading.Tasks;
 using Windows.ApplicationModel;
 using Windows.ApplicationModel.Activation;
 using Windows.ApplicationModel.Background;
-using Windows.ApplicationModel.Resources;
 using Windows.Foundation;
 using Windows.Storage;
-using Windows.UI.Core;
-using Windows.UI.Xaml;
-using Windows.UI.Xaml.Controls;
 
 namespace Dialer
 {
-    public sealed partial class App : Application
+    public partial class App : Application, IBackgroundTask
     {
         #region Call system constants
         private static readonly TimeSpan WAIT_CALL_DURATION = new(0, 0, 3);
@@ -30,11 +31,20 @@ namespace Dialer
 
         #region UI system objects
 
-        public ResourceLoader ResourceLoader { get; private set; }
-        public int CompactOverlayId { get; set; }
+        public ResourceLoader ResourceLoader
+        {
+            get; private set;
+        }
+        public int CompactOverlayId
+        {
+            get; set;
+        }
         #endregion
 
-        public bool IsForeground { get; private set; }
+        public bool IsForeground
+        {
+            get; private set;
+        }
         public BackgroundSystem BackgroundSystem { get; } = new BackgroundSystem();
         public CallSystem CallSystem { get; } = new CallSystem();
         public DeviceSystem DeviceSystem { get; } = new DeviceSystem();
@@ -51,11 +61,15 @@ namespace Dialer
             Suspending += OnSuspending;
             UnhandledException += OnUnhandledException;
 
-            if (SettingsManager.isFirstTimeRun()) SettingsManager.setDefaultSettings();
+            if (SettingsManager.isFirstTimeRun())
+            {
+                SettingsManager.setDefaultSettings();
+            }
+
             ObtainingAccess = PermissionSystem.RequestAllPermissions();
         }
 
-        private async void OnUnhandledException(object sender, Windows.UI.Xaml.UnhandledExceptionEventArgs e)
+        private async void OnUnhandledException(object sender, Microsoft.UI.Xaml.UnhandledExceptionEventArgs e)
         {
             e.Handled = true;
             StorageFolder storageFolder = ApplicationData.Current.LocalFolder;
@@ -68,7 +82,7 @@ namespace Dialer
         {
             await BackgroundSystem.Initialize();
             await DeviceSystem.Initialize();
-            ResourceLoader = ResourceLoader.GetForViewIndependentUse();
+            ResourceLoader = new ResourceLoader();
             NotificationSystem.Initialize();
             await CallSystem.Initialize();
             ContactSystem.LoadContacts();
@@ -79,16 +93,25 @@ namespace Dialer
             OnLaunchedOrActivated(args);
         }
 
+        public async void Run(IBackgroundTaskInstance taskInstance)
+        {
+            BackgroundTaskDeferral deferral = taskInstance.GetDeferral();
+            if (await ObtainingAccess && PermissionSystem.IsAllPermissionsObtained)
+            {
+                Initializating ??= InitializeSystems();
+                await Initializating;
+                BackgroundSystem?.OnBackgroundActivated(taskInstance);
+            }
+            deferral.Complete();
+        }
+
         protected override async void OnBackgroundActivated(BackgroundActivatedEventArgs args)
         {
             base.OnBackgroundActivated(args);
             BackgroundTaskDeferral deferral = args.TaskInstance.GetDeferral();
             if (await ObtainingAccess && PermissionSystem.IsAllPermissionsObtained)
             {
-                if (Initializating == null)
-                {
-                    Initializating = InitializeSystems();
-                }
+                Initializating ??= InitializeSystems();
                 await Initializating;
                 BackgroundSystem?.OnBackgroundActivated(args.TaskInstance);
             }
@@ -100,13 +123,58 @@ namespace Dialer
             Deferral deferral = e.GetDeferral();
             IsForeground = false;
             if (CallSystem.CallManager != null)
+            {
                 NotificationSystem.RefreshCallNotification(CallSystem.CallManager.CurrentCalls);
+            }
+
             deferral.Complete();
         }
 
-        protected override void OnLaunched(LaunchActivatedEventArgs e)
+        protected override async void OnLaunched(Microsoft.UI.Xaml.LaunchActivatedEventArgs e)
         {
-            OnLaunchedOrActivated(e);
+            // TODO This code defaults the app to a single instance app. If you need multi instance app, remove this part.
+            // Read: https://docs.microsoft.com/en-us/windows/apps/windows-app-sdk/migrate-to-windows-app-sdk/guides/applifecycle#single-instancing-in-applicationonlaunched
+            // If this is the first instance launched, then register it as the "main" instance.
+            // If this isn't the first instance launched, then "main" will already be registered,
+            // so retrieve it.
+            Microsoft.Windows.AppLifecycle.AppInstance mainInstance = Microsoft.Windows.AppLifecycle.AppInstance.FindOrRegisterForKey("main");
+            AppActivationArguments activatedEventArgs = Microsoft.Windows.AppLifecycle.AppInstance.GetCurrent().GetActivatedEventArgs();
+
+            // If the instance that's executing the OnLaunched handler right now
+            // isn't the "main" instance.
+            if (!mainInstance.IsCurrent)
+            {
+                // Redirect the activation (and args) to the "main" instance, and exit.
+                await mainInstance.RedirectActivationToAsync(activatedEventArgs);
+                System.Diagnostics.Process.GetCurrentProcess().Kill();
+                return;
+            }
+
+            if (await ObtainingAccess && PermissionSystem.IsAllPermissionsObtained)
+            {
+                Initializating ??= InitializeSystems();
+                await Initializating;
+            }
+
+            // Initialize MainWindow here
+            Window = new MainWindow();
+            Window.Activate();
+
+            OnLaunchedOrActivated(activatedEventArgs);
+        }
+
+        private async void OnLaunchedOrActivated(AppActivationArguments args)
+        {
+            IsForeground = true;
+            if (!PermissionSystem.IsAllPermissionsObtained && !await ObtainingAccess)
+            {
+                _ = Window.DispatcherQueue.TryEnqueue(DispatcherQueuePriority.High, () => ObtainingAccess = PermissionSystem.RequestAllPermissions());
+                _ = await ObtainingAccess;
+            }
+            Initializating ??= InitializeSystems();
+            await Initializating;
+            NotificationSystem.RemoveCallToastNotifications();
+            UISystem.OnLaunchedOrActivated(args);
         }
 
         private async void OnLaunchedOrActivated(IActivatedEventArgs args)
@@ -114,13 +182,10 @@ namespace Dialer
             IsForeground = true;
             if (!PermissionSystem.IsAllPermissionsObtained && !await ObtainingAccess)
             {
-                await Window.Current.Dispatcher.RunAsync(CoreDispatcherPriority.High, () => ObtainingAccess = PermissionSystem.RequestAllPermissions());
-                await ObtainingAccess;
+                _ = Window.DispatcherQueue.TryEnqueue(DispatcherQueuePriority.High, () => ObtainingAccess = PermissionSystem.RequestAllPermissions());
+                _ = await ObtainingAccess;
             }
-            if (Initializating == null)
-            {
-                Initializating = InitializeSystems();
-            }
+            Initializating ??= InitializeSystems();
             await Initializating;
             NotificationSystem.RemoveCallToastNotifications();
             UISystem.OnLaunchedOrActivated(args);
@@ -225,15 +290,20 @@ namespace Dialer
                     }
                 case NotificationSystem.SHOW_CALL_UI:
                     UISystem.ShowCallUIWindow();
-                    //frame = Window.Current.Content as Frame;
+                    //frame = Window.Content as Frame;
                     //frame.Navigate(typeof(InCallUI));
                     break;
                 case NotificationSystem.SHOW_INCOMING_CALL_UI:
-                    frame = Window.Current.Content as Frame;
+                    frame = Window.Content as Frame;
                     //frame.Navigate(typeof(IncomingCallUI));
                     break;
             }
         }
         #endregion
+
+        public static Window Window
+        {
+            get; set;
+        }
     }
 }

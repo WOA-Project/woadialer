@@ -1,6 +1,6 @@
-﻿using Windows.ApplicationModel.Calls;
-using Windows.UI.Xaml;
-using Windows.UI.Xaml.Controls;
+using Microsoft.UI.Xaml;
+using Microsoft.UI.Xaml.Controls;
+using Windows.ApplicationModel.Calls;
 
 namespace Dialer.UI.Controls
 {
@@ -18,7 +18,7 @@ namespace Dialer.UI.Controls
 
         public CallHistoryEntryPresenter()
         {
-            this.InitializeComponent();
+            InitializeComponent();
         }
     }
 }

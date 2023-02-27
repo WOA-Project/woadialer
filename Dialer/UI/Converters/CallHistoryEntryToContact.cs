@@ -1,6 +1,6 @@
-﻿using System;
+using Microsoft.UI.Xaml.Data;
+using System;
 using Windows.ApplicationModel.Calls;
-using Windows.UI.Xaml.Data;
 
 namespace Dialer.UI.Converters
 {
@@ -10,7 +10,7 @@ namespace Dialer.UI.Converters
         {
             if (value is PhoneCallHistoryEntry entry && !string.IsNullOrEmpty(entry.Address.ContactId))
             {
-                var task0 = App.Current.CallSystem.ContactStore.GetContactAsync(entry.Address.ContactId);
+                Windows.Foundation.IAsyncOperation<Windows.ApplicationModel.Contacts.Contact> task0 = App.Current.CallSystem.ContactStore.GetContactAsync(entry.Address.ContactId);
                 task0.AsTask().Wait();
                 return task0.GetResults();
             }

@@ -1,4 +1,4 @@
-﻿using Windows.UI.Xaml.Controls;
+using Microsoft.UI.Xaml.Controls;
 
 // Документацию по шаблону элемента "Пустая страница" см. по адресу https://go.microsoft.com/fwlink/?LinkId=234238
 
@@ -11,7 +11,7 @@ namespace Dialer.UI.Pages
     {
         public NotificationsSettings()
         {
-            this.InitializeComponent();
+            InitializeComponent();
         }
     }
 }

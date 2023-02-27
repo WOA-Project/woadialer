@@ -1,6 +1,6 @@
-﻿using System;
+using Microsoft.UI.Xaml.Data;
+using System;
 using Windows.ApplicationModel.Calls;
-using Windows.UI.Xaml.Data;
 
 namespace Dialer.UI.Converters
 {
@@ -8,21 +8,11 @@ namespace Dialer.UI.Converters
     {
         public static string Convert(PhoneCallHistoryEntry entry)
         {
-            if (entry.IsIncoming)
-            {
-                if (entry.IsCallerIdBlocked)
-                {
-                    return Glyphs.CALL_HISTORY_BLOCKED;
-                }
-                else
-                {
-                    return entry.IsMissed ? Glyphs.CALL_HISTORY_MISSED : Glyphs.CALL_HISTORY_INCOMING;
-                }
-            }
-            else
-            {
-                return Glyphs.CALL_HISTORY_OUTGOING;
-            }
+            return entry.IsIncoming
+                ? entry.IsCallerIdBlocked
+                    ? Glyphs.CALL_HISTORY_BLOCKED
+                    : entry.IsMissed ? Glyphs.CALL_HISTORY_MISSED : Glyphs.CALL_HISTORY_INCOMING
+                : Glyphs.CALL_HISTORY_OUTGOING;
         }
 
         public object Convert(object value, Type targetType, object parameter, string language)

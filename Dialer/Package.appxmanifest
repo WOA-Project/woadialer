@@ -26,7 +26,7 @@
   </Properties>
 
   <Dependencies>
-    <TargetDeviceFamily Name="Windows.Universal" MinVersion="10.0.0.0" MaxVersionTested="10.0.0.0" />
+    <TargetDeviceFamily Name="Windows.Desktop" MinVersion="10.0.0.0" MaxVersionTested="10.0.0.0" />
   </Dependencies>
 
   <Resources>
@@ -36,7 +36,7 @@
   <Applications>
     <Application Id="App"
       Executable="$targetnametoken$.exe"
-      EntryPoint="Dialer.App">
+      EntryPoint="Windows.FullTrustApplication">
       <uap:VisualElements
         DisplayName="Dialer"
         Square150x150Logo="Assets\Square150x150Logo.png"
@@ -65,7 +65,7 @@
             <uap:DisplayName>Dialer</uap:DisplayName>
           </uap:Protocol>
         </uap:Extension>
-        <uap:Extension Category="windows.lockScreenCall"/>
+        <!--<uap:Extension Category="windows.lockScreenCall"/>-->
         <uap:Extension Category="windows.lockScreen"/>
         <uap:Extension Category="windows.aboveLockScreen"/>
         <Extension Category="windows.backgroundTasks" EntryPoint="Dialer.App">
@@ -105,6 +105,8 @@
 
     <rescap:Capability Name="cellularDeviceIdentity"/>
     <rescap:Capability Name="cellularDeviceControl"/>
+
+    <rescap:Capability Name="runFullTrust" />
 
     <DeviceCapability Name="webcam"/>
     <DeviceCapability Name="microphone"/>

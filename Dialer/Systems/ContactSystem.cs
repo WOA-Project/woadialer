@@ -1,10 +1,8 @@
-﻿using Dialer.UI.Controls;
+using Dialer.UI.Controls;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using Windows.ApplicationModel.Contacts;
 
@@ -20,21 +18,9 @@ namespace Dialer.Systems
 
         public static bool ContactsLoading = false;
 
-        public static ObservableCollection<Contact> Contacts
-        {
-            get
-            {
-                return _contacts ?? null;
-            }
-        }
+        public static ObservableCollection<Contact> Contacts => _contacts ?? null;
 
-        public static ObservableCollection<ContactControl> ContactControls
-        {
-            get
-            {
-                return _contactControls ?? null;
-            }
-        }
+        public static ObservableCollection<ContactControl> ContactControls => _contactControls ?? null;
 
         public static async void LoadContacts()
         {
@@ -52,10 +38,16 @@ namespace Dialer.Systems
 
                     foreach (Contact contact in t_contacts)
                     {
-                        ContactControl cc = new();
-                        cc.AssociatedContact = contact;
-                        cc.ContactName = contact.DisplayName;
-                        if (contact.Phones.Count == 0) continue;
+                        ContactControl cc = new()
+                        {
+                            AssociatedContact = contact,
+                            ContactName = contact.DisplayName
+                        };
+                        if (contact.Phones.Count == 0)
+                        {
+                            continue;
+                        }
+
                         cc.ContactMainPhone = contact.Phones[0].Number;
                         List<Tuple<string, string>> additionalPhones = new();
                         foreach (ContactPhone contactPhone in contact.Phones)
@@ -99,12 +91,19 @@ namespace Dialer.Systems
                 {
                     try
                     {
-                        if (_cl.GetContactAsync(contact.Id) != null) cl = _cl;
+                        if (_cl.GetContactAsync(contact.Id) != null)
+                        {
+                            cl = _cl;
+                        }
                     }
                     catch { }
                 }
             }
-            if (cl == null) return; //For some reason the correct contact list can't be retrieved. It should be in Contact.ContactListId, but...
+            if (cl == null)
+            {
+                return; //For some reason the correct contact list can't be retrieved. It should be in Contact.ContactListId, but...
+            }
+
             await cl.DeleteContactAsync(contact);
         }
     }

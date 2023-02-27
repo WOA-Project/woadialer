@@ -1,19 +1,19 @@
-﻿using Dialer.Helpers;
+using CommunityToolkit.WinUI.Notifications;
+using Dialer.Helpers;
 using Dialer.UI.Pages;
 using Internal.Windows.Calls;
-using Microsoft.Toolkit.Uwp.Notifications;
+using Microsoft.UI.Dispatching;
+using Microsoft.UI.Windowing;
+using Microsoft.UI.Xaml;
+using Microsoft.UI.Xaml.Controls;
+using Microsoft.Windows.AppLifecycle;
 using System;
 using System.Collections.ObjectModel;
 using Windows.ApplicationModel.Activation;
 using Windows.ApplicationModel.Calls;
-using Windows.ApplicationModel.Core;
 using Windows.ApplicationModel.LockScreen;
-using Windows.Foundation;
-using Windows.UI.Core;
-using Windows.UI.ViewManagement;
-using Windows.UI.Xaml;
-using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Navigation;
+using Windows.Graphics;
+using WinUIEx;
 
 namespace Dialer.Systems
 {
@@ -57,11 +57,22 @@ namespace Dialer.Systems
         private Window MainWindow;
         private Window CallUIWindow;
 
-        public SystemNavigationManager NavigationManager { get; private set; }
-        public LockApplicationHost LockApplicationHost { get; private set; }
-        public ReadOnlyObservableCollection2<string> MainPagePages { get; }
-        public ReadOnlyObservableCollection<string> SettingsPages { get; }
-        public ReadOnlyObservableCollection<string> SettingsFooterPages { get; }
+        public LockApplicationHost LockApplicationHost
+        {
+            get; private set;
+        }
+        public ReadOnlyObservableCollection2<string> MainPagePages
+        {
+            get;
+        }
+        public ReadOnlyObservableCollection<string> SettingsPages
+        {
+            get;
+        }
+        public ReadOnlyObservableCollection<string> SettingsFooterPages
+        {
+            get;
+        }
 
         public UISystem()
         {
@@ -89,13 +100,13 @@ namespace Dialer.Systems
             SettingsFooterPages = new ReadOnlyObservableCollection<string>(_SettingsFooterPages);
         }
 
-        private async void CallManager_ActiveCallChanged(CallManager sender, Call args)
+        private void CallManager_ActiveCallChanged(CallManager sender, Call args)
         {
             if (args != null)
             {
                 if (!_MainPagePages.Contains(CALL_UI_PAGE))
                 {
-                    await MainWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () => _MainPagePages.Add(CALL_UI_PAGE));
+                    _ = MainWindow.DispatcherQueue.TryEnqueue(DispatcherQueuePriority.Normal, () => _MainPagePages.Add(CALL_UI_PAGE));
                 }
                 switch (args.State)
                 {
@@ -107,36 +118,23 @@ namespace Dialer.Systems
             }
             else if (_MainPagePages.Contains(CALL_UI_PAGE))
             {
-                await MainWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () => _MainPagePages.Remove(CALL_UI_PAGE));
+                //_ = MainWindow.DispatcherQueue.TryEnqueue(DispatcherQueuePriority.Normal, () => _MainPagePages.Remove(CALL_UI_PAGE));
             }
         }
 
         private Frame ConstructUI()
         {
-            if (NavigationManager == null)
+            if (App.Window == null)
             {
-                NavigationManager = SystemNavigationManager.GetForCurrentView();
-                NavigationManager.BackRequested += NavigationManager_BackRequested;
+                App.Window = new MainWindow();
             }
-            if (Window.Current.Content is not Frame frame)
+
+            if (App.Window.Content is not Frame frame)
             {
                 frame = new Frame();
-                frame.NavigationFailed += Frame_NavigationFailed;
-                frame.Navigated += Frame_Navigated;
-                Window.Current.Content = frame;
+                App.Window.Content = frame;
             }
             return frame;
-        }
-
-        private void Frame_NavigationFailed(object sender, NavigationFailedEventArgs e)
-        {
-            throw new Exception("Failed to load Page " + e.SourcePageType.FullName);
-        }
-
-        private void Frame_Navigated(object sender, NavigationEventArgs e)
-        {
-            Frame frame = sender as Frame;
-            NavigationManager.AppViewBackButtonVisibility = frame.CanGoBack ? AppViewBackButtonVisibility.Visible : AppViewBackButtonVisibility.Collapsed;
         }
 
         private void LockApplicationHost_Unlocking(LockApplicationHost sender, LockScreenUnlockingEventArgs args)
@@ -146,28 +144,16 @@ namespace Dialer.Systems
             deferral.Complete();
         }
 
-        private void NavigationManager_BackRequested(object sender, BackRequestedEventArgs e)
-        {
-            if (Window.Current.Content is Frame frame && frame != null)
-            {
-                if (frame.CanGoBack)
-                {
-                    frame.GoBack();
-                    e.Handled = true;
-                }
-            }
-        }
-
         public void OnLaunchedOrActivated(IActivatedEventArgs args)
         {
             Frame frame = ConstructUI();
             App.Current.CallSystem.CallManager.ActiveCallChanged += CallManager_ActiveCallChanged;
-            MainWindow = Window.Current;
+            MainWindow = App.Window;
 
             switch (args.Kind)
             {
                 case ActivationKind.Launch:
-                    LaunchActivatedEventArgs launchActivationArgs = args as LaunchActivatedEventArgs;
+                    Windows.ApplicationModel.Activation.LaunchActivatedEventArgs launchActivationArgs = args as Windows.ApplicationModel.Activation.LaunchActivatedEventArgs;
                     if (!launchActivationArgs.PrelaunchActivated)
                     {
                         if (frame.Content == null)
@@ -176,25 +162,22 @@ namespace Dialer.Systems
                             {
                                 ShowCallUIWindow();
                             }
-                            frame.Navigate(typeof(MainPage), launchActivationArgs.Arguments);
+                            _ = frame.Navigate(typeof(MainPage), launchActivationArgs.Arguments);
                         }
                     }
                     break;
                 case ActivationKind.LockScreen:
                     LockApplicationHost = LockApplicationHost.GetForCurrentView();
                     LockApplicationHost.Unlocking += LockApplicationHost_Unlocking;
-                    frame.Navigate(typeof(MainPage));
+                    _ = frame.Navigate(typeof(MainPage));
                     break;
                 case ActivationKind.Protocol:
                     ProtocolActivatedEventArgs protocolActivationArgs = args as ProtocolActivatedEventArgs;
-                    switch (protocolActivationArgs.Uri.Scheme)
+                    _ = protocolActivationArgs.Uri.Scheme switch
                     {
-                        case TEL:
-                            frame.Navigate(typeof(MainPage), protocolActivationArgs.Uri.LocalPath);
-                            break;
-                        default:
-                            throw new NotSupportedException();
-                    }
+                        TEL => frame.Navigate(typeof(MainPage), protocolActivationArgs.Uri.LocalPath),
+                        _ => throw new NotSupportedException(),
+                    };
                     break;
                 case ActivationKind.ToastNotification:
                     ToastNotificationActivatedEventArgs toastActivationArgs = args as ToastNotificationActivatedEventArgs;
@@ -203,7 +186,52 @@ namespace Dialer.Systems
                 default:
                     throw new NotSupportedException();
             }
-            Window.Current.Activate();
+            App.Window.Activate();
+        }
+
+        public void OnLaunchedOrActivated(AppActivationArguments args)
+        {
+            Frame frame = ConstructUI();
+            App.Current.CallSystem.CallManager.ActiveCallChanged += CallManager_ActiveCallChanged;
+            MainWindow = App.Window;
+
+            switch (args.Kind)
+            {
+                case ExtendedActivationKind.Launch:
+                    Windows.ApplicationModel.Activation.LaunchActivatedEventArgs launchActivationArgs = args.Data as Windows.ApplicationModel.Activation.LaunchActivatedEventArgs;
+                    if (!launchActivationArgs.PrelaunchActivated)
+                    {
+                        if (frame.Content == null)
+                        {
+                            if (PhoneCallManager.IsCallActive)
+                            {
+                                ShowCallUIWindow();
+                            }
+                            _ = frame.Navigate(typeof(MainPage), launchActivationArgs.Arguments);
+                        }
+                    }
+                    break;
+                case ExtendedActivationKind.LockScreen:
+                    LockApplicationHost = LockApplicationHost.GetForCurrentView();
+                    LockApplicationHost.Unlocking += LockApplicationHost_Unlocking;
+                    _ = frame.Navigate(typeof(MainPage));
+                    break;
+                case ExtendedActivationKind.Protocol:
+                    ProtocolActivatedEventArgs protocolActivationArgs = args.Data as ProtocolActivatedEventArgs;
+                    _ = protocolActivationArgs.Uri.Scheme switch
+                    {
+                        TEL => frame.Navigate(typeof(MainPage), protocolActivationArgs.Uri.LocalPath),
+                        _ => throw new NotSupportedException(),
+                    };
+                    break;
+                case ExtendedActivationKind.ToastNotification:
+                    ToastNotificationActivatedEventArgs toastActivationArgs = args.Data as ToastNotificationActivatedEventArgs;
+                    App.Current.OnToastNotificationActivated(ToastActivationType.Foreground, toastActivationArgs.Argument);
+                    break;
+                default:
+                    throw new NotSupportedException();
+            }
+            App.Window.Activate();
         }
 
         public void CloseCallUIWindow()
@@ -212,57 +240,41 @@ namespace Dialer.Systems
             CallUIWindow = null;
         }
 
-        public async void ShowCallUIWindow()
+        public void ShowCallUIWindow()
         {
-            int compactViewId = 0;
-            Size previoussize = new(0, 0);
+            Frame mainframe = MainWindow.Content as Frame;
+            SizeInt32 previoussize = new((int)mainframe.ActualWidth, (int)mainframe.ActualHeight);
 
             // Workaround for window spawn bug
-            await MainWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
+            WindowManager MainWindowManager = WindowManager.Get(MainWindow);
+            MainWindowManager.MinWidth = 400;
+            MainWindowManager.MinHeight = 100;
+
+            CallUIWindow = new Window();
+            Frame frame = new();
+            CallUIWindow.Content = frame;
+            _ = frame.Navigate(typeof(CallUIPage));
+            CallUIWindow.Title = App.Current.ResourceLoader.GetString(CALL_UI_PAGE);
+            CallUIWindow.Closed += (object sender, WindowEventArgs e) =>
             {
-                var view = ApplicationView.GetForCurrentView();
-                var frame = (Window.Current.Content as Frame);
+                WindowManager view = WindowManager.Get(sender as Window);
+                view.MinWidth = 0;
+                view.MinHeight = 0;
+                view.Width = previoussize.Width;
+                view.Height = previoussize.Height;
+            };
+            CallUIWindow.Activate();
 
-                previoussize = new Size(frame.ActualWidth, frame.ActualHeight);
-                view.SetPreferredMinSize(new Size { Width = 400, Height = 100 });
-            });
-
-            ViewModePreferences preferences = ViewModePreferences.CreateDefault(ApplicationViewMode.CompactOverlay);
-            preferences.CustomSize = new Size { Width = 400, Height = 100 };
-
-            CoreApplicationView view = CoreApplication.CreateNewView();
-
-            await view.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
-            {
-                CallUIWindow = Window.Current;
-                Frame frame = new();
-                Window.Current.Content = frame;
-                frame.Navigate(typeof(CallUIPage));
-                Window.Current.Activate();
-
-                ApplicationView view = ApplicationView.GetForCurrentView();
-                view.Title = App.Current.ResourceLoader.GetString(CALL_UI_PAGE);
-                compactViewId = view.Id;
-
-                Window.Current.Closed += (object sender, CoreWindowEventArgs e) =>
-                {
-                    var view = ApplicationView.GetForCurrentView();
-
-                    view.SetPreferredMinSize(new Size(0, 0));
-                    view.TryResizeView(previoussize);
-                };
-            });
-
-            bool viewShown = await ApplicationViewSwitcher.TryShowAsViewModeAsync(compactViewId, ApplicationViewMode.CompactOverlay, preferences);
+            WindowManager CallUIWindowManager = WindowManager.Get(CallUIWindow);
+            CallUIWindowManager.PresenterKind = AppWindowPresenterKind.CompactOverlay;
+            CallUIWindowManager.Width = 400;
+            CallUIWindowManager.Height = 100;
 
             // Workaround for window spawn bug
-            await CoreApplication.GetCurrentView().Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
-            {
-                var view = ApplicationView.GetForCurrentView();
-
-                view.SetPreferredMinSize(new Size(0, 0));
-                view.TryResizeView(previoussize);
-            });
+            MainWindowManager.MinWidth = 0;
+            MainWindowManager.MinHeight = 0;
+            MainWindowManager.Width = previoussize.Width;
+            MainWindowManager.Height = previoussize.Height;
         }
     }
 }

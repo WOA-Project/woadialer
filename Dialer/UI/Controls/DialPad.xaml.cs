@@ -1,6 +1,6 @@
-﻿using System;
-using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Input;
+using Microsoft.UI.Xaml.Controls;
+using Microsoft.UI.Xaml.Input;
+using System;
 
 namespace Dialer.UI.Controls
 {
@@ -10,7 +10,7 @@ namespace Dialer.UI.Controls
 
         public DialPad()
         {
-            this.InitializeComponent();
+            InitializeComponent();
             DigitButton[] digitbuttons = { NumPad_0, NumPad_1, NumPad_2, NumPad_3, NumPad_4, NumPad_5, NumPad_6, NumPad_7, NumPad_8, NumPad_9, NumPad_A, NumPad_S };
             foreach (DigitButton digitbutton in digitbuttons)
             {
@@ -19,7 +19,7 @@ namespace Dialer.UI.Controls
             NumPad_0.RightTapped += DigitButton_RightTapped;
         }
 
-        private void Digitbutton_Click(object sender, Windows.UI.Xaml.RoutedEventArgs e)
+        private void Digitbutton_Click(object sender, Microsoft.UI.Xaml.RoutedEventArgs e)
         {
             if (sender is DigitButton button)
             {

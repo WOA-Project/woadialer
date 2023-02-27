@@ -1,8 +1,7 @@
-﻿using Internal.Windows.Calls;
-using System;
-using Windows.UI.Core;
-using Windows.UI.Xaml;
-using Windows.UI.Xaml.Controls;
+using Internal.Windows.Calls;
+using Microsoft.UI.Dispatching;
+using Microsoft.UI.Xaml;
+using Microsoft.UI.Xaml.Controls;
 
 namespace Dialer.UI.Controls
 {
@@ -32,12 +31,12 @@ namespace Dialer.UI.Controls
 
         public CallStatePresenter()
         {
-            this.InitializeComponent();
+            InitializeComponent();
         }
 
-        private async void PresentedCall_StateChanged(Call sender, CallStateChangedEventArgs args)
+        private void PresentedCall_StateChanged(Call sender, CallStateChangedEventArgs args)
         {
-            await Dispatcher.TryRunAsync(CoreDispatcherPriority.Normal, () => Bindings.Update());
+            _ = DispatcherQueue.TryEnqueue(DispatcherQueuePriority.Normal, Bindings.Update);
         }
     }
 }

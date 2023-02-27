@@ -1,5 +1,5 @@
-﻿using Windows.ApplicationModel;
-using Windows.UI.Core;
+using Microsoft.UI.Dispatching;
+using Windows.ApplicationModel;
 
 namespace Dialer.UI.ViewModel
 {
@@ -9,20 +9,20 @@ namespace Dialer.UI.ViewModel
         private string _appName;
         public string AppName
         {
-            get { return _appName; }
-            set { Set(ref _appName, value); }
+            get => _appName;
+            set => Set(ref _appName, value);
         }
 
         private string _versionNumber;
         public string VersionNumber
         {
-            get { return _versionNumber; }
-            set { Set(ref _versionNumber, value); }
+            get => _versionNumber;
+            set => Set(ref _versionNumber, value);
         }
 
 
         // Constructor
-        public AboutViewModel(CoreDispatcher dispatcher) : base(dispatcher)
+        public AboutViewModel(DispatcherQueue dispatcher) : base(dispatcher)
         {
             Initialize();
         }
@@ -38,7 +38,7 @@ namespace Dialer.UI.ViewModel
         // Methods
         private string GetAppName()
         {
-            var package = Package.Current;
+            Package package = Package.Current;
             string appName = package.DisplayName;
 
             return appName;
@@ -46,9 +46,9 @@ namespace Dialer.UI.ViewModel
 
         private string GetVersionNumber()
         {
-            var package = Package.Current;
-            var packageId = package.Id;
-            var version = packageId.Version;
+            Package package = Package.Current;
+            PackageId packageId = package.Id;
+            PackageVersion version = packageId.Version;
 
             return $"{version.Major}.{version.Minor}.{version.Build}.{version.Revision}";
         }

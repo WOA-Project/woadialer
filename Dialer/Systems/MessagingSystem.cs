@@ -1,4 +1,4 @@
-﻿namespace Dialer.Background
+namespace Dialer.Systems
 {
     public sealed class MessagingSystem
     {

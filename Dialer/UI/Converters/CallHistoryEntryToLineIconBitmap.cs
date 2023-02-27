@@ -1,14 +1,13 @@
-﻿using System;
+using Microsoft.UI.Xaml.Data;
+using Microsoft.UI.Xaml.Media.Imaging;
+using System;
 using System.Collections.Generic;
-using System.Linq;
 using Windows.ApplicationModel;
 using Windows.ApplicationModel.Calls;
 using Windows.ApplicationModel.Core;
 using Windows.Foundation;
 using Windows.Storage.Streams;
 using Windows.System;
-using Windows.UI.Xaml.Data;
-using Windows.UI.Xaml.Media.Imaging;
 
 namespace Dialer.UI.Converters
 {

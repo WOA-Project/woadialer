@@ -1,19 +1,21 @@
-﻿using System;
+using Microsoft.UI.Dispatching;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
-using Windows.UI.Core;
 
 namespace Dialer.UI.ViewModel
 {
     public abstract class ViewModelCore : INotifyPropertyChanged
     {
-        protected CoreDispatcher Dispatcher { get; }
+        protected DispatcherQueue DispatcherQueue
+        {
+            get;
+        }
 
         public event PropertyChangedEventHandler PropertyChanged;
 
-        protected ViewModelCore(CoreDispatcher dispatcher)
+        protected ViewModelCore(DispatcherQueue dispatcherQueue)
         {
-            Dispatcher = dispatcher;
+            DispatcherQueue = dispatcherQueue;
         }
 
         protected virtual void Set<T>(ref T storage, T value, [CallerMemberName] string propertyName = null)
@@ -25,9 +27,9 @@ namespace Dialer.UI.ViewModel
             }
         }
 
-        protected async void OnPropertyChanged(string propertyName)
+        protected void OnPropertyChanged(string propertyName)
         {
-            await Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName)));
+            _ = DispatcherQueue.TryEnqueue(DispatcherQueuePriority.Normal, () => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName)));
         }
     }
 }

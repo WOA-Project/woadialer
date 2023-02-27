@@ -9,8 +9,7 @@
     xmlns:muxc="using:Microsoft.UI.Xaml.Controls"
     mc:Ignorable="d"
     Loaded="Page_Loaded"
-    Unloaded="Page_Unloaded"
-    muxc:BackdropMaterial.ApplyToRootOrPageBackground="True">
+    Unloaded="Page_Unloaded">
 
     <UserControl.Resources>
         <ResourceDictionary Source="..\Converters\Converters.xaml"/>

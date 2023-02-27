@@ -1,17 +1,17 @@
-﻿using Dialer.Systems;
+using Dialer.Systems;
+using Microsoft.UI.Windowing;
+using Microsoft.UI.Xaml;
+using Microsoft.UI.Xaml.Controls;
+using Microsoft.UI.Xaml.Input;
+using Microsoft.UI.Xaml.Navigation;
 using System;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using Windows.ApplicationModel.Calls;
-using Windows.ApplicationModel.Core;
 using Windows.Globalization.PhoneNumberFormatting;
 using Windows.System;
-using Windows.UI.Popups;
-using Windows.UI.Xaml;
-using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Input;
-using Windows.UI.Xaml.Navigation;
+using WinUIEx;
 
 namespace Dialer.UI.Pages
 {
@@ -23,22 +23,33 @@ namespace Dialer.UI.Pages
 
         private ObservableCollection<DisplayableLine> DisplayableLines => App.Current.CallSystem.DisplayableLines;
 
-        private readonly CoreApplicationView CoreApplicationView;
+        private readonly AppWindow appWindow;
 
         public DialPage()
         {
-            CoreApplicationView = CoreApplication.GetCurrentView();
-            this.InitializeComponent();
+            // Retrieve the window handle (HWND) of the current (XAML) WinUI 3 window.
+            nint hWnd = HwndExtensions.GetActiveWindow();
+
+            // Retrieve the WindowId that corresponds to hWnd.
+            Microsoft.UI.WindowId windowId = Microsoft.UI.Win32Interop.GetWindowIdFromWindow(hWnd);
+
+            // Lastly, retrieve the AppWindow for the current (XAML) WinUI 3 window.
+            appWindow = Microsoft.UI.Windowing.AppWindow.GetFromWindowId(windowId);
+
+            InitializeComponent();
             CallSystem.Lines.CollectionChanged += Lines_CollectionChanged;
 
             if (CallSystem.DefaultLine != null && DisplayableLines.Any(x => x.Line.Id == CallSystem.DefaultLine.Id))
+            {
                 CurrentPhoneLine = DisplayableLines.First(x => x.Line.Id == CallSystem.DefaultLine.Id);
+            }
+
             PhoneLineSelector.SelectedItem = CurrentPhoneLine;
         }
 
-        private async void Lines_CollectionChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
+        private void Lines_CollectionChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
         {
-            await CoreApplicationView.Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.Normal, () =>
+            _ = App.Window.DispatcherQueue.TryEnqueue(Microsoft.UI.Dispatching.DispatcherQueuePriority.Normal, () =>
             {
                 switch (e.Action)
                 {
@@ -47,7 +58,10 @@ namespace Dialer.UI.Pages
                             bool SetAsDefault = DisplayableLines.Count == 0;
                             DisplayableLine itemToAdd = new(e.NewItems[0] as PhoneLine);
                             if (SetAsDefault)
+                            {
                                 CurrentPhoneLine = itemToAdd;
+                            }
+
                             break;
                         }
                     case System.Collections.Specialized.NotifyCollectionChangedAction.Remove:
@@ -77,14 +91,14 @@ namespace Dialer.UI.Pages
         {
             if (Number.Length > 0)
             {
-                Number.Remove(Number.Length - 1, 1);
+                _ = Number.Remove(Number.Length - 1, 1);
             }
             UpdateCurrentNumber();
         }
 
         private void NumPad_DigitTapped(object sender, char e)
         {
-            Number.Append(e);
+            _ = Number.Append(e);
             UpdateCurrentNumber();
         }
 
@@ -120,17 +134,7 @@ namespace Dialer.UI.Pages
 
         public async void handleException(Exception e)
         {
-            var messageDialog = new MessageDialog(e.Message + "\n\n\n" + e.StackTrace);
-
-            messageDialog.Commands.Add(new UICommand("Close", new UICommandInvokedHandler(this.CommandInvokedHandler)));
-
-            messageDialog.DefaultCommandIndex = 0;
-            await messageDialog.ShowAsync();
-        }
-
-        private void CommandInvokedHandler(IUICommand command)
-        {
-            //CoreApplication.Exit();
+            _ = await new ContentDialog() { Title = "Unhandled Exception", Content = e.Message + "\n\n\n" + e.StackTrace, XamlRoot = XamlRoot, IsPrimaryButtonEnabled = true, PrimaryButtonText = "Ok" }.ShowAsync();
         }
 
         private void Page_KeyUp(object sender, KeyRoutedEventArgs e)

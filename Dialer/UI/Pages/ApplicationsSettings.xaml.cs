@@ -1,6 +1,6 @@
-﻿using Dialer.Helpers;
-using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Navigation;
+using Dialer.Helpers;
+using Microsoft.UI.Xaml.Controls;
+using Microsoft.UI.Xaml.Navigation;
 
 namespace Dialer.UI.Pages
 {
@@ -17,7 +17,7 @@ namespace Dialer.UI.Pages
             ProximitySensorSettingToggle.IsOn = SettingsManager.getProximitySensorOn();
         }
 
-        private void ProximitySensorSettingToggle_Toggled(object sender, Windows.UI.Xaml.RoutedEventArgs e)
+        private void ProximitySensorSettingToggle_Toggled(object sender, Microsoft.UI.Xaml.RoutedEventArgs e)
         {
             SettingsManager.setProximitySensorOn(((ToggleSwitch)e.OriginalSource).IsOn);
         }

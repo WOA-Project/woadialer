@@ -1,5 +1,5 @@
-﻿using Internal.Windows.Calls;
-using Microsoft.Toolkit.Uwp;
+using Internal.Windows.Calls;
+using Microsoft.UI.Dispatching;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -9,24 +9,34 @@ using System.Linq;
 using System.Threading.Tasks;
 using Windows.ApplicationModel.Calls;
 using Windows.ApplicationModel.Contacts;
-using Windows.ApplicationModel.Core;
 using Windows.Devices.Enumeration;
 using Windows.Devices.Haptics;
 using Windows.Networking.NetworkOperators;
-using Windows.System;
 
 namespace Dialer.Systems
 {
     public class DisplayableLine : INotifyPropertyChanged
     {
-        public PhoneLine Line { get; }
-        public string DisplayName { get; private set; }
-        public string Glyph { get; }
-        public MobileBroadbandModem Modem { get; private set; }
+        public PhoneLine Line
+        {
+            get;
+        }
+        public string DisplayName
+        {
+            get; private set;
+        }
+        public string Glyph
+        {
+            get;
+        }
+        public MobileBroadbandModem Modem
+        {
+            get; private set;
+        }
 
         public event PropertyChangedEventHandler PropertyChanged;
 
-        public async static Task<MobileBroadbandModem> LoadMobileBroadbandModemAsync(PhoneLine line)
+        public static async Task<MobileBroadbandModem> LoadMobileBroadbandModemAsync(PhoneLine line)
         {
             MobileBroadbandModem modem = null;
 
@@ -87,10 +97,10 @@ namespace Dialer.Systems
 
             DispatcherQueue dispatcherQueue = DispatcherQueue.GetForCurrentThread();
 
-            Task.Run(async () =>
+            _ = Task.Run(async () =>
             {
                 MobileBroadbandModem newModem = await LoadMobileBroadbandModemAsync(line);
-                await dispatcherQueue.EnqueueAsync(() =>
+                _ = dispatcherQueue.TryEnqueue(() =>
                 {
                     Modem = newModem;
                     PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(Modem)));
@@ -172,22 +182,38 @@ namespace Dialer.Systems
     {
         private readonly ObservableCollection<PhoneCallHistoryEntry> _CallHistoryEntries = new();
         private PhoneLineWatcher LineWatcher;
-        private readonly CoreApplicationView CoreApplicationView;
 
-        public CallManager CallManager { get; private set; }
-        public PhoneCallHistoryStore CallHistoryStore { get; private set; }
-        public PhoneCallStore CallStore { get; private set; }
-        public ContactStore ContactStore { get; private set; }
-        public PhoneLine DefaultLine { get; private set; }
+        public CallManager CallManager
+        {
+            get; private set;
+        }
+        public PhoneCallHistoryStore CallHistoryStore
+        {
+            get; private set;
+        }
+        public PhoneCallStore CallStore
+        {
+            get; private set;
+        }
+        public ContactStore ContactStore
+        {
+            get; private set;
+        }
+        public PhoneLine DefaultLine
+        {
+            get; private set;
+        }
 
-        public ReadOnlyObservableCollection<PhoneCallHistoryEntry> CallHistoryEntries { get; }
+        public ReadOnlyObservableCollection<PhoneCallHistoryEntry> CallHistoryEntries
+        {
+            get;
+        }
         public readonly ObservableCollection<PhoneLine> Lines = new();
         public readonly ObservableCollection<DisplayableLine> DisplayableLines = new();
 
         public CallSystem()
         {
             CallHistoryEntries = new ReadOnlyObservableCollection<PhoneCallHistoryEntry>(_CallHistoryEntries);
-            CoreApplicationView = CoreApplication.GetCurrentView();
             Lines.CollectionChanged += Lines_CollectionChanged;
         }
 
@@ -235,11 +261,20 @@ namespace Dialer.Systems
             List<PhoneCallHistoryEntry> removed = _CallHistoryEntries.Except(entries).ToList();
             foreach (PhoneCallHistoryEntry entry in @removed)
             {
-                await CoreApplicationView.Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.Normal, () => _CallHistoryEntries.Remove(entry));
+                _ = App.Window != null
+                    ? App.Window.DispatcherQueue.TryEnqueue(DispatcherQueuePriority.Normal, () => _CallHistoryEntries.Remove(entry))
+                    : _CallHistoryEntries.Remove(entry);
             }
             foreach (PhoneCallHistoryEntry entry in @new)
             {
-                await CoreApplicationView.Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.Normal, () => _CallHistoryEntries.Add(entry));
+                if (App.Window != null)
+                {
+                    _ = App.Window.DispatcherQueue.TryEnqueue(DispatcherQueuePriority.Normal, () => _CallHistoryEntries.Add(entry));
+                }
+                else
+                {
+                    _CallHistoryEntries.Add(entry);
+                }
             }
         }
 
@@ -366,7 +401,7 @@ namespace Dialer.Systems
         private void LineWatcher_LineRemoved(PhoneLineWatcher sender, PhoneLineWatcherEventArgs args)
         {
             Debug.WriteLine("Removing " + args.LineId);
-            Lines.Remove(Lines.First(x => x.Id == args.LineId));
+            _ = Lines.Remove(Lines.First(x => x.Id == args.LineId));
         }
 
         private async void LineWatcher_LineAdded(PhoneLineWatcher sender, PhoneLineWatcherEventArgs args)
@@ -379,9 +414,9 @@ namespace Dialer.Systems
             }
         }
 
-        private async void Lines_CollectionChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
+        private void Lines_CollectionChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
         {
-            await CoreApplicationView.Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.Normal, () =>
+            _ = App.Window.DispatcherQueue.TryEnqueue(DispatcherQueuePriority.Normal, () =>
             {
                 switch (e.Action)
                 {
@@ -394,7 +429,7 @@ namespace Dialer.Systems
                     case System.Collections.Specialized.NotifyCollectionChangedAction.Remove:
                         {
                             DisplayableLine itemToRemove = DisplayableLines.First(x => x.Line.Id == (e.OldItems[0] as PhoneLine)?.Id);
-                            DisplayableLines.Remove(itemToRemove);
+                            _ = DisplayableLines.Remove(itemToRemove);
                             break;
                         }
                     case System.Collections.Specialized.NotifyCollectionChangedAction.Replace:

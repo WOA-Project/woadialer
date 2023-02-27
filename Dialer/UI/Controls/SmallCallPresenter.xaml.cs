@@ -1,9 +1,9 @@
-﻿using Internal.Windows.Calls;
+using Internal.Windows.Calls;
+using Microsoft.UI.Dispatching;
+using Microsoft.UI.Xaml;
+using Microsoft.UI.Xaml.Controls;
 using System;
 using System.Threading;
-using Windows.UI.Core;
-using Windows.UI.Xaml;
-using Windows.UI.Xaml.Controls;
 
 namespace Dialer.UI.Controls
 {
@@ -36,7 +36,7 @@ namespace Dialer.UI.Controls
 
         public SmallCallPresenter()
         {
-            this.InitializeComponent();
+            InitializeComponent();
         }
 
         private void PresentedCall_StateChanged(Call sender, CallStateChangedEventArgs args)
@@ -54,9 +54,9 @@ namespace Dialer.UI.Controls
             }
         }
 
-        private async void TimerCallback(object state)
+        private void TimerCallback(object state)
         {
-            await Dispatcher.TryRunAsync(CoreDispatcherPriority.Normal, () => Bindings.Update());
+            _ = DispatcherQueue.TryEnqueue(DispatcherQueuePriority.Normal, Bindings.Update);
         }
     }
 }
