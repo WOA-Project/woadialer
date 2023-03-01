@@ -2,13 +2,9 @@
   <PropertyGroup>
     <TargetFramework>net7.0-windows10.0.22000</TargetFramework>
     <LangVersion>preview</LangVersion>
-    <Platform Condition=" '$(Platform)' == '' ">x86</Platform>
     <OutputType>WinExe</OutputType>
     <DefaultLanguage>en-US</DefaultLanguage>
     <TargetPlatformMinVersion>10.0.17763.0</TargetPlatformMinVersion>
-    <PackageCertificateKeyFile>
-    </PackageCertificateKeyFile>
-    <GenerateAppInstallerFile>False</GenerateAppInstallerFile>
     <AppxAutoIncrementPackageRevision>True</AppxAutoIncrementPackageRevision>
     <AppxSymbolPackageEnabled>True</AppxSymbolPackageEnabled>
     <AppxBundle>Always</AppxBundle>
