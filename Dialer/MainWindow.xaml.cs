@@ -49,7 +49,7 @@ namespace Dialer
                 // the title bar, such as the back button, if used
             }
 
-            SystemBackdrop = new MicaBackdrop();
+            WinUIEx.WindowManager.Get(this).Backdrop = new WinUIEx.MicaSystemBackdrop();
         }
 
         public Button BackButton => AppTitleBarBackButton;

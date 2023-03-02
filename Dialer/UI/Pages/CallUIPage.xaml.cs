@@ -112,7 +112,7 @@ namespace Dialer.UI.Pages
             Microsoft.UI.Windowing.AppWindow appWindow = Microsoft.UI.Windowing.AppWindow.GetFromWindowId(windowId);
 
             // You now have an AppWindow object, and you can call its methods to manipulate the window.
-            if (appWindow == App.Window.AppWindow)
+            if (appWindow == App.Window.GetAppWindow())
             {
                 CompactUIGrid.Visibility = Visibility.Collapsed;
                 ExtendedUIGrid.Visibility = Visibility.Visible;

@@ -55,10 +55,6 @@ namespace Dialer
         public App()
         {
             InitializeComponent();
-            EnteredBackground += OnEnteredBackground;
-            LeavingBackground += OnLeavingBackground;
-            Resuming += OnResuming;
-            Suspending += OnSuspending;
             UnhandledException += OnUnhandledException;
 
             if (SettingsManager.isFirstTimeRun())
@@ -88,11 +84,6 @@ namespace Dialer
             ContactSystem.LoadContacts();
         }
 
-        protected override void OnActivated(IActivatedEventArgs args)
-        {
-            OnLaunchedOrActivated(args);
-        }
-
         public async void Run(IBackgroundTaskInstance taskInstance)
         {
             BackgroundTaskDeferral deferral = taskInstance.GetDeferral();
@@ -102,31 +93,6 @@ namespace Dialer
                 await Initializating;
                 BackgroundSystem?.OnBackgroundActivated(taskInstance);
             }
-            deferral.Complete();
-        }
-
-        protected override async void OnBackgroundActivated(BackgroundActivatedEventArgs args)
-        {
-            base.OnBackgroundActivated(args);
-            BackgroundTaskDeferral deferral = args.TaskInstance.GetDeferral();
-            if (await ObtainingAccess && PermissionSystem.IsAllPermissionsObtained)
-            {
-                Initializating ??= InitializeSystems();
-                await Initializating;
-                BackgroundSystem?.OnBackgroundActivated(args.TaskInstance);
-            }
-            deferral.Complete();
-        }
-
-        private void OnEnteredBackground(object sender, EnteredBackgroundEventArgs e)
-        {
-            Deferral deferral = e.GetDeferral();
-            IsForeground = false;
-            if (CallSystem.CallManager != null)
-            {
-                NotificationSystem.RefreshCallNotification(CallSystem.CallManager.CurrentCalls);
-            }
-
             deferral.Complete();
         }
 
@@ -175,43 +141,6 @@ namespace Dialer
             await Initializating;
             NotificationSystem.RemoveCallToastNotifications();
             UISystem.OnLaunchedOrActivated(args);
-        }
-
-        private async void OnLaunchedOrActivated(IActivatedEventArgs args)
-        {
-            IsForeground = true;
-            if (!PermissionSystem.IsAllPermissionsObtained && !await ObtainingAccess)
-            {
-                _ = Window.DispatcherQueue.TryEnqueue(DispatcherQueuePriority.High, () => ObtainingAccess = PermissionSystem.RequestAllPermissions());
-                _ = await ObtainingAccess;
-            }
-            Initializating ??= InitializeSystems();
-            await Initializating;
-            NotificationSystem.RemoveCallToastNotifications();
-            UISystem.OnLaunchedOrActivated(args);
-        }
-
-        private void OnLeavingBackground(object sender, LeavingBackgroundEventArgs e)
-        {
-            Deferral deferral = e.GetDeferral();
-            IsForeground = true;
-            NotificationSystem.RemoveCallToastNotifications();
-            deferral.Complete();
-        }
-
-        private void OnResuming(object sender, object e)
-        {
-        }
-
-        private void OnSuspending(object sender, SuspendingEventArgs e)
-        {
-            SuspendingDeferral deferral = e.SuspendingOperation.GetDeferral();
-            IsForeground = false;
-            if (CallSystem.CallManager != null)
-            {
-                NotificationSystem.RefreshCallNotification(CallSystem.CallManager.CurrentCalls);
-            }
-            deferral.Complete();
         }
 
         public void OnToastNotificationActivated(ToastActivationType activationType, string args)
