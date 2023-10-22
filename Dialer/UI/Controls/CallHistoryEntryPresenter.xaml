@@ -10,7 +10,7 @@
     d:DesignWidth="400" d:DesignHeight="75" HorizontalContentAlignment="Stretch">
 
     <UserControl.Resources>
-        <ResourceDictionary Source="..\Converters\Converters.xaml"/>
+        <ResourceDictionary Source="ms-appx:///UI/Converters/Converters.xaml"/>
     </UserControl.Resources>
 
     <Grid>
