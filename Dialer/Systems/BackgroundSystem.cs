@@ -15,7 +15,7 @@ namespace Dialer.Systems
         private const string CALL_HISTORY_CHANGED = "CallHistoryChanged";
         private const string CALL_ORIGIN_DATA_REQUEST = "CallOriginDataRequest";
         private const string LINE_STATE_CHANGED = "LineStateChanged";
-        private const string NEW_VOICEMAIL_MESSAGE = "NewVoicemailMessage";
+        //private const string NEW_VOICEMAIL_MESSAGE = "NewVoicemailMessage";
         private const string TOAST_BACKGROUNG_ACTIVATED = "ToastBackgroungActivated";
 
         private bool Skip = false;
@@ -32,7 +32,7 @@ namespace Dialer.Systems
                 { CALL_BLOCKED, false },
                 { CALL_HISTORY_CHANGED, false },
                 { CALL_ORIGIN_DATA_REQUEST, false },
-                { NEW_VOICEMAIL_MESSAGE, false },
+                //{ NEW_VOICEMAIL_MESSAGE, false },
                 { LINE_STATE_CHANGED, false },
                 { TOAST_BACKGROUNG_ACTIVATED, false },
             };
@@ -75,9 +75,9 @@ namespace Dialer.Systems
                         case CALL_ORIGIN_DATA_REQUEST:
                             taskBuilder.SetTrigger(new PhoneTrigger(PhoneTriggerType.CallOriginDataRequest, false));
                             break;
-                        case NEW_VOICEMAIL_MESSAGE:
+                        /*case NEW_VOICEMAIL_MESSAGE:
                             taskBuilder.SetTrigger(new PhoneTrigger(PhoneTriggerType.NewVoicemailMessage, false));
-                            break;
+                            break;*/
                         case LINE_STATE_CHANGED:
                             taskBuilder.SetTrigger(new PhoneTrigger(PhoneTriggerType.LineChanged, false));
                             break;

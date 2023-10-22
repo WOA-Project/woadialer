@@ -1,7 +1,8 @@
-﻿{
+{
   "profiles": {
     "Dialer (Package)": {
-      "commandName": "MsixPackage"
+      "commandName": "MsixPackage",
+      "nativeDebugging": true
     },
     "Dialer (Unpackaged)": {
       "commandName": "Project"

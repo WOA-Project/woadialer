@@ -1,6 +1,6 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <TargetFramework>net7.0-windows10.0.22000</TargetFramework>
+    <TargetFramework>net7.0-windows10.0.22621</TargetFramework>
     <LangVersion>preview</LangVersion>
     <OutputType>WinExe</OutputType>
     <DefaultLanguage>en-US</DefaultLanguage>
@@ -30,11 +30,11 @@
     </AppxManifest>
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="Microsoft.WindowsAppSDK" Version="1.2.230217.4" />
-    <PackageReference Include="Microsoft.Graphics.Win2D" Version="1.0.4" />
+    <PackageReference Include="Microsoft.WindowsAppSDK" Version="1.4.231008000" />
+    <PackageReference Include="Microsoft.Graphics.Win2D" Version="1.1.0" />
     <PackageReference Include="CommunityToolkit.WinUI" Version="7.1.2" />
     <PackageReference Include="CommunityToolkit.WinUI.Notifications" Version="7.1.2" />
-    <PackageReference Include="WinUIEx" Version="2.1.0" />
+    <PackageReference Include="WinUIEx" Version="2.3.2" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Internal.Windows.Calls\Internal.Windows.Calls\Internal.Windows.Calls.csproj" />

@@ -28,7 +28,7 @@
 
                 <ComboBox x:Uid="Settings_NumberFormattingCombobox"
                         x:Name="numberFormattingCombobox"
-                        SelectedIndex="2"
+                        SelectedIndex="0"
                         HorizontalAlignment="Stretch">
                     <ComboBoxItem x:Name="formattingNoneComboOption"
                               x:Uid="Settings_NumberFormattingNoneOption"

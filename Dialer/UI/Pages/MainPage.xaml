@@ -12,7 +12,7 @@
     Unloaded="Page_Unloaded">
 
     <UserControl.Resources>
-        <ResourceDictionary Source="..\Converters\Converters.xaml"/>
+        <ResourceDictionary Source="ms-appx:///UI/Converters/Converters.xaml"/>
     </UserControl.Resources>
 
     <Grid>
