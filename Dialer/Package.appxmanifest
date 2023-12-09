@@ -15,7 +15,7 @@
   <Identity
     Name="LumiaWOA.Dialer"
     Publisher="CN=Windows On Lumia Development Second Party Dialer Software 2020"
-    Version="0.1.325.0" />
+    Version="0.1.326.0" />
 
   <mp:PhoneIdentity PhoneProductId="1e17ea40-87af-45e2-865a-c2bd98036a67" PhonePublisherId="00000000-0000-0000-0000-000000000000"/>
 
